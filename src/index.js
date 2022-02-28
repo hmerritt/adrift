@@ -5,6 +5,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import App from './App';
 
+import 'styles/index.scss';
+
 const appVersion = process.env.REACT_APP_VERSION || '~';
 console.log(`App [Version ${appVersion}]`);
 
