@@ -5,6 +5,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import App from './App';
 
+const appVersion = process.env.REACT_APP_VERSION || '~';
+console.log(`App [Version ${appVersion}]`);
+
 ReactDOM.render(
     <React.StrictMode>
         <App />
