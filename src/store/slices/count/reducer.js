@@ -1,4 +1,4 @@
-import * as types from "./types";
+export const COUNT_INCREMENT = "COUNT_INCREMENT";
 
 const initialState = {
 	count: 0,
@@ -6,7 +6,7 @@ const initialState = {
 
 const countReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case types.COUNT_INCREMENT:
+		case COUNT_INCREMENT:
 			return {
 				...state,
 				count: (
