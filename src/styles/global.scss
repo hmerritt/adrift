@@ -1,20 +1,29 @@
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html {
-    font-size: 62.5%;
+	font-size: 62.5%;
+}
+
+body {
+	margin: 0;
+	background-color: #ebf0f5;
+	font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: #181818;
+	background: #181818;
 }
 ::-webkit-scrollbar-thumb {
-    background: lighten(#181818, 40%);
+	background: lighten(#181818, 40%);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: lighten(#181818, 60%);
+	background: lighten(#181818, 60%);
 }
