@@ -1,7 +1,7 @@
 export const COUNT_INCREMENT = "COUNT_INCREMENT";
 
 const initialState = {
-	count: 0,
+	current: 0,
 };
 
 const countReducer = (state = initialState, action) => {
@@ -9,8 +9,8 @@ const countReducer = (state = initialState, action) => {
 		case COUNT_INCREMENT:
 			return {
 				...state,
-				count: (
-					parseFloat(state.count) + parseFloat(action.payload)
+				current: (
+					parseFloat(state.current) + parseFloat(action.payload)
 				).toFixed(2),
 			};
 

@@ -1,1 +1,1 @@
-export * from "./slices/count/actions";
+export * from "./slices/count/countActions";

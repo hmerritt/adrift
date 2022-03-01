@@ -1,4 +1,4 @@
-import * as types from "./reducer";
+import * as types from "./countReducer";
 
 export const countIncrement = (incrementAmount = 0.1) => {
 	return (dispatch) => {

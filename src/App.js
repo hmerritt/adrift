@@ -5,7 +5,7 @@ import { useInterval } from "hooks/useInterval";
 
 function App() {
 	const dispatch = useDispatch();
-	const count = useSelector((state) => state.count.count);
+	const count = useSelector((state) => state.count.current);
 
 	useInterval(() => {
 		dispatch(countIncrement(0.1));
