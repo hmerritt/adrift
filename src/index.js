@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
@@ -12,7 +13,9 @@ console.log(`App [Version ${appVersion}]`);
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<Router>
+			<App />
+		</Router>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
