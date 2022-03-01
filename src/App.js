@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useInterval } from "hooks/useInterval";
+import { useDispatch, useSelector } from "react-redux";
+
+import { countIncrement } from "store/actions";
 
 function App() {
-	const [count, setCount] = useState("0");
+	const dispatch = useDispatch();
+	const count = useSelector((state) => state.count.count);
 
 	useInterval(() => {
-		setCount((parseFloat(count) + parseFloat(0.1)).toFixed(2));
+		dispatch(countIncrement(0.1));
 	}, 100);
 
 	return (
