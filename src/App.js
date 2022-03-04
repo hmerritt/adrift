@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
+import { useInterval } from "hooks";
 import { countIncrement } from "store/actions";
-import { useInterval } from "hooks/useInterval";
 
 function App() {
 	const dispatch = useDispatch();
