@@ -12,6 +12,8 @@ if (process.env.NODE_ENV === "development") {
 	middlewares.push(
 		createLogger({
 			collapsed: true,
+			// Exclude "COUNT_INCREMENT" type from redux-logger
+			predicate: (getState, action) => action.type !== "COUNT_INCREMENT",
 		})
 	);
 }
