@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# hmerritt/cra
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Custom [Create React App](https://github.com/facebook/create-react-app), with Redux, React-Router, and SASS all setup and ready to go.
 
 ## Available Scripts
 
