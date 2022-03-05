@@ -11,3 +11,10 @@ test("renders app", () => {
 	const linkElement = screen.getByText(/useInterval 100ms/i);
 	expect(linkElement).toBeInTheDocument();
 });
+
+test("renders 404 page", () => {
+	render(<App />, "/wow");
+
+	const linkElement = screen.getByText(/Page not found/i);
+	expect(linkElement).toBeInTheDocument();
+});
