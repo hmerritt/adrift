@@ -1,9 +1,24 @@
-@mixin transition($which: all, $duration: 100ms, $curve: ease) {
-	-webkit-transition: $which $duration $curve;
-	-khtml-transition: $which $duration $curve;
-	-moz-transition: $which $duration $curve;
-	-ms-transition: $which $duration $curve;
-	transition: $which $duration $curve;
+// Try to sort alphabetically
+
+@mixin container($size: 1920px) {
+	max-width: $size;
+	margin-left: auto;
+	margin-right: auto;
+	@include transition(all, 80ms, ease);
+}
+
+@mixin flex() {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+@mixin flex-center() {
+	@include flex();
+	align-items: center;
+	justify-content: center;
 }
 
 @mixin grayscaleMixin($ammountPercent, $ammountNumber) {
@@ -37,43 +52,31 @@
 	}
 }
 
-@mixin container($size: 1920px) {
-	max-width: $size;
-	margin-left: auto;
-	margin-right: auto;
-	@include transition(all, 80ms, ease);
-}
-
-@mixin flex() {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-}
-
-@mixin flex-center() {
-	@include flex();
-	align-items: center;
-	justify-content: center;
-}
-
-@mixin user-select($value: none) {
-	-webkit-touch-callout: $value;
-	-webkit-user-select: $value;
-	-khtml-user-select: $value;
-	-moz-user-select: $value;
-	-ms-user-select: $value;
-	user-select: $value;
-}
-
 @mixin text-overflow-ellipsis() {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 
-@mixin disable-touch-highlight() {
+// Removes the blue highlight from touch events in Chrome
+@mixin touch-highlight-disable() {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-tap-highlight-color: transparent;
+}
+
+@mixin transition($which: all, $duration: 100ms, $curve: ease) {
+	-webkit-transition: $which $duration $curve;
+	-khtml-transition: $which $duration $curve;
+	-moz-transition: $which $duration $curve;
+	-ms-transition: $which $duration $curve;
+	transition: $which $duration $curve;
+}
+
+@mixin user-select($value: auto) {
+	-webkit-touch-callout: $value;
+	-webkit-user-select: $value;
+	-khtml-user-select: $value;
+	-moz-user-select: $value;
+	-ms-user-select: $value;
+	user-select: $value;
 }
