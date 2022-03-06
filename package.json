@@ -22,8 +22,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts start",
-    "build": "cross-env REACT_APP_VERSION=$npm_package_version react-scripts build",
+    "start": "node ./bootstap-start.js start",
+    "build": "node ./bootstap-start.js build",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test --watchAll",
     "test:coverage": "react-scripts test --watchAll=false --coverage",
