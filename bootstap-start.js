@@ -90,5 +90,10 @@ function runStream(command) {
 		console.log(
 			"[runStream] Child process exited with code " + code.toString()
 		);
+
+		if (code !== 0) {
+			console.log("ERROR, process finished with a non-zero code");
+			process.exit(1);
+		}
 	});
 }
