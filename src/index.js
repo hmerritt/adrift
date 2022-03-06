@@ -11,7 +11,8 @@ import App from "./App";
 import "styles/index.scss";
 
 const appVersion = process.env.REACT_APP_VERSION || "~";
-console.log(`App [Version ${appVersion}]`);
+const gitCommitHash = process.env.REACT_APP_GIT_COMMIT || "0000000";
+console.log(`App [Version ${appVersion} (${gitCommitHash})]`);
 
 ReactDOM.render(
 	<React.StrictMode>
