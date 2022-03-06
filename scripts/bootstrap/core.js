@@ -63,12 +63,18 @@ function buildENV(env = []) {
 }
 
 // Execute OS commands, awaits response from stdout
-async function run(command, path = __dirname) {
+async function run(command, path = __dirname, fallback = undefined) {
 	try {
 		const { stdout, stderr } = await execAwait(command, { cwd: path });
 		return stdout?.trim();
 	} catch (e) {
-		console.error("[run]", e); // Should contain code (exit code) and signal (that caused the termination).
+		if (fallback === undefined) {
+			// Should contain code (exit code) and signal (that caused the termination).
+			console.error("[run]", e);
+		} else {
+			console.log("[run] (using fallback)", e);
+			return fallback;
+		}
 	}
 }
 
