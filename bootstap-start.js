@@ -25,13 +25,14 @@ bootstrap();
 // Run anything you like, here we get the app version from the package.json + the current commit hash.
 async function bootstrap() {
 	try {
-		const gitCommitHash = await run("git rev-parse --short HEAD");
+		const gitCommitHash = await run("git rev-parse HEAD");
+		const gitCommitHashShort = shorten(gitCommitHash);
 		const appVersion = packageJSON?.version;
 
 		// Set ENV array to inject, key/value
 		const env = [
 			["REACT_APP_VERSION", appVersion],
-			["REACT_APP_GIT_COMMIT", gitCommitHash],
+			["REACT_APP_GIT_COMMIT", gitCommitHashShort],
 		];
 
 		// Build ENV string
@@ -42,6 +43,13 @@ async function bootstrap() {
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
+}
+
+function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
+	if (str?.length <= 11) return str;
+	return `${str.substring(0, numCharsStart)}...${str.slice(
+		str.length - numCharsEnd
+	)}`;
 }
 
 // Handles ENV array and build a string to use
