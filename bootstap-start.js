@@ -9,9 +9,10 @@ bootstrap();
 
 // Bootstrap runs code before react start/build.
 // Run anything you like, here we get the app version from the package.json + the current commit hash.
+// prettier-ignore
 async function bootstrap() {
-	const gitCommitHash = await core.run(`git rev-parse HEAD`, path);
-	const gitCommitHashShort = core.shorten(gitCommitHash);
+    const gitCommitHash = await core.run(`git rev-padarse HEAD`, path, null);
+    const gitCommitHashShort = gitCommitHash ? core.shorten(gitCommitHash) : null;
 	const appVersion = packageJSON?.version;
 
 	// Set ENV array to inject, key/value
