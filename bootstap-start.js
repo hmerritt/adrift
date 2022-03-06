@@ -4,6 +4,21 @@ const execAwait = util.promisify(exec);
 
 const packageJSON = require("./package.json");
 
+// CLI args
+const args = process.argv.slice(2);
+
+// Bootstap commands (react-start build | start)
+const scriptIndex = args.findIndex((x) => x === "build" || x === "start");
+let script = scriptIndex === -1 ? args[0] : args[scriptIndex];
+
+if (scriptIndex === -1) {
+	script = "build";
+	console.warn("WARN: Invalid command (expects build | start)");
+	console.warn('WARN: Falling back to "build" command');
+	console.warn("");
+}
+
+// Run bootrap
 bootstrap();
 
 // Bootstrap runs code before react start/build.
@@ -23,7 +38,7 @@ async function bootstrap() {
 		const envString = buildENV(env);
 
 		// Run react-scripts command
-		runStream(`npx cross-env ${envString} react-scripts start`);
+		runStream(`npx cross-env ${envString} react-scripts ${script}`);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
