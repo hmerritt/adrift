@@ -9,10 +9,9 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
 
 import "styles/index.scss";
+import { versionLog } from "utils";
 
-const appVersion = process.env.REACT_APP_VERSION || "~";
-const gitCommitHash = process.env.REACT_APP_GIT_COMMIT || "0000000";
-console.log(`App [Version ${appVersion} (${gitCommitHash})]`);
+versionLog();
 
 ReactDOM.render(
 	<React.StrictMode>
