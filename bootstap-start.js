@@ -11,13 +11,15 @@ bootstrap();
 // Run anything you like, here we get the app version from the package.json + the current commit hash.
 // prettier-ignore
 async function bootstrap() {
-    const gitCommitHash = await core.run(`git rev-parse HEAD`, path, null);
+	const gitCommitHash = await core.run(`git rev-parse HEAD`, path, null);
     const gitCommitHashShort = gitCommitHash ? core.shorten(gitCommitHash) : null;
+	const gitBranch = await core.run(`git rev-parse --abbrev-ref HEAD`, path, null);
 	const appVersion = packageJSON?.version;
 
 	// Set ENV array to inject, key/value
 	const env = [
 		["REACT_APP_VERSION", appVersion],
+		["REACT_APP_GIT_BRANCH", gitBranch],
 		["REACT_APP_GIT_COMMIT", gitCommitHashShort],
 	];
 
