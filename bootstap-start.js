@@ -18,6 +18,7 @@ async function bootstrap() {
 
 	// Set ENV array to inject, key/value
 	const env = [
+		["GENERATE_SOURCEMAP", false],
 		["REACT_APP_VERSION", appVersion],
 		["REACT_APP_GIT_BRANCH", gitBranch],
 		["REACT_APP_GIT_COMMIT", gitCommitHashShort],
