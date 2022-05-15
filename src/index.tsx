@@ -9,10 +9,9 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
 
 import "styles/index.scss";
+import { versionLog } from "utils";
 
-const appVersion = process.env.REACT_APP_VERSION || "~";
-const gitCommitHash = process.env.REACT_APP_GIT_COMMIT || "0000000";
-console.log(`App [Version ${appVersion} (${gitCommitHash})]`);
+versionLog();
 
 ReactDOM.render(
 	<React.StrictMode>
@@ -28,4 +27,5 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
+// @ts-ignore: config param is optional
 serviceWorkerRegistration.register();

@@ -6,7 +6,7 @@ function App() {
 	return (
 		<div className="App">
 			<Routes>
-				<Route path="/" exact element={<Home />} />
+				<Route path="/" element={<Home />} />
 
 				{/* 404 */}
 				<Route path="*" element={<NotFound />} />

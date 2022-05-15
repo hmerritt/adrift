@@ -9,9 +9,7 @@ const countReducer = (state = initialState, action) => {
 		case COUNT_INCREMENT:
 			return {
 				...state,
-				current: (
-					parseFloat(state.current) + parseFloat(action.payload)
-				).toFixed(2),
+				current: (Number(state.current) + Number(action.payload)).toFixed(2),
 			};
 
 		default:
