@@ -1,9 +1,9 @@
 import { log } from './log';
 
 export const appName = "App";
-export const appVersion: string | undefined = process.env.REACT_APP_VERSION;
-export const gitBranch: string | undefined = process.env.REACT_APP_GIT_BRANCH;
-export const gitCommitHash: string | undefined = process.env.REACT_APP_GIT_COMMIT;
+export const appVersion = process.env.REACT_APP_VERSION;
+export const gitBranch = process.env.REACT_APP_GIT_BRANCH;
+export const gitCommitHash = process.env.REACT_APP_GIT_COMMIT;
 
 export const versionString = () => {
     if (!appVersion) {
