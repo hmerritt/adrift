@@ -1,6 +1,6 @@
 # hmerritt/cra
 
-Custom [Create React App](https://github.com/facebook/create-react-app), with Redux, React-Router, and SASS all setup and ready to go.
+Custom [Create React App](https://github.com/facebook/create-react-app), with Redux, React-Router, SASS, typescript, and custom utils all setup and ready to go.
 
 ## Available Scripts
 
