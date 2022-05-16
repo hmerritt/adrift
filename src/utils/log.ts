@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const logLevelTypes = {
 	debug: 1,
 	error: 1,
@@ -6,6 +8,10 @@ const logLevelTypes = {
 	trace: 1,
 	warn: 1
 };
+
+const styles = ["color: #888"].join(";");
+const timestamp = dayjs().format("HH:mm:ss.SSS");
+const timestampColor = `%c${timestamp}%s`;
 
 // Custom log function
 export const log = (logLevel, ...args) => {
@@ -16,10 +22,14 @@ export const log = (logLevel, ...args) => {
 	}
 };
 
-// Alias of log, execpt only in dev mode
+// Development only logs, plus a timespamp is added to each log automatically
 export const debug = (logLevel, ...args) => {
 	if (process.env.NODE_ENV !== "production") {
-		log(logLevel, ...args);
+		if (logLevelTypes[logLevel]) {
+			console[logLevel](timestampColor, styles, "", ...args);
+		} else {
+			console.log(timestampColor, styles, "", logLevel, ...args);
+		}
 	}
 };
 
