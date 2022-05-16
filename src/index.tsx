@@ -13,7 +13,6 @@ import { versionLog } from "utils";
 
 versionLog();
 
-
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
