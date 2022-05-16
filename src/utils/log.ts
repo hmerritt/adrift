@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 
+import { appendChar } from "./string";
+
 const logLevelTypes = {
 	debug: 1,
 	error: 1,
@@ -10,8 +12,9 @@ const logLevelTypes = {
 };
 
 const styles = ["color: #888"].join(";");
+const padStr = (str) => appendChar(str, 5, " ");
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
-const timestampString = (diff) => `%c${timestamp()} +${diff}%s`;
+const timestampString = (diff) => `%c${timestamp()} +${padStr(diff)}%s`;
 
 // Custom log function
 export const log = (logLevel, ...args) => {
