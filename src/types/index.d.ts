@@ -1,8 +1,13 @@
 export {};
 
+type LogFunction = (logLevel: any, ...args: any[]) => void;
+
 declare global {
-  interface Window {
-    log: any;
-    debug: any;
-  }
+	var log: LogFunction;
+	var debug: LogFunction;
+
+	interface Window {
+		log: LogFunction;
+		debug: LogFunction;
+	}
 }
