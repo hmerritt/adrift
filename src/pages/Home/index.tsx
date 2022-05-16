@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-
 import { countIncrement } from "store/actions";
-import { useDebouncedCallback, useInterval } from "hooks";
+import { useDispatch, useSelector, useDebouncedCallback, useInterval } from "hooks";
 
 export const Home = () => {
 	const dispatch = useDispatch();

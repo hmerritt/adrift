@@ -42,6 +42,12 @@ function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
 	)}`;
 }
 
+function padZeros(num, size) {
+	num = num.toString();
+	while (num.length < size) num = "0" + num;
+	return num;
+}
+
 // Handles ENV array and build a string to use
 function buildENV(env = []) {
 	if (env.length < 1) return "";
@@ -54,7 +60,7 @@ function buildENV(env = []) {
 		if (index > 0) envString += ` `;
 		const envPair = `${item[0]}=${item[1]}`;
 		envString += envPair;
-		console.log("  ", index, envPair);
+		console.log("  ", index + 1, envPair);
 	});
 
 	console.log("");
