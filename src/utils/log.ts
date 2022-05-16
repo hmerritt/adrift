@@ -10,8 +10,8 @@ const logLevelTypes = {
 };
 
 const styles = ["color: #888"].join(";");
-const timestamp = dayjs().format("HH:mm:ss.SSS");
-const timestampColor = `%c${timestamp}%s`;
+const timestamp = () => dayjs().format("HH:mm:ss.SSS");
+const timestampString = (diff) => `%c${timestamp()} +${diff}%s`;
 
 // Custom log function
 export const log = (logLevel, ...args) => {
@@ -25,11 +25,29 @@ export const log = (logLevel, ...args) => {
 // Development only logs, plus a timespamp is added to each log automatically
 export const debug = (logLevel, ...args) => {
 	if (process.env.NODE_ENV !== "production") {
+		const timeElapsed = dayjs().diff(
+			window.lastDebugTimestamp,
+			"millisecond"
+		);
+
 		if (logLevelTypes[logLevel]) {
-			console[logLevel](timestampColor, styles, "", ...args);
+			console[logLevel](
+				timestampString(timeElapsed),
+				styles,
+				"",
+				...args
+			);
 		} else {
-			console.log(timestampColor, styles, "", logLevel, ...args);
+			console.log(
+				timestampString(timeElapsed),
+				styles,
+				"",
+				logLevel,
+				...args
+			);
 		}
+
+		window.lastDebugTimestamp = Date.now();
 	}
 };
 
@@ -37,4 +55,5 @@ export const debug = (logLevel, ...args) => {
 export const injectGlobalLog = () => {
 	window.log = log;
 	window.debug = debug;
+	window.lastDebugTimestamp = Date.now();
 };

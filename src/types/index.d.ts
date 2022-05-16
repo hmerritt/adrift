@@ -9,5 +9,6 @@ declare global {
 	interface Window {
 		log: LogFunction;
 		debug: LogFunction;
+		lastDebugTimestamp: number;
 	}
 }
