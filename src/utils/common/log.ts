@@ -16,7 +16,9 @@ const padStr = (str) => padChar(str, 5, " ", true);
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
 const timestampString = (diff) => `%c${timestamp()} +${padStr(diff)}%s`;
 
-// Custom log function
+/**
+ * Custom log function
+ */
 export const log = (logLevel, ...args) => {
 	if (logLevelTypes[logLevel]) {
 		console[logLevel](...args);
@@ -25,7 +27,9 @@ export const log = (logLevel, ...args) => {
 	}
 };
 
-// Development only logs, plus a timespamp is added to each log automatically
+/**
+ * Development only logs. Adds a timestamp and timediff to each log automatically.
+ */
 export const debug = (logLevel, ...args) => {
 	if (process.env.NODE_ENV !== "production") {
 		const timeElapsed = dayjs().diff(
@@ -54,7 +58,9 @@ export const debug = (logLevel, ...args) => {
 	}
 };
 
-// Inject custom log functions to window object
+/**
+ * Inject custom log functions to window object
+ */
 export const injectGlobalLog = () => {
 	window.log = log;
 	window.debug = debug;
