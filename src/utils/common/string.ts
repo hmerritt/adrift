@@ -1,15 +1,17 @@
-export function appendChar(str: string | number, size: number, char: string) {
+// Use char(s) to pad an input string/number to a certain length.
+export function padChar(
+	str: string | number,
+	size: number,
+	char: string,
+	append: boolean = false
+): string {
 	str = String(str);
-	while (str.length < size) str = str + char;
+	while (str.length < size) str = append ? str + char : char + str;
 	return str;
 }
 
-export function padChar(str: string | number, size: number, char: string) {
-	str = String(str);
-	while (str.length < size) str = char + str;
-	return str;
-}
-
-export function padZeros(num, size) {
+// Pad an input number with `0`s to maintain a desired length.
+// Alias of padChar.
+export function padZeros(num: string | number, size: number): string {
 	return padChar(num, size, "0");
 }
