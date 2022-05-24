@@ -9,10 +9,10 @@ export function useLocalStorage(key, initialValue) {
 			const item = window.localStorage.getItem(key);
 
 			// Parse stored json or if none return initialValue
-			return item ? JSON.parse(item) : initialValue;
+			return item ? parseJSON(item) : initialValue;
 		} catch (error) {
 			// If error also return initialValue
-			console.log(error);
+			debug("error", error);
 			return initialValue;
 		}
 	});
@@ -32,9 +32,21 @@ export function useLocalStorage(key, initialValue) {
 			window.localStorage.setItem(key, JSON.stringify(valueToStore));
 		} catch (error) {
 			// A more advanced implementation would handle the error case
-			console.log(error);
+			debug("error", error);
 		}
 	};
 
 	return [storedValue, setValue];
+}
+
+/**
+ * A wrapper for `JSON.parse()` to support `undefined` value
+ */
+function parseJSON<T>(value: string | null): T | undefined {
+	try {
+		return value === "undefined" ? undefined : JSON.parse(value ?? "");
+	} catch {
+		debug("parsing error on", { value });
+		return undefined;
+	}
 }
