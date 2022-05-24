@@ -6,17 +6,29 @@ stages:
 variables:
     DOCKER_USER: $DOCKER_USER
     DOCKER_TOKEN: $DOCKER_TOKEN
+    npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+# Define a hidden job to be used with extends
+# Better than default to avoid activating cache for all jobs
+.dependencies_cache:
+    cache:
+        key:
+            files:
+                - package-lock.json
+        paths:
+            - .npm
+        policy: pull
 
 test:
     image: node:18-alpine
 
+    extends: .dependencies_cache
     cache:
-        paths:
-            - node_modules/
+        policy: pull-push
 
     before_script:
         - apk update && apk add git
-        - npm install
+        - npm ci --cache .npm --prefer-offline
 
     script:
         - npm run test:coverage
@@ -35,6 +47,10 @@ release:
     services:
         - name: docker:19.03.1-dind
           command: ["--experimental"]
+
+    extends: .dependencies_cache
+    cache:
+        policy: pull
 
     before_script:
         - apk update && apk add git
