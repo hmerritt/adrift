@@ -4,5 +4,6 @@
     "files.autoSave": "onFocusChange",
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "scss.format.spaceAroundSelectorSeparator": true
 }
