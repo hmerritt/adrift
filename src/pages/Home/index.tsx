@@ -1,6 +1,8 @@
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useDebouncedCallback, useInterval } from "hooks";
 
+import Icon from "components/common/Icon";
+
 export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
@@ -25,7 +27,7 @@ export const Home = () => {
 					<br />
 					<small>useInterval 100ms</small>
 					<br />
-					<small>useDebouncedCallback 1000ms</small>
+					<small>useDebouncedCallback 1000ms <Icon name="refresh" /></small>
 				</h1>
 			</div>
 		</div>
