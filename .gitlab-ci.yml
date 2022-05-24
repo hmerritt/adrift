@@ -16,7 +16,6 @@ test:
 
     before_script:
         - npm install
-        - npm --depth 9999 update
 
     script:
         - npm run test:coverage
