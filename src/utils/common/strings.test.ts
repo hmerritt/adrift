@@ -1,4 +1,4 @@
-import { padChar, padZeros } from "./string";
+import { padChar, padZeros } from "./strings";
 
 test("padChar", () => {
 	expect(padChar("", 5, "!")).toBe("!!!!!");

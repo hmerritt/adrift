@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { padChar } from "./string";
+import { padChar } from "./strings";
 
 const logLevelTypes = {
 	debug: 1,
