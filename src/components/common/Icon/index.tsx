@@ -1,7 +1,9 @@
-import Refresh from './subComponents/Refresh';
+import Refresh from "./subComponents/Refresh";
+import Spinner from "./subComponents/Spinner";
 
 const IconMappings = {
-	'refresh': Refresh,
+	refresh: Refresh,
+	spinner: Spinner
 };
 
 // Infer the type of IconMappings, then extract the keys from the type it infers

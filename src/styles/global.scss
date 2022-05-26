@@ -14,9 +14,13 @@ body {
 	font-smooth: always;
 	font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
+}
+
+svg {
+	width: 2.5rem;
+	height: 2.5rem;
 }
 
 ::-webkit-scrollbar {
