@@ -11,8 +11,12 @@ body {
 	background-color: #ebf0f5;
 	font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-smooth: always;
+	font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 }
 
 ::-webkit-scrollbar {
