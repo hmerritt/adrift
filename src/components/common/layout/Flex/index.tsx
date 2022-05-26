@@ -19,14 +19,14 @@ const Flex = ({
 	hc = false,
 	...rest
 }: FlexProps) => {
-	rest.className = rest?.className ? rest.className += ' flex' : 'flex';
-	center && (rest.className += ' center');
-	grow && (rest.className += ' grow');
-	row && (rest.className += ' row');
-	shrink && (rest.className += ' shrink');
-	wrap && (rest.className += ' wrap');
-	vc && (rest.className += ' v-center');
-	hc && (rest.className += ' h-center');
+	rest.className = rest?.className ? (rest.className += " flex") : "flex";
+	center && (rest.className += " center");
+	grow && (rest.className += " grow");
+	row && (rest.className += " row");
+	shrink && (rest.className += " shrink");
+	wrap && (rest.className += " wrap");
+	vc && (rest.className += " v-center");
+	hc && (rest.className += " h-center");
 	return <div {...rest} />;
 };
 
