@@ -1,7 +1,13 @@
 import { countIncrement } from "store/actions";
-import { useDispatch, useSelector, useDebouncedCallback, useInterval } from "hooks";
+import {
+	useDispatch,
+	useSelector,
+	useDebouncedCallback,
+	useInterval
+} from "hooks";
 
 import Icon from "components/common/Icon";
+import { Flex, Stack } from "components/common/layout";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -20,16 +26,17 @@ export const Home = () => {
 
 	return (
 		<div className="Home">
-			<div className="flex-center" style={{ height: "100vh" }}>
+			<Stack spacing={5} center style={{ height: "100vh" }}>
 				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
 					{count}
-					<br />
-					<br />
+				</h1>
+				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
 					<small>useInterval 100ms</small>
 					<br />
-					<small>useDebouncedCallback 1000ms <Icon name="refresh" /></small>
+					<small>useDebouncedCallback 1000ms</small>
 				</h1>
-			</div>
+				<Icon name="spinner" />
+			</Stack>
 		</div>
 	);
 };
