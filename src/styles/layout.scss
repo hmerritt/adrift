@@ -1,3 +1,9 @@
+@use "sass:math";
+
+//
+// Flex
+//
+
 .flex {
 	@include flex();
 	flex-wrap: nowrap;
@@ -35,4 +41,50 @@
 
 .flex-center {
 	@include flex-center();
+}
+
+//
+// Stack
+//
+
+@for $i from 1 through 20 {
+	.stack.stack-#{$i} {
+		& > * {
+			margin-top: #{math.div($i, 2)}rem;
+		}
+	}
+}
+
+.stack {
+	@include flex();
+	flex-direction: column;
+
+	& > * {
+		margin-top: 1rem;
+	}
+
+	& > *:first-child {
+		margin-top: 0;
+	}
+}
+
+@for $i from 1 through 20 {
+	.stack-row.stack-#{$i} {
+		& > * {
+			margin-left: #{math.div($i, 2)}rem;
+		}
+	}
+}
+
+.stack-row {
+	@include flex();
+	flex-direction: row;
+
+	& > * {
+		margin-left: 1rem;
+	}
+
+	& > *:first-child {
+		margin-left: 0;
+	}
 }
