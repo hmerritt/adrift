@@ -1,30 +1,30 @@
-import { log } from './log';
-
-export const appName = "App";
+export const appName = "App"; // Optionally use `process.env.REACT_APP_NAME`
 export const appVersion = process.env.REACT_APP_VERSION;
 export const gitBranch = process.env.REACT_APP_GIT_BRANCH;
 export const gitCommitHash = process.env.REACT_APP_GIT_COMMIT;
 
 export const versionString = () => {
-    if (!appVersion) {
+	if (!appVersion) {
 		return `${appName} [Version unknown]`;
 	}
 
-    let versionString = `${appName} [Version ${appVersion}`;
+	let versionString = `${appName} [Version ${appVersion}`;
 
-    if (gitBranch !== "master") {
-        versionString += `-${gitBranch ?? "unknown"}`;
-    }
+	if (gitCommitHash) {
+		versionString += ` (`;
 
-    if (gitCommitHash) {
-        versionString += ` (${gitCommitHash})`;
-    }
+		if (gitBranch !== "master") {
+			versionString += `${gitBranch ?? "unknown"}/`;
+		}
 
-    versionString += `]`;
+		versionString += `${gitCommitHash})`;
+	}
 
-    return versionString;
-}
+	versionString += `]`;
+
+	return versionString;
+};
 
 export const versionLog = () => {
-    log(versionString());
-}
+	log(versionString());
+};
