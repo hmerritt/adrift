@@ -15,13 +15,15 @@ async function bootstrap() {
     const gitCommitHashShort = gitCommitHash ? core.shorten(gitCommitHash) : null;
 	const gitBranch = await core.run(`git rev-parse --abbrev-ref HEAD`, path, null);
 	const appVersion = packageJSON?.version;
+	const appName = packageJSON?.name;
 
 	// Set ENV array to inject, key/value
 	const env = [
 		["GENERATE_SOURCEMAP", false],
+		["REACT_APP_NAME", appName],
 		["REACT_APP_VERSION", appVersion],
 		["REACT_APP_GIT_BRANCH", gitBranch],
-		["REACT_APP_GIT_COMMIT", gitCommitHashShort],
+		["REACT_APP_GIT_COMMIT", gitCommitHashShort]
 	];
 
 	core.bootstrap(env, script, path);
