@@ -1,3 +1,4 @@
+// @ts-nocheck
 const util = require("util");
 const exec = require("child_process").exec;
 const execAwait = util.promisify(exec);
@@ -27,8 +28,8 @@ async function bootstrap(env, script, path) {
 		// Build ENV string
 		const envString = buildENV(env);
 
-		// Run react-scripts command
-		runStream(`npx cross-env ${envString} react-scripts ${script}`, path);
+		// Run scripts/start|build command
+		runStream(`npx cross-env ${envString} node scripts/${script}.js`, path);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
@@ -114,5 +115,5 @@ module.exports = {
 	shorten,
 	buildENV,
 	run,
-	runStream,
+	runStream
 };
