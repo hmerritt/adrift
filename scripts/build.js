@@ -17,7 +17,6 @@ require("../config/env");
 const path = require("path");
 const chalk = require("react-dev-utils/chalk");
 const fs = require("fs-extra");
-const bfj = require("bfj");
 const webpack = require("webpack");
 const configFactory = require("../config/webpack.config");
 const paths = require("../config/paths");
@@ -198,15 +197,19 @@ function build(previousFileSizes) {
 				warnings: messages.warnings
 			};
 
-			if (writeStatsJson) {
-				return bfj
-					.write(
-						paths.appBuild + "/bundle-stats.json",
-						stats.toJson()
-					)
-					.then(() => resolve(resolveArgs))
-					.catch((error) => reject(new Error(error)));
-			}
+			// Previously used BFJ - rewrote to remove BFJ as a dependency
+			// Commented out since BFJ `may` be needed to prevent a memory leak in some cases.
+			// https://gitlab.com/philbooth/bfj
+			// if (writeStatsJson) {
+			// 	try {
+			// 		fs.writeFileSync(
+			// 			paths.appBuild + "/bundle-stats.json",
+			// 			JSON.stringify(stats.toJson())
+			// 		);
+			// 	} catch (err) {
+			// 		console.error(err);
+			// 	}
+			// }
 
 			return resolve(resolveArgs);
 		});
