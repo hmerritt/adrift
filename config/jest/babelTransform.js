@@ -22,7 +22,8 @@ module.exports = babelJest.createTransformer({
 			{
 				runtime: hasJsxRuntime ? "automatic" : "classic"
 			}
-		]
+		],
+		"@linaria"
 	],
 	babelrc: false,
 	configFile: false
