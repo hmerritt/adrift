@@ -72,7 +72,8 @@
     "@types/react": "^18.0.9",
     "@types/react-redux": "^7.1.24",
     "npm-upgrade": "^3.1.0",
-    "source-map-explorer": "^2.5.2"
+    "source-map-explorer": "^2.5.2",
+    "ts-node": "^10.8.1"
   },
   "scripts": {
     "start": "node ./bootstap-start.js start",
@@ -99,11 +100,6 @@
       ">0.2%",
       "not dead",
       "not op_mini all"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "react-app"
     ]
   }
 }
