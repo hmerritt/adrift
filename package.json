@@ -35,7 +35,6 @@
     "resolve": "^1.20.0",
     "sass-loader": "^12.3.0",
     "sass": "^1.51.0",
-    "semver": "^7.3.5",
     "source-map-loader": "^3.0.0",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.2",
@@ -65,14 +64,16 @@
     "eslint-webpack-plugin": "^3.1.1",
     "eslint": "^8.3.0",
     "html-webpack-plugin": "^5.5.0",
-    "npm-upgrade": "^3.1.0",
-    "source-map-explorer": "^2.5.2",
     "terser-webpack-plugin": "^5.2.5",
     "ts-node": "^10.8.1",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
     "webpack": "^5.64.4",
     "workbox-webpack-plugin": "^6.4.1"
+  },
+  "optionalDependencies": {
+    "npm-upgrade": "^3.1.0",
+    "source-map-explorer": "^2.5.2"
   },
   "scripts": {
     "start": "node ./bootstap-start.js start",
