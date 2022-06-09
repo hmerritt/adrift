@@ -7,29 +7,35 @@ function getArgScript() {
 	// CLI args
 	const args = process.argv.slice(2);
 
-	// Bootstap commands (react-start build | start)
-	const scriptIndex = args.findIndex((x) => x === "build" || x === "start");
+	// Bootstap commands (react-start build | start | test)
+	const scriptIndex = args.findIndex(
+		(x) => x === "build" || x === "start" || x === "test"
+	);
 	let script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 
 	if (scriptIndex === -1) {
 		script = "build";
-		console.warn("WARN: Invalid command (expects build | start)");
+		console.warn("WARN: Invalid command (expects build | start | test)");
 		console.warn('WARN: Falling back to "build" command');
 		console.warn("");
 	}
 
-	return script;
+	return [script, args.slice(1)];
 }
 
 // Bootstrap runs code before react start/build.
 // Injects ENV array into cross-env before running script
-async function bootstrap(env, script, path) {
+async function bootstrap(env, script, args, path) {
 	try {
-		// Build ENV string
+		// Build ENV + Arguments string
 		const envString = buildENV(env);
+		const argString = args?.length > 0 ? ` ${args.join(" ")}` : "";
 
 		// Run scripts/start|build command
-		runStream(`npx cross-env ${envString} node scripts/${script}.js`, path);
+		runStream(
+			`npx cross-env ${envString} node scripts/${script}.js${argString}`,
+			path
+		);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}

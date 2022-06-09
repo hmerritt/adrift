@@ -2,7 +2,7 @@ const core = require("./scripts/bootstrap/core");
 const packageJSON = require("./package.json");
 
 const path = __dirname;
-const script = core.getArgScript();
+const [script, args] = core.getArgScript();
 
 // Run bootrap
 bootstrap();
@@ -26,5 +26,5 @@ async function bootstrap() {
 		["REACT_APP_GIT_COMMIT", gitCommitHashShort]
 	];
 
-	core.bootstrap(env, script, path);
+	core.bootstrap(env, script, args, path);
 }
