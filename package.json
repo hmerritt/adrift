@@ -1,13 +1,14 @@
 {
   "name": "cra",
   "version": "0.1.0",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "node ./bootstap-start.js start",
-    "build": "node ./bootstap-start.js build",
-    "test": "node ./bootstap-start.js test --watchAll=false",
-    "test:watch": "node ./bootstap-start.js test --watchAll",
-    "test:coverage": "node ./bootstap-start.js test --watchAll=false --coverage",
+    "start": "node ./bootstap-start start",
+    "build": "node ./bootstap-start build",
+    "test": "node ./bootstap-start test --watchAll=false",
+    "test:watch": "node ./bootstap-start test --watchAll",
+    "test:coverage": "node ./bootstap-start test --watchAll=false --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "upgrade": "npm-upgrade"
   },
