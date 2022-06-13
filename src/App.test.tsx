@@ -4,6 +4,9 @@ import { render } from "tests";
 
 import App from "./App";
 
+// import preview from "jest-preview";
+// preview.debug();
+
 test("renders app", () => {
 	render(<App />);
 

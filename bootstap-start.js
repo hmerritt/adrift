@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const core = require("./scripts/bootstrap/core");
 const packageJSON = require("./package.json");
 
