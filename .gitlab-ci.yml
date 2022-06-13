@@ -27,7 +27,7 @@ test:
         policy: pull-push
 
     before_script:
-        - apk update && apk add git
+        - apk update && apk add git bash
         - npm ci --cache .npm --prefer-offline
 
     script:
@@ -53,7 +53,7 @@ release:
         policy: pull
 
     before_script:
-        - apk update && apk add git
+        - apk update && apk add git bash
         - npm install
         - npm run build
 
