@@ -1,3 +1,5 @@
+const transformStyles = require("./config/jest/whichTransform");
+
 const config = {
 	roots: ["<rootDir>/src"],
 	collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
@@ -8,11 +10,10 @@ const config = {
 		"<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
 	],
 	testEnvironment: "jsdom",
-	// prettier-ignore
 	transform: {
-		"^.+\\.(css|scss|sass)$": "jest-preview/transforms/css",
-		"^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "jest-preview/transforms/file",
-		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+		...transformStyles(),
+		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$":
+			"<rootDir>/config/jest/babelTransform.js"
 	},
 	transformIgnorePatterns: [
 		"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$"
