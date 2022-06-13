@@ -1,5 +1,3 @@
-const transformStyles = require("./config/jest/whichTransform");
-
 const config = {
 	roots: ["<rootDir>/src"],
 	collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
@@ -11,9 +9,9 @@ const config = {
 	],
 	testEnvironment: "jsdom",
 	transform: {
-		...transformStyles(),
-		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$":
-			"<rootDir>/config/jest/babelTransform.js"
+		"^.+\\.(css|scss|sass)$": "jest-preview/transforms/css",
+		"^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "jest-preview/transforms/file",
+		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js"
 	},
 	transformIgnorePatterns: [
 		"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$"
