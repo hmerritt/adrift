@@ -8,8 +8,10 @@
     "build": "node ./bootstap-start build",
     "test": "node ./bootstap-start test --watchAll=false",
     "test:watch": "node ./bootstap-start test --watchAll",
+    "test:debug": "npm-run-all -p test:watch jest-preview",
     "test:coverage": "node ./bootstap-start test --watchAll=false --coverage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "jest-preview": "jest-preview",
     "upgrade": "npm-upgrade"
   },
   "dependencies": {
