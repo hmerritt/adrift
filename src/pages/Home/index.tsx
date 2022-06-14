@@ -9,6 +9,26 @@ import {
 import Icon from "components/common/Icon";
 import { Flex, Stack } from "components/common/layout";
 
+import { css } from "@linaria/core";
+
+// Write your styles in `css` tag
+const header = css`
+	text-transform: uppercase;
+	font-size: 8rem;
+	font-weight: thin;
+	color: pink;
+	text-align: center;
+	// @include user-select(none);
+
+	@for $i from 1 through 20 {
+		.stack.stack-#{$i} {
+			& > * {
+				margin-top: #{$i}rem;
+			}
+		}
+	}
+`;
+
 export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
@@ -26,8 +46,11 @@ export const Home = () => {
 
 	return (
 		<div className="Home">
-			<Stack spacing={5} center style={{ height: "100vh" }}>
-				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
+			<Flex spacing={5} center style={{ height: "100vh" }}>
+				<h1
+					className={header}
+					// style={{ fontSize: "3rem", textAlign: "center" }}
+				>
 					{count}
 				</h1>
 				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
@@ -35,8 +58,9 @@ export const Home = () => {
 					<br />
 					<small>useDebouncedCallback 1000ms</small>
 				</h1>
+				<p>hello</p>
 				<Icon name="spinner" />
-			</Stack>
+			</Flex>
 		</div>
 	);
 };
