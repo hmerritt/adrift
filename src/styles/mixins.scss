@@ -22,44 +22,13 @@
 }
 
 // Grid: RAM (Repeat, Auto, Minmax)
-@mixin RAM($fitCount: auto-fit, $minMax: 150px) {
-	grid-template-columns: repeat($fitCount, minmax($minMax, 1fr));
+@mixin gridColumnsRAM($minMax: 150px) {
+	grid-template-columns: repeat(auto-fit, minmax($minMax, 1fr));
 }
 
-// repeat(7, minmax(0, 1fr))
+// Grid: repeat(7, minmax(0, 1fr))
 @mixin gridColumns($fitCount: 2, $minMax: 0) {
 	grid-template-columns: repeat($fitCount, minmax($minMax, 1fr));
-}
-
-@mixin grayscaleMixin($amountPercent, $ammountNumber) {
-	//filter: gray; /* IE */
-	-webkit-filter: grayscale($ammountNumber); /* Old WebKit */
-	-webkit-filter: grayscale($amountPercent); /* New WebKit */
-	//filter: url(resources.svg#desaturate); /* older Firefox */
-	filter: grayscale($amountPercent); /* Current draft standard */
-}
-
-@mixin inputPlaceholder($color) {
-	&::-webkit-input-placeholder {
-		/* Chrome/Opera/Safari */
-		color: $color;
-	}
-	&::-moz-placeholder {
-		/* Firefox 19+ */
-		color: $color;
-	}
-	&:-ms-input-placeholder {
-		/* IE 10+ */
-		color: $color;
-	}
-	&:-moz-placeholder {
-		/* Firefox 18- */
-		color: $color;
-	}
-	&::placeholder {
-		/* modern browser */
-		color: $color;
-	}
 }
 
 @mixin text-overflow-ellipsis() {
@@ -72,21 +41,4 @@
 @mixin touch-highlight-disable() {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-tap-highlight-color: transparent;
-}
-
-@mixin transition($which: all, $duration: 100ms, $curve: ease) {
-	-webkit-transition: $which $duration $curve;
-	-khtml-transition: $which $duration $curve;
-	-moz-transition: $which $duration $curve;
-	-ms-transition: $which $duration $curve;
-	transition: $which $duration $curve;
-}
-
-@mixin user-select($value: auto) {
-	-webkit-touch-callout: $value;
-	-webkit-user-select: $value;
-	-khtml-user-select: $value;
-	-moz-user-select: $value;
-	-ms-user-select: $value;
-	user-select: $value;
 }
