@@ -1,14 +1,15 @@
 import { memo } from "react";
+import { css } from "@linaria/core";
 
 const Spinner = (props) => (
 	<svg
-		className="spinner"
+		className={spinner}
 		viewBox="0 0 66 66"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}
 	>
 		<circle
-			className="path"
+			className={path}
 			strokeWidth="6"
 			strokeLinecap="round"
 			stroke="currentColor"
@@ -19,6 +20,17 @@ const Spinner = (props) => (
 		></circle>
 	</svg>
 );
+
+const spinner = css`
+	animation: rotator 1.4s linear infinite;
+`;
+
+const path = css`
+	stroke-dashoffset: 0;
+	stroke-dasharray: 187;
+	transform-origin: center;
+	animation: dash 1.4s ease-in-out infinite;
+`;
 
 const Memo = memo(Spinner);
 export default Memo;
