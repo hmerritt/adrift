@@ -21,12 +21,22 @@
 	justify-content: center;
 }
 
-@mixin grayscaleMixin($ammountPercent, $ammountNumber) {
+// Grid: RAM (Repeat, Auto, Minmax)
+@mixin RAM($fitCount: auto-fit, $minMax: 150px) {
+	grid-template-columns: repeat($fitCount, minmax($minMax, 1fr));
+}
+
+// repeat(7, minmax(0, 1fr))
+@mixin gridColumns($fitCount: 2, $minMax: 0) {
+	grid-template-columns: repeat($fitCount, minmax($minMax, 1fr));
+}
+
+@mixin grayscaleMixin($amountPercent, $ammountNumber) {
 	//filter: gray; /* IE */
 	-webkit-filter: grayscale($ammountNumber); /* Old WebKit */
-	-webkit-filter: grayscale($ammountPercent); /* New WebKit */
+	-webkit-filter: grayscale($amountPercent); /* New WebKit */
 	//filter: url(resources.svg#desaturate); /* older Firefox */
-	filter: grayscale($ammountPercent); /* Current draft standard */
+	filter: grayscale($amountPercent); /* Current draft standard */
 }
 
 @mixin inputPlaceholder($color) {
