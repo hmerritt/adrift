@@ -9,17 +9,9 @@ const mixins = `
         margin-right: auto;
         transition: all, 80ms, ease;
     }
-
-    @mixin flex() {
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-    }
-
+    
     @mixin flex-center() {
-        @include flex();
+        display: flex;
         align-items: center;
         justify-content: center;
     }
