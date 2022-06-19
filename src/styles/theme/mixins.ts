@@ -1,8 +1,6 @@
 //
 // Try to sort alphabetically
 const mixins = `
-    $text-color: yellow;
-
     @mixin container($size: 192rem) {
         max-width: $size;
         margin-left: auto;

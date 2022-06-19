@@ -1,7 +1,11 @@
+import colors from "./colors";
 import mixins from "./mixins";
 
 // Import this into @linaria css`` to use colours, mixins & variables
-const theme = `${mixins}`;
+const theme = `
+    ${colors}
+    ${mixins}
+`;
 export default theme;
 
 // @TODO
