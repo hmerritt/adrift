@@ -1,3 +1,6 @@
+import { css } from "@linaria/core";
+
+import theme from "../../styles/theme";
 import { countIncrement } from "store/actions";
 import {
 	useDispatch,
@@ -8,9 +11,6 @@ import {
 
 import Icon from "components/common/Icon";
 import { Stack } from "components/common/layout";
-
-import { css } from "@linaria/core";
-import theme from "styles/theme/index";
 
 export const Home = () => {
 	const dispatch = useDispatch();
