@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from "react";
 
-const Refresh = (props) => (
+const Refresh = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		width="20"
 		viewBox="0 0 24 20"

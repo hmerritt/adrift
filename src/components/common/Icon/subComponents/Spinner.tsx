@@ -1,7 +1,7 @@
-import { memo } from "react";
+import { memo, SVGProps } from "react";
 import { css } from "@linaria/core";
 
-const Spinner = (props) => (
+const Spinner = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		className={spinner}
 		viewBox="0 0 66 66"
