@@ -2,27 +2,28 @@ import dayjs from "dayjs";
 
 import { padChar } from "./strings";
 
-const logLevelTypes = {
-	debug: 1,
-	error: 1,
-	info: 1,
-	log: 1,
-	trace: 1,
-	warn: 1
-};
+enum ConsoleFunctions {
+	debug = "debug",
+	error = "error",
+	info = "info",
+	log = "log",
+	trace = "trace",
+	warn = "warn"
+}
 
 type chars = string | number;
 const styles = ["color: #888"].join(";");
 const padStr = (str: chars) => padChar(str, 5, " ", true);
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
 const timestampString = (diff: chars) => `%c${timestamp()} +${padStr(diff)}%s`;
+const getConsoleFunction = (level: ConsoleFunctions) => ConsoleFunctions[level];
 
 /**
  * Custom log function
  */
 export const log = (logLevel: any, ...args: any[]) => {
-	if (logLevelTypes[logLevel]) {
-		console[logLevelType](...args);
+	if (getConsoleFunction(logLevel)) {
+		console[getConsoleFunction(logLevel)](...args);
 	} else {
 		console.log(logLevel, ...args);
 	}
@@ -38,8 +39,8 @@ export const debug = (logLevel: any, ...args: any[]) => {
 			"millisecond"
 		);
 
-		if (logLevelTypes[logLevel]) {
-			console[logLevel](
+		if (getConsoleFunction(logLevel)) {
+			console[getConsoleFunction(logLevel)](
 				timestampString(timeElapsed),
 				styles,
 				"",
