@@ -7,27 +7,10 @@ import {
 } from "hooks";
 
 import Icon from "components/common/Icon";
-import { Flex, Stack } from "components/common/layout";
+import { Stack } from "components/common/layout";
 
 import { css } from "@linaria/core";
-
-// Write your styles in `css` tag
-const header = css`
-	text-transform: uppercase;
-	font-size: 8rem;
-	font-weight: thin;
-	color: pink;
-	text-align: center;
-	// @include user-select(none);
-
-	@for $i from 1 through 20 {
-		.stack.stack-#{$i} {
-			& > * {
-				margin-top: #{$i}rem;
-			}
-		}
-	}
-`;
+import theme from "styles/theme/index";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -46,21 +29,35 @@ export const Home = () => {
 
 	return (
 		<div className="Home">
-			<Flex spacing={5} center style={{ height: "100vh" }}>
-				<h1
-					className={header}
-					// style={{ fontSize: "3rem", textAlign: "center" }}
-				>
-					{count}
-				</h1>
+			<Stack spacing={5} center style={{ height: "100vh" }}>
+				<h1 className={header}>{count}</h1>
 				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
 					<small>useInterval 100ms</small>
 					<br />
 					<small>useDebouncedCallback 1000ms</small>
 				</h1>
-				<p>hello</p>
 				<Icon name="spinner" />
-			</Flex>
+			</Stack>
 		</div>
 	);
 };
+
+// This will get compiled at build time into a css file
+const header = css`
+	${theme}
+	text-transform: uppercase;
+	font-size: 8rem;
+	font-weight: thin;
+	color: $red-500;
+	/* color: pink; */
+	text-align: center;
+	@include touch-highlight-disable();
+
+	@for $i from 1 through 20 {
+		.stack.stack-#{$i} {
+			& > * {
+				margin-top: #{$i}rem;
+			}
+		}
+	}
+`;
