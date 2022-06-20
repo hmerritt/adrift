@@ -1,2 +1,6 @@
 //
-export const variables = ``;
+const variables = `
+	$var: 100%;
+`;
+
+export default variables;
