@@ -2,12 +2,7 @@ import { css } from "@linaria/core";
 
 import theme from "../../styles/theme";
 import { countIncrement } from "store/actions";
-import {
-	useDispatch,
-	useSelector,
-	useDebouncedCallback,
-	useInterval
-} from "hooks";
+import { useDispatch, useSelector, useInterval } from "hooks";
 
 import Icon from "components/common/Icon";
 import { Stack } from "components/common/layout";
@@ -16,16 +11,9 @@ export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
 
-	// Debounce callback
-	const debounce = useDebouncedCallback(
-		() => dispatch(countIncrement(0.1)),
-		1000,
-		{ maxWait: 1000 }
-	);
-
 	useInterval(() => {
-		debounce();
-	}, 100);
+		dispatch(countIncrement(0.1));
+	}, 1000);
 
 	return (
 		<div className="Home">

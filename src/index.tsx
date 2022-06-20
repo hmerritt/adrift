@@ -15,7 +15,7 @@ injectGlobalLog();
 versionLog();
 
 const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+const root = createRoot(rootElement as HTMLElement);
 
 root.render(
 	<React.StrictMode>

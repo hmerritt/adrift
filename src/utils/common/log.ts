@@ -11,17 +11,18 @@ const logLevelTypes = {
 	warn: 1
 };
 
+type chars = string | number;
 const styles = ["color: #888"].join(";");
-const padStr = (str) => padChar(str, 5, " ", true);
+const padStr = (str: chars) => padChar(str, 5, " ", true);
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
-const timestampString = (diff) => `%c${timestamp()} +${padStr(diff)}%s`;
+const timestampString = (diff: chars) => `%c${timestamp()} +${padStr(diff)}%s`;
 
 /**
  * Custom log function
  */
-export const log = (logLevel, ...args) => {
+export const log = (logLevel: any, ...args: any[]) => {
 	if (logLevelTypes[logLevel]) {
-		console[logLevel](...args);
+		console[logLevelType](...args);
 	} else {
 		console.log(logLevel, ...args);
 	}
@@ -30,7 +31,7 @@ export const log = (logLevel, ...args) => {
 /**
  * Development only logs. Adds a timestamp and timediff to each log automatically.
  */
-export const debug = (logLevel, ...args) => {
+export const debug = (logLevel: any, ...args: any[]) => {
 	if (process.env.NODE_ENV !== "production") {
 		const timeElapsed = dayjs().diff(
 			window.lastDebugTimestamp,
