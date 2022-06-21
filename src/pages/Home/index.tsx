@@ -1,6 +1,6 @@
 import { css } from "@linaria/core";
 
-import theme from "../../styles/theme";
+import theme from "../../styles";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 

@@ -8,7 +8,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 import App from "./App";
 
-import "styles/index.scss";
+import "styles/global/index.scss";
 import { injectGlobalLog, versionLog } from "utils";
 
 injectGlobalLog();

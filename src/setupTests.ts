@@ -5,7 +5,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import { jestPreviewConfigure } from "jest-preview";
 import "@testing-library/jest-dom";
-import "./styles/index.scss";
+import "styles/global/index.scss";
 
 jestPreviewConfigure({
 	// Automatically preview the UI in the external browser when the test fails. You don't need to invoke preview.debug() by yourself anymore.
