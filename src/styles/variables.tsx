@@ -4,3 +4,6 @@ const variables = `
 `;
 
 export default variables;
+
+//
+// container variables

@@ -39,6 +39,7 @@ const header = css`
 	color: $red-500;
 	/* color: pink; */
 	text-align: center;
+	text-shadow: $shadow-xs;
 	@include touch-highlight-disable();
 
 	@for $i from 1 through 20 {
