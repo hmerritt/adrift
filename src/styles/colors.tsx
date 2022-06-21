@@ -1,4 +1,5 @@
 //
+// Try to sort alphabetically
 const colors = `
 	$red-700: #b42318;
     $red-500: #b42318;
