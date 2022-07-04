@@ -14,7 +14,7 @@ bootstrap();
 async function bootstrap() {
 	const gitCommitHash = await core.run(`git rev-parse HEAD`, path, null);
     const gitCommitHashShort = gitCommitHash ? core.shorten(gitCommitHash) : null;
-	const gitBranch = await core.run(`git rev-parse --abbrev-ref HEAD`, path, null);
+	const gitBranch = await core.getGitBranch(path);
 	const appVersion = packageJSON?.version;
 	const appName = packageJSON?.name;
 

@@ -23,8 +23,11 @@ function getArgScript() {
 	return [script, args.slice(1)];
 }
 
-// Bootstrap runs code before react start/build.
-// Injects ENV array into cross-env before running script
+/**
+ * Bootstrap runs code before react start/build.
+ *
+ * Injects ENV array into cross-env before running script
+ */
 async function bootstrap(env, script, args, path) {
 	try {
 		// Build ENV + Arguments string
@@ -41,7 +44,9 @@ async function bootstrap(env, script, args, path) {
 	}
 }
 
-// Shortens a string at both ends, separated by '...', eg '123456789' -> '12345...789'
+/**
+ * Shortens a string at both ends, separated by '...', eg '123456789' -> '12345...789'
+ */
 function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
 	if (str?.length <= 11) return str;
 	return `${str.substring(0, numCharsStart)}...${str.slice(
@@ -49,13 +54,28 @@ function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
 	)}`;
 }
 
-function padZeros(num, size) {
-	num = num.toString();
-	while (num.length < size) num = "0" + num;
-	return num;
+/**
+ * Returns the current git branch
+ */
+async function getGitBranch(path, fallback = undefined) {
+	let gitBranch = await run(`git rev-parse --abbrev-ref HEAD`, path, null);
+
+	// Detect HEAD detached state, and remove it
+	if (gitBranch === "HEAD") {
+		gitBranch = fallback;
+	}
+
+	// Detect GitLab CI and use injected branch name
+	if (process.env.CI_COMMIT_BRANCH) {
+		gitBranch = process.env.CI_COMMIT_BRANCH ?? gitBranch;
+	}
+
+	return gitBranch;
 }
 
-// Handles ENV array and build a string to use
+/**
+ * Handles ENV array and build a string to use
+ */
 function buildENV(env = []) {
 	if (env.length < 1) return "";
 
@@ -75,7 +95,9 @@ function buildENV(env = []) {
 	return envString;
 }
 
-// Execute OS commands, awaits response from stdout
+/**
+ * Execute OS commands, awaits response from stdout
+ */
 async function run(command, path = __dirname, fallback = undefined) {
 	try {
 		const { stdout, stderr } = await execAwait(command, { cwd: path });
@@ -91,7 +113,9 @@ async function run(command, path = __dirname, fallback = undefined) {
 	}
 }
 
-// Execute OS commands, awaits response from stdout
+/**
+ * Execute OS commands, streams response from stdout
+ */
 function runStream(command, path = __dirname) {
 	const process = exec(command, { cwd: path });
 
@@ -116,10 +140,11 @@ function runStream(command, path = __dirname) {
 }
 
 module.exports = {
-	getArgScript,
 	bootstrap,
-	shorten,
 	buildENV,
+	getArgScript,
+	getGitBranch,
 	run,
-	runStream
+	runStream,
+	shorten
 };
