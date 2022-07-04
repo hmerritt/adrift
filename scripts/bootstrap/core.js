@@ -60,14 +60,14 @@ function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
 async function getGitBranch(path, fallback = undefined) {
 	let gitBranch = await run(`git rev-parse --abbrev-ref HEAD`, path, null);
 
-	// Detect HEAD detached state, and remove it
-	if (gitBranch === "HEAD") {
-		gitBranch = fallback;
-	}
-
 	// Detect GitLab CI and use injected branch name
 	if (process.env.CI_COMMIT_BRANCH) {
 		gitBranch = process.env.CI_COMMIT_BRANCH ?? gitBranch;
+	}
+
+	// Detect HEAD detached state, and remove it
+	if (gitBranch === "HEAD") {
+		gitBranch = fallback;
 	}
 
 	return gitBranch;
