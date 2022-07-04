@@ -4,6 +4,8 @@ stages:
     - deploy
 
 variables:
+    NOMAD_ADDR: $NOMAD_ADDR
+    PERSONAL_ACCESS_TOKEN: $PERSONAL_ACCESS_TOKEN
     npm_config_cache: "$CI_PROJECT_DIR/.npm"
 
 # Define a hidden job to be used with extends
@@ -44,8 +46,10 @@ build:
     extends: .dependencies_cache
     cache:
         policy: pull
-    only:
-        - tags
+    rules:
+        - if: "$CI_COMMIT_TAG"
+          when: on_success
+        - when: never
     services:
         - name: docker:19.03.1-dind
           command: ["--experimental"]
@@ -60,3 +64,23 @@ build:
 
     after_script:
         - docker logout
+#
+# Deploy
+#
+deploy:
+    stage: deploy
+    image: alpine:3.16.0
+    rules:
+        - if: "$CI_COMMIT_TAG"
+          when: on_success
+        - when: never
+    script:
+        - apk add nomad gettext
+        - envsubst '${CI_REGISTRY} ${CI_COMMIT_TAG} ${CI_REGISTRY_USER} ${PERSONAL_ACCESS_TOKEN}' < project.nomad > job.nomad
+        # - cat job.nomad
+        - nomad validate job.nomad
+        - nomad plan job.nomad || if [ $? -eq 255 ]; then exit 255; else echo "success"; fi
+        - nomad run job.nomad
+    environment:
+        name: production
+    allow_failure: false
