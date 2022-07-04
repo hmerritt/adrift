@@ -19,7 +19,9 @@ const timestampString = (diff: chars) => `%c${timestamp()} +${padStr(diff)}%s`;
 const getConsoleFunction = (level: ConsoleFunctions) => ConsoleFunctions[level];
 
 /**
- * Custom log function
+ * log
+ *
+ * Alias for console.log
  */
 export const log = (logLevel: any, ...args: any[]) => {
 	if (getConsoleFunction(logLevel)) {
@@ -30,34 +32,33 @@ export const log = (logLevel: any, ...args: any[]) => {
 };
 
 /**
- * Development only logs. Adds a timestamp and timediff to each log automatically.
+ * log in development only (`NODE_ENV !== "production"`)
+ *
+ * Adds a timestamp and timediff to each log automatically
  */
 export const debug = (logLevel: any, ...args: any[]) => {
-	if (process.env.NODE_ENV !== "production") {
-		const timeElapsed = dayjs().diff(
-			window.lastDebugTimestamp,
-			"millisecond"
+	if (process.env.NODE_ENV === "production") return;
+
+	const timeElapsed = dayjs().diff(window.lastDebugTimestamp, "millisecond");
+
+	if (getConsoleFunction(logLevel)) {
+		console[getConsoleFunction(logLevel)](
+			timestampString(timeElapsed),
+			styles,
+			"",
+			...args
 		);
-
-		if (getConsoleFunction(logLevel)) {
-			console[getConsoleFunction(logLevel)](
-				timestampString(timeElapsed),
-				styles,
-				"",
-				...args
-			);
-		} else {
-			console.log(
-				timestampString(timeElapsed),
-				styles,
-				"",
-				logLevel,
-				...args
-			);
-		}
-
-		window.lastDebugTimestamp = Date.now();
+	} else {
+		console.log(
+			timestampString(timeElapsed),
+			styles,
+			"",
+			logLevel,
+			...args
+		);
 	}
+
+	window.lastDebugTimestamp = Date.now();
 };
 
 /**
