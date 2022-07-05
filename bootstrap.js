@@ -18,6 +18,9 @@ async function bootstrap() {
 	const appVersion = packageJSON?.version;
 	const appName = packageJSON?.name;
 
+	// When true, the env array below can be overridden by whatever is in the environment at runtime.
+	const allowEnvOverride = true;
+
 	// Set ENV array to inject, key/value
 	const env = [
 		["GENERATE_SOURCEMAP", false],
@@ -27,5 +30,5 @@ async function bootstrap() {
 		["REACT_APP_GIT_COMMIT", gitCommitHashShort]
 	];
 
-	core.bootstrap(env, script, args, path);
+	core.bootstrap(env, allowEnvOverride, script, args, path);
 }

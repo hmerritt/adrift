@@ -28,10 +28,11 @@ function getArgScript() {
  *
  * Injects ENV array into cross-env before running script
  */
-async function bootstrap(env, script, args, path) {
+async function bootstrap(env, allowEnvOverride, script, args, path) {
 	try {
 		// Build ENV + Arguments string
-		const envString = buildENV(env);
+		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
+		const envString = buildENV(envArr);
 		const argString = args?.length > 0 ? ` ${args.join(" ")}` : "";
 
 		// Run scripts/start|build command
@@ -87,6 +88,32 @@ async function getGitBranch(path, fallback = undefined) {
 	}
 
 	return gitBranch;
+}
+
+/**
+ * Use ENV values in current environment over hardcoded values
+ */
+function overrideHardcodedENV(env = []) {
+	let overrideCount = 0;
+
+	const newEnv = env.map((envItem) => {
+		const [name, value] = envItem;
+		const envValue = process.env[name];
+
+		if (envValue && envValue !== `${value}`) {
+			console.warn(
+				`WARN: Overriding hardcoded ${name} value: ${value} => ${envValue}`
+			);
+			overrideCount++;
+			return [name, envValue];
+		}
+
+		return envItem;
+	});
+
+	if (overrideCount > 0) console.warn("");
+
+	return newEnv;
 }
 
 /**
@@ -160,6 +187,7 @@ module.exports = {
 	buildENV,
 	getArgScript,
 	getGitBranch,
+	overrideHardcodedENV,
 	run,
 	runStream,
 	shorten
