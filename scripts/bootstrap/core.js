@@ -60,12 +60,28 @@ function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
 async function getGitBranch(path, fallback = undefined) {
 	let gitBranch = await run(`git rev-parse --abbrev-ref HEAD`, path, null);
 
-	// Detect GitLab CI and use injected branch name
-	if (process.env.CI_COMMIT_BRANCH) {
-		gitBranch = process.env.CI_COMMIT_BRANCH ?? gitBranch;
+	// Detect CircleCI
+	if (process.env.CIRCLE_BRANCH) {
+		gitBranch = process.env.CIRCLE_BRANCH;
 	}
 
-	// Detect HEAD detached state, and remove it
+	// Detect GitHub Actions CI
+	// prettier-ignore
+	if (process.env.GITHUB_REF_NAME && process.env.GITHUB_REF_TYPE === "branch") {
+		gitBranch = process.env.GITHUB_REF_NAME;
+	}
+
+	// Detect GitLab CI
+	if (process.env.CI_COMMIT_BRANCH) {
+		gitBranch = process.env.CI_COMMIT_BRANCH;
+	}
+
+	// Detect Netlify CI + generic
+	if (process.env.BRANCH) {
+		gitBranch = process.env.BRANCH;
+	}
+
+	// Detect HEAD state, and remove it.
 	if (gitBranch === "HEAD") {
 		gitBranch = fallback;
 	}
