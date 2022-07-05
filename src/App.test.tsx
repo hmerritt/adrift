@@ -10,7 +10,7 @@ import App from "./App";
 test("renders app", () => {
 	render(<App />);
 
-	const linkElement = screen.getByText(/useInterval 100ms/i);
+	const linkElement = screen.getByText(/useInterval 1000ms/i);
 	expect(linkElement).toBeInTheDocument();
 });
 
