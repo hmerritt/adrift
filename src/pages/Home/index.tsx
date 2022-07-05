@@ -20,9 +20,7 @@ export const Home = () => {
 			<Stack spacing={5} center style={{ height: "100vh" }}>
 				<h1 className={header}>{count}</h1>
 				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
-					<small>useInterval 100ms</small>
-					<br />
-					<small>useDebouncedCallback 1000ms</small>
+					<small>useInterval 1000ms</small>
 				</h1>
 				<Icon name="spinner" />
 			</Stack>
@@ -39,7 +37,7 @@ const header = css`
 	color: $red-500;
 	/* color: pink; */
 	text-align: center;
-	text-shadow: $shadow-xs;
+	text-shadow: $shadow-1;
 	@include touch-highlight-disable();
 
 	@for $i from 1 through 20 {
