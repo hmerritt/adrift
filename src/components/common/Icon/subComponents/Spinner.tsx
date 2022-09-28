@@ -1,7 +1,7 @@
 import { memo, SVGProps } from "react";
 import { css } from "@linaria/core";
 
-const Spinner = (props: SVGProps<SVGSVGElement>) => (
+export const Spinner = memo((props: SVGProps<SVGSVGElement>) => (
 	<svg
 		className={spinner}
 		viewBox="0 0 66 66"
@@ -19,7 +19,7 @@ const Spinner = (props: SVGProps<SVGSVGElement>) => (
 			r="30"
 		></circle>
 	</svg>
-);
+));
 
 const spinner = css`
 	animation: rotator 1.4s linear infinite;
@@ -31,6 +31,3 @@ const path = css`
 	transform-origin: center;
 	animation: dash 1.4s ease-in-out infinite;
 `;
-
-const Memo = memo(Spinner);
-export default Memo;
