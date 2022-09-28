@@ -15,9 +15,9 @@ export const versionString = () => {
 		versionString += ` (`;
 
 		// ENV
-		// if (environment !== "production") {
-		// 	versionString += `${environment ?? "unknown"} `;
-		// }
+		if (environment !== "production") {
+			versionString += `${environment ?? "unknown"} `;
+		}
 
 		// Branch name
 		if (gitBranch !== "master") {
