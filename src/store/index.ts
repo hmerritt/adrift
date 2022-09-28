@@ -6,7 +6,7 @@ import rootReducer from "./reducers";
 const logger = createLogger({
 	collapsed: true
 	// Exclude "COUNT_INCREMENT" type from redux-logger
-	// predicate: (getState, action) => action.type !== "COUNT_INCREMENT",
+	// predicate: (getState: any, action: any) => action.type !== "COUNT_INCREMENT"
 });
 
 const store = configureStore({
