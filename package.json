@@ -11,8 +11,9 @@
     "jest-preview": "jest-preview",
     "preview": "node bootstrap.cjs vite preview",
     "test": "jest --watchAll=false",
-    "test:watch": "jest --watchAll",
-    "test:debug": "npm-run-all -p test:watch jest-preview"
+    "test:coverage": "jest --watchAll=false --coverage",
+    "test:debug": "npm-run-all -p test:watch jest-preview",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "@linaria/babel-preset": "^4.2.0",
