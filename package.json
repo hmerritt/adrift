@@ -50,9 +50,16 @@
     "jest-preview": "^0.3.1",
     "npm-run-all": "^4.1.5",
     "react-app-polyfill": "^3.0.0",
+    "rollup-plugin-workbox": "^6.2.0",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
-    "vite-tsconfig-paths": "^3.5.1"
+    "vite-tsconfig-paths": "^3.5.1",
+    "workbox-build": "^6.5.4",
+    "workbox-core": "^6.5.4",
+    "workbox-expiration": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4"
   },
   "optionalDependencies": {
     "npm-upgrade": "^3.1.0",
