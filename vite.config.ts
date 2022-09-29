@@ -10,7 +10,7 @@ process.env.NODE_ENV = "production";
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
-		sourcemap: true
+		sourcemap: false
 	},
 	define: {
 		"process.env": {}
@@ -23,7 +23,7 @@ export default defineConfig({
 		}),
 		tsconfigPaths(),
 		linaria({
-			sourceMap: true,
+			sourceMap: false,
 			extension: ".scss",
 			preprocessor: "none"
 		})
