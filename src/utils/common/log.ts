@@ -37,7 +37,7 @@ export const log = (logLevel: any, ...args: any[]) => {
  * Adds a timestamp and timediff to each log automatically
  */
 export const debug = (logLevel: any, ...args: any[]) => {
-	if (process.env.NODE_ENV === "production") return;
+	if (import.meta.env.MODE === "production") return;
 
 	const timeElapsed = dayjs().diff(window.lastDebugTimestamp, "millisecond");
 

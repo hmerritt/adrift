@@ -14,8 +14,9 @@ export function padChar(
 
 /**
  * Pad an input number with `0`s to maintain a desired length.
- * Alias of padChar.
+ *
+ * Alias of `padChar`.
  */
 export function padZeros(num: string | number, size: number): string {
-	return padChar(num, size, "0");
+	return padChar(num, size, "0", false);
 }

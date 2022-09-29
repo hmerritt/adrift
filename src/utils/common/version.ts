@@ -1,8 +1,8 @@
-export const appName = "App"; // Optionally use `process.env.REACT_APP_NAME`
-export const appVersion = process.env.REACT_APP_VERSION;
-export const gitBranch = process.env.REACT_APP_GIT_BRANCH;
-export const gitCommitHash = process.env.REACT_APP_GIT_COMMIT;
-export const environment = process.env.NODE_ENV;
+export const appName = "App"; // Optionally use `import.meta.env.VITE_NAME`
+export const appVersion = import.meta.env.VITE_VERSION;
+export const gitBranch = import.meta.env.VITE_GIT_BRANCH;
+export const gitCommitHash = import.meta.env.VITE_GIT_COMMIT;
+export const environment = import.meta.env.MODE;
 
 export const versionString = () => {
 	if (!appVersion) {

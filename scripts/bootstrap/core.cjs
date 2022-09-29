@@ -3,6 +3,10 @@ const util = require("util");
 const exec = require("child_process").exec;
 const execAwait = util.promisify(exec);
 
+/**
+ * Validate args
+ * @note CURRENTLY NOT IN USE
+ */
 function getArgScript() {
 	// CLI args
 	const args = process.argv.slice(2);
@@ -28,16 +32,16 @@ function getArgScript() {
  *
  * Injects ENV array into cross-env before running script
  */
-async function bootstrap(env, allowEnvOverride, script, args, path) {
+async function bootstrap(env, allowEnvOverride, args, path) {
 	try {
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const argString = args?.length > 0 ? ` ${args.join(" ")}` : "";
+		const argString = args?.length > 0 ? args.join(" ") : "";
 
 		// Run scripts/start|build command
 		runStream(
-			`npx cross-env ${envString} node scripts/${script}.js${argString}`,
+			`npx cross-env ${envString} ${argString}`,
 			path
 		);
 	} catch (error) {
