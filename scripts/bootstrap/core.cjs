@@ -3,10 +3,28 @@ const util = require("util");
 const exec = require("child_process").exec;
 const execAwait = util.promisify(exec);
 
+/**
+ * Validate args
+ * @note CURRENTLY NOT IN USE
+ */
 function getArgScript() {
 	// CLI args
 	const args = process.argv.slice(2);
-	return [args];
+
+	// Bootstap commands (react-start build | start | test)
+	const scriptIndex = args.findIndex(
+		(x) => x === "build" || x === "start" || x === "test"
+	);
+	let script = scriptIndex === -1 ? args[0] : args[scriptIndex];
+
+	if (scriptIndex === -1) {
+		script = "build";
+		console.warn("WARN: Invalid command (expects build | start | test)");
+		console.warn('WARN: Falling back to "build" command');
+		console.warn("");
+	}
+
+	return [script, args.slice(1)];
 }
 
 /**

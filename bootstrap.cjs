@@ -3,7 +3,7 @@ const core = require("./scripts/bootstrap/core.cjs");
 const packageJSON = require("./package.json");
 
 const path = __dirname;
-const [args] = core.getArgScript();
+const args = process.argv.slice(2);
 
 // Run bootrap
 bootstrap();
