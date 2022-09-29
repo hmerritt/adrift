@@ -6,21 +6,7 @@ const execAwait = util.promisify(exec);
 function getArgScript() {
 	// CLI args
 	const args = process.argv.slice(2);
-
-	// Bootstap commands (react-start build | start | test)
-	const scriptIndex = args.findIndex(
-		(x) => x === "build" || x === "start" || x === "test"
-	);
-	let script = scriptIndex === -1 ? args[0] : args[scriptIndex];
-
-	if (scriptIndex === -1) {
-		script = "build";
-		console.warn("WARN: Invalid command (expects build | start | test)");
-		console.warn('WARN: Falling back to "build" command');
-		console.warn("");
-	}
-
-	return [script, args.slice(1)];
+	return [args];
 }
 
 /**
@@ -28,16 +14,16 @@ function getArgScript() {
  *
  * Injects ENV array into cross-env before running script
  */
-async function bootstrap(env, allowEnvOverride, script, args, path) {
+async function bootstrap(env, allowEnvOverride, args, path) {
 	try {
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const argString = args?.length > 0 ? ` ${args.join(" ")}` : "";
+		const argString = args?.length > 0 ? args.join(" ") : "";
 
 		// Run scripts/start|build command
 		runStream(
-			`npx cross-env ${envString} node scripts/${script}.js${argString}`,
+			`npx cross-env ${envString} ${argString}`,
 			path
 		);
 	} catch (error) {

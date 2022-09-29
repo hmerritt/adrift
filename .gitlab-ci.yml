@@ -14,7 +14,7 @@ variables:
     cache:
         key:
             files:
-                - package-lock.json
+                - yarn.lock
         paths:
             - .npm
         policy: pull

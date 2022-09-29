@@ -11,7 +11,7 @@ const config = {
 	transform: {
 		"^.+\\.(css|scss|sass)$": "jest-preview/transforms/css",
 		"^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "jest-preview/transforms/file",
-		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js"
+		"^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.cjs"
 	},
 	transformIgnorePatterns: [
 		"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$"
