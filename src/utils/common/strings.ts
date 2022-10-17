@@ -5,7 +5,7 @@ export function padChar(
 	str: string | number,
 	size: number,
 	char: string,
-	append: boolean = false
+	append = false
 ): string {
 	str = String(str);
 	while (str.length < size) str = append ? str + char : char + str;
