@@ -1,5 +1,6 @@
 import { css } from "@linaria/core";
 
+import { feature } from "utils";
 import theme from "../../styles";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
@@ -10,6 +11,10 @@ import { Stack } from "components/common/layout";
 export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
+
+	if (feature("myExperimentalFeature", { alwaysShowOnDev: false })) {
+		debug("super secret feature");
+	}
 
 	useInterval(() => {
 		dispatch(countIncrement(0.1));
