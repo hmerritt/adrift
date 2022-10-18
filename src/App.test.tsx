@@ -1,11 +1,9 @@
+import { expect, test } from "vitest";
 import { screen } from "@testing-library/react";
 
 import { render } from "tests";
 
 import App from "./App";
-
-// import preview from "jest-preview";
-// preview.debug();
 
 test("renders app", () => {
 	render(<App />);
