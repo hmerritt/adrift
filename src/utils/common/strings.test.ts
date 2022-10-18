@@ -1,3 +1,4 @@
+import { expect, test } from "vitest";
 import { padChar, padZeros } from "./strings";
 
 test("padChar", () => {

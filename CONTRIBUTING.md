@@ -49,8 +49,8 @@ import App from "./App";
 
 ## Tests
 
-Tests are using the [`Jest`](https://jestjs.io/) framework
+Tests are using the [`Vitest`](https://vitest.dev/) framework
 
 ```
-npm run test
+yarn test
 ```

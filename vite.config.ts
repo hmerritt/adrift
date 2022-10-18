@@ -36,5 +36,13 @@ export default defineConfig({
 			swSrc: "src/service-worker.ts",
 			maximumFileSizeToCacheInBytes: 6 * 1024 * 1024
 		})
-	]
+	],
+	test: {
+		// https://vitest.dev/api/
+		globals: true,
+		environment: "happy-dom",
+		setupFiles: "./src/tests/setupTests.ts",
+		// Parsing CSS is slow
+		css: false
+	}
 });
