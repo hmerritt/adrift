@@ -7,7 +7,6 @@ export const featureFlags = {
 };
 
 type FeatureOptions = {
-	isInclusive?: boolean;
 	alwaysShowOnDev?: boolean;
 };
 
@@ -18,8 +17,7 @@ export const feature = (
 	mode: string,
 	options: FeatureOptions = {}
 ): boolean => {
-	const { isInclusive, alwaysShowOnDev } = {
-		isInclusive: true,
+	const { alwaysShowOnDev } = {
 		alwaysShowOnDev: true,
 		...options
 	};
@@ -35,5 +33,5 @@ export const feature = (
 		match = true;
 	}
 
-	return isInclusive ? match : !match;
+	return match;
 };

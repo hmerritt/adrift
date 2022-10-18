@@ -12,7 +12,7 @@ export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
 
-	if (feature("myExperimentalFeature", { alwaysShowOnDev: false })) {
+	if (feature("myExperimentalFeature")) {
 		debug("super secret feature");
 	}
 
