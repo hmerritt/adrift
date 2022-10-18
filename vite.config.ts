@@ -38,6 +38,7 @@ export default defineConfig({
 		})
 	],
 	test: {
+		// https://vitest.dev/api/
 		globals: true,
 		environment: "happy-dom",
 		setupFiles: "./src/tests/setupTests.ts",
