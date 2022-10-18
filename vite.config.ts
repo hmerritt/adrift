@@ -5,9 +5,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import linaria from "./config/linaria-rollup.js";
 import { injectManifest } from "rollup-plugin-workbox";
 
-process.env.NODE_ENV = "production";
-process.env.BABEL_ENV = "production";
-
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {

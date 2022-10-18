@@ -23,12 +23,16 @@ async function bootstrap() {
 
 	// Set ENV array to inject, key/value
 	const env = [
+		["NODE_ENV", "development"],
 		["GENERATE_SOURCEMAP", false],
 		["VITE_NAME", appName],
 		["VITE_VERSION", appVersion],
 		["VITE_GIT_BRANCH", gitBranch],
-		["VITE_GIT_COMMIT", gitCommitHashShort]
+		["VITE_GIT_COMMIT", gitCommitHashShort],
 	];
+
+	const isProd = args.length === 2 && (args[1] === "build" || args[1] === "preview");
+	if (isProd) env[0][1] = "production";
 
 	core.bootstrap(env, allowEnvOverride, args, path);
 }
