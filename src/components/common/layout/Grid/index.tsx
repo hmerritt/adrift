@@ -2,20 +2,32 @@ import { css } from "@linaria/core";
 import cx from "classnames";
 
 export type GridProps = JSX.IntrinsicElements["div"] & {
-	minWidth?: number;
+	maxWidth?: string | number;
+	minWidth?: string | number;
 	gutter?: number;
+};
+
+// Use `rem` if a number is passed, otherwise use the string as is.
+const getUnit = (value: string | number) => {
+	if (typeof value === "number") {
+		return `${value}rem`;
+	}
+
+	return value;
 };
 
 export const Grid = ({
 	children,
 	className,
 	gutter = 10,
+	maxWidth = "1fr",
 	minWidth = 20,
 	...props
 }: GridProps) => {
 	// Specify the minimum width of each item in the grid,
 	// if an item is smaller than this, the grid will remove a column to make it fit.
-	let gridTemplateColumns = `repeat(auto-fit, minmax(min(100%, ${minWidth}rem), 1fr))`;
+	// prettier-ignore
+	const gridTemplateColumns = `repeat(auto-fit, minmax(min(100%, ${getUnit(minWidth)}), ${getUnit(maxWidth)}))`;
 
 	return (
 		<div
