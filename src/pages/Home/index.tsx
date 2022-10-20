@@ -5,8 +5,7 @@ import theme from "../../styles";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 
-import Icon from "components/common/Icon";
-import { Stack } from "components/common/layout";
+import { Icon, Stack } from "components";
 
 export const Home = () => {
 	const dispatch = useDispatch();

@@ -12,9 +12,7 @@ type IconProps = {
 	name: IconMappingsType;
 };
 
-const Icon = ({ name, ...rest }: IconProps) => {
+export const Icon = ({ name, ...rest }: IconProps) => {
 	const IconComponent = IconMappings?.[name];
 	return <IconComponent {...rest} />;
 };
-
-export default Icon;

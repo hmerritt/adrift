@@ -1,2 +1,2 @@
-export { default as Flex } from "./Flex";
-export { default as Stack } from "./Stack";
+export * from "./Flex";
+export * from "./Stack";

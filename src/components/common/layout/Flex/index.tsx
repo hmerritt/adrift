@@ -9,7 +9,7 @@ export interface FlexProps {
 	[x: string]: any;
 }
 
-const Flex = ({
+export const Flex = ({
 	center = false,
 	grow = false,
 	row = false,
@@ -29,5 +29,3 @@ const Flex = ({
 	hc && (rest.className += " h-center");
 	return <div {...rest} />;
 };
-
-export default Flex;
