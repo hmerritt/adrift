@@ -164,20 +164,15 @@ async function run(command, path = __dirname, fallback = undefined) {
  * Execute OS commands, streams response from stdout
  */
 function runStream(command, path = __dirname) {
-	const process = exec(command, { cwd: path });
+	const execProcess = exec(command, { cwd: path });
 
-	process.stdout.on("data", (data) => {
-		console.log(data.toString());
-	});
-
-	process.stderr.on("data", (data) => {
-		console.error(data.toString());
-	});
+	execProcess.stdout.pipe(process.stdout);
+	execProcess.stderr.pipe(process.stderr);
 
 	process.on("exit", (code) => {
-		console.log(
-			"[runStream] Child process exited with code " + code.toString()
-		);
+		// console.log(
+		// 	"[runStream] Child process exited with code " + code.toString()
+		// );
 
 		if (code !== 0) {
 			console.log("ERROR, process finished with a non-zero code");
