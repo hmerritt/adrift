@@ -1,4 +1,6 @@
-import Flex, { FlexProps } from "components/common/layout/Flex";
+import cx from "classnames";
+
+import { Flex, FlexProps } from "components/common/layout/Flex";
 
 interface StackProps extends FlexProps {
 	spacing?:
@@ -24,12 +26,20 @@ interface StackProps extends FlexProps {
 		| 20;
 }
 
-const Stack = ({ spacing = 1, row = false, ...props }: StackProps) => {
-	const whichStack = row ? "stack-row" : "stack";
-	props.className = props?.className
-		? (props.className += ` ${whichStack} stack-${spacing}`)
-		: `${whichStack} stack-${spacing}`;
-	return <Flex row={row} {...props} />;
+export const Stack = ({
+	className,
+	row = false,
+	spacing = 1,
+	...props
+}: StackProps) => {
+	return (
+		<Flex
+			className={cx(
+				className,
+				`${row ? "stack-row" : "stack"} stack-${spacing}`
+			)}
+			row={row}
+			{...props}
+		/>
+	);
 };
-
-export default Stack;
