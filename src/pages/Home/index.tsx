@@ -5,7 +5,7 @@ import theme from "../../styles";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 
-import { Icon, Stack } from "components";
+import { Grid, Icon, Stack } from "components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -19,13 +19,24 @@ export const Home = () => {
 
 	return (
 		<div className="Home">
-			<Stack spacing={5} center style={{ height: "100vh" }}>
+			<Stack spacing={5} center style={{ height: "40vh" }}>
 				<h1 className={header}>{count}</h1>
 				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
 					<small>useInterval 1000ms</small>
 				</h1>
 				<Icon name="spinner" />
 			</Stack>
+			<Grid
+				center
+				gutter={10}
+				minWidth={20}
+				maxWidth={20}
+				className={grid}
+			>
+				{[...Array(12)].map((e, i) => (
+					<div key={i} className={card} />
+				))}
+			</Grid>
 		</div>
 	);
 };
@@ -49,4 +60,21 @@ const header = css`
 			}
 		}
 	}
+`;
+
+const grid = css`
+	${theme}
+	margin: auto;
+	padding: 1rem;
+	max-width: 900px;
+	margin-bottom: 6rem;
+`;
+
+const card = css`
+	${theme}
+	width: 100%;
+	height: 200px;
+	border-radius: 20px;
+	box-shadow: $shadow-1;
+	background-color: #fff;
 `;
