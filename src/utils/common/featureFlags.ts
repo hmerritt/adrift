@@ -2,12 +2,23 @@
  * Feature flags
  */
 export const featureFlags = {
-	myExperimentalFeature: import.meta.env.VITE_FEATURE_MY_EXPERIMENTAL_FEATURE,
+	timerIncrement: import.meta.env.VITE_FEATURE_INCREMENT,
 	someOtherFeature: false
 };
 
 type FeatureOptions = {
 	alwaysShowOnDev?: boolean;
+};
+
+const isFalse = (value: unknown): value is false => {
+	return (
+		!value ||
+		value === "0" ||
+		value === "off" ||
+		value === "null" ||
+		value === "false" ||
+		value === "undefined"
+	);
 };
 
 /**
@@ -29,7 +40,12 @@ export const feature = (
 
 	let match = false;
 
-	if (featureFlags[mode] || mode === import.meta.env.MODE) {
+	// Feature is truthy in featureFlags{},
+	// OR matches the current development environment (env.MODE)
+	if (
+		(featureFlags[mode] && !isFalse(featureFlags[mode])) ||
+		mode === import.meta.env.MODE
+	) {
 		match = true;
 	}
 
