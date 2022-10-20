@@ -12,12 +12,10 @@ export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
 
-	if (feature("myExperimentalFeature")) {
-		debug("super secret feature");
-	}
-
 	useInterval(() => {
-		dispatch(countIncrement(0.1));
+		if (feature("timerIncrement")) {
+			dispatch(countIncrement(0.1));
+		}
 	}, 1000);
 
 	return (
