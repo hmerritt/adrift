@@ -4,6 +4,7 @@ import cx from "classnames";
 export type GridProps = JSX.IntrinsicElements["div"] & {
 	maxWidth?: string | number;
 	minWidth?: string | number;
+	center?: boolean;
 	gutter?: number;
 };
 
@@ -17,6 +18,7 @@ const getUnit = (value: string | number) => {
 };
 
 export const Grid = ({
+	center = false,
 	children,
 	className,
 	gutter = 10,
@@ -36,6 +38,7 @@ export const Grid = ({
 			style={{
 				gridGap: gutter,
 				gridTemplateColumns: gridTemplateColumns,
+				...(center && { justifyContent: "center" }),
 				...props.style
 			}}
 		>
