@@ -36,7 +36,7 @@ export default defineConfig({
 	],
 	test: {
 		// https://vitest.dev/api/
-		globals: true,
+		globals: false,
 		environment: "happy-dom",
 		setupFiles: "./src/tests/setupTests.ts",
 		// Parsing CSS is slow
