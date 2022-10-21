@@ -31,8 +31,11 @@ async function bootstrap() {
 		["VITE_GIT_COMMIT", gitCommitHashShort],
 	];
 
-	const isProd = args.length === 2 && (args[1] === "build" || args[1] === "preview");
+	const isProd = args.length >= 2 && (args[1] === "build" || args[1] === "preview");
 	if (isProd) env[0][1] = "production";
+
+	const isTest = args.length >= 1 && args[0] === "vitest";
+	if (isTest) env[0][1] = "test";
 
 	core.bootstrap(env, allowEnvOverride, args, path);
 }
