@@ -1,6 +1,6 @@
 import cx from "classnames";
 
-import { Flex, FlexProps } from "components/common/layout/Flex";
+import { Flex, FlexProps } from "components";
 
 interface StackProps extends FlexProps {
 	spacing?:
