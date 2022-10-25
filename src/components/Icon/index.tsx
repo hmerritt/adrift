@@ -11,10 +11,12 @@ export type IconMappingsType = keyof typeof IconMappings;
 
 type IconProps = SVGProps<SVGSVGElement> & {
 	name: IconMappingsType;
+	animate?: string; // Try to make a class in `keyframes.scss` instead of using this prop
 	ref?: Ref<SVGSVGElement>;
 };
 
-export const Icon = ({ name, ...svgProps }: IconProps) => {
+export const Icon = ({ name, animate, style = {}, ...svgProps }: IconProps) => {
+	const styles = animate ? { animation: animate, ...style } : style;
 	const IconComponent = IconMappings?.[name];
-	return <IconComponent {...svgProps} />;
+	return <IconComponent {...svgProps} style={styles} />;
 };
