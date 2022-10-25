@@ -7,33 +7,15 @@ const mixins = `
         margin-right: auto;
         transition: all, 80ms, ease;
     }
-    
-    @mixin flex-center() {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 
     /* Grid: RAM (Repeat, Auto, Minmax) */
-    @mixin gridColumnsRAM($minMax: 150px) {
-        grid-template-columns: repeat(auto-fit, minmax($minMax, 1fr));
+    @mixin gridColumnsRAM($min: 150px, $max: 1fr) {
+        grid-template-columns: repeat(auto-fit, minmax($min, $max));
     }
 
     /* Grid: repeat(7, minmax(0, 1fr)) */
-    @mixin gridColumns($fitCount: 2, $minMax: 0) {
-        grid-template-columns: repeat($fitCount, minmax($minMax, 1fr));
-    }
-
-    @mixin text-overflow-ellipsis() {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    /* Removes the blue highlight from touch events in Chrome */
-    @mixin touch-highlight-disable() {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        -webkit-tap-highlight-color: transparent;
+    @mixin gridColumns($fitCount: 2, $min: 0, $max: 1fr) {
+        grid-template-columns: repeat($fitCount, minmax($min, 1fr));
     }
 `;
 
