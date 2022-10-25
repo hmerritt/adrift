@@ -422,14 +422,27 @@ a:target {
 	text-decoration: none;
 }
 
+//
 // Custom reset
+//
 
-small {
-	font-size: 80%;
+* {
+	box-sizing: border-box;
 }
 
-strong {
-	font-weight: bold;
+html {
+	font-size: 62.5%;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-smooth: always;
+	font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -445,4 +458,30 @@ h1,
 h2 {
 	color: #222222;
 	font-weight: bold;
+}
+
+small {
+	font-size: 80%;
+}
+
+strong {
+	font-weight: bold;
+}
+
+svg {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
+::-webkit-scrollbar {
+	width: 1rem;
+}
+::-webkit-scrollbar-track {
+	background: #181818;
+}
+::-webkit-scrollbar-thumb {
+	background: lighten(#181818, 40%);
+}
+::-webkit-scrollbar-thumb:hover {
+	background: lighten(#181818, 60%);
 }
