@@ -12,16 +12,19 @@ const logger = createLogger({
 const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) => {
-		const middleware = getDefaultMiddleware();
+		const middleware = getDefaultMiddleware({
+			immutableCheck: false,
+			serializableCheck: false
+		});
 
 		// Add development middleware
-		if (process.env.NODE_ENV === "development") {
+		if (import.meta.env.NODE_ENV === "development") {
 			middleware.push(logger);
 		}
 
 		return middleware;
 	},
-	devTools: process.env.NODE_ENV !== "production"
+	devTools: import.meta.env.NODE_ENV !== "production"
 	//   enhancers: [reduxBatch],
 });
 
