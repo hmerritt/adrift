@@ -51,7 +51,6 @@ const header = css`
 	/* color: pink; */
 	text-align: center;
 	text-shadow: $shadow-1;
-	@include touch-highlight-disable();
 
 	@for $i from 1 through 20 {
 		.stack.stack-#{$i} {
