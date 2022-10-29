@@ -5,11 +5,16 @@ import { feature } from "utils";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 
-import { Grid, Icon, Stack } from "components";
+import { Grid, GridDnd, Icon, Stack } from "components";
+import { useState } from "react";
 
 export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
+
+	const [data, setData] = useState(
+		[...Array(12)].map((e, i) => ({ id: String(i), children: i }))
+	);
 
 	useInterval(() => {
 		if (feature("timerIncrement")) {
@@ -37,6 +42,17 @@ export const Home = () => {
 					<div key={i} className={card} />
 				))}
 			</Grid>
+			<GridDnd
+				data={data}
+				setData={setData}
+				renderWith={(props) => <div className={card} {...props} />}
+				// grid
+				className={grid}
+				gutter={10}
+				minWidth={20}
+				maxWidth={20}
+				center
+			/>
 		</div>
 	);
 };
