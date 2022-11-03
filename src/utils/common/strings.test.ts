@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { padChar, padZeros } from "./strings";
+import { padChar, padZeros, parseJSON } from "./strings";
 
 test("padChar", () => {
 	expect(padChar("", 5, "!")).toBe("!!!!!");
@@ -19,4 +19,12 @@ test("padZeros", () => {
 	expect(padZeros(123, 3)).toBe("123");
 	expect(padZeros(123, 5)).toBe("00123");
 	expect(padZeros(123456, 10)).toBe("0000123456");
+});
+
+test("parseJSON", () => {
+	expect(parseJSON(`{"key":"some value"}`).key).toBe("some value");
+	expect(parseJSON("[1]")).toStrictEqual([1]);
+
+	expect(parseJSON(`{"key:not valid json"}`)).toBe(undefined);
+	expect(parseJSON("[wow")).toBe(undefined);
 });

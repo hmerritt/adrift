@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { parseJSON } from "utils";
+
 export function useLocalStorage(key: string, initialValue: any) {
 	// State to store our value
 	// Pass initial state function to useState so logic is only executed once
@@ -37,16 +39,4 @@ export function useLocalStorage(key: string, initialValue: any) {
 	};
 
 	return [storedValue, setValue];
-}
-
-/**
- * A wrapper for `JSON.parse()` to support `undefined` value
- */
-function parseJSON<T>(value: string | null): T | undefined {
-	try {
-		return value === "undefined" ? undefined : JSON.parse(value ?? "");
-	} catch {
-		debug("parsing error on", { value });
-		return undefined;
-	}
 }

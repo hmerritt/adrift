@@ -20,3 +20,15 @@ export function padChar(
 export function padZeros(num: string | number, size: number): string {
 	return padChar(num, size, "0", false);
 }
+
+/**
+ * A wrapper for `JSON.parse()` to support `undefined` value
+ */
+export const parseJSON = (value: string | null): any | undefined => {
+	try {
+		return value === "undefined" ? undefined : JSON.parse(value ?? "");
+	} catch {
+		console.warn("[parseJSON]", value);
+		return undefined;
+	}
+};
