@@ -1,3 +1,5 @@
+import cx from "classnames";
+import { useState } from "react";
 import { css } from "@linaria/core";
 
 import theme from "styles";
@@ -5,8 +7,7 @@ import { feature } from "utils";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 
-import { Grid, GridDnd, Icon, Stack } from "components";
-import { useState } from "react";
+import { GridDnd, Icon, Stack } from "components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -31,26 +32,18 @@ export const Home = () => {
 				</h1>
 				<Icon name="spinner" />
 			</Stack>
-			<Grid
-				center
-				gutter={10}
-				minWidth={20}
-				maxWidth={20}
-				className={grid}
-			>
-				{[...Array(12)].map((e, i) => (
-					<div key={i} className={card} />
-				))}
-			</Grid>
+
 			<GridDnd
 				data={data}
 				setData={setData}
-				renderWith={(props) => <div className={card} {...props} />}
+				renderWith={(props) => (
+					<div className={cx(card, "flex-center")} {...props} />
+				)}
 				// grid
 				className={grid}
-				gutter={10}
 				minWidth={20}
 				maxWidth={20}
+				gutter={10}
 				center
 			/>
 		</div>
