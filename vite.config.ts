@@ -2,8 +2,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import linaria from "./config/linaria-rollup.js";
 import { injectManifest } from "rollup-plugin-workbox";
+
+import linaria from "./config/linaria-rollup";
 
 // https://vitejs.dev/config/
 export default defineConfig({
