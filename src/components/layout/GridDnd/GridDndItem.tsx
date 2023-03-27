@@ -32,8 +32,7 @@ export default function GridDndItem({
 			{active?.id === id ? (
 				<GridDndDragBox dataItem={dataItem} renderWith={renderWith} />
 			) : (
-				<RenderWith {...dataItem} />
-				// renderIndex={renderIndex}
+				<RenderWith {...dataItem} renderIndex={renderIndex} />
 			)}
 		</div>
 	);
