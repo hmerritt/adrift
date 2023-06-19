@@ -11,7 +11,12 @@ import { feature } from "./featureFlags";
 import { injectGlobalLog } from "./log";
 import { versionString } from "./version";
 
-console.log(versionString());
+export const globalInit = () => {
+	if (import.meta.env.MODE !== "test") console.log(versionString());
 
-injectGlobalLog();
-window.feature = feature;
+	injectGlobalLog();
+	window.feature = feature;
+};
+
+globalInit();
+export default globalInit;

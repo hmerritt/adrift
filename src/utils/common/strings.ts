@@ -28,7 +28,7 @@ export const parseJSON = (value: string | null): any | undefined => {
 	try {
 		return value === "undefined" ? undefined : JSON.parse(value ?? "");
 	} catch {
-		console.warn("[parseJSON]", value);
+		debug("parseJSON", "warn", value);
 		return undefined;
 	}
 };

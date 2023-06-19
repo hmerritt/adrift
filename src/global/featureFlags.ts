@@ -34,7 +34,11 @@ export const feature = (
 	};
 
 	// Bypass feature flag in dev mode if `alwaysShowOnDev` is true
-	if (alwaysShowOnDev && import.meta.env.MODE === "development") {
+	if (
+		alwaysShowOnDev &&
+		(import.meta.env.MODE === "development" ||
+			import.meta.env.MODE === "test")
+	) {
 		return true;
 	}
 
