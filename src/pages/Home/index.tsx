@@ -35,7 +35,7 @@ export const Home = () => {
 			<GridDnd
 				data={data}
 				setData={setData}
-				renderWith={(props) => (
+				renderWith={({ renderIndex, ...props }) => (
 					<div className={cx(card, "flex-center")} {...props} />
 				)}
 				// grid

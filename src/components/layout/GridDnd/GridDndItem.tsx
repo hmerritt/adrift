@@ -30,7 +30,11 @@ export default function GridDndItem({
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
 			{active?.id === id ? (
-				<GridDndDragBox dataItem={dataItem} renderWith={renderWith} />
+				<GridDndDragBox
+					dataItem={dataItem}
+					renderIndex={renderIndex}
+					renderWith={renderWith}
+				/>
 			) : (
 				<RenderWith {...dataItem} renderIndex={renderIndex} />
 			)}

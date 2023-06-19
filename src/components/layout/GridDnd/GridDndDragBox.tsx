@@ -2,6 +2,7 @@ import { css } from "@linaria/core";
 
 export type GridDndDragBoxProps = {
 	dataItem: any;
+	renderIndex: number;
 	renderWith: (props: any) => JSX.Element;
 };
 
@@ -13,13 +14,14 @@ export type GridDndDragBoxProps = {
  */
 export default function GridDndDragBox({
 	dataItem,
+	renderIndex,
 	renderWith
 }: GridDndDragBoxProps) {
 	const RenderWith = renderWith;
 
 	return (
 		<div className={gridDragbox}>
-			<RenderWith {...dataItem} />
+			<RenderWith {...dataItem} renderIndex={renderIndex} />
 		</div>
 	);
 }
