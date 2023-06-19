@@ -11,7 +11,7 @@ import { feature } from "./featureFlags";
 import { injectGlobalLog } from "./log";
 import { versionString } from "./version";
 
-injectGlobalLog();
-log(versionString());
+console.log(versionString());
 
+injectGlobalLog();
 window.feature = feature;

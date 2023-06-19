@@ -8,13 +8,13 @@ type FeatureFunction = (mode: string, options?: FeatureOptions) => boolean;
 declare global {
 	const log: LogFunction;
 	const debug: LogFunction;
-	const lastDebugTimestamp: number;
+	const debugTimestamps: any;
 	const feature: FeatureFunction;
 
 	interface Window {
 		log: LogFunction;
 		debug: LogFunction;
-		lastDebugTimestamp: number;
+		debugTimestamps: any;
 		feature: FeatureFunction;
 	}
 }
