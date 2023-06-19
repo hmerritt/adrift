@@ -12,6 +12,7 @@ enum ConsoleFunctions {
 }
 
 type chars = string | number;
+const defaultLogNamespace = "__log";
 const styles = ["color: #888"].join(";");
 const padStr = (str: chars) => padChar(str, 5, " ", true);
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
@@ -19,7 +20,7 @@ const getConsoleFunction = (level: ConsoleFunctions) => ConsoleFunctions[level];
 
 const timestampString = (diff: chars, debugNamespace?: string) => {
 	return `%c${timestamp()} +${padStr(diff)}%s${
-		debugNamespace?.length && debugNamespace !== "__log"
+		debugNamespace?.length && debugNamespace !== defaultLogNamespace
 			? ` [${debugNamespace}]`
 			: ""
 	}`;
@@ -48,7 +49,7 @@ const _log = (debugNamespace: string, logLevel: any, ...args: any[]) => {
  * Adds a timestamp and timediff to each log automatically.
  */
 export const log = (logLevel: any, ...args: any[]) => {
-	_log("__log", logLevel, ...args);
+	_log(defaultLogNamespace, logLevel, ...args);
 };
 
 /**
