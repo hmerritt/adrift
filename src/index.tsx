@@ -7,11 +7,7 @@ import App from "./App";
 
 import store from "store";
 import "styles/global/index.scss";
-import { injectGlobalLog, versionLog } from "utils";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-
-injectGlobalLog();
-versionLog();
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement as HTMLElement);

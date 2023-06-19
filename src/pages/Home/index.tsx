@@ -3,7 +3,6 @@ import { useState } from "react";
 import { css } from "@linaria/core";
 
 import theme from "styles";
-import { feature } from "utils";
 import { countIncrement } from "store/actions";
 import { useDispatch, useSelector, useInterval } from "hooks";
 

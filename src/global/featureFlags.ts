@@ -6,7 +6,7 @@ export const featureFlags = {
 	someOtherFeature: false
 };
 
-type FeatureOptions = {
+export type FeatureOptions = {
 	alwaysShowOnDev?: boolean;
 };
 

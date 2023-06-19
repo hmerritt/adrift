@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-import { padChar } from "./strings";
+import { padChar } from "utils/common/strings";
 
 enum ConsoleFunctions {
 	debug = "debug",
