@@ -61,10 +61,10 @@ const timestampString = (diff: chars, namespace?: string) => {
 		return ts;
 	}
 
-	return `${ts} x${padStr($global.logStore.getCount(namespace), 3)} ${padStr(
-		namespace,
-		8
-	)}`;
+	// Log Count (not being used):
+	// x${padStr($global.logStore.getCount(namespace), 3)}
+
+	return `${ts} ${padStr(namespace, 10)}`;
 };
 
 const _log = (namespace: string, logLevel: any, ...args: any[]) => {

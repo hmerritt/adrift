@@ -31,18 +31,20 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
 
 ```js
+// Behaves like `console.log`
 log("my first log");
 ```
-
-![](https://i.imgur.com/97Aqaqi.png)
 
 `debug` namespaces each log so you can keep track of multiple things at once.
 
 ```js
-debug("websocket", "Initiated websocket connection");
+//    Namespace  Log message
+debug("socket", "Initiated websocket connection");
 ```
 
-![](https://i.imgur.com/GS7YWy3.png)
+> [timestamp] +[time since last log in ms] [namespace] [log message]
+
+![](https://i.imgur.com/VlkNmdi.png)
 
 ### Styling (SASS-in-JS via Linaria)
 
@@ -50,7 +52,7 @@ Adrift uses Linaria, a **Zero runtime** CSS in JS library.
 
 A custom config is used to enable the use of **SASS-in-JS**.
 
-SASS allows for theming to be imported and used directly with the Linaria styles.
+SASS allows for theming to be imported and used directly within the Linaria styles.
 
 ```js
 const card = css`
