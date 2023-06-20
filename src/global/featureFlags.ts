@@ -1,3 +1,5 @@
+import { $global } from "./utils";
+
 /**
  * Feature flags
  */
@@ -54,4 +56,8 @@ export const feature = (
 	}
 
 	return match;
+};
+
+export const injectFeature = () => {
+	$global.feature = feature;
 };

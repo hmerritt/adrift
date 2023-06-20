@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 
+import { $global } from "./utils";
 import { padChar } from "utils/common/strings";
 
 enum ConsoleFunctions {
@@ -18,7 +19,7 @@ const padStr = (str: chars = "", c = 5) => padChar(str, c, " ", true);
 
 // Internal log store class. Keeps track of log times and counts per namespace.
 //
-// Injects into window object as `window.logStore`.
+// Injects into global object as `$global.logStore`.
 class LogStore {
 	defaultNamespace: string;
 	logStore: Record<string, [number, number]>;
@@ -56,19 +57,21 @@ export type LogStoreType = LogStore;
 const timestampString = (diff: chars, namespace?: string) => {
 	const ts = `%c${timestamp()} +${padStr(diff)}%s`;
 
-	if (namespace === window.logStore.defaultNamespace) {
+	if (namespace === $global.logStore.defaultNamespace) {
 		return ts;
 	}
 
-	return `${ts} x${padStr(window.logStore.getCount(namespace), 4)} ${padStr(
+	return `${ts} x${padStr($global.logStore.getCount(namespace), 4)} ${padStr(
 		namespace,
 		8
 	)}`;
 };
 
 const _log = (namespace: string, logLevel: any, ...args: any[]) => {
+	if (import.meta.env.MODE === "production") return;
+
 	const timeElapsed = dayjs().diff(
-		window.logStore.getTime(namespace),
+		$global.logStore.getTime(namespace),
 		"millisecond"
 	);
 
@@ -80,35 +83,31 @@ const _log = (namespace: string, logLevel: any, ...args: any[]) => {
 		console.log(stringToLog, styles, "", logLevel, ...args);
 	}
 
-	window.logStore.increment(namespace);
-};
-
-/**
- * log.
- *
- * Adds a timestamp and timediff to each log automatically.
- */
-export const log = (logLevel: any, ...args: any[]) => {
-	_log(window.logStore.defaultNamespace, logLevel, ...args);
+	$global.logStore.increment(namespace);
 };
 
 /**
  * log in development only (`NODE_ENV !== "production"`)
  *
- * Namespaces logs to keep them separate.
- *
- * @example log("socket", "msg received") -> "[socket] msg recieved"
+ * Adds a timestamp and timediff to each log automatically.
  */
-export const debug = (namespace: string, logLevel: any, ...args: any[]) => {
-	if (import.meta.env.MODE === "production") return;
-	_log(namespace, logLevel, ...args);
+export const log = (logLevel: any, ...args: any[]) => {
+	_log($global.logStore.defaultNamespace, logLevel, ...args);
 };
 
 /**
- * Inject custom log functions to window object
+ * Alias for `log`, plus:
+ *
+ * Namespaces logs to keep them separate.
+ *
+ * @example debug("socket", "msg received") -> "[socket] msg recieved"
  */
-export const injectGlobalLog = () => {
-	window.logStore = new LogStore();
-	window.debug = debug;
-	window.log = log;
+export const debug = (namespace: string, logLevel: any, ...args: any[]) => {
+	_log(namespace, logLevel, ...args);
+};
+
+export const injectLog = () => {
+	$global.log = log;
+	$global.debug = debug;
+	$global.logStore = new LogStore();
 };
