@@ -19,7 +19,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import { Grid, GridProps } from "components";
-import GridDndItem from "./GridDndItem";
+import { GridDndItem } from "./GridDndItem";
 
 type Data = {
 	id: string;
@@ -145,5 +145,3 @@ export const GridDnd = ({
 		setActiveId(null);
 	}
 };
-
-export default GridDnd;

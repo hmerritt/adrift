@@ -40,5 +40,3 @@ const gridDragbox = css`
 		opacity: 0 !important;
 	}
 `;
-
-export default GridDndDragBox;

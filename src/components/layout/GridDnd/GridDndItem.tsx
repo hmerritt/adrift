@@ -1,7 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import GridDndDragBox from "./GridDndDragBox";
+import { GridDndDragBox } from "./GridDndDragBox";
 
 export type GridDndItemProps = {
 	id: string;
@@ -41,5 +41,3 @@ export const GridDndItem = ({
 		</div>
 	);
 };
-
-export default GridDndItem;
