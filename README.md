@@ -26,13 +26,23 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 
 ## Features
 
-### Global `log`, and `debug` functions
+-   [Custom functions](#custom-functions)
+    -   [Logs](#log-and-debug-functions)
+    -   [Feature flag](#feature-flag-function)
+-   [Styles](#styling-sass-in-js-via-linaria)
+
+### Custom functions
+
+#### `log`, and `debug` functions
 
 Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
 
 ```js
 // Behaves like `console.log`
-log("my first log");
+log("hello, world!");
+
+// This will log with `console.error`
+log("error", "websocket error");
 ```
 
 `debug` namespaces each log so you can keep track of multiple things at once.
@@ -45,6 +55,18 @@ debug("socket", "Initiated websocket connection");
 > [timestamp] +[time since last log in ms] [namespace] [log message]
 
 ![](https://i.imgur.com/VlkNmdi.png)
+
+#### `feature` flag function
+
+`feature(flag)` will return `true` if the flag is set.
+
+Flags need to be added manually in `src/global/featureFlags` to the `featureFlags` object.
+
+```js
+if (feature("myAwesomeFlag")) {
+	// Do something
+}
+```
 
 ### Styling (SASS-in-JS via Linaria)
 
