@@ -25,7 +25,8 @@ export default defineConfig({
 		linaria({
 			sourceMap: false,
 			extension: ".scss",
-			preprocessor: "none"
+			preprocessor: "none",
+			exclude: ["src/global/**"]
 		}),
 		injectManifest({
 			mode: "production",
