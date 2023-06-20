@@ -1,4 +1,5 @@
 import type { FeatureOptions } from "global/featureFlags";
+import type { LogStoreType } from "global/log";
 
 export {};
 
@@ -8,13 +9,13 @@ type FeatureFunction = (mode: string, options?: FeatureOptions) => boolean;
 declare global {
 	const log: LogFunction;
 	const debug: LogFunction;
-	const debugTimestamps: any;
+	const logStore: LogStoreType;
 	const feature: FeatureFunction;
 
 	interface Window {
 		log: LogFunction;
 		debug: LogFunction;
-		debugTimestamps: any;
+		logStore: LogStoreType;
 		feature: FeatureFunction;
 	}
 }

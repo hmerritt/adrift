@@ -2,8 +2,6 @@ import dayjs from "dayjs";
 
 import { padChar } from "utils/common/strings";
 
-// @TODO Create a class for this
-
 enum ConsoleFunctions {
 	debug = "debug",
 	error = "error",
@@ -19,30 +17,63 @@ const styles = ["color: #888"].join(";");
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
 const padStr = (str: chars, c = 5) => padChar(str, c, " ", true);
 
-const getTotalCount = (namespace = defaultLogNamespace) => {
-	return window.debugTimestamps?.[namespace]?.[1] || 1;
-};
+// Internal log store class. Keeps track of log times and counts per namespace.
+//
+// Injects into window object as `window.logStore`.
+class LogStore {
+	defaultNamespace: string;
+	logStore: Record<string, [number, number]>;
 
-const timestampString = (diff: chars, debugNamespace?: string) => {
+	constructor() {
+		this.defaultNamespace = "_log";
+		this.logStore = {
+			_log: [Date.now(), 1]
+		};
+	}
+
+	get(namespace = this.defaultNamespace) {
+		return this.logStore?.[namespace];
+	}
+
+	getTime(namespace = this.defaultNamespace) {
+		return this.logStore?.[namespace]?.[0] || Date.now();
+	}
+
+	getCount(namespace = this.defaultNamespace) {
+		return this.logStore?.[namespace]?.[1] || 1;
+	}
+
+	set(namespace = this.defaultNamespace, time = Date.now(), count = 1) {
+		return (this.logStore[namespace] = [time, count]);
+	}
+
+	increment(namespace = this.defaultNamespace) {
+		return this.set(namespace, Date.now(), this.getCount(namespace) + 1);
+	}
+}
+
+export type LogStoreType = LogStore;
+
+const timestampString = (diff: chars, namespace?: string) => {
 	const ts = `%c${timestamp()} +${padStr(diff)}%s`;
 
-	if (debugNamespace === defaultLogNamespace) {
+	if (namespace === defaultLogNamespace) {
 		return ts;
 	}
 
-	return `${ts} x${padStr(getTotalCount(debugNamespace), 4)} ${padStr(
-		debugNamespace,
+	return `${ts} x${padStr(window.logStore.getCount(namespace), 4)} ${padStr(
+		namespace,
 		8
 	)}`;
 };
 
-const _log = (debugNamespace: string, logLevel: any, ...args: any[]) => {
+const _log = (namespace: string, logLevel: any, ...args: any[]) => {
 	const timeElapsed = dayjs().diff(
-		window.debugTimestamps?.[debugNamespace]?.[0] || Date.now(),
+		window.logStore.getTime(namespace),
 		"millisecond"
 	);
 
-	const stringToLog = timestampString(timeElapsed, debugNamespace);
+	const stringToLog = timestampString(timeElapsed, namespace);
 
 	if (ConsoleFunctions[logLevel]) {
 		console[ConsoleFunctions[logLevel]](stringToLog, styles, "", ...args);
@@ -50,10 +81,7 @@ const _log = (debugNamespace: string, logLevel: any, ...args: any[]) => {
 		console.log(stringToLog, styles, "", logLevel, ...args);
 	}
 
-	window.debugTimestamps[debugNamespace] = [
-		Date.now(),
-		getTotalCount(debugNamespace) + 1
-	];
+	window.logStore.increment(namespace);
 };
 
 /**
@@ -72,13 +100,9 @@ export const log = (logLevel: any, ...args: any[]) => {
  *
  * @example log("socket", "msg received") -> "[socket] msg recieved"
  */
-export const debug = (
-	debugNamespace: string,
-	logLevel: any,
-	...args: any[]
-) => {
+export const debug = (namespace: string, logLevel: any, ...args: any[]) => {
 	if (import.meta.env.MODE === "production") return;
-	_log(debugNamespace, logLevel, ...args);
+	_log(namespace, logLevel, ...args);
 };
 
 /**
@@ -87,7 +111,5 @@ export const debug = (
 export const injectGlobalLog = () => {
 	window.log = log;
 	window.debug = debug;
-	window.debugTimestamps = {
-		_log: [Date.now(), 1] // [timestamp, totalCount]
-	};
+	window.logStore = new LogStore();
 };
