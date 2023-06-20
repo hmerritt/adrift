@@ -1,7 +1,7 @@
-job "cra" {
+job "adrift" {
     datacenters = ["dc1"]
 
-    group "cra" {
+    group "adrift" {
         count = 1
 
         network {
@@ -18,21 +18,21 @@ job "cra" {
         }
 
         service {
-            name = "cra"
+            name = "adrift"
             port = "http"
             provider = "nomad"
 
             tags = [
                 "traefik.enable=true",
-                "traefik.http.routers.cra.rule=Host(`cra-example.com`)",
+                "traefik.http.routers.adrift.rule=Host(`adrift-example.com`)",
             ]
         }
 
-        task "cra" {
+        task "adrift" {
             driver = "docker"
 
             config {
-                image = "${CI_REGISTRY}/hmerritt/cra:${CI_COMMIT_TAG}"
+                image = "${CI_REGISTRY}/hmerritt/adrift:${CI_COMMIT_TAG}"
                 ports = ["http"]
 
                 auth {

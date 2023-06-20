@@ -96,9 +96,7 @@ export const log = (logLevel: any, ...args: any[]) => {
 };
 
 /**
- * Alias for `log`, plus:
- *
- * Namespaces logs to keep them separate.
+ * Alias for `log`, plus namespaces logs to keep them separate.
  *
  * @example debug("socket", "msg received") -> "[socket] msg recieved"
  */
@@ -107,7 +105,7 @@ export const debug = (namespace: string, logLevel: any, ...args: any[]) => {
 };
 
 export const injectLog = () => {
+	$global.logStore = new LogStore();
 	$global.log = log;
 	$global.debug = debug;
-	$global.logStore = new LogStore();
 };

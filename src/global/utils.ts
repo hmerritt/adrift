@@ -9,9 +9,13 @@ export const getGlobal = () => {
 			return window;
 		}
 
-		return globalThis;
+		if (typeof globalThis !== "undefined") {
+			return globalThis;
+		}
+
+		return global;
 	} catch (e) {
-		return globalThis;
+		return global;
 	}
 };
 
