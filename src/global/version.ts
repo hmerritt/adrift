@@ -24,8 +24,8 @@ export const versionString = () => {
 			versionString += `${environment ?? "unknown"} `;
 		}
 
-		// Branch name
-		if (gitBranch !== "master") {
+		// Branch name (hide in production)
+		if (gitBranch !== "master" || environment === "development") {
 			versionString += `${gitBranch ?? "unknown"}/`;
 		}
 

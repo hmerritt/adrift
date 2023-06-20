@@ -2,6 +2,8 @@ import dayjs from "dayjs";
 
 import { padChar } from "utils/common/strings";
 
+// @TODO Create a class for this
+
 enum ConsoleFunctions {
 	debug = "debug",
 	error = "error",
@@ -12,35 +14,46 @@ enum ConsoleFunctions {
 }
 
 type chars = string | number;
-const defaultLogNamespace = "__log";
+const defaultLogNamespace = "_log";
 const styles = ["color: #888"].join(";");
-const padStr = (str: chars) => padChar(str, 5, " ", true);
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
-const getConsoleFunction = (level: ConsoleFunctions) => ConsoleFunctions[level];
+const padStr = (str: chars, c = 5) => padChar(str, c, " ", true);
+
+const getTotalCount = (namespace = defaultLogNamespace) => {
+	return window.debugTimestamps?.[namespace]?.[1] || 1;
+};
 
 const timestampString = (diff: chars, debugNamespace?: string) => {
-	return `%c${timestamp()} +${padStr(diff)}%s${
-		debugNamespace?.length && debugNamespace !== defaultLogNamespace
-			? ` [${debugNamespace}]`
-			: ""
-	}`;
+	const ts = `%c${timestamp()} +${padStr(diff)}%s`;
+
+	if (debugNamespace === defaultLogNamespace) {
+		return ts;
+	}
+
+	return `${ts} x${padStr(getTotalCount(debugNamespace), 4)} ${padStr(
+		debugNamespace,
+		8
+	)}`;
 };
 
 const _log = (debugNamespace: string, logLevel: any, ...args: any[]) => {
 	const timeElapsed = dayjs().diff(
-		window.debugTimestamps[debugNamespace],
+		window.debugTimestamps?.[debugNamespace]?.[0] || Date.now(),
 		"millisecond"
 	);
 
 	const stringToLog = timestampString(timeElapsed, debugNamespace);
 
-	if (getConsoleFunction(logLevel)) {
-		console[getConsoleFunction(logLevel)](stringToLog, styles, "", ...args);
+	if (ConsoleFunctions[logLevel]) {
+		console[ConsoleFunctions[logLevel]](stringToLog, styles, "", ...args);
 	} else {
 		console.log(stringToLog, styles, "", logLevel, ...args);
 	}
 
-	window.debugTimestamps[debugNamespace] = Date.now();
+	window.debugTimestamps[debugNamespace] = [
+		Date.now(),
+		getTotalCount(debugNamespace) + 1
+	];
 };
 
 /**
@@ -75,6 +88,6 @@ export const injectGlobalLog = () => {
 	window.log = log;
 	window.debug = debug;
 	window.debugTimestamps = {
-		__log: Date.now()
+		_log: [Date.now(), 1] // [timestamp, totalCount]
 	};
 };

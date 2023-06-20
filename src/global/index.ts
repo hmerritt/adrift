@@ -12,7 +12,8 @@ import { injectGlobalLog } from "./log";
 import { versionString } from "./version";
 
 export const globalInit = () => {
-	if (import.meta.env.MODE !== "test") console.log(versionString());
+	if (import.meta.env.MODE !== "test")
+		console.log(`%c${versionString()}`, "font-size: 1.1em;");
 
 	injectGlobalLog();
 	window.feature = feature;

@@ -3,8 +3,8 @@
  */
 export function padChar(
 	str: string | number,
-	size: number,
-	char: string,
+	size: number = 5,
+	char: string = " ",
 	append = false
 ): string {
 	str = String(str);
