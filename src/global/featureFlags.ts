@@ -8,26 +8,11 @@ export const featureFlags = {
 	someOtherFeature: false
 };
 
-export type FeatureOptions = {
-	alwaysShowOnDev?: boolean;
-};
-
-const isFalse = (value: unknown): value is false => {
-	return (
-		!value ||
-		value === "0" ||
-		value === "off" ||
-		value === "null" ||
-		value === "false" ||
-		value === "undefined"
-	);
-};
-
 /**
  * Returns `true` if the feature is enabled in `featureFlags` object.
  */
 export const feature = (
-	mode: string,
+	mode: FeatureFlags,
 	options: FeatureOptions = {}
 ): boolean => {
 	const { alwaysShowOnDev } = {
@@ -58,6 +43,27 @@ export const feature = (
 	return match;
 };
 
+export type FeatureOptions = {
+	alwaysShowOnDev?: boolean;
+};
+
+export type FeatureFlags =
+	| keyof typeof featureFlags
+	| "development"
+	| "testing"
+	| "production";
+
 export const injectFeature = () => {
 	$global.feature = feature;
+};
+
+const isFalse = (value: unknown): value is false => {
+	return (
+		!value ||
+		value === "0" ||
+		value === "off" ||
+		value === "null" ||
+		value === "false" ||
+		value === "undefined"
+	);
 };

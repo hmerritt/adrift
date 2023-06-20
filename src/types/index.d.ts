@@ -1,10 +1,13 @@
-import type { FeatureOptions } from "global/featureFlags";
+import type { FeatureFlags, FeatureOptions } from "global/featureFlags";
 import type { LogStoreType } from "global/log";
 
 export {};
 
 type LogFunction = (logLevel: any, ...args: any[]) => void;
-type FeatureFunction = (mode: string, options?: FeatureOptions) => boolean;
+type FeatureFunction = (
+	mode: FeatureFlags,
+	options?: FeatureOptions
+) => boolean;
 
 declare global {
 	var log: LogFunction;
