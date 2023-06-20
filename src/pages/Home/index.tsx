@@ -13,7 +13,7 @@ export const Home = () => {
 	const count = useSelector((state) => state.count.current);
 
 	const [data, setData] = useState(
-		[...Array(12)].map((e, i) => ({ id: String(i), children: i }))
+		[...Array(12)].map((e, i) => ({ id: String(i) }))
 	);
 
 	useInterval(() => {
@@ -35,8 +35,10 @@ export const Home = () => {
 			<GridDnd
 				data={data}
 				setData={setData}
-				renderWith={({ renderIndex, ...props }) => (
-					<div className={cx(card, "flex-center")} {...props} />
+				renderWith={({ id, renderIndex, ...props }) => (
+					<div className={cx(card, "flex-center")} {...props}>
+						{`${renderIndex} -> ${id}`}
+					</div>
 				)}
 				// grid
 				className={grid}

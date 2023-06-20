@@ -43,3 +43,5 @@ export const Stack = ({
 		/>
 	);
 };
+
+export default Stack;

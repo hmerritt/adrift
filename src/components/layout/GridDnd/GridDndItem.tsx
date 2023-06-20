@@ -10,12 +10,12 @@ export type GridDndItemProps = {
 	renderWith: (props: any) => JSX.Element;
 };
 
-export default function GridDndItem({
+export const GridDndItem = ({
 	id,
 	dataItem,
 	renderIndex,
 	renderWith
-}: GridDndItemProps) {
+}: GridDndItemProps) => {
 	const RenderWith = renderWith;
 
 	const { active, attributes, listeners, setNodeRef, transform, transition } =
@@ -40,4 +40,6 @@ export default function GridDndItem({
 			)}
 		</div>
 	);
-}
+};
+
+export default GridDndItem;

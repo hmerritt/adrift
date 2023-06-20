@@ -12,11 +12,11 @@ export type GridDndDragBoxProps = {
  * Renders element in a hidden state. This is to prevent layout issues,
  * such as an incorrect height of the GridDndDragBox.
  */
-export default function GridDndDragBox({
+export const GridDndDragBox = ({
 	dataItem,
 	renderIndex,
 	renderWith
-}: GridDndDragBoxProps) {
+}: GridDndDragBoxProps) => {
 	const RenderWith = renderWith;
 
 	return (
@@ -24,7 +24,7 @@ export default function GridDndDragBox({
 			<RenderWith {...dataItem} renderIndex={renderIndex} />
 		</div>
 	);
-}
+};
 
 const gridDragbox = css`
 	display: table;
@@ -40,3 +40,5 @@ const gridDragbox = css`
 		opacity: 0 !important;
 	}
 `;
+
+export default GridDndDragBox;

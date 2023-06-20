@@ -29,3 +29,5 @@ export const Flex = ({
 	hc && (rest.className += " h-center");
 	return <div {...rest} />;
 };
+
+export default Flex;

@@ -145,3 +145,5 @@ export const GridDnd = ({
 		setActiveId(null);
 	}
 };
+
+export default GridDnd;

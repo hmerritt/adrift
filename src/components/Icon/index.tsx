@@ -20,3 +20,5 @@ export const Icon = ({ name, animate, style = {}, ...svgProps }: IconProps) => {
 	const IconComponent = IconMappings?.[name];
 	return <IconComponent {...svgProps} style={styles} />;
 };
+
+export default Icon;
