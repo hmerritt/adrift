@@ -3,6 +3,13 @@
  *
  * Used to setup global functions and variables to be used throughout the app.
  *
+ * This file (and it's dependencies) are compiled separately to the rest of the app, then ran before the main bundle.
+ *
+ * @Warning - Do NOT import from any file in global from outside global. You can however import into global.
+ * ✓ global <-- utils
+ * ✗ global --> utils
+ * ✗ import "globalInit" from "global";
+ *
  * @Warning - Since the window object is exposed, don't put anything remotely sensitive in here.
  */
 
