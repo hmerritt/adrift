@@ -14,7 +14,7 @@ enum ConsoleFunctions {
 type chars = string | number;
 const styles = ["color: #888"].join(";");
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
-const padStr = (str: chars, c = 5) => padChar(str, c, " ", true);
+const padStr = (str: chars = "", c = 5) => padChar(str, c, " ", true);
 
 // Internal log store class. Keeps track of log times and counts per namespace.
 //
