@@ -12,7 +12,6 @@ enum ConsoleFunctions {
 }
 
 type chars = string | number;
-const defaultLogNamespace = "_log";
 const styles = ["color: #888"].join(";");
 const timestamp = () => dayjs().format("HH:mm:ss.SSS");
 const padStr = (str: chars, c = 5) => padChar(str, c, " ", true);
@@ -57,7 +56,7 @@ export type LogStoreType = LogStore;
 const timestampString = (diff: chars, namespace?: string) => {
 	const ts = `%c${timestamp()} +${padStr(diff)}%s`;
 
-	if (namespace === defaultLogNamespace) {
+	if (namespace === window.logStore.defaultNamespace) {
 		return ts;
 	}
 
@@ -90,7 +89,7 @@ const _log = (namespace: string, logLevel: any, ...args: any[]) => {
  * Adds a timestamp and timediff to each log automatically.
  */
 export const log = (logLevel: any, ...args: any[]) => {
-	_log(defaultLogNamespace, logLevel, ...args);
+	_log(window.logStore.defaultNamespace, logLevel, ...args);
 };
 
 /**
@@ -109,7 +108,7 @@ export const debug = (namespace: string, logLevel: any, ...args: any[]) => {
  * Inject custom log functions to window object
  */
 export const injectGlobalLog = () => {
-	window.log = log;
-	window.debug = debug;
 	window.logStore = new LogStore();
+	window.debug = debug;
+	window.log = log;
 };
