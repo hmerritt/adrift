@@ -34,11 +34,15 @@ Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
 log("my first log");
 ```
 
+![](https://i.imgur.com/97Aqaqi.png)
+
 `debug` namespaces each log so you can keep track of multiple things at once.
 
 ```js
 debug("websocket", "Initiated websocket connection");
 ```
+
+![](https://i.imgur.com/GS7YWy3.png)
 
 ### Styling (SASS-in-JS via Linaria)
 

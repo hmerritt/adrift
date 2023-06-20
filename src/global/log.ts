@@ -61,7 +61,7 @@ const timestampString = (diff: chars, namespace?: string) => {
 		return ts;
 	}
 
-	return `${ts} x${padStr($global.logStore.getCount(namespace), 4)} ${padStr(
+	return `${ts} x${padStr($global.logStore.getCount(namespace), 3)} ${padStr(
 		namespace,
 		8
 	)}`;
