@@ -15,7 +15,7 @@ Template react app with batteries included 🔋
 
 ## Getting started
 
-To get started simply clone the repository and run one of the following scripts:
+Clone this repo and run one of the following scripts:
 
 Available scripts (run using `yarn <script>` or `npm run <script>`):
 
