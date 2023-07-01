@@ -70,15 +70,17 @@ const timestampString = (diff: chars, namespace?: string) => {
 const _log = (namespace: string, logLevel: any, ...args: any[]) => {
 	if (import.meta.env.MODE === "production") return;
 
-	const timeElapsed = dayjs().diff(
-		$global.logStore.getTime(namespace),
-		"millisecond"
-	);
+	const timeElapsed = dayjs().diff($global.logStore.getTime(namespace), "millisecond");
 
 	const stringToLog = timestampString(timeElapsed, namespace);
 
-	if (ConsoleFunctions[logLevel]) {
-		console[ConsoleFunctions[logLevel]](stringToLog, styles, "", ...args);
+	if (ConsoleFunctions[logLevel as ConsoleFunctions]) {
+		console[ConsoleFunctions[logLevel as ConsoleFunctions]](
+			stringToLog,
+			styles,
+			"",
+			...args
+		);
 	} else {
 		console.log(stringToLog, styles, "", logLevel, ...args);
 	}
