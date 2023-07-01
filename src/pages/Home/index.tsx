@@ -12,9 +12,7 @@ export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
 
-	const [data, setData] = useState(
-		[...Array(12)].map((e, i) => ({ id: String(i) }))
-	);
+	const [data, setData] = useState([...Array(12)].map((e, i) => ({ id: String(i) })));
 
 	useInterval(() => {
 		if (feature("timerIncrement")) {
