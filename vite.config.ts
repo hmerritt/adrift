@@ -6,10 +6,12 @@ import { injectManifest } from "rollup-plugin-workbox";
 
 import linaria from "./config/linaria-rollup";
 
+const isDev = process.env.NODE_ENV !== "production";
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
-		sourcemap: false,
+		sourcemap: isDev,
 		minify: true
 	},
 	define: {
@@ -23,13 +25,16 @@ export default defineConfig({
 		}),
 		tsconfigPaths(),
 		linaria({
-			sourceMap: false,
+			sourceMap: isDev,
 			extension: ".scss",
 			preprocessor: "none",
-			exclude: ["src/global/**"]
+			exclude: ["src/global/**"],
+			include: ["**/*.{ts,tsx}"],
+			babelOptions: {
+				presets: ["@babel/preset-typescript", "@babel/preset-react"]
+			}
 		}),
 		injectManifest({
-			mode: "production",
 			swDest: "dist/sw.js",
 			globDirectory: "dist",
 			swSrc: "src/service-worker.ts",

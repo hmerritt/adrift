@@ -3,30 +3,20 @@
  * It uses the transform.ts function to generate class names from source code,
  * returns transformed code without template literals and attaches generated source maps
  */
-
-import path from "path";
-
 import { createFilter } from "@rollup/pluginutils";
-import type { FilterPattern } from "@rollup/pluginutils";
-import type { ModuleNode, Plugin, ResolvedConfig, ViteDevServer } from "vite";
-
-import {
-	transform,
-	slugify,
-	TransformCacheCollection
-} from "@linaria/babel-preset";
-import type { PluginOptions, Preprocessor } from "@linaria/babel-preset";
 import { createCustomDebug } from "@linaria/logger";
 import { getFileIdx, syncResolve } from "@linaria/utils";
+import { transform, slugify, TransformCacheCollection } from "@linaria/babel-preset";
 
-type VitePluginOptions = {
-	include?: FilterPattern;
-	exclude?: FilterPattern;
+import type { Plugin } from "rollup";
+import type { PluginOptions, Preprocessor, Result } from "@linaria/babel-preset";
+
+type RollupPluginOptions = {
+	include?: string | string[];
+	exclude?: string | string[];
 	sourceMap?: boolean;
 	preprocessor?: Preprocessor;
 } & Partial<PluginOptions>;
-
-export { Plugin };
 
 export default function linaria({
 	include,
@@ -34,71 +24,26 @@ export default function linaria({
 	sourceMap,
 	preprocessor,
 	...rest
-}: VitePluginOptions = {}): Plugin {
+}: RollupPluginOptions = {}): Plugin {
 	const filter = createFilter(include, exclude);
 	const cssLookup: { [key: string]: string } = {};
-	let config: ResolvedConfig;
-	let devServer: ViteDevServer;
-
-	// <dependency id, targets>
-	const targets: { id: string; dependencies: string[] }[] = [];
 	const cache = new TransformCacheCollection();
-	const { codeCache, evalCache } = cache;
-	return {
+
+	const plugin: Plugin = {
 		name: "linaria",
-		enforce: "post",
-		configResolved(resolvedConfig: ResolvedConfig) {
-			config = resolvedConfig;
-		},
-		configureServer(_server) {
-			devServer = _server;
-		},
-		load(url: string) {
-			const [id] = url.split("?");
+		load(id: string) {
 			return cssLookup[id];
 		},
 		/* eslint-disable-next-line consistent-return */
-		resolveId(importeeUrl: string) {
-			const [id, qsRaw] = importeeUrl.split("?");
-			if (id in cssLookup) {
-				if (qsRaw?.length) return importeeUrl;
-				return id;
-			}
+		resolveId(importee: string) {
+			if (importee in cssLookup) return importee;
 		},
-		handleHotUpdate(ctx) {
-			// it's module, so just transform it
-			if (ctx.modules.length) return ctx.modules;
-
-			// Select affected modules of changed dependency
-			const affected = targets.filter(
-				(x) =>
-					// file is dependency of any target
-					x.dependencies.some((dep) => dep === ctx.file) ||
-					// or changed module is a dependency of any target
-					x.dependencies.some((dep) =>
-						ctx.modules.some((m) => m.file === dep)
-					)
-			);
-			const deps = affected.flatMap((target) => target.dependencies);
-
-			// eslint-disable-next-line no-restricted-syntax
-			for (const depId of deps) {
-				codeCache.delete(depId);
-				evalCache.delete(depId);
-			}
-			const modules = affected
-				.map((target) => devServer.moduleGraph.getModuleById(target.id))
-				.concat(ctx.modules)
-				.filter((m): m is ModuleNode => !!m);
-
-			return modules;
-		},
-		async transform(code: string, url: string) {
-			const [id] = url.split("?");
-
+		async transform(
+			code: string,
+			id: string
+		): Promise<{ code: string; map: Result["sourceMap"] } | undefined> {
 			// Do not transform ignored and generated files
-			if (url.includes("node_modules") || !filter(url) || id in cssLookup)
-				return;
+			if (!filter(id) || id in cssLookup) return;
 
 			const log = createCustomDebug("rollup", getFileIdx(id));
 
@@ -115,23 +60,12 @@ export default function linaria({
 						// If module is marked as external, Rollup will not resolve it,
 						// so we need to resolve it ourselves with default resolver
 						const resolvedId = syncResolve(what, importer, stack);
-						log(
-							"resolve",
-							"✅ '%s'@'%s -> %O\n%s",
-							what,
-							importer,
-							resolved
-						);
+						log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
 						return resolvedId;
 					}
 
-					log(
-						"resolve",
-						"✅ '%s'@'%s -> %O\n%s",
-						what,
-						importer,
-						resolved
-					);
+					log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
+
 					// Vite adds param like `?v=667939b3` to cached modules
 					const resolvedId = resolved.id.split("?")[0];
 
@@ -148,11 +82,6 @@ export default function linaria({
 				throw new Error(`Could not resolve ${what}`);
 			};
 
-			// TODO: Vite surely has some already transformed modules, solid
-			// why would we transform it again?
-			// We could provide some thing like `pretransform` and ask Vite to return transformed module
-			// (module.transformResult)
-			// So we don't need to duplicate babel plugins.
 			const result = await transform(
 				code,
 				{
@@ -165,56 +94,29 @@ export default function linaria({
 				cache
 			);
 
-			let { cssText, dependencies } = result;
+			if (!result.cssText) return;
 
-			if (!cssText) return;
-			dependencies ??= [];
+			let { cssText } = result;
 
 			const slug = slugify(cssText);
 
-			const cssFilename = path.normalize(
-				// @IMPORTANT: We *need* to use `.scss` extension here.
-				// This tiny change is the only difference between this file and using `@linaria/vite`.
-				`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`
-			);
-			const cssRelativePath = path
-				.relative(config.root, cssFilename)
-				.replace(/\\/g, path.posix.sep);
-			const cssId = `/${cssRelativePath}`;
+			// @IMPORTANT: We *need* to use `.scss` extension here.
+			// This tiny change is the only difference between this file and using `@linaria/vite`.
+			const filename = `${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`;
 
 			if (sourceMap && result.cssSourceMapText) {
-				const map = Buffer.from(result.cssSourceMapText).toString(
-					"base64"
-				);
+				const map = Buffer.from(result.cssSourceMapText).toString("base64");
 				cssText += `/*# sourceMappingURL=data:application/json;base64,${map}*/`;
 			}
 
-			cssLookup[cssFilename] = cssText;
-			cssLookup[cssId] = cssText;
+			cssLookup[filename] = cssText;
 
-			result.code += `\nimport ${JSON.stringify(cssFilename)};\n`;
-			if (devServer?.moduleGraph) {
-				const module = devServer.moduleGraph.getModuleById(cssId);
+			result.code += `\nimport ${JSON.stringify(filename)};\n`;
 
-				if (module) {
-					devServer.moduleGraph.invalidateModule(module);
-					module.lastHMRTimestamp =
-						module.lastInvalidationTimestamp || Date.now();
-				}
-			}
-
-			for (let i = 0, end = dependencies.length; i < end; i++) {
-				// eslint-disable-next-line no-await-in-loop
-				const depModule = await this.resolve(dependencies[i], url, {
-					isEntry: false
-				});
-				if (depModule) dependencies[i] = depModule.id;
-			}
-			const target = targets.find((t) => t.id === id);
-			if (!target) targets.push({ id, dependencies });
-			else target.dependencies = dependencies;
 			/* eslint-disable-next-line consistent-return */
 			return { code: result.code, map: result.sourceMap };
 		}
 	};
+
+	return plugin;
 }
