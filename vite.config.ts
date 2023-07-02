@@ -42,7 +42,7 @@ export default defineConfig({
 		globals: false,
 		environment: "happy-dom",
 		setupFiles: "./src/tests/setupTests.ts",
-		css: false, // @Note: Parsing CSS is slow
+		css: true, // @Note: Parsing CSS is slow
 		coverage: {
 			enabled: false,
 			provider: "v8"

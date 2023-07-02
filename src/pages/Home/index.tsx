@@ -23,9 +23,9 @@ export const Home = () => {
 		<div className="Home">
 			<Stack spacing={5} center style={{ height: "40vh" }}>
 				<h1 className={header}>{count}</h1>
-				<h1 style={{ fontSize: "3rem", textAlign: "center" }}>
+				<h2 style={{ fontSize: "3rem", textAlign: "center" }}>
 					<small>useInterval 1000ms</small>
-				</h1>
+				</h2>
 				<Icon name="spinner" />
 			</Stack>
 
