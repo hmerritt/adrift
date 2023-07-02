@@ -22,12 +22,12 @@ const container = css`
 
 const title = css`
 	${theme}
-	color: $red-500;
+	color: $test-color-100;
 `;
 
 const subTitle = css`
 	${theme}
-	color: $yellow-200;
+	color: $test-color-200;
 `;
 
 export default StylesMock;

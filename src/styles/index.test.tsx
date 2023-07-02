@@ -21,8 +21,8 @@ test("@linaria with theme injection", () => {
 	expect(styleContainer.transition).toBe("all, 80ms, ease");
 
 	const styleTitle = getStyle(select(container, "h1"));
-	expect(styleTitle.color).toBe("#e53e3e");
+	expect(styleTitle.color).toBe("#38a169");
 
 	const styleSubTitle = getStyle(select(container, "h2"));
-	expect(styleSubTitle.color).toBe("#faf089");
+	expect(styleSubTitle.color).toBe("#dd6b20");
 });

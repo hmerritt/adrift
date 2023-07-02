@@ -4,9 +4,9 @@ import shadows from "./shadows";
 import variables from "./variables";
 
 /**
- * Main theme object, in SCSS.
+ * Main SCSS-in-JS theme object.
  *
- * Import this into linaria css`${theme}` to use colours, mixins & variables.
+ * Interpolate this into linaria css`${theme}` to use colours, mixins & variables.
  */
 const theme = `
     ${variables}

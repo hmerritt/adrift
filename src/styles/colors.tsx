@@ -88,6 +88,11 @@ const colors = `
 	$yellow-700: #975a16;
 	$yellow-800: #744210;
 	$yellow-900: #5f370e;
+
+	/* TEST VALUES: DO NOT DELETE */
+	$test-color-100: #38a169;
+	$test-color-200: #dd6b20;
+	$test-color-300: #e53e3e;
 `;
 
 export default colors;
