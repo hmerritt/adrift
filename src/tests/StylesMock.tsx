@@ -1,4 +1,4 @@
-import { css } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 
 import theme from "styles";
 
@@ -9,7 +9,7 @@ import theme from "styles";
  */
 
 export const StylesMock = () => (
-	<div className={container}>
+	<div className={cx(container, shadow, variable)}>
 		<h1 className={title}>Title</h1>
 		<h2 className={subTitle}>Sub Title</h2>
 	</div>
@@ -18,6 +18,16 @@ export const StylesMock = () => (
 const container = css`
 	${theme}
 	@include container(567px);
+`;
+
+const shadow = css`
+	${theme}
+	box-shadow: $test-shadow-1;
+`;
+
+const variable = css`
+	${theme}
+	width: $test-var-1;
 `;
 
 const title = css`
