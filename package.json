@@ -12,6 +12,7 @@
 		"preview": "node bootstrap.cjs vite preview",
 		"start": "node bootstrap.cjs vite",
 		"test": "node bootstrap.cjs vitest run",
+		"test:bench": "node bootstrap.cjs vitest bench",
 		"test:coverage": "node bootstrap.cjs vitest run --coverage",
 		"test:ui": "node bootstrap.cjs vitest --ui",
 		"test:watch": "node bootstrap.cjs vitest watch"
