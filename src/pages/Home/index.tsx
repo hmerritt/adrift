@@ -1,6 +1,5 @@
-import cx from "classnames";
 import { useState } from "react";
-import { css } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 
 import theme from "styles";
 import { countIncrement } from "store/actions";

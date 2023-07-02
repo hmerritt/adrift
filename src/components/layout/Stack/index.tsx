@@ -1,4 +1,4 @@
-import cx from "classnames";
+import { cx } from "@linaria/core";
 
 import { Flex, FlexProps } from "components";
 
@@ -26,18 +26,10 @@ interface StackProps extends FlexProps {
 		| 20;
 }
 
-export const Stack = ({
-	className,
-	row = false,
-	spacing = 1,
-	...props
-}: StackProps) => {
+export const Stack = ({ className, row = false, spacing = 1, ...props }: StackProps) => {
 	return (
 		<Flex
-			className={cx(
-				className,
-				`${row ? "stack-row" : "stack"} stack-${spacing}`
-			)}
+			className={cx(className, `${row ? "stack-row" : "stack"} stack-${spacing}`)}
 			row={row}
 			{...props}
 		/>
