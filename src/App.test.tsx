@@ -24,7 +24,7 @@ test("renders Home page", () => {
 	const { container } = render(<Home />);
 
 	// Test @linaria styles are working.
-	// Worth doing to test the `theme` object imports properly
+	// Worth doing for a few components to test the `theme` object imports properly.
 	const style = getStyle(select(container, "h1"));
 	expect(style.color).toBe("#e53e3e");
 	expect(style.textShadow).toBe(
