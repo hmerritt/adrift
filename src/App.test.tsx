@@ -21,11 +21,11 @@ test("renders 404 page", () => {
 });
 
 test("renders Home page", () => {
-	const { container } = render(<Home />);
+	const r = render(<Home />);
 
 	// Test @linaria styles are working.
 	// Worth doing for a few components to test the `theme` object imports properly.
-	const style = getStyle(select(container, "h1"));
+	const style = getStyle(select(r, "h1"));
 	expect(style.color).toBe("#e53e3e");
 	expect(style.textShadow).toBe(
 		"0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
