@@ -20,19 +20,15 @@ export default defineConfig({
 	plugins: [
 		react({
 			// jsxRuntime: "classic",
-			babelrc: true,
-			configFile: true
+			babelrc: true
 		}),
 		tsconfigPaths(),
 		linaria({
 			sourceMap: isDev,
 			extension: ".scss",
 			preprocessor: "none",
-			exclude: ["src/global/**"],
-			include: ["**/*.{ts,tsx}"],
-			babelOptions: {
-				presets: ["@babel/preset-typescript", "@babel/preset-react"]
-			}
+			exclude: ["src/global/**", "**/*.test.{ts,tsx}"],
+			include: ["**/*.{ts,tsx}"]
 		}),
 		injectManifest({
 			swDest: "dist/sw.js",

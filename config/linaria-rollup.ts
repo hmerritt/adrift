@@ -3,20 +3,26 @@
  * It uses the transform.ts function to generate class names from source code,
  * returns transformed code without template literals and attaches generated source maps
  */
+
+import path from "path";
+
 import { createFilter } from "@rollup/pluginutils";
+import type { FilterPattern } from "@rollup/pluginutils";
+import type { ModuleNode, Plugin, ResolvedConfig, ViteDevServer } from "vite";
+
+import { transform, slugify, TransformCacheCollection } from "@linaria/babel-preset";
+import type { PluginOptions, Preprocessor } from "@linaria/babel-preset";
 import { createCustomDebug } from "@linaria/logger";
 import { getFileIdx, syncResolve } from "@linaria/utils";
-import { transform, slugify, TransformCacheCollection } from "@linaria/babel-preset";
 
-import type { Plugin } from "rollup";
-import type { PluginOptions, Preprocessor, Result } from "@linaria/babel-preset";
-
-type RollupPluginOptions = {
-	include?: string | string[];
-	exclude?: string | string[];
+type VitePluginOptions = {
+	include?: FilterPattern;
+	exclude?: FilterPattern;
 	sourceMap?: boolean;
 	preprocessor?: Preprocessor;
 } & Partial<PluginOptions>;
+
+export { Plugin };
 
 export default function linaria({
 	include,
@@ -24,26 +30,68 @@ export default function linaria({
 	sourceMap,
 	preprocessor,
 	...rest
-}: RollupPluginOptions = {}): Plugin {
+}: VitePluginOptions = {}): Plugin {
 	const filter = createFilter(include, exclude);
 	const cssLookup: { [key: string]: string } = {};
-	const cache = new TransformCacheCollection();
+	let config: ResolvedConfig;
+	let devServer: ViteDevServer;
 
-	const plugin: Plugin = {
+	// <dependency id, targets>
+	const targets: { id: string; dependencies: string[] }[] = [];
+	const cache = new TransformCacheCollection();
+	const { codeCache, evalCache } = cache;
+	return {
 		name: "linaria",
-		load(id: string) {
+		enforce: "post",
+		configResolved(resolvedConfig: ResolvedConfig) {
+			config = resolvedConfig;
+		},
+		configureServer(_server) {
+			devServer = _server;
+		},
+		load(url: string) {
+			const [id] = url.split("?");
 			return cssLookup[id];
 		},
 		/* eslint-disable-next-line consistent-return */
-		resolveId(importee: string) {
-			if (importee in cssLookup) return importee;
+		resolveId(importeeUrl: string) {
+			const [id, qsRaw] = importeeUrl.split("?");
+			if (id in cssLookup) {
+				if (qsRaw?.length) return importeeUrl;
+				return id;
+			}
 		},
-		async transform(
-			code: string,
-			id: string
-		): Promise<{ code: string; map: Result["sourceMap"] } | undefined> {
+		handleHotUpdate(ctx) {
+			// it's module, so just transform it
+			if (ctx.modules.length) return ctx.modules;
+
+			// Select affected modules of changed dependency
+			const affected = targets.filter(
+				(x) =>
+					// file is dependency of any target
+					x.dependencies.some((dep) => dep === ctx.file) ||
+					// or changed module is a dependency of any target
+					x.dependencies.some((dep) => ctx.modules.some((m) => m.file === dep))
+			);
+			const deps = affected.flatMap((target) => target.dependencies);
+
+			// eslint-disable-next-line no-restricted-syntax
+			for (const depId of deps) {
+				codeCache.delete(depId);
+				evalCache.delete(depId);
+			}
+			const modules = affected
+				.map((target) => devServer.moduleGraph.getModuleById(target.id))
+				.concat(ctx.modules)
+				.filter((m): m is ModuleNode => !!m);
+
+			return modules;
+		},
+		async transform(code: string, url: string) {
+			const [id] = url.split("?");
+
 			// Do not transform ignored and generated files
-			if (!filter(id) || id in cssLookup) return;
+			if (url.includes("node_modules") || !filter(url) || id in cssLookup) return;
 
 			const log = createCustomDebug("rollup", getFileIdx(id));
 
@@ -65,7 +113,6 @@ export default function linaria({
 					}
 
 					log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
-
 					// Vite adds param like `?v=667939b3` to cached modules
 					const resolvedId = resolved.id.split("?")[0];
 
@@ -82,6 +129,11 @@ export default function linaria({
 				throw new Error(`Could not resolve ${what}`);
 			};
 
+			// TODO: Vite surely has some already transformed modules, solid
+			// why would we transform it again?
+			// We could provide some thing like `pretransform` and ask Vite to return transformed module
+			// (module.transformResult)
+			// So we don't need to duplicate babel plugins.
 			const result = await transform(
 				code,
 				{
@@ -94,29 +146,57 @@ export default function linaria({
 				cache
 			);
 
-			if (!result.cssText) return;
+			let { cssText, dependencies } = result || {};
 
-			let { cssText } = result;
+			if (!cssText) return;
+			dependencies ??= [];
 
 			const slug = slugify(cssText);
 
 			// @IMPORTANT: We *need* to use `.scss` extension here.
 			// This tiny change is the only difference between this file and using `@linaria/vite`.
-			const filename = `${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`;
+			const cssFilename = path.normalize(
+				`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`
+			);
+
+			const cssRelativePath = path
+				.relative(config.root, cssFilename)
+				.replace(/\\/g, path.posix.sep);
+			const cssId = `/${cssRelativePath}`;
 
 			if (sourceMap && result.cssSourceMapText) {
 				const map = Buffer.from(result.cssSourceMapText).toString("base64");
 				cssText += `/*# sourceMappingURL=data:application/json;base64,${map}*/`;
 			}
 
-			cssLookup[filename] = cssText;
+			cssLookup[cssFilename] = cssText;
+			cssLookup[cssId] = cssText;
 
-			result.code += `\nimport ${JSON.stringify(filename)};\n`;
+			result.code += `\nimport ${JSON.stringify(cssId)};\n`;
+
+			if (devServer?.moduleGraph) {
+				const module = devServer.moduleGraph.getModuleById(cssId);
+
+				if (module) {
+					devServer.moduleGraph.invalidateModule(module);
+					module.lastHMRTimestamp =
+						module.lastInvalidationTimestamp || Date.now();
+				}
+			}
+
+			for (let i = 0, end = dependencies.length; i < end; i++) {
+				// eslint-disable-next-line no-await-in-loop
+				const depModule = await this.resolve(dependencies[i], url, {
+					isEntry: false
+				});
+				if (depModule) dependencies[i] = depModule.id;
+			}
+			const target = targets.find((t) => t.id === id);
+			if (!target) targets.push({ id, dependencies });
+			else target.dependencies = dependencies;
 
 			/* eslint-disable-next-line consistent-return */
 			return { code: result.code, map: result.sourceMap };
 		}
 	};
-
-	return plugin;
 }
