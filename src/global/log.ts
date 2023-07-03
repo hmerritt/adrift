@@ -71,8 +71,13 @@ const _log = (namespace: string, logLevel: any, ...args: any[]) => {
 	if (import.meta.env.MODE === "production") return;
 
 	const timeElapsed = dayjs().diff($global.logStore.getTime(namespace), "millisecond");
-
 	const stringToLog = timestampString(timeElapsed, namespace);
+	$global.logStore.increment(namespace);
+
+	// Special case for table. No timestamp or styles as it messes with the table.
+	if (logLevel === "table") {
+		return console.table(...args);
+	}
 
 	if (ConsoleFunctions[logLevel as ConsoleFunctions]) {
 		console[ConsoleFunctions[logLevel as ConsoleFunctions]](
@@ -84,8 +89,6 @@ const _log = (namespace: string, logLevel: any, ...args: any[]) => {
 	} else {
 		console.log(stringToLog, styles, "", logLevel, ...args);
 	}
-
-	$global.logStore.increment(namespace);
 };
 
 /**

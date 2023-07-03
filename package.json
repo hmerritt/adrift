@@ -4,7 +4,7 @@
 	"license": "UNLICENSED",
 	"description": "Adrift | Template react app with batteries included",
 	"type": "module",
-	"private": false,
+	"private": true,
 	"scripts": {
 		"build": "tsc && node bootstrap.cjs vite build",
 		"dev": "node bootstrap.cjs vite",
@@ -67,7 +67,6 @@
 		"workbox-routing": "^7.0.0",
 		"workbox-strategies": "^7.0.0"
 	},
-	"optionalDependencies": {},
 	"eslintConfig": {
 		"extends": [
 			"react-app"
