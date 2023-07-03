@@ -85,11 +85,12 @@
 			"not op_mini all"
 		]
 	},
-	"engines": {
-		"node": ">=14.0.0"
-	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/hmerritt/adrift.git"
-	}
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"packageManager": "yarn@3.5.0"
 }
