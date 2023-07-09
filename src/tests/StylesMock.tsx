@@ -1,6 +1,6 @@
 import { css, cx } from "@linaria/core";
 
-import theme from "styles";
+import theme from "lib/styles";
 
 /**
  * Mini mock component to test `@linaria` theme injection works.

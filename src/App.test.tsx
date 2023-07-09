@@ -4,7 +4,7 @@ import { screen } from "@testing-library/react";
 import { getStyle, render, select } from "tests";
 
 import App from "./App";
-import { Home } from "pages";
+import { Home } from "view/screens";
 
 test("renders app", () => {
 	const r = render(<App />);
