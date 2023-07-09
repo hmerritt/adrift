@@ -6,18 +6,14 @@ interface Args extends IntersectionObserverInit {
 
 /**
  * Detects visibility of a component on the viewport using the IntersectionObserver API.
+ *
  * @param elementRef the ref element (from useRef())
  * @param args optionally root, rootMargin and threshold arguments from the native IntersectionObserver API and freezeOnceVisible to only catch the first appearance
  * @returns the full IntersectionObserver's entry object
  */
 export function useIntersection(
 	elementRef: RefObject<Element>,
-	{
-		threshold = 0,
-		root = null,
-		rootMargin = "0%",
-		freezeOnceVisible = false
-	}: Args
+	{ threshold = 0, root = null, rootMargin = "0%", freezeOnceVisible = false }: Args
 ): IntersectionObserverEntry | undefined {
 	const [entry, setEntry] = useState<IntersectionObserverEntry>();
 
