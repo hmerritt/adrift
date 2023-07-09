@@ -12,13 +12,9 @@ import {
 	MouseSensorOptions,
 	PointerSensorOptions
 } from "@dnd-kit/core";
-import {
-	arrayMove,
-	SortableContext,
-	rectSortingStrategy
-} from "@dnd-kit/sortable";
+import { arrayMove, SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 
-import { Grid, GridProps } from "components";
+import { Grid, GridProps } from "view/components";
 import { GridDndItem } from "./GridDndItem";
 
 type Data = {
@@ -108,9 +104,7 @@ export const GridDnd = ({
 			<DragOverlay adjustScale={false}>
 				{activeId ? (
 					<RenderWith
-						{...getProps(
-							data?.[data?.findIndex((x) => x.id === activeId)]
-						)}
+						{...getProps(data?.[data?.findIndex((x) => x.id === activeId)])}
 						renderIndex={-1}
 					/>
 				) : null}

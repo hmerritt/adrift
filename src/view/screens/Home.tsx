@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { css, cx } from "@linaria/core";
 
-import theme from "styles";
-import { countIncrement } from "store/actions";
-import { useDispatch, useSelector, useInterval } from "hooks";
+import theme from "lib/styles";
+import { countIncrement } from "state/actions";
+import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
-import { GridDnd, Icon, Stack } from "components";
+import { GridDnd, Icon, Stack } from "view/components";
 
 export const Home = () => {
 	const dispatch = useDispatch();

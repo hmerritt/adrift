@@ -1,6 +1,6 @@
 import { cx } from "@linaria/core";
 
-import { Flex, FlexProps } from "components";
+import { Flex, FlexProps } from "view/components";
 
 interface StackProps extends FlexProps {
 	spacing?:

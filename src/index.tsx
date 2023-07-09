@@ -5,8 +5,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import App from "./App";
 
-import store from "store";
-import "styles/global/index.scss";
+import store from "state";
+import "lib/styles/global/index.scss";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const rootElement = document.getElementById("root");

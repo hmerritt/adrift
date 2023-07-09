@@ -1,4 +1,4 @@
-import type { AppDispatch } from "store";
+import type { AppDispatch } from "state";
 import * as types from "./countReducer";
 
 export const countIncrement = (incrementAmount = 0.1) => {

@@ -4,7 +4,7 @@ import {
 	useSelector as useDefaultSelector
 } from "react-redux";
 
-import type { RootState, AppDispatch } from "../store";
+import type { RootState, AppDispatch } from "state";
 
 // Use instead of plain `useDispatch` and `useSelector`
 export const useDispatch = () => useDefaultDispatch<AppDispatch>();
