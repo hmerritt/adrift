@@ -5,6 +5,7 @@
  */
 
 import path from "path";
+import fs from "fs";
 
 import { createFilter } from "@rollup/pluginutils";
 import type { FilterPattern } from "@rollup/pluginutils";
@@ -32,6 +33,7 @@ export default function linaria({
 }: VitePluginOptions = {}): Plugin {
 	const filter = createFilter(include, exclude);
 	const cssLookup: { [key: string]: string } = {};
+	const cssFileLookup: { [key: string]: string } = {};
 	let config: ResolvedConfig;
 	let devServer: ViteDevServer;
 
@@ -49,16 +51,14 @@ export default function linaria({
 			devServer = _server;
 		},
 		load(url: string) {
-			const [id] = url.split("?");
+			const [id] = url.split("?", 1);
 			return cssLookup[id];
 		},
 		/* eslint-disable-next-line consistent-return */
 		resolveId(importeeUrl: string) {
-			const [id, qsRaw] = importeeUrl.split("?");
-			if (id in cssLookup) {
-				if (qsRaw?.length) return importeeUrl;
-				return id;
-			}
+			const [id] = importeeUrl.split("?", 1);
+			if (cssLookup[id]) return id;
+			return cssFileLookup[id];
 		},
 		handleHotUpdate(ctx) {
 			// it's module, so just transform it
@@ -87,12 +87,14 @@ export default function linaria({
 			return modules;
 		},
 		async transform(code: string, url: string) {
-			const [id] = url.split("?");
+			const [id] = url.split("?", 1);
 
 			// Do not transform ignored and generated files
 			if (url.includes("node_modules") || !filter(url) || id in cssLookup) return;
 
-			//log("rollup-init", id);
+			// const log = createCustomDebug("rollup", getFileIdx(id));
+
+			// log("rollup-init", id);
 
 			const asyncResolve = async (
 				what: string,
@@ -105,13 +107,13 @@ export default function linaria({
 						// If module is marked as external, Rollup will not resolve it,
 						// so we need to resolve it ourselves with default resolver
 						const resolvedId = syncResolve(what, importer, stack);
-						//log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
+						// log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
 						return resolvedId;
 					}
 
-					//log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
+					// log("resolve", "✅ '%s'@'%s -> %O\n%s", what, importer, resolved);
 					// Vite adds param like `?v=667939b3` to cached modules
-					const resolvedId = resolved.id.split("?")[0];
+					const resolvedId = resolved.id.split("?", 1)[0];
 
 					if (resolvedId.startsWith("\0")) {
 						// \0 is a special character in Rollup that tells Rollup to not include this in the bundle
@@ -122,7 +124,7 @@ export default function linaria({
 					return resolvedId;
 				}
 
-				//log("resolve", "❌ '%s'@'%s", what, importer);
+				// log("resolve", "❌ '%s'@'%s", what, importer);
 				throw new Error(`Could not resolve ${what}`);
 			};
 
@@ -143,7 +145,7 @@ export default function linaria({
 				cache
 			);
 
-			let { cssText, dependencies } = result || {};
+			let { cssText, dependencies } = result;
 
 			if (!cssText) return;
 			dependencies ??= [];
@@ -152,14 +154,19 @@ export default function linaria({
 
 			// @IMPORTANT: We *need* to use `.scss` extension here.
 			// This tiny change is the only difference between this file and using `@linaria/vite`.
-			const cssFilename = path.normalize(
-				`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`
-			);
+			const cssFilename = path
+				.normalize(`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`)
+				.replace(/\\/g, path.posix.sep);
 
 			const cssRelativePath = path
 				.relative(config.root, cssFilename)
 				.replace(/\\/g, path.posix.sep);
+
 			const cssId = `/${cssRelativePath}`;
+
+			// @IMPORTANT: This doesn't work, yet.
+			// Double-check file exists. throws an error and fails the build if not found.
+			// await fs.promises.access(cssFilename, fs.constants.F_OK);
 
 			if (sourceMap && result.cssSourceMapText) {
 				const map = Buffer.from(result.cssSourceMapText).toString("base64");
@@ -167,9 +174,9 @@ export default function linaria({
 			}
 
 			cssLookup[cssFilename] = cssText;
-			cssLookup[cssId] = cssText;
+			cssFileLookup[cssId] = cssFilename;
 
-			result.code += `\nimport ${JSON.stringify(cssId)};\n`;
+			result.code += `\nimport ${JSON.stringify(cssFilename)};\n`;
 
 			if (devServer?.moduleGraph) {
 				const module = devServer.moduleGraph.getModuleById(cssId);
@@ -188,10 +195,10 @@ export default function linaria({
 				});
 				if (depModule) dependencies[i] = depModule.id;
 			}
+
 			const target = targets.find((t) => t.id === id);
 			if (!target) targets.push({ id, dependencies });
 			else target.dependencies = dependencies;
-
 			/* eslint-disable-next-line consistent-return */
 			return { code: result.code, map: result.sourceMap };
 		}
