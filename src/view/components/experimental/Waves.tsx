@@ -4,6 +4,9 @@ import { css } from "@linaria/core";
 import theme from "lib/styles";
 import { useEventListener } from "lib/hooks";
 
+/**
+ * SVG Wave
+ */
 export const Waves = memo(() => {
 	const [waveState, setWaveState] = useState(0);
 	const [fillHeight, setFillHeight] = useState(0);
@@ -11,9 +14,10 @@ export const Waves = memo(() => {
 	useEventListener("scroll", () => {
 		// Set height of wave fill.
 		// As user scrolls down, height increases
-		const max = window.innerHeight * 1.5;
+		const max = window.innerHeight * 0.6;
 		const multiplier = max / 100;
-		const percent = window.scrollY / multiplier;
+		let percent = window.scrollY / multiplier;
+		if (percent > 150) percent = 150;
 		setFillHeight(percent);
 
 		// Set wave state
@@ -38,7 +42,7 @@ export const Waves = memo(() => {
 					<path d={waveStates[waveState]} />
 				</svg>
 			</div>
-			<div className={waveFill} style={{ height: `${fillHeight}vh` }}></div>
+			<div className={waveFill} style={{ height: `${fillHeight}vh` }} />
 		</div>
 	);
 });
@@ -53,9 +57,9 @@ const waveContainer = css`
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
+	transform: rotate(180deg);
 
 	& > div {
-		flex-shrink: 1;
 		width: 100%;
 	}
 `;
@@ -64,6 +68,7 @@ const wave = css`
 	${theme}
 	width: 100%;
 	height: auto;
+	flex-shrink: 1;
 
 	path {
 		fill: lighten($blue-100, 8%);
@@ -77,6 +82,7 @@ const waveFill = css`
 	width: 100%;
 	height: 30vh;
 	margin-top: -0.5rem;
+	transition: all 100ms ease 0s;
 	background-color: lighten($blue-100, 8%);
 `;
 

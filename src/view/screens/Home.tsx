@@ -5,7 +5,7 @@ import theme from "lib/styles";
 import { countIncrement } from "state/actions";
 import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
-import { GridDnd, Icon, Stack, Waves } from "view/components";
+import { GridDnd, Icon, Noise, Stack, Waves } from "view/components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -30,6 +30,8 @@ export const Home = () => {
 			</Stack> */}
 
 			<Waves />
+
+			<Noise />
 
 			<GridDnd
 				data={data}
