@@ -68,7 +68,7 @@ const header = css`
 	font-weight: thin;
 	text-align: center;
 	color: $blue-100;
-	@include textShadowBlock($blue-300);
+	@include textShadowBlock($blue-400);
 `;
 
 const grid = css`
