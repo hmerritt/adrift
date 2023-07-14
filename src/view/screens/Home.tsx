@@ -5,13 +5,13 @@ import theme from "lib/styles";
 import { countIncrement } from "state/actions";
 import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
-import { GridDnd, Icon, Stack } from "view/components";
+import { GridDnd, Icon, Stack, Waves } from "view/components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
 	const count = useSelector((state) => state.count.current);
 
-	const [data, setData] = useState([...Array(12)].map((e, i) => ({ id: String(i) })));
+	const [data, setData] = useState([...Array(8)].map((e, i) => ({ id: String(i) })));
 
 	useInterval(() => {
 		if (feature("timerIncrement")) {
@@ -20,14 +20,16 @@ export const Home = () => {
 	}, 1000);
 
 	return (
-		<div className="Home">
-			<Stack spacing={5} center style={{ height: "40vh" }}>
-				<h1 className={header}>{count}</h1>
+		<div className={background}>
+			<h1 className={header}>Adrift</h1>
+			{/* <Stack spacing={5} center style={{ height: "40vh" }}>
 				<h2 style={{ fontSize: "3rem", textAlign: "center" }}>
 					<small>useInterval 1000ms</small>
 				</h2>
 				<Icon name="spinner" />
-			</Stack>
+			</Stack> */}
+
+			<Waves />
 
 			<GridDnd
 				data={data}
@@ -39,8 +41,8 @@ export const Home = () => {
 				)}
 				// grid
 				className={grid}
-				minWidth={20}
-				maxWidth={20}
+				minWidth={40}
+				maxWidth={40}
 				gutter={10}
 				center
 			/>
@@ -48,30 +50,31 @@ export const Home = () => {
 	);
 };
 
+const background = css`
+	background-size: cover;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	/* background-image: url("https://images.unsplash.com/photo-1604076913837-52ab5629fba9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80"); */
+`;
+
 // This will get compiled at build time into a css file.
 // Why? - Performance is *greatly* improved over something like styled-components which compiles at run time!
 const header = css`
 	${theme} // Import theme object - can now use all SCSS variables and mixins set in styles/theme.ts
-	text-transform: uppercase;
-	font-size: 8rem;
+	text-transform: lowercase;
+	font-style: italic;
+	font-size: 10rem;
+	max-width: 10ch;
 	font-weight: thin;
-	color: $red-500; // See styles/colors.tsx
 	text-align: center;
-	text-shadow: $shadow-1; // See styles/shadows.tsx
-
-	// All valid SCSS syntax is valid here (this is just an example)
-	@for $i from 1 through 20 {
-		.stack.stack-#{$i} {
-			& > * {
-				margin-top: #{$i}rem;
-			}
-		}
-	}
+	color: $blue-100;
+	@include textShadowBlock($blue-300);
 `;
 
 const grid = css`
 	${theme}
 	margin: auto;
+	margin-top: 50rem;
 	padding: 1rem;
 	max-width: 900px;
 	margin-bottom: 6rem;
