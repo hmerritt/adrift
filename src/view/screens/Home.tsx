@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { css, cx } from "@linaria/core";
+import { css } from "@linaria/core";
 
 import theme from "lib/styles";
 import { countIncrement } from "state/actions";
 import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
-import { Flex, Fullscreen, GridDnd, Icon, Noise, Stack, Waves } from "view/components";
+import { Fullscreen, Stack, Waves } from "view/components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -20,34 +20,21 @@ export const Home = () => {
 	}, 1000);
 
 	return (
-		<>
-			<Fullscreen position="relative" zIndex={1} style={{ height: "50vh" }} center>
+		<Stack spacing={15}>
+			<Fullscreen
+				center
+				zIndex={1}
+				position="relative"
+				padding="1rem 2rem"
+				style={{ height: "70vh" }}
+			>
 				<div className={pictureFrame}>
 					<h1 className={header}>Adrift</h1>
 					<h4>Template react app with batteries included 🔋</h4>
 					<Waves />
 				</div>
 			</Fullscreen>
-
-			{/* <Stack spacing={5}>
-				<h2 className={header}>Features</h2>
-			</Stack> */}
-			{/* <GridDnd
-				data={data}
-				setData={setData}
-				renderWith={({ id, renderIndex, ...props }) => (
-					<div className={cx(card, "flex-center")} {...props}>
-						{`${renderIndex} -> ${id}`}
-					</div>
-				)}
-				// grid
-				className={grid}
-				minWidth={40}
-				maxWidth={40}
-				gutter={10}
-				center
-			/> */}
-		</>
+		</Stack>
 	);
 };
 
@@ -82,21 +69,4 @@ const header = css`
 	font-weight: thin;
 	color: $blue-100;
 	text-shadow: shadowBlock($blue-400);
-`;
-
-const grid = css`
-	${theme}
-	margin: auto;
-	padding: 1rem;
-	max-width: 900px;
-	margin-bottom: 6rem;
-`;
-
-const card = css`
-	${theme}
-	width: 100%;
-	height: 200px;
-	border-radius: 20px;
-	box-shadow: $shadow-1;
-	background-color: #fff;
 `;

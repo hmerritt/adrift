@@ -5,16 +5,18 @@ export type FullscreenProps = JSX.IntrinsicElements["div"] & {
 	zIndex?: number;
 	center?: boolean;
 	overflow?: "hidden" | "auto";
+	padding?: string;
 };
 
 export const Fullscreen = styled.div<FullscreenProps>`
 	top: 0;
 	left: 0;
-	width: calc(100vw - 1rem);
-	height: calc(100vh - 1rem); // Width of the scrollbar
+	width: 100vw;
+	height: 100vh;
 	align-items: center;
 	justify-content: center;
 	z-index: ${({ zIndex }) => zIndex ?? 0};
+	padding: ${({ padding }) => padding ?? "inherit"};
 	overflow: ${({ overflow }) => overflow ?? "hidden"};
 	position: ${({ position }) => position ?? "relative"};
 	display: ${({ center }) => (!center ? "block" : "flex")};
