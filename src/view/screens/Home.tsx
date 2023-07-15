@@ -5,7 +5,7 @@ import theme from "lib/styles";
 import { countIncrement } from "state/actions";
 import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
-import { GridDnd, Icon, Noise, Stack, Waves } from "view/components";
+import { Flex, Fullscreen, GridDnd, Icon, Noise, Stack, Waves } from "view/components";
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -20,20 +20,19 @@ export const Home = () => {
 	}, 1000);
 
 	return (
-		<div className={background}>
-			<h1 className={header}>Adrift</h1>
-			{/* <Stack spacing={5} center style={{ height: "40vh" }}>
-				<h2 style={{ fontSize: "3rem", textAlign: "center" }}>
-					<small>useInterval 1000ms</small>
-				</h2>
-				<Icon name="spinner" />
+		<>
+			<Fullscreen position="relative" zIndex={1} style={{ height: "50vh" }} center>
+				<div className={pictureFrame}>
+					<h1 className={header}>Adrift</h1>
+					<h4>Template react app with batteries included 🔋</h4>
+					<Waves />
+				</div>
+			</Fullscreen>
+
+			{/* <Stack spacing={5}>
+				<h2 className={header}>Features</h2>
 			</Stack> */}
-
-			<Waves />
-
-			<Noise />
-
-			<GridDnd
+			{/* <GridDnd
 				data={data}
 				setData={setData}
 				renderWith={({ id, renderIndex, ...props }) => (
@@ -47,36 +46,47 @@ export const Home = () => {
 				maxWidth={40}
 				gutter={10}
 				center
-			/>
-		</div>
+			/> */}
+		</>
 	);
 };
 
-const background = css`
-	background-size: cover;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	/* background-image: url("https://images.unsplash.com/photo-1604076913837-52ab5629fba9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80"); */
-`;
-
 // This will get compiled at build time into a css file.
 // Why? - Performance is *greatly* improved over something like styled-components which compiles at run time!
-const header = css`
+const pictureFrame = css`
 	${theme} // Import theme object - can now use all SCSS variables and mixins set in styles/theme.ts
+	position: relative;
+	width: 700px;
+	height: 350px;
+	margin: auto;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	box-shadow: shadowBlock($blue-400);
+
+	h4 {
+		font-style: italic;
+		padding: 1rem;
+		opacity: 0.8;
+		font-size: 1.5rem;
+	}
+`;
+
+const header = css`
+	${theme}
 	text-transform: lowercase;
 	font-style: italic;
 	font-size: 10rem;
-	max-width: 10ch;
 	font-weight: thin;
-	text-align: center;
 	color: $blue-100;
-	@include textShadowBlock($blue-400);
+	text-shadow: shadowBlock($blue-400);
 `;
 
 const grid = css`
 	${theme}
 	margin: auto;
-	margin-top: 50rem;
 	padding: 1rem;
 	max-width: 900px;
 	margin-bottom: 6rem;

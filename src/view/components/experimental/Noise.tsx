@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { css } from "@linaria/core";
 
 const canvasNoise = (ctx: CanvasRenderingContext2D) => {
@@ -15,18 +15,18 @@ const canvasNoise = (ctx: CanvasRenderingContext2D) => {
 };
 
 const canvasResize = (canvas: HTMLCanvasElement) => {
-	canvas.width = window.innerWidth * window.devicePixelRatio;
-	canvas.height = window.innerHeight * window.devicePixelRatio;
-	canvas.style.width = window.innerWidth + "px";
-	canvas.style.height = window.innerHeight + "px";
+	canvas.style.width = "100%";
+	canvas.style.height = "100%";
+	canvas.width = canvas.offsetWidth;
+	canvas.height = canvas.offsetHeight;
 };
 
 /**
- * Noise effect.
+ * Animated noise effect.
  *
  * @warning can negatively impact performance
  */
-export const Noise = memo(() => {
+export const Noise = ({ framerate = 10, reactToWindowResize = false, opacity = 0.5 }) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
 
 	useEffect(() => {
@@ -35,14 +35,14 @@ export const Noise = memo(() => {
 		if (!canvas || !ctx) return;
 
 		canvasResize(canvas);
-		window.addEventListener("resize", () => canvasResize(canvas));
 
-		const fps = 10;
-		let fpsInterval = 1000 / fps;
+		if (reactToWindowResize) {
+			window.addEventListener("resize", () => canvasResize(canvas));
+		}
+
+		const loopRunning = { current: true }; // Escape loop when unmount
+		const fpsInterval = 1000 / framerate;
 		let then = Date.now();
-
-		// Escape loop when unmount
-		const loopRunning = { current: true };
 
 		(function loop() {
 			if (!canvas || !ctx || !loopRunning.current) return;
@@ -60,19 +60,18 @@ export const Noise = memo(() => {
 			loopRunning.current = false;
 			window.removeEventListener("resize", () => canvasResize(canvas));
 		};
-	}, []);
+	}, [framerate, reactToWindowResize]);
 
-	return <canvas ref={$canvas} className={noise}></canvas>;
-});
+	return <canvas ref={$canvas} className={canvas} style={{ opacity }} />;
+};
 
-const noise = css`
-	position: fixed;
+// Fill container
+const canvas = css`
+	position: absolute;
 	top: 0;
-	bottom: 0;
 	left: 0;
-	right: 0;
-	z-index: -5;
-	opacity: 1;
+	width: 100%;
+	height: 100%;
 	user-select: none;
 	pointer-events: none;
 `;

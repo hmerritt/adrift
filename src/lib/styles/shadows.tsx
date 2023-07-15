@@ -12,14 +12,16 @@ const shadows = `
 	/* Text shadows */
 	$text-shadow-0: 0px 0px 0x rgba(0, 0, 0, 0);
 
-	@mixin textShadowBlock($color) {
-		text-shadow: 0.25px 0.25px 0 $color, 0.5px 0.5px 0 $color, 0.75px 0.75px 0 $color,
+	/* Functions */
+	@function shadowBlock($color){
+  		@return 0.25px 0.25px 0 $color, 0.5px 0.5px 0 $color, 0.75px 0.75px 0 $color,
 			1px 1px 0 $color, 1.25px 1.25px 0 $color, 1.5px 1.5px 0 $color,
 			1.75px 1.75px 0 $color, 2px 2px 0 $color, 2.25px 2.25px 0 $color,
 			2.5px 2.5px 0 $color, 2.75px 2.75px 0 $color, 3px 3px 0 $color,
 			3.25px 3.25px 0 $color, 3.5px 3.5px 0 $color, 3.75px 3.75px 0 $color,
-			4px 4px 0 $color, 5.25px 5.25px 0 $color, 5.5px 5.5px 0 $color,
-			5.75px 5.75px 0 $color, 6px 6px 0 $color;
+			4px 4px 0 $color, 4.25px 4.25px 0 $color, 4.5px 4.5px 0 $color, 4.75px 4.75px 0 $color,
+			5px 5px 0 $color, 5.25px 5.25px 0 $color, 5.5px 5.5px 0 $color, 5.75px 5.75px 0 $color,
+			6px 6px 0 $color;
 	}
 
 	/* TEST VALUES: DO NOT DELETE */

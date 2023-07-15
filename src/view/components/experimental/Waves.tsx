@@ -1,20 +1,24 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { css } from "@linaria/core";
 
 import theme from "lib/styles";
-import { useEventListener } from "lib/hooks";
+import { useEventListener, useInterval } from "lib/hooks";
 
 /**
  * SVG Wave
  */
-export const Waves = memo(() => {
+export const Waves = () => {
 	const [waveState, setWaveState] = useState(0);
 	const [fillHeight, setFillHeight] = useState(0);
+
+	useInterval(() => {
+		setWaveState((waveState + 1) % waveStates.length);
+	}, 600);
 
 	useEventListener("scroll", () => {
 		// Set height of wave fill.
 		// As user scrolls down, height increases
-		const max = window.innerHeight * 0.6;
+		const max = window.innerHeight * 0.8;
 		const multiplier = max / 100;
 		let percent = window.scrollY / multiplier;
 		if (percent > 150) percent = 150;
@@ -45,10 +49,10 @@ export const Waves = memo(() => {
 			<div className={waveFill} style={{ height: `${fillHeight}vh` }} />
 		</div>
 	);
-});
+};
 
 const waveContainer = css`
-	position: fixed;
+	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
@@ -57,7 +61,7 @@ const waveContainer = css`
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
-	transform: rotate(180deg);
+	/* transform: rotate(180deg); */
 
 	& > div {
 		width: 100%;
