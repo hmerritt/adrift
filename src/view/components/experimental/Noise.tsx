@@ -1,15 +1,12 @@
 import { useEffect, useRef } from "react";
 import { css } from "@linaria/core";
 
-const canvasNoise = (ctx: CanvasRenderingContext2D) => {
-	const w = ctx.canvas.width,
-		h = ctx.canvas.height,
-		iData = ctx.createImageData(w, h),
+const canvasNoise = (ctx: CanvasRenderingContext2D, patternSize = 64) => {
+	const iData = ctx.createImageData(patternSize, patternSize),
 		buffer32 = new Uint32Array(iData.data.buffer),
 		len = buffer32.length;
-	let i = 0;
 
-	for (; i < len; i++) if (Math.random() < 0.5) buffer32[i] = 0xffffffff;
+	for (let i = 0; i < len; i++) if (Math.random() < 0.5) buffer32[i] = 0xffffffff;
 
 	ctx.putImageData(iData, 0, 0);
 };
@@ -26,7 +23,12 @@ const canvasResize = (canvas: HTMLCanvasElement) => {
  *
  * @warning can negatively impact performance
  */
-export const Noise = ({ framerate = 10, reactToWindowResize = false, opacity = 0.5 }) => {
+export const Noise = ({
+	framerate = 10,
+	patternSize = 64,
+	reactToWindowResize = false,
+	opacity = 0.5
+}) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
 
 	useEffect(() => {
@@ -52,7 +54,7 @@ export const Noise = ({ framerate = 10, reactToWindowResize = false, opacity = 0
 			const elapsed = now - then;
 			if (elapsed > fpsInterval) {
 				then = now - (elapsed % fpsInterval);
-				canvasNoise(ctx);
+				canvasNoise(ctx, patternSize);
 			}
 		})();
 
@@ -65,13 +67,14 @@ export const Noise = ({ framerate = 10, reactToWindowResize = false, opacity = 0
 	return <canvas ref={$canvas} className={canvas} style={{ opacity }} />;
 };
 
-// Fill container
+// Fill parent container
 const canvas = css`
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+	z-index: 100;
 	user-select: none;
 	pointer-events: none;
 `;
