@@ -101,6 +101,7 @@ export const NoiseImg = ({
 	// Img
 	src,
 	// NoiseImg
+	children,
 	imgProps,
 	className,
 	...divProps
@@ -114,6 +115,7 @@ export const NoiseImg = ({
 				alpha={alpha}
 				reactToWindowResize={reactToWindowResize}
 			/>
+			{children && <div className={noiseImgChildren}>{children}</div>}
 		</div>
 	);
 };
@@ -132,4 +134,13 @@ const canvas = css`
 
 const noiseImg = css`
 	position: relative;
+`;
+
+const noiseImgChildren = css`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 55;
 `;
