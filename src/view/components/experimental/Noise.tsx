@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { css } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 
 const canvasNoise = (
 	ctx: CanvasRenderingContext2D,
@@ -11,7 +11,6 @@ const canvasNoise = (
 
 	for (let i = 0; i < patternPixelDataLength; i += 4) {
 		const value: number = (Math.random() * 255) | 0;
-
 		patternData.data[i] = value;
 		patternData.data[i + 1] = value;
 		patternData.data[i + 2] = value;
@@ -27,6 +26,19 @@ const canvasResize = (canvas: HTMLCanvasElement, patternSize = 64) => {
 	canvas.width = patternSize;
 	canvas.height = patternSize;
 };
+
+export type NoiseProps = {
+	framerate?: number;
+	size?: number;
+	alpha?: number;
+	reactToWindowResize?: boolean;
+};
+
+export type NoiseImgProps = NoiseProps &
+	JSX.IntrinsicElements["div"] & {
+		src?: string;
+		imgProps?: JSX.IntrinsicElements["img"];
+	};
 
 /**
  * Animated noise effect.
@@ -77,6 +89,35 @@ export const Noise = ({
 	return <canvas ref={$canvas} className={canvas} />;
 };
 
+/**
+ * Img wrapped with Noise.
+ */
+export const NoiseImg = ({
+	// Noise
+	framerate = 12,
+	size = 256,
+	alpha = 25,
+	reactToWindowResize = false,
+	// Img
+	src,
+	// NoiseImg
+	imgProps,
+	className,
+	...divProps
+}: NoiseImgProps) => {
+	return (
+		<div className={cx(noiseImg, className)} {...divProps}>
+			<img draggable={false} src={src} width="100%" height="100%" {...imgProps} />
+			<Noise
+				framerate={framerate}
+				size={size}
+				alpha={alpha}
+				reactToWindowResize={reactToWindowResize}
+			/>
+		</div>
+	);
+};
+
 // Fill parent container
 const canvas = css`
 	position: absolute;
@@ -87,4 +128,8 @@ const canvas = css`
 	z-index: 100;
 	user-select: none;
 	pointer-events: none;
+`;
+
+const noiseImg = css`
+	position: relative;
 `;
