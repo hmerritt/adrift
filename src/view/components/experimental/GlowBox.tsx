@@ -51,6 +51,13 @@ export const GlowBoxProvider = ({ children }: GlowBoxProps) => {
 		});
 	});
 
+	// @TODO: Mobile specific functionality.
+	//
+	// Remove `mousemove` in favor of `onscroll` - top-bottom scroll
+
+	// @TODO: change styles via props/theme
+	// @TODO: use theme when setting styles.
+
 	return children;
 };
 
