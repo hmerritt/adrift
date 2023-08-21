@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { css } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 import { useEventListener } from "lib/hooks";
 
 export type GlowBoxProps = JSX.IntrinsicElements["div"];
@@ -7,47 +6,58 @@ export type GlowBoxProps = JSX.IntrinsicElements["div"];
 /**
  * Animated glow effect around a box.
  */
-export const GlowBox = ({ children }: GlowBoxProps) => {
-	const $container = useRef<HTMLDivElement>(null);
+export const GlowBox = ({ children, className, ...divProps }: GlowBoxProps) => {
+	return (
+		<div {...divProps} className={cx(glowBox, className)} data-glow>
+			{children}
+		</div>
+	);
+};
 
+/**
+ * Wrap your app with this provider.
+ *
+ * This is required for `<GlowBox />` to work!
+ */
+export const GlowBoxProvider = ({ children }: GlowBoxProps) => {
 	// Global glowBox functionality
 	useEventListener("mousemove", (evt) => {
 		// prettier-ignore
 		if (!evt || (evt as MouseEvent)?.x == undefined || (evt as MouseEvent)?.y == undefined) return;
 		const { x, y } = (evt as MouseEvent) || {};
 
-		// Element
-		if (!$container.current) return;
-		const padding = 300;
-		const { top, bottom, left, right } = $container.current.getBoundingClientRect();
+		const $elements = document.querySelectorAll("[data-glow]");
+		$elements.forEach(($element: any) => {
+			const { top, bottom, left, right } = $element.getBoundingClientRect();
+			const padding = {
+				x: window.innerWidth / 2.5 > 300 ? window.innerWidth / 2.5 : 300,
+				y: window.innerHeight / 2.5 > 300 ? window.innerHeight / 2.5 : 300
+			};
 
-		// Shut up and calculate
-		const isMouseWithinElement =
-			x >= left - padding &&
-			x <= right + padding &&
-			y >= top - padding &&
-			y <= bottom + padding;
+			// Shut up and calculate.
+			//
+			// Is the mouse within the element (plus padding)
+			const isMouseWithinElement =
+				x >= left - padding.x &&
+				x <= right + padding.x &&
+				y >= top - padding.y &&
+				y <= bottom + padding.y;
 
-		console.log(isMouseWithinElement);
-		if (!isMouseWithinElement) return;
+			if (!isMouseWithinElement) return;
 
-		$container.current.style.background = `radial-gradient(24rem at ${x - left}px ${
-			y - top
-		}px, rgb(120, 120, 120), rgb(255, 255, 255))`;
+			$element.style.background = `radial-gradient(24rem at ${x - left}px ${
+				y - top
+			}px, rgb(120, 120, 120), rgb(255, 255, 255))`;
+		});
 	});
 
-	return (
-		<div ref={$container} className={glowBox}>
-			{children}
-		</div>
-	);
+	return children;
 };
 
 // Fill parent container
 const glowBox = css`
 	padding: 1px;
 	border-radius: 8px;
-	transition: background 1s ease-out;
 
 	& > * {
 		border-radius: 7px;
