@@ -10,6 +10,7 @@ declare global {
 	var logStore: LogStoreType;
 	var feature: FeatureFunction;
 	var getNumberOfEventListeners: () => number;
+	var getObjectOfEventListeners: () => Record<string, number>;
 
 	interface Window {
 		log: LogFunction;
@@ -17,5 +18,6 @@ declare global {
 		logStore: LogStoreType;
 		feature: FeatureFunction;
 		getNumberOfEventListeners: () => number;
+		getObjectOfEventListeners: () => Record<string, number>;
 	}
 }

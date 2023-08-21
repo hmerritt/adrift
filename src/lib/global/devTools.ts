@@ -14,6 +14,30 @@ export const getNumberOfEventListeners = () => {
 	}
 };
 
+export const getObjectOfEventListeners = () => {
+	try {
+		if (typeof window === "undefined" || !(window as any)?.getEventListeners)
+			return {};
+		return Array.from(document.querySelectorAll("*")).reduce(function (
+			pre: any,
+			dom: any
+		) {
+			const evtObj = (window as any).getEventListeners(dom);
+			Object.keys(evtObj).forEach(function (evt) {
+				if (typeof pre[evt] === "undefined") {
+					pre[evt] = 0;
+				}
+				pre[evt] += evtObj[evt].length;
+			});
+			return pre;
+		},
+		{});
+	} catch (e) {
+		return {};
+	}
+};
+
 export const injectDevTools = () => {
 	$global.getNumberOfEventListeners = getNumberOfEventListeners;
+	$global.getObjectOfEventListeners = getObjectOfEventListeners;
 };
