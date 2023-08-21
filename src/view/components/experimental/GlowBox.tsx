@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { css, cx } from "@linaria/core";
+import { useRef } from "react";
+import { css } from "@linaria/core";
 import { useEventListener } from "lib/hooks";
 
 export type GlowBoxProps = JSX.IntrinsicElements["div"];
@@ -16,28 +16,24 @@ export const GlowBox = ({ children }: GlowBoxProps) => {
 		if (!evt || (evt as MouseEvent)?.x == undefined || (evt as MouseEvent)?.y == undefined) return;
 		const { x, y } = (evt as MouseEvent) || {};
 
-		//
+		// Element
 		if (!$container.current) return;
+		const padding = 300;
 		const { top, bottom, left, right } = $container.current.getBoundingClientRect();
-		// Pad element dimensions ??
 
 		// Shut up and calculate
-		const isMouseWithinElement = x >= left && x <= right && y >= top && y <= bottom;
-		// const mousePositionWithinElement = {
-		// 	x: (x - left) / (right - left),
-		// 	y: (y - top) / (bottom - top)
-		// };
-		console.log(
-			x,
-			y,
-			$container.current.getBoundingClientRect(),
-			isMouseWithinElement
-		);
+		const isMouseWithinElement =
+			x >= left - padding &&
+			x <= right + padding &&
+			y >= top - padding &&
+			y <= bottom + padding;
+
+		console.log(isMouseWithinElement);
 		if (!isMouseWithinElement) return;
 
-		$container.current.style.backgroundImage = `radial-gradient(24rem at ${
-			x - left
-		}px ${y - top}px, rgb(45, 45, 45), rgb(255, 255, 255))`;
+		$container.current.style.background = `radial-gradient(24rem at ${x - left}px ${
+			y - top
+		}px, rgb(120, 120, 120), rgb(255, 255, 255))`;
 	});
 
 	return (
@@ -51,11 +47,7 @@ export const GlowBox = ({ children }: GlowBoxProps) => {
 const glowBox = css`
 	padding: 1px;
 	border-radius: 8px;
-	/* background-image: radial-gradient(
-		24rem at 000px 0px,
-		rgb(80, 80, 80),
-		rgb(255, 255, 255)
-	); */
+	transition: background 1s ease-out;
 
 	& > * {
 		border-radius: 7px;
