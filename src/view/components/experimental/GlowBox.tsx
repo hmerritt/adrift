@@ -1,9 +1,13 @@
+import { useRef } from "react";
 import { css, cx } from "@linaria/core";
+import { isMobile } from "react-device-detect";
+
 import { useEventListener } from "lib/hooks";
 
 export type GlowBoxProps = JSX.IntrinsicElements["div"];
 export type GlowBoxProvider = {
 	children: React.ReactNode;
+	staticForMobile?: boolean;
 	gradient?: {
 		size?: string;
 		glow?: string;
@@ -27,7 +31,13 @@ export const GlowBox = ({ children, className, ...divProps }: GlowBoxProps) => {
  *
  * This is required for `<GlowBox />` to work!
  */
-export const GlowBoxProvider = ({ children, gradient }: GlowBoxProvider) => {
+export const GlowBoxProvider = ({
+	children,
+	staticForMobile = true,
+	gradient
+}: GlowBoxProvider) => {
+	const state = useRef({ x: 0, y: 0, stopUpdates: false });
+
 	const { size, glow, background } = {
 		size: "24rem",
 		glow: "rgb(120, 120, 120)",
@@ -35,14 +45,18 @@ export const GlowBoxProvider = ({ children, gradient }: GlowBoxProvider) => {
 		...(gradient ? gradient : {})
 	};
 
-	// Global glowBox functionality
-	useEventListener("mousemove", (evt) => {
-		// prettier-ignore
-		if (!evt || (evt as MouseEvent)?.x == undefined || (evt as MouseEvent)?.y == undefined) return;
-		const { x, y } = (evt as MouseEvent) || {};
+	const updateAllGlowBoxes = () => {
+		const { x, y } = state.current || { x: 0, y: 0 };
 
 		const $elements = document.querySelectorAll("[data-glow]");
 		$elements.forEach(($element: any) => {
+			// Stop on mobile
+			if (staticForMobile && isMobile) {
+				$element.style.background = `${glow}`;
+				state.current = { ...state.current, stopUpdates: true };
+				return;
+			}
+
 			const { top, bottom, left, right } = $element.getBoundingClientRect();
 			const padding = {
 				x: window.innerWidth / 2.5 > 300 ? window.innerWidth / 2.5 : 300,
@@ -64,6 +78,20 @@ export const GlowBoxProvider = ({ children, gradient }: GlowBoxProvider) => {
 				y - top
 			}px, ${glow}, ${background})`;
 		});
+	};
+
+	// Global glowBox functionality
+	useEventListener("mousemove", (evt) => {
+		if (state.current.stopUpdates) return;
+		const { x, y } = (evt as MouseEvent) || {};
+		if (x != null || y != null) state.current = { ...state.current, x: x, y: y };
+		updateAllGlowBoxes();
+	});
+
+	useEventListener("scroll", () => {
+		if (state.current.stopUpdates) return;
+		const event = new Event("mousemove");
+		window.dispatchEvent(event); // Trigger mousemove on scroll
 	});
 
 	// @TODO: Mobile specific functionality.
