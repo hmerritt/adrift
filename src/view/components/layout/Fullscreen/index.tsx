@@ -15,9 +15,9 @@ export const Fullscreen = styled.div<FullscreenProps>`
 	height: 100vh;
 	align-items: center;
 	justify-content: center;
-	z-index: ${({ zIndex }) => zIndex ?? 0};
-	padding: ${({ padding }) => padding ?? "inherit"};
-	overflow: ${({ overflow }) => overflow ?? "hidden"};
-	position: ${({ position }) => position ?? "relative"};
-	display: ${({ center }) => (!center ? "block" : "flex")};
+	z-index: ${({ zIndex }: any) => zIndex ?? 0};
+	padding: ${({ padding }: any) => padding ?? "inherit"};
+	overflow: ${({ overflow }: any) => overflow ?? "hidden"};
+	position: ${({ position }: any) => position ?? "relative"};
+	display: ${({ center }: any) => (!center ? "block" : "flex")};
 `;
