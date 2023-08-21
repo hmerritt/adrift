@@ -2,6 +2,14 @@ import { css, cx } from "@linaria/core";
 import { useEventListener } from "lib/hooks";
 
 export type GlowBoxProps = JSX.IntrinsicElements["div"];
+export type GlowBoxProvider = {
+	children: React.ReactNode;
+	gradient?: {
+		size?: string;
+		glow?: string;
+		background?: string;
+	};
+};
 
 /**
  * Animated glow effect around a box.
@@ -19,7 +27,14 @@ export const GlowBox = ({ children, className, ...divProps }: GlowBoxProps) => {
  *
  * This is required for `<GlowBox />` to work!
  */
-export const GlowBoxProvider = ({ children }: GlowBoxProps) => {
+export const GlowBoxProvider = ({ children, gradient }: GlowBoxProvider) => {
+	const { size, glow, background } = {
+		size: "24rem",
+		glow: "rgb(120, 120, 120)",
+		background: "rgb(255, 255, 255)",
+		...(gradient ? gradient : {})
+	};
+
 	// Global glowBox functionality
 	useEventListener("mousemove", (evt) => {
 		// prettier-ignore
@@ -45,9 +60,9 @@ export const GlowBoxProvider = ({ children }: GlowBoxProps) => {
 
 			if (!isMouseWithinElement) return;
 
-			$element.style.background = `radial-gradient(24rem at ${x - left}px ${
+			$element.style.background = `radial-gradient(${size} at ${x - left}px ${
 				y - top
-			}px, rgb(120, 120, 120), rgb(255, 255, 255))`;
+			}px, ${glow}, ${background})`;
 		});
 	});
 
