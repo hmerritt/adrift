@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { css, cx } from "@linaria/core";
 import { isMobile } from "react-device-detect";
 
@@ -33,7 +33,7 @@ export const GlowBox = ({ children, className, ...divProps }: GlowBoxProps) => {
  */
 export const GlowBoxProvider = ({
 	children,
-	staticForMobile = true,
+	staticForMobile = false,
 	gradient
 }: GlowBoxProvider) => {
 	const state = useRef({ x: 0, y: 0, stopUpdates: false });
@@ -72,31 +72,43 @@ export const GlowBoxProvider = ({
 				y >= top - padding.y &&
 				y <= bottom + padding.y;
 
-			if (!isMouseWithinElement) return;
+			if (!isMouseWithinElement && !isMobile) return;
 
-			$element.style.background = `radial-gradient(${size} at ${x - left}px ${
-				y - top
-			}px, ${glow}, ${background})`;
+			$element.style.background = `radial-gradient(${
+				!isMobile ? size : "90vw"
+			} at ${x - left}px ${y - top}px, ${glow}, ${background})`;
 		});
 	};
 
 	// Global glowBox functionality
 	useEventListener("mousemove", (evt) => {
-		if (state.current.stopUpdates) return;
+		if (isMobile || state.current.stopUpdates) return;
 		const { x, y } = (evt as MouseEvent) || {};
 		if (x != null || y != null) state.current = { ...state.current, x: x, y: y };
 		updateAllGlowBoxes();
 	});
 
-	useEventListener("scroll", () => {
+	useEventListener("scroll", (evt) => {
 		if (state.current.stopUpdates) return;
+
+		if (isMobile) {
+			state.current = {
+				...state.current,
+				x: window.innerWidth / 2,
+				y: window.innerHeight / 3
+			};
+			updateAllGlowBoxes();
+			return;
+		}
+
 		const event = new Event("mousemove");
 		window.dispatchEvent(event); // Trigger mousemove on scroll
 	});
 
-	// @TODO: Mobile specific functionality.
-	//
-	// Remove `mousemove` in favor of `onscroll` - top-bottom scroll
+	useEffect(() => {
+		const event = new Event("scroll");
+		window.dispatchEvent(event); // Trigger mousemove on load
+	}, []);
 
 	// @TODO: change styles via props/theme
 	// @TODO: use theme when setting styles.
