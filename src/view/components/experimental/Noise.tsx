@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
 import { css, cx } from "@linaria/core";
+import { useEffect, useRef } from "react";
 
 const canvasNoise = (
 	ctx: CanvasRenderingContext2D,
@@ -100,15 +100,15 @@ export const NoiseImg = ({
 	reactToWindowResize = false,
 	// Img
 	src,
+	imgProps,
 	// NoiseImg
 	children,
-	imgProps,
 	className,
 	...divProps
 }: NoiseImgProps) => {
 	return (
 		<div className={cx(noiseImg, className)} {...divProps}>
-			<img draggable={false} src={src} width="100%" height="100%" {...imgProps} />
+			<img src={src} width="100%" height="100%" draggable={false} {...imgProps} />
 			<Noise
 				framerate={framerate}
 				size={size}
