@@ -21,7 +21,8 @@ export const Container = ({
 const container = css`
 	position: relative;
 	width: 100%;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 0 2rem;
 
 	@media screen and (max-width: 768px) {
