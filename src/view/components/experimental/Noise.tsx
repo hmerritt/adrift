@@ -1,6 +1,8 @@
 import { css, cx } from "@linaria/core";
 import { useEffect, useRef } from "react";
 
+import { Image, ImageProps } from "../Image";
+
 const canvasNoise = (
 	ctx: CanvasRenderingContext2D,
 	patternSize = 64,
@@ -37,7 +39,7 @@ export type NoiseProps = {
 export type NoiseImgProps = NoiseProps &
 	JSX.IntrinsicElements["div"] & {
 		src?: string;
-		imgProps?: JSX.IntrinsicElements["img"];
+		imgProps?: ImageProps;
 	};
 
 /**
@@ -108,7 +110,13 @@ export const NoiseImg = ({
 }: NoiseImgProps) => {
 	return (
 		<div className={cx(noiseImg, className)} {...divProps}>
-			<img src={src} width="100%" height="100%" draggable={false} {...imgProps} />
+			<Image
+				src={src}
+				width="100%"
+				height="100%"
+				hideWhileLoading={true}
+				{...imgProps}
+			/>
 			<Noise
 				framerate={framerate}
 				size={size}
