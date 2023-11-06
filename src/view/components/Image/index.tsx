@@ -4,6 +4,8 @@ import { useState } from "react";
 export type ImageProps = JSX.IntrinsicElements["img"] & {
 	/** Maintains image aspect ratio - even when render width/height are fluid */
 	aspectRatioMaintain?: boolean;
+	/** Hides image while loading */
+	hideWhileLoading?: boolean;
 	/** Image source that is shown if `src` image fails to load (also shown while loading if `loadingSrc` is unset) */
 	fallbackSrc?: string;
 	/** Image source that is shown while `src` image is loading */
@@ -15,6 +17,7 @@ export const Image = ({
 	className,
 	fallbackSrc,
 	height,
+	hideWhileLoading,
 	loadingSrc,
 	src,
 	width,
@@ -44,12 +47,14 @@ export const Image = ({
 				className={cx(
 					className,
 					aspectRatioMaintain && arm,
-					usesFallback && (isLoading || hasError) && "hidden"
+					hideWhileLoading && isLoading && "hidden", // Hide while loading
+					!usesFallback && hasError && "hidden", // Hide when errored, and no fallback set
+					usesFallback && (isLoading || hasError) && "none" // Hide when fallback is active
 				)}
 				draggable={false} // <- All websites should do this my my
 				width={width}
 				height={height}
-				{...((onLoad || usesFallback) && {
+				{...((onLoad || usesFallback || hideWhileLoading) && {
 					onLoad: (e) => {
 						if (onLoad) onLoad(e);
 						setState((prev) => ({ ...prev, isLoading: false }));
@@ -74,7 +79,7 @@ export const Image = ({
 					className={cx(
 						className,
 						aspectRatioMaintain && arm,
-						!isLoading && !hasError && "hidden"
+						!isLoading && !hasError && "none"
 					)}
 					draggable={false}
 					width={width}

@@ -475,6 +475,10 @@ strong {
 	font-weight: bold;
 }
 
+img {
+	transition: opacity 100ms ease-in-out;
+}
+
 svg {
 	width: 2.5rem;
 	height: 2.5rem;
