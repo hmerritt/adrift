@@ -5,14 +5,8 @@
  */
 export const getGlobal = () => {
 	try {
-		if (typeof window !== "undefined") {
-			return window;
-		}
-
-		if (typeof globalThis !== "undefined") {
-			return globalThis;
-		}
-
+		if (typeof window !== "undefined") return window;
+		if (typeof globalThis !== "undefined") return globalThis;
 		return global;
 	} catch (e) {
 		return global;

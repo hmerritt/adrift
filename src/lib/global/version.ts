@@ -19,14 +19,14 @@ export const versionString = () => {
 	if (gitCommitHash) {
 		versionString += ` (`;
 
-		// ENV
+		// ENV (hide in production)
 		if (environment !== "production") {
-			versionString += `${environment ?? "unknown"} `;
+			versionString += `${environment || "unknown"} `;
 		}
 
 		// Branch name (hide in production)
 		if (gitBranch !== "master" && environment !== "production") {
-			versionString += `${gitBranch ?? "unknown"}/`;
+			versionString += `${gitBranch || "unknown"}/`;
 		}
 
 		// Commit hash
