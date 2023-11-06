@@ -14,8 +14,13 @@ export const Container = ({
 	width = "1320px",
 	...props
 }: ContainerProps) => {
-	style = { ...style, padding, maxWidth: width };
-	return <div className={cx(container, className)} style={style} {...props} />;
+	return (
+		<div
+			className={cx(container, className)}
+			style={{ ...style, padding, maxWidth: width }}
+			{...props}
+		/>
+	);
 };
 
 const container = css`
