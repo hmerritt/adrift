@@ -1,5 +1,5 @@
 import { css, cx } from "@linaria/core";
-import { MouseEvent, TouchEvent, useCallback } from "react";
+import { MouseEvent, TouchEvent, useCallback, useRef } from "react";
 import { isMobile } from "react-device-detect";
 
 export type RippleProps = JSX.IntrinsicElements["div"] & {
@@ -23,6 +23,9 @@ export const Ripple = ({
 	onTouchEnd,
 	...props
 }: RippleProps) => {
+	// Keep track of each ripple
+	const count = useRef(0);
+
 	// Calculate touch/mouse position (relative to container)
 	const getTouchPosition = (e: MouseEvent | TouchEvent, targetRect: DOMRect) => {
 		let x, y, clientX, clientY;
@@ -45,11 +48,30 @@ export const Ripple = ({
 		return { x, y };
 	};
 
+	const handleRemoveRipple = (container: Element) => {
+		const ripple = container.firstChild as HTMLSpanElement;
+
+		Object.assign(ripple.style, {
+			transitionDuration: "250ms",
+			opacity: 0
+		});
+
+		// Finally remove the span after the transition
+		setTimeout(() => {
+			const { parentNode } = container;
+
+			if (parentNode) {
+				parentNode.removeChild(container);
+			}
+		}, 500);
+	};
+
 	const handleStart = useCallback(
 		(e: any) => {
 			if (isMobile) onTouchStart?.(e);
 			else onMouseDown?.(e);
 
+			const rippleId = count.current++;
 			const button = e.currentTarget;
 			const style = window.getComputedStyle(button);
 			const dimensions = button.getBoundingClientRect();
@@ -68,6 +90,7 @@ export const Ripple = ({
 			const container = document.createElement("span");
 
 			container.setAttribute("data-ripple", "");
+			container.setAttribute(`data-ripple-${rippleId}`, "");
 
 			Object.assign(container.style, {
 				position: "absolute",
@@ -127,7 +150,12 @@ export const Ripple = ({
 			});
 
 			const reset = setTimeout(() => {
-				handleEnd(e);
+				requestAnimationFrame(() => {
+					const remainingRipple = button.querySelector(
+						`[data-ripple-${rippleId}]`
+					);
+					if (remainingRipple) handleRemoveRipple(remainingRipple);
+				});
 			}, duration + 400);
 
 			return () => clearTimeout(reset);
@@ -140,26 +168,14 @@ export const Ripple = ({
 			if (isMobile) onTouchEnd?.(e);
 			else onMouseUp?.(e);
 
-			const containers = document?.querySelectorAll("[data-ripple]");
+			const containers = e?.currentTarget?.querySelectorAll(
+				"[data-ripple]"
+			) as HTMLElement[];
 
 			requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
-					containers.forEach((container) => {
-						const ripple = container.firstChild as HTMLSpanElement;
-
-						Object.assign(ripple.style, {
-							transitionDuration: "250ms",
-							opacity: 0
-						});
-
-						// Finally remove the span after the transition
-						setTimeout(() => {
-							const { parentNode } = container;
-
-							if (parentNode) {
-								parentNode.removeChild(container);
-							}
-						}, 500);
+					containers?.forEach((container) => {
+						handleRemoveRipple(container);
 					});
 				});
 			});
