@@ -1,58 +1,60 @@
-import { useEffect, useRef } from "react";
 import { css, cx } from "@linaria/core";
+import { useEffect, useRef } from "react";
 import { isMobile } from "react-device-detect";
 
 import { useEventListener } from "lib/hooks";
 
-export type GlowBoxProps = JSX.IntrinsicElements["div"];
-export type GlowBoxProvider = {
+export type HaloProps = JSX.IntrinsicElements["div"];
+export type HaloProvider = {
 	children: React.ReactNode;
 	staticForMobile?: boolean;
 	gradient?: {
 		size?: string;
-		glow?: string;
+		halo?: string;
 		background?: string;
 	};
 };
 
 /**
- * Animated glow effect around a box.
+ * Animated halo/glow effect around a box.
+ *
+ * Tracks and updates according to the mouse position.
  */
-export const GlowBox = ({ children, className, ...divProps }: GlowBoxProps) => {
+export const Halo = ({ children, className, ...divProps }: HaloProps) => {
 	return (
-		<div {...divProps} className={cx(glowBox, className)} data-glow>
+		<div {...divProps} className={cx(halo, className)} data-halo>
 			{children}
 		</div>
 	);
 };
 
 /**
- * Wrap your app with this provider.
+ * Provider for `<Halo />` effect (does all the heavy lifting).
  *
- * This is required for `<GlowBox />` to work!
+ * @Important Wrap your app with this provider. This is required for `<Halo />` to work!
  */
-export const GlowBoxProvider = ({
+export const HaloProvider = ({
 	children,
 	staticForMobile = false,
 	gradient
-}: GlowBoxProvider) => {
+}: HaloProvider) => {
 	const state = useRef({ x: 0, y: 0, stopUpdates: false });
 
-	const { size, glow, background } = {
+	const { size, halo, background } = {
 		size: "24rem",
-		glow: "rgb(120, 120, 120)",
+		halo: "rgb(120, 120, 120)",
 		background: "rgb(255, 255, 255)",
 		...(gradient ? gradient : {})
 	};
 
-	const updateAllGlowBoxes = () => {
+	const updateAllHalos = () => {
 		const { x, y } = state.current || { x: 0, y: 0 };
 
-		const $elements = document.querySelectorAll("[data-glow]");
+		const $elements = document.querySelectorAll("[data-halo]");
 		$elements.forEach(($element: any) => {
 			// Stop on mobile
 			if (staticForMobile && isMobile) {
-				$element.style.background = `${glow}`;
+				$element.style.background = `${halo}`;
 				state.current = { ...state.current, stopUpdates: true };
 				return;
 			}
@@ -76,16 +78,16 @@ export const GlowBoxProvider = ({
 
 			$element.style.background = `radial-gradient(${
 				!isMobile ? size : "90vw"
-			} at ${x - left}px ${y - top}px, ${glow}, ${background})`;
+			} at ${x - left}px ${y - top}px, ${halo}, ${background})`;
 		});
 	};
 
-	// Global glowBox functionality
+	// Global halo functionality
 	useEventListener("mousemove", (evt) => {
 		if (isMobile || state.current.stopUpdates) return;
 		const { x, y } = (evt as MouseEvent) || {};
 		if (x != null || y != null) state.current = { ...state.current, x: x, y: y };
-		updateAllGlowBoxes();
+		updateAllHalos();
 	});
 
 	useEventListener("scroll", (evt) => {
@@ -97,7 +99,7 @@ export const GlowBoxProvider = ({
 				x: window.innerWidth / 2,
 				y: window.innerHeight / 3
 			};
-			updateAllGlowBoxes();
+			updateAllHalos();
 			return;
 		}
 
@@ -110,14 +112,14 @@ export const GlowBoxProvider = ({
 		window.dispatchEvent(event); // Trigger mousemove on load
 	}, []);
 
-	// @TODO: change styles via props/theme
+	// @TODO: change styles via props/theme (dark/light)
 	// @TODO: use theme when setting styles.
 
 	return children;
 };
 
 // Fill parent container
-const glowBox = css`
+const halo = css`
 	padding: 1px;
 	border-radius: 8px;
 
