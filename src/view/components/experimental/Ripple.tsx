@@ -114,7 +114,7 @@ export const Ripple = ({
 				pointerEvents: "none",
 				backgroundColor: "rgba(20, 20, 20, 0.1)", // @TODO: theme me
 				borderRadius: "50%",
-				zIndex: "-1 !important",
+				zIndex: "10",
 
 				/* Transition configuration */
 				transitionProperty: "transform opacity",
@@ -135,7 +135,7 @@ export const Ripple = ({
 
 			// Finally, append it to DOM
 			container.appendChild(ripple);
-			button.prepend(container);
+			button.appendChild(container);
 
 			// rAF runs in the same frame as the event handler
 			// Use double rAF to ensure the transition class is added in next frame
@@ -202,16 +202,6 @@ const ripple = css`
 	cursor: pointer;
 	overflow: hidden;
 	transition: 150ms background-color;
-
-	/* Workaround to get ripple to render behind children, but in front of the background-color */
-	/* @Note: Maybe just accept it will render above and delete this */
-	& {
-		z-index: 2;
-
-		& > * {
-			z-index: 3;
-		}
-	}
 
 	&.hoverBg:hover {
 		background-color: #f2f2f2; // @TODO: theme me
