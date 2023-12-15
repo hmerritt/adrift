@@ -62,7 +62,7 @@ export const Ripple = ({
 			}
 
 			// Get the size of the button to determine how big the ripple should be
-			const size = Math.max(dimensions.width, dimensions.height) * 2;
+			const size = Math.max(dimensions.width, dimensions.height) * 2.5;
 
 			// Create a container for our ripple effect so we don't need to change the parent's style
 			const container = document.createElement("span");
@@ -84,6 +84,7 @@ export const Ripple = ({
 
 			// Create span to show the ripple effect
 			const ripple = document.createElement("span");
+			const duration = Math.min(size * 1.5, 350);
 
 			Object.assign(ripple.style, {
 				position: "absolute",
@@ -94,7 +95,7 @@ export const Ripple = ({
 
 				/* Transition configuration */
 				transitionProperty: "transform opacity",
-				transitionDuration: `${Math.min(size * 1.5, 350)}ms`,
+				transitionDuration: `${duration}ms`,
 				transitionTimingFunction: "linear",
 				transformOrigin: "center",
 
@@ -124,6 +125,12 @@ export const Ripple = ({
 					});
 				});
 			});
+
+			const reset = setTimeout(() => {
+				handleEnd(e);
+			}, duration + 400);
+
+			return () => clearTimeout(reset);
 		},
 		[centered, onTouchStart]
 	);
@@ -133,9 +140,7 @@ export const Ripple = ({
 			if (isMobile) onTouchEnd?.(e);
 			else onMouseUp?.(e);
 
-			const containers = e?.currentTarget?.querySelectorAll(
-				"[data-ripple]"
-			) as HTMLElement[];
+			const containers = document?.querySelectorAll("[data-ripple]");
 
 			requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
