@@ -1,5 +1,6 @@
 import { css, cx } from "@linaria/core";
 import { useCallback } from "react";
+import { isMobile } from "react-device-detect";
 
 export type RippleProps = JSX.IntrinsicElements["div"] & {
 	hoverBg?: boolean;
@@ -12,12 +13,20 @@ export type RippleProps = JSX.IntrinsicElements["div"] & {
  *
  * @Note Ported from `react-native-paper`'s `<TouchableRipple />`
  */
-export const Ripple = ({ children, hoverBg, ...props }: RippleProps) => {
-	const { centered, onTouchStart, onTouchEnd } = props;
-
+export const Ripple = ({
+	children,
+	hoverBg,
+	centered,
+	onMouseDown,
+	onMouseUp,
+	onTouchStart,
+	onTouchEnd,
+	...props
+}: RippleProps) => {
 	const handleStart = useCallback(
 		(e: any) => {
-			onTouchStart?.(e);
+			if (isMobile) onTouchStart?.(e);
+			else onMouseDown?.(e);
 
 			const button = e.currentTarget;
 			const style = window.getComputedStyle(button);
@@ -100,7 +109,8 @@ export const Ripple = ({ children, hoverBg, ...props }: RippleProps) => {
 
 	const handleEnd = useCallback(
 		(e: any) => {
-			onTouchEnd?.(e);
+			if (isMobile) onTouchEnd?.(e);
+			else onMouseUp?.(e);
 
 			const containers = e.currentTarget.querySelectorAll(
 				"[data-ripple]"
