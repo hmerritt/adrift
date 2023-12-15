@@ -1,5 +1,5 @@
 import { css, cx } from "@linaria/core";
-import { useCallback } from "react";
+import { MouseEvent, TouchEvent, useCallback } from "react";
 import { isMobile } from "react-device-detect";
 
 export type RippleProps = JSX.IntrinsicElements["div"] & {
@@ -23,6 +23,28 @@ export const Ripple = ({
 	onTouchEnd,
 	...props
 }: RippleProps) => {
+	// Calculate touch/mouse position (relative to container)
+	const getTouchPosition = (e: MouseEvent | TouchEvent, targetRect: DOMRect) => {
+		let x, y, clientX, clientY;
+		x = y = clientX = clientY = 0;
+
+		if (e.type === "mousedown") {
+			const native = e.nativeEvent as MouseEvent["nativeEvent"];
+			clientX = native?.clientX;
+			clientY = native?.clientY;
+		} else if (e.type === "touchstart") {
+			const native = e.nativeEvent as TouchEvent["nativeEvent"];
+			const touch = native?.touches?.[0] ?? native?.changedTouches?.[0];
+			clientX = touch?.clientX;
+			clientY = touch?.clientY;
+		}
+
+		x = Math.round(clientX - targetRect?.x) || 0;
+		y = Math.round(clientY - targetRect?.y) || 0;
+
+		return { x, y };
+	};
+
 	const handleStart = useCallback(
 		(e: any) => {
 			if (isMobile) onTouchStart?.(e);
@@ -32,8 +54,7 @@ export const Ripple = ({
 			const style = window.getComputedStyle(button);
 			const dimensions = button.getBoundingClientRect();
 
-			let touchX = e.nativeEvent?.layerX;
-			let touchY = e.nativeEvent?.layerY;
+			let { x: touchX, y: touchY } = getTouchPosition(e, dimensions);
 
 			if (centered || !touchX || !touchY) {
 				touchX = dimensions.width / 2;
@@ -67,9 +88,9 @@ export const Ripple = ({
 			Object.assign(ripple.style, {
 				position: "absolute",
 				pointerEvents: "none",
-				backgroundColor: "#e3e3e4",
+				backgroundColor: "rgba(20, 20, 20, 0.1)", // @TODO: theme me
 				borderRadius: "50%",
-				zIndex: "-1",
+				zIndex: "-1 !important",
 
 				/* Transition configuration */
 				transitionProperty: "transform opacity",
@@ -112,7 +133,7 @@ export const Ripple = ({
 			if (isMobile) onTouchEnd?.(e);
 			else onMouseUp?.(e);
 
-			const containers = e.currentTarget.querySelectorAll(
+			const containers = e?.currentTarget?.querySelectorAll(
 				"[data-ripple]"
 			) as HTMLElement[];
 
@@ -145,10 +166,10 @@ export const Ripple = ({
 		<div
 			{...props}
 			className={cx(ripple, hoverBg && "hoverBg", props.className)}
-			onMouseDown={handleStart}
-			onMouseUp={handleEnd}
-			onTouchStart={handleStart}
-			onTouchEnd={handleEnd}
+			onMouseDown={(e) => !isMobile && handleStart?.(e)}
+			onMouseUp={(e) => !isMobile && handleEnd?.(e)}
+			onTouchStart={(e) => isMobile && handleStart?.(e)}
+			onTouchEnd={(e) => isMobile && handleEnd?.(e)}
 		>
 			{children}
 		</div>
@@ -161,7 +182,17 @@ const ripple = css`
 	overflow: hidden;
 	transition: 150ms background-color;
 
+	/* Workaround to get ripple to render behind children, but in front of the background-color */
+	/* @Note: Maybe just accept it will render above and delete this */
+	& {
+		z-index: 2;
+
+		& > * {
+			z-index: 3;
+		}
+	}
+
 	&.hoverBg:hover {
-		background-color: "#f2f2f2"; // @TODO: use theme for this
+		background-color: #f2f2f2; // @TODO: theme me
 	}
 `;
