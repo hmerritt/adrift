@@ -25,6 +25,7 @@ jobs:
               with:
                   path: ".npm"
                   key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+            - run: corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.5.0
             - run: yarn install --cache-folder .npm --prefer-offline
             - run: yarn test:coverage
             - run: yarn build
