@@ -107,12 +107,21 @@ export const Ripple = ({
 
 			// Create span to show the ripple effect
 			const ripple = document.createElement("span");
-			const duration = Math.min(size * 1.5, 350);
+
+			// Calculate the distance to the center as a percentage (center is 0%)
+			const mouseX = e.clientX - dimensions.left;
+			const center = button.clientWidth / 2;
+			const distanceToCenter = Math.abs(((mouseX - center) / center) * 100);
+
+			// Scale animation duration based on distance to center.
+			// Corner clicks appear slower, since you are only seeing a cross-section of the circle expanding.
+			const durationScaler = centered ? 1 : distanceToCenter * 0.4;
+			const duration = 280 - (280 * durationScaler) / 100;
 
 			Object.assign(ripple.style, {
 				position: "absolute",
 				pointerEvents: "none",
-				backgroundColor: "rgba(20, 20, 20, 0.1)", // @TODO: theme me
+				backgroundColor: "rgba(0, 0, 0, 0.1)", // @TODO: theme me
 				borderRadius: "50%",
 				zIndex: "10",
 
@@ -123,7 +132,7 @@ export const Ripple = ({
 				transformOrigin: "center",
 
 				/* We'll animate these properties */
-				transform: "translate3d(-50%, -50%, 0) scale3d(0.1, 0.1, 0.1)",
+				transform: "translate3d(-50%, -50%, 0) scale3d(0.15, 0.15, 0.1)",
 				opacity: "0.5",
 
 				// Position the ripple where cursor was
@@ -201,9 +210,10 @@ const ripple = css`
 	position: relative;
 	cursor: pointer;
 	overflow: hidden;
-	transition: 150ms background-color;
+	will-change: background-color;
+	transition: 200ms background-color;
 
 	&.hoverBg:hover {
-		background-color: #f2f2f2; // @TODO: theme me
+		background-color: #f5f5f5; // @TODO: theme me
 	}
 `;
