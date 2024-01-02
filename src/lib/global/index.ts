@@ -10,11 +10,10 @@
  *
  * @Warning - Since the window object is exposed, don't put anything remotely sensitive in here.
  */
-
 import { injectDevTools } from "./devTools";
 import { injectFeature } from "./featureFlags";
 import { injectLog } from "./log";
-import { versionString } from "./version";
+import { injectVersion, versionString } from "./version";
 
 export const globalInit = () => {
 	if (import.meta.env.MODE !== "test")
@@ -23,6 +22,7 @@ export const globalInit = () => {
 	// Inject global functions.
 	injectLog();
 	injectFeature();
+	injectVersion();
 	if (import.meta.env.MODE !== "production") injectDevTools();
 };
 

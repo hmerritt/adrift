@@ -1,3 +1,5 @@
+import { $global } from "./utils";
+
 export const appName = "App"; // Optionally use `import.meta.env.VITE_NAME`
 export const appVersion = import.meta.env.VITE_VERSION;
 export const gitBranch = import.meta.env.VITE_GIT_BRANCH;
@@ -36,4 +38,12 @@ export const versionString = () => {
 	versionString += `]`;
 
 	return versionString;
+};
+
+export const injectVersion = () => {
+	$global.appName = appName;
+	$global.appVersion = appVersion;
+	$global.gitBranch = gitBranch;
+	$global.gitCommitHash = gitCommitHash;
+	$global.environment = environment;
 };
