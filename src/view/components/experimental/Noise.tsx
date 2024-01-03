@@ -40,6 +40,7 @@ export type NoiseImgProps = NoiseProps &
 	JSX.IntrinsicElements["div"] & {
 		src?: string;
 		imgProps?: ImageProps;
+		childrenIsAboveNoise?: boolean;
 	};
 
 /**
@@ -105,6 +106,7 @@ export const NoiseImg = ({
 	imgProps,
 	// NoiseImg
 	children,
+	childrenIsAboveNoise = true,
 	className,
 	...divProps
 }: NoiseImgProps) => {
@@ -123,7 +125,18 @@ export const NoiseImg = ({
 				alpha={alpha}
 				reactToWindowResize={reactToWindowResize}
 			/>
-			{children && <div className={noiseImgChildren}>{children}</div>}
+			{children && (
+				<div
+					className={cx(
+						noiseImgChildren,
+						childrenIsAboveNoise
+							? noiseImgChildrenAbove
+							: noiseImgChildrenBelow
+					)}
+				>
+					{children}
+				</div>
+			)}
 		</div>
 	);
 };
@@ -135,7 +148,7 @@ const canvas = css`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 100;
+	z-index: 10;
 	user-select: none;
 	pointer-events: none;
 `;
@@ -150,5 +163,12 @@ const noiseImgChildren = css`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 55;
+`;
+
+const noiseImgChildrenAbove = css`
+	z-index: 20;
+`;
+
+const noiseImgChildrenBelow = css`
+	z-index: 5;
 `;
