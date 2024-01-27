@@ -159,11 +159,29 @@ export default function wywInJS({
 
 			let { cssText, dependencies } = result;
 
-			if (!cssText) return;
+			// Heads up, there are three cases:
+			// 1. cssText is undefined, it means that file was not transformed
+			// 2. cssText is empty, it means that file was transformed, but it does not contain any styles
+			// 3. cssText is not empty, it means that file was transformed and it contains styles
+
+			if (typeof cssText === "undefined") {
+				return;
+			}
+
+			if (cssText === "") {
+				/* eslint-disable-next-line consistent-return */
+				return {
+					code: result.code,
+					map: result.sourceMap
+				};
+			}
+
 			dependencies ??= [];
 
 			const slug = slugify(cssText);
 
+			// @IMPORTANT: We *need* to use `.scss` extension here.
+			// This tiny change is the only difference between this file and using `https://github.com/Anber/wyw-in-js/blob/main/packages/vite/src/index.ts`.
 			const cssFilename = path
 				.normalize(`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`)
 				.replace(/\\/g, path.posix.sep);
