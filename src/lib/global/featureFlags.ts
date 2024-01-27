@@ -13,10 +13,7 @@ export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boole
 	};
 
 	// Bypass feature flag in dev mode if `alwaysShowOnDev` is true
-	if (
-		alwaysShowOnDev &&
-		(import.meta.env.MODE === "development" || import.meta.env.MODE === "test")
-	) {
+	if (alwaysShowOnDev && (env.isDevelopment || env.isTesting)) {
 		return true;
 	}
 
