@@ -1,3 +1,4 @@
+import type { EnvObj } from "./env";
 import type { FeatureFlags, FeatureOptions } from "./featureFlags";
 import type { LogStoreType } from "./log";
 
@@ -9,6 +10,7 @@ declare global {
 	var debug: LogFunction;
 	var logStore: LogStoreType;
 	var feature: FeatureFunction;
+	var env: EnvObj;
 	var appName: string;
 	var appVersion: any;
 	var gitBranch: any;
@@ -22,6 +24,7 @@ declare global {
 		debug: LogFunction;
 		logStore: LogStoreType;
 		feature: FeatureFunction;
+		env: EnvObj;
 		appName: string;
 		appVersion: any;
 		gitBranch: any;
