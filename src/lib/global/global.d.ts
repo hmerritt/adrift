@@ -9,13 +9,8 @@ declare global {
 	var log: LogFunction;
 	var debug: LogFunction;
 	var logStore: LogStoreType;
-	var feature: FeatureFunction;
 	var env: EnvObj;
-	var appName: string;
-	var appVersion: any;
-	var gitBranch: any;
-	var gitCommitHash: any;
-	var environment: string;
+	var feature: FeatureFunction;
 	var getNumberOfEventListeners: () => number;
 	var getObjectOfEventListeners: () => Record<string, number>;
 
@@ -23,13 +18,8 @@ declare global {
 		log: LogFunction;
 		debug: LogFunction;
 		logStore: LogStoreType;
-		feature: FeatureFunction;
 		env: EnvObj;
-		appName: string;
-		appVersion: any;
-		gitBranch: any;
-		gitCommitHash: any;
-		environment: string;
+		feature: FeatureFunction;
 		getNumberOfEventListeners: () => number;
 		getObjectOfEventListeners: () => Record<string, number>;
 	}

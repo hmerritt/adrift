@@ -6,11 +6,15 @@ import { $global } from "./utils";
  * Add all environment variables here to ensure type safety.
  */
 export const env = {
-	// Environment
+	// Core
+	appName: "App", // Optionally use `import.meta.env.VITE_NAME`
+	appVersion: import.meta.env.VITE_VERSION,
+	gitBranch: import.meta.env.VITE_GIT_BRANCH,
+	gitCommitHash: import.meta.env.VITE_GIT_COMMIT,
 	mode: import.meta.env.MODE,
 	isDevelopment: import.meta.env.MODE === "development",
 	isProduction: import.meta.env.MODE === "production",
-	isTesting: import.meta.env.MODE === "testing",
+	isTesting: import.meta.env.MODE === "test" || import.meta.env.MODE === "testing",
 	// Features
 	timerIncrement: import.meta.env.VITE_FEATURE_INCREMENT,
 	someOtherFeature: false

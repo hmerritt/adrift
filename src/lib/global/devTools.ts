@@ -1,5 +1,7 @@
 import { $global } from "./utils";
 
+// @TODO maybe remove these and add better dev tools.
+
 export const getNumberOfEventListeners = () => {
 	try {
 		if (typeof window === "undefined" || !(window as any)?.getEventListeners)

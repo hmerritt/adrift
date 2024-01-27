@@ -14,18 +14,16 @@ import { injectDevTools } from "./devTools";
 import { injectEnv } from "./env";
 import { injectFeature } from "./featureFlags";
 import { injectLog } from "./log";
-import { injectVersion, versionString } from "./version";
+import { versionString } from "./version";
 
 export const globalInit = () => {
-	if (import.meta.env.MODE !== "test")
-		console.log(`%c${versionString()}`, "font-size: 1.1em;");
-
 	// Inject global functions.
 	injectLog();
 	injectEnv();
 	injectFeature();
-	injectVersion();
 	if (!env.isProduction) injectDevTools();
+
+	if (!env.isTesting) console.log(`%c${versionString()}`, "font-size: 1.1em;");
 };
 
 globalInit();
