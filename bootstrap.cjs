@@ -37,5 +37,9 @@ async function bootstrap() {
 	const isTest = args.length >= 1 && args[0] === "vitest";
 	if (isTest) env[0][1] = "test";
 
+	// Log app name and version info
+	console.log(`${core.versionString(appName, appVersion, gitBranch, gitCommitHashShort)}\n`);
+
+	// Run bootstrap script
 	core.bootstrap(env, allowEnvOverride, args, path);
 }

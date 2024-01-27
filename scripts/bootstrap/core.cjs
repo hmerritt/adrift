@@ -181,6 +181,36 @@ function runStream(command, path = __dirname) {
 	});
 }
 
+/**
+ * Returns version string including app name, version, git branch, and commit hash.
+ * 
+ * This has been refactored from `/src/lib/global/version.ts`. @TODO make shared function and remove this one.
+ *
+ * E.g `App [Version 1.0.0 (development 4122b6...dc7c)]`
+ */
+const versionString = (appName = undefined, appVersion = undefined, gitBranch = undefined, gitCommitHash = undefined) => {
+	if (!appVersion) {
+		return `${appName} [Version unknown]`;
+	}
+
+	let versionString = `${appName} [Version ${appVersion}`;
+
+	if (gitCommitHash) {
+		versionString += ` (`;
+
+		// Branch name
+		versionString += `${gitBranch || "unknown"}/`;
+
+		// Commit hash
+		versionString += `${gitCommitHash})`;
+	}
+
+	versionString += `]`;
+
+	return versionString;
+};
+
+
 module.exports = {
 	bootstrap,
 	buildENV,
@@ -189,5 +219,6 @@ module.exports = {
 	overrideHardcodedENV,
 	run,
 	runStream,
-	shorten
+	shorten,
+	versionString
 };
