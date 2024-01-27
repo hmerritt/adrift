@@ -2,11 +2,11 @@ import { Outlet, rootRouteWithContext, useRouterState } from "@tanstack/react-ro
 
 import { Icon } from "view/components";
 
-function RouterSpinner() {
-	const isLoading = useRouterState({ select: (s) => s.status === "pending" });
-	return isLoading ? <Icon name="Spinner" /> : null;
-}
-
+/**
+ * `@tanstack/react-router` file-based routing.
+ *
+ * https://tanstack.com/router/latest/docs/framework/react/overview
+ */
 export const Route = rootRouteWithContext()({
 	component: RootRoute,
 	notFoundComponent: NotFoundRoute
@@ -21,6 +21,11 @@ function RootRoute() {
 			<Outlet />
 		</div>
 	);
+}
+
+function RouterSpinner() {
+	const isLoading = useRouterState({ select: (s) => s.status === "pending" });
+	return isLoading ? <Icon name="Spinner" /> : null;
 }
 
 function NotFoundRoute() {

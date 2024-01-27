@@ -1,21 +1,23 @@
-import { ReactElement, JSXElementConstructor } from "react";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
+import { RouterProvider } from "@tanstack/react-router";
 import { render as reactRender } from "@testing-library/react";
-
+import { JSXElementConstructor, ReactElement } from "react";
+import { Provider } from "react-redux";
 import store from "state";
 
-type element = ReactElement<any, string | JSXElementConstructor<any>>;
+import { createTestRouter } from "./utils";
 
-type children = {
-	children: element;
+export type Element = ReactElement<any, string | JSXElementConstructor<any>>;
+
+type Children = {
+	children: Element;
 };
 
-export const render = (ui: element, route = "") => {
-	const Wrapper = ({ children }: children) => {
+export const render = (ui: Element, route = "") => {
+	const Wrapper = ({ children }: Children) => {
 		return (
 			<Provider store={store}>
-				<MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>
+				{/* <RouterProvider router={createTestRouter(children)} /> */}
+				{children}
 			</Provider>
 		);
 	};
@@ -23,8 +25,8 @@ export const render = (ui: element, route = "") => {
 	return reactRender(ui, { wrapper: Wrapper });
 };
 
-export const renderBasic = (ui: element) => {
-	const Wrapper = ({ children }: children) => {
+export const renderBasic = (ui: Element) => {
+	const Wrapper = ({ children }: Children) => {
 		return <Provider store={store}>{children}</Provider>;
 	};
 

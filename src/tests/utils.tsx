@@ -1,4 +1,36 @@
+import {
+	Outlet,
+	createMemoryHistory,
+	createRootRoute,
+	createRoute,
+	createRouter
+} from "@tanstack/react-router";
+
 import { render } from "./render";
+
+/**
+ * Create test router from element.
+ *
+ * https://github.com/TanStack/router/discussions/604
+ */
+export const createTestRouter = (element: any) => {
+	const rootRoute = createRootRoute({
+		component: Outlet
+	});
+
+	const componentRoute = createRoute({
+		getParentRoute: () => rootRoute,
+		path: "/",
+		component: () => element
+	});
+
+	const router = createRouter({
+		routeTree: rootRoute.addChildren([componentRoute]),
+		history: createMemoryHistory()
+	});
+
+	return router;
+};
 
 /**
  * Shorthand for `document.querySelector`.

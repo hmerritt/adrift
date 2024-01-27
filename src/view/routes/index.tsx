@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 	component: IndexRoute
 });
 
-function IndexRoute() {
+export function IndexRoute() {
 	return (
 		<Stack spacing={15}>
 			<Fullscreen
