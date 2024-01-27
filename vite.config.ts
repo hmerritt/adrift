@@ -24,7 +24,9 @@ export default defineConfig({
 			babelrc: true
 		}),
 		tsconfigPaths(),
-		TanStackRouterVite(),
+		TanStackRouterVite({
+			routesDirectory: "src/view/routes"
+		}),
 		linaria({
 			sourceMap: isDev,
 			extension: ".scss",

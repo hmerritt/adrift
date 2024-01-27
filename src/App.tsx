@@ -1,17 +1,35 @@
-import { Routes, Route } from "react-router-dom";
+import { ErrorComponent, RouterProvider, createRouter } from "@tanstack/react-router";
+import { Provider as Redux } from "react-redux";
 
-import { Home, NotFound } from "view/screens";
+import store from "state/index";
+
+import { HaloProvider } from "view/components";
+
+import { routeTree } from "./routeTree.gen";
+
+const router = createRouter({
+	routeTree,
+	defaultPendingComponent: () => <div>Loading...</div>,
+	defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
+	// context: {
+	// 	auth: undefined! // We'll inject this when we render
+	// },
+	defaultPreload: "intent"
+});
+
+declare module "@tanstack/react-router" {
+	interface Register {
+		router: typeof router;
+	}
+}
 
 function App() {
 	return (
-		<div>
-			<Routes>
-				<Route path="/" element={<Home />} />
-
-				{/* 404 */}
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</div>
+		<Redux store={store}>
+			<HaloProvider>
+				<RouterProvider router={router} defaultPreload="intent" context={{}} />
+			</HaloProvider>
+		</Redux>
 	);
 }
 
