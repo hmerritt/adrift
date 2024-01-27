@@ -4,12 +4,15 @@ import { Provider as Redux } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import store from "state";
 
+import { plausibleBootstrap } from "lib/analytics";
 import "lib/styles/global/index.scss";
 
 import { HaloProvider } from "view/components";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
+
+plausibleBootstrap();
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement as HTMLElement);

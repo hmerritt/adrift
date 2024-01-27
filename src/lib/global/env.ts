@@ -15,6 +15,11 @@ export const env = {
 	isDevelopment: import.meta.env.MODE === "development",
 	isProduction: import.meta.env.MODE === "production",
 	isTesting: import.meta.env.MODE === "test" || import.meta.env.MODE === "testing",
+	plausible: {
+		enable: import.meta.env.VITE_PLAUSIBLE_ENABLE === "true",
+		domain: import.meta.env.VITE_PLAUSIBLE_DOMAIN,
+		apiHost: import.meta.env.VITE_PLAUSIBLE_API_HOST
+	},
 	// Features
 	timerIncrement: import.meta.env.VITE_FEATURE_INCREMENT,
 	someOtherFeature: false

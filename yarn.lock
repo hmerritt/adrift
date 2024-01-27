@@ -3194,6 +3194,7 @@ __metadata:
     css: ^3.0.0
     dayjs: ^1.11.10
     happy-dom: 13.3.1
+    plausible-tracker: ^0.3.8
     prettier: 3.2.4
     react: ^18.2.0
     react-device-detect: ^2.2.3
@@ -6147,6 +6148,13 @@ __metadata:
     mlly: ^1.2.0
     pathe: ^1.1.0
   checksum: 4b305c834b912ddcc8a0fe77530c0b0321fe340396f84cbb87aecdbc126606f47f2178f23b8639e71a4870f9631c7217aef52ffed0ae17ea2dbbe7e43d116a6e
+  languageName: node
+  linkType: hard
+
+"plausible-tracker@npm:^0.3.8":
+  version: 0.3.8
+  resolution: "plausible-tracker@npm:0.3.8"
+  checksum: 066dd51586922fabbd70e4cfdeff77356669bf57852cd3cbc00d813938ed6637669ee615a1d7b865090550de61fc58bffb6e7c3e6d99f361ec7312d316033194
   languageName: node
   linkType: hard
 

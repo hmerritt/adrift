@@ -29,6 +29,9 @@ async function bootstrap() {
 		["VITE_VERSION", appVersion],
 		["VITE_GIT_BRANCH", gitBranch],
 		["VITE_GIT_COMMIT", gitCommitHashShort],
+		// ['VITE_PLAUSIBLE_ENABLE', true],
+		// ['VITE_PLAUSIBLE_DOMAIN', 'PLAUSIBLE_DOMAIN'],
+		// ['VITE_PLAUSIBLE_API_HOST', 'https://plausible.io']
 	];
 
 	const isProd = args.length >= 2 && (args[1] === "build" || args[1] === "preview");
