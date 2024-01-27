@@ -18,12 +18,19 @@ import { versionString } from "./version";
 
 export const globalInit = () => {
 	// Inject global functions.
-	injectLog();
 	injectEnv();
+	injectLog();
 	injectFeature();
-	if (!env.isProduction) injectDevTools();
 
-	if (!env.isTesting) console.log(`%c${versionString()}`, "font-size: 1.1em;");
+	// Log app name+version. Hide for tests to reduce clutter in console.
+	if (!env.isTesting) {
+		console.log(`%c${versionString()}`, "font-size: 1.1em;padding: 1rem 0;");
+	}
+
+	if (env.isDevelopment) {
+		injectDevTools();
+		console.log("env", env);
+	}
 };
 
 globalInit();
