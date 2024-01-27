@@ -30,14 +30,12 @@ export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boole
 		return true;
 	}
 
-	let match = false;
-
 	// Feature is truthy in featureFlags{}
 	if (featureFlags[mode] && !isFalse(featureFlags[mode])) {
-		match = true;
+		return true;
 	}
 
-	return match;
+	return false;
 };
 
 export type FeatureOptions = {
