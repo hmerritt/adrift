@@ -58,8 +58,8 @@ export const Noise = ({
 
 	useEffect(() => {
 		const canvas = $canvas.current;
-		const ctx = canvas?.getContext("2d");
-		if (!canvas || !ctx) return;
+		const ctx = canvas?.getContext?.("2d");
+		if (!ctx || !canvas?.getContext) return;
 
 		canvasResize(canvas, size);
 
@@ -89,7 +89,7 @@ export const Noise = ({
 		};
 	}, [framerate, reactToWindowResize]);
 
-	return <canvas ref={$canvas} className={canvas} />;
+	return <canvas ref={$canvas} className={canvasStyle} />;
 };
 
 /**
@@ -142,7 +142,7 @@ export const NoiseImg = ({
 };
 
 // Fill parent container
-const canvas = css`
+const canvasStyle = css`
 	position: absolute;
 	top: 0;
 	left: 0;
