@@ -1,7 +1,16 @@
 import { Outlet, rootRouteWithContext, useRouterState } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { lazy } from "react";
 
 import { Icon } from "view/components";
+
+const TanStackRouterDevtools =
+	env.isDevelopment && env.showDevTools
+		? lazy(() =>
+				import("@tanstack/router-devtools").then((res) => ({
+					default: res.TanStackRouterDevtools
+				}))
+			)
+		: () => null;
 
 /**
  * `@tanstack/react-router` file-based routing.
@@ -21,7 +30,7 @@ function RootRoute() {
 			{/* Render our first route match */}
 			<Outlet />
 			{/* Router dev tools */}
-			{env.isDevelopment && <TanStackRouterDevtools position="bottom-right" />}
+			<TanStackRouterDevtools />
 		</div>
 	);
 }
