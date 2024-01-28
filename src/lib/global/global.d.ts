@@ -7,7 +7,9 @@ type FeatureFunction = (mode: FeatureFlags, options?: FeatureOptions) => boolean
 
 declare global {
 	var log: LogFunction;
+	var logn: LogFunction;
 	var debug: LogFunction;
+	var debugn: LogFunction;
 	var logStore: LogStoreType;
 	var env: EnvObj;
 	var feature: FeatureFunction;
@@ -16,7 +18,9 @@ declare global {
 
 	interface Window {
 		log: LogFunction;
+		logn: LogFunction;
 		debug: LogFunction;
+		debugn: LogFunction;
 		logStore: LogStoreType;
 		env: EnvObj;
 		feature: FeatureFunction;
