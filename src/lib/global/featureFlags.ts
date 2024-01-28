@@ -1,5 +1,5 @@
 import { type EnvKeys, env } from "./env";
-import { $global } from "./utils";
+import { setGlobalValue } from "./utils";
 
 /**
  * Returns `true` if the feature is enabled in `env` object.
@@ -32,7 +32,7 @@ export type FeatureOptions = {
 export type FeatureFlags = EnvKeys;
 
 export const injectFeature = () => {
-	$global.feature = feature;
+	setGlobalValue("feature", feature);
 };
 
 const isFalse = (value: unknown): value is false => {

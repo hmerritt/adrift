@@ -13,4 +13,15 @@ export const getGlobal = () => {
 	}
 };
 
+/**
+ * Set immutable global variable.
+ */
+export const setGlobalValue = (key: string, value: any) => {
+	Object.defineProperty(getGlobal(), key, {
+		value: value,
+		configurable: false,
+		writable: false
+	});
+};
+
 export const $global = getGlobal();
