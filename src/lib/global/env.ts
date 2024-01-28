@@ -1,4 +1,4 @@
-import { $global } from "./utils";
+import { setGlobalValue } from "./utils";
 
 /**
  * Environment variables.
@@ -29,5 +29,5 @@ export type EnvObj = typeof env;
 export type EnvKeys = keyof EnvObj;
 
 export const injectEnv = () => {
-	$global.env = env;
+	setGlobalValue("env", env);
 };

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 import { padChar } from "lib/strings";
 
-import { $global } from "./utils";
+import { $global, setGlobalValue } from "./utils";
 
 // @TODO:
 // export interface Logger {
@@ -141,9 +141,9 @@ export const debugn = (namespace: string, logLevel: any, ...args: any[]) => {
 };
 
 export const injectLog = () => {
-	$global.logStore = new LogStore();
-	$global.log = log;
-	$global.logn = logn;
-	$global.debug = debug;
-	$global.debugn = debugn;
+	setGlobalValue("logStore", new LogStore());
+	setGlobalValue("log", log);
+	setGlobalValue("logn", logn);
+	setGlobalValue("debug", debug);
+	setGlobalValue("debugn", debugn);
 };
