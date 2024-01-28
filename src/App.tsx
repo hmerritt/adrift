@@ -9,11 +9,8 @@ import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
 	routeTree,
-	defaultPendingComponent: () => <div>Loading...</div>,
+	defaultPendingComponent: () => null,
 	defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
-	// context: {
-	// 	auth: undefined! // We'll inject this when we render
-	// },
 	defaultPreload: "intent"
 });
 
