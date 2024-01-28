@@ -1,4 +1,5 @@
 import { Outlet, rootRouteWithContext, useRouterState } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 import { Icon } from "view/components";
 
@@ -19,6 +20,8 @@ function RootRoute() {
 			<RouterSpinner />
 			{/* Render our first route match */}
 			<Outlet />
+			{/* Router dev tools */}
+			{env.isDevelopment && <TanStackRouterDevtools position="bottom-right" />}
 		</div>
 	);
 }
