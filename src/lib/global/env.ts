@@ -5,7 +5,7 @@ import { $global } from "./utils";
  *
  * Add all environment variables here to ensure type safety.
  */
-export const env = {
+export const env = Object.freeze({
 	// Core
 	appName: "App", // Optionally use `import.meta.env.VITE_NAME`
 	appVersion: import.meta.env.VITE_VERSION,
@@ -23,7 +23,7 @@ export const env = {
 	// Features
 	timerIncrement: import.meta.env.VITE_FEATURE_INCREMENT,
 	someOtherFeature: false
-};
+});
 
 export type EnvObj = typeof env;
 export type EnvKeys = keyof EnvObj;
