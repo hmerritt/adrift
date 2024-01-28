@@ -141,7 +141,7 @@ export const debugn = (namespace: string, logLevel: any, ...args: any[]) => {
 };
 
 export const injectLog = () => {
-	setGlobalValue("logStore", new LogStore());
+	$global.logStore = new LogStore();
 	setGlobalValue("log", log);
 	setGlobalValue("logn", logn);
 	setGlobalValue("debug", debug);
