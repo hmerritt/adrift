@@ -25,3 +25,21 @@ export const setGlobalValue = (key: string, value: any) => {
 };
 
 export const $global = getGlobal();
+
+/**
+ * Parse string environment variable into a primitive.
+ *
+ * @exmaple `parseEnv("VITE_FEATURE_ENABLED") => true`
+ */
+export const parseEnv = (value: any, isJson = false) => {
+	if (value === "true") return true;
+	if (value === "false") return false;
+	if (value === "undefined") return undefined;
+	if (value === "null") return null;
+	if (isJson) {
+		try {
+			return JSON.parse(value);
+		} catch (e) {}
+	}
+	return value;
+};

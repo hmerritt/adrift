@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
 import { defineConfig } from "vite";
@@ -23,6 +24,9 @@ export default defineConfig({
 			babelrc: true
 		}),
 		tsconfigPaths(),
+		TanStackRouterVite({
+			routesDirectory: "src/view/routes"
+		}),
 		linaria({
 			sourceMap: isDev,
 			extension: ".scss",

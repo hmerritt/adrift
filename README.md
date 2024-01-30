@@ -6,7 +6,7 @@ Template react app with batteries included 🔋
 -   [Vitest (testing for Vite)](https://vitest.dev/)
 -   [Typescript](https://www.typescriptlang.org)
 -   [Redux](https://redux.js.org)
--   [React-Router](https://reactrouter.com)
+-   [TanStack Router](https://tanstack.com/router/latest)
 -   [Linaria (SASS-in-JS)](https://github.com/callstack/linaria)
 -   Custom (hackable) build script
 -   Custom utils and helper functions

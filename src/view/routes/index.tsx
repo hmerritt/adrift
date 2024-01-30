@@ -1,24 +1,15 @@
-import { useState } from "react";
 import { css } from "@linaria/core";
+import { createFileRoute } from "@tanstack/react-router";
 
 import theme from "lib/styles";
-import { countIncrement } from "state/actions";
-import { useDispatch, useSelector, useInterval } from "lib/hooks";
 
 import { Fullscreen, Stack, Waves } from "view/components";
 
-export const Home = () => {
-	const dispatch = useDispatch();
-	const count = useSelector((state) => state.count.current);
+export const Route = createFileRoute("/")({
+	component: IndexRoute
+});
 
-	const [data, setData] = useState([...Array(8)].map((e, i) => ({ id: String(i) })));
-
-	useInterval(() => {
-		if (feature("timerIncrement")) {
-			dispatch(countIncrement(0.1));
-		}
-	}, 1000);
-
+export function IndexRoute() {
 	return (
 		<Stack spacing={15}>
 			<Fullscreen
@@ -36,7 +27,7 @@ export const Home = () => {
 			</Fullscreen>
 		</Stack>
 	);
-};
+}
 
 // This will get compiled at build time into a css file.
 // Why? - Performance is *greatly* improved over something like styled-components which compiles at run time!
