@@ -1,6 +1,6 @@
 import {
 	Outlet,
-	createMemoryHistory,
+	createHashHistory,
 	createRootRoute,
 	createRoute,
 	createRouter
@@ -11,7 +11,11 @@ import { render } from "./render";
 /**
  * Create test router from element.
  *
+ * @Note There is little to no documentation on best practices here.
+ *
  * https://github.com/TanStack/router/discussions/604
+ * https://github.com/TanStack/router/discussions/583
+ * https://github.com/TanStack/router/discussions/198
  */
 export const createTestRouter = (element: any) => {
 	const rootRoute = createRootRoute({
@@ -26,7 +30,7 @@ export const createTestRouter = (element: any) => {
 
 	const router = createRouter({
 		routeTree: rootRoute.addChildren([componentRoute]),
-		history: createMemoryHistory()
+		history: createHashHistory()
 	});
 
 	return router;

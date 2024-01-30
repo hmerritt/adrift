@@ -12,12 +12,11 @@ type Children = {
 	children: Element;
 };
 
-export const render = (ui: Element, route = "") => {
+export const render = (ui: Element) => {
 	const Wrapper = ({ children }: Children) => {
 		return (
 			<Provider store={store}>
-				{/* <RouterProvider router={createTestRouter(children)} /> */}
-				{children}
+				<RouterProvider router={createTestRouter(children)} />
 			</Provider>
 		);
 	};

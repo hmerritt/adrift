@@ -1,4 +1,8 @@
-import { Outlet, rootRouteWithContext, useRouterState } from "@tanstack/react-router";
+import {
+	Outlet,
+	createRootRouteWithContext,
+	useRouterState
+} from "@tanstack/react-router";
 import { lazy } from "react";
 
 import { Icon } from "view/components";
@@ -17,7 +21,7 @@ const TanStackRouterDevtools =
  *
  * https://tanstack.com/router/latest/docs/framework/react/overview
  */
-export const Route = rootRouteWithContext()({
+export const Route = createRootRouteWithContext()({
 	component: RootRoute,
 	notFoundComponent: NotFoundRoute
 });
@@ -40,7 +44,7 @@ function RouterSpinner() {
 	return isLoading ? <Icon name="Spinner" /> : null;
 }
 
-function NotFoundRoute() {
+export function NotFoundRoute() {
 	return (
 		<div className="flex-center" style={{ height: "100vh" }}>
 			<h2 style={{ fontSize: "2rem", textAlign: "center" }}>

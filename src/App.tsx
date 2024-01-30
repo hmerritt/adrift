@@ -9,9 +9,9 @@ import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
 	routeTree,
+	defaultPreload: "intent",
 	defaultPendingComponent: () => null,
-	defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />,
-	defaultPreload: "intent"
+	defaultErrorComponent: ({ error }) => <ErrorComponent error={error} />
 });
 
 declare module "@tanstack/react-router" {
