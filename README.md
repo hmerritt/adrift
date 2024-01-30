@@ -37,6 +37,8 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 
 #### `log`, and `debug` functions
 
+> `debug`, and `debugn` will only log in development.
+
 Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
 
 ```js
@@ -47,11 +49,11 @@ log("hello, world!");
 log("error", "websocket error");
 ```
 
-`debug` namespaces each log so you can keep track of multiple things at once.
+You can also call `logn()`, and `debugn()`. This namespaces each log so you can keep track of multiple things at once.
 
 ```js
 //    Namespace  Log message
-debug("socket", "Initiated websocket connection");
+logn("socket", "Initiated websocket connection");
 ```
 
 > [timestamp] +[time since last log in ms] [namespace] [log message]
