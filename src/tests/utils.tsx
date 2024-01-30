@@ -5,8 +5,7 @@ import {
 	createRoute,
 	createRouter
 } from "@tanstack/react-router";
-
-import { render } from "./render";
+import { render as reactRender } from "@testing-library/react";
 
 /**
  * Create test router from element.
@@ -41,9 +40,23 @@ export const createTestRouter = (element: any) => {
  *
  * `const { container } = render(<Home />);`
  */
-export const select = (input: Element | ReturnType<typeof render>, selectors: string) => {
+export const select = (
+	input: Element | ReturnType<typeof reactRender>,
+	selectors: string
+) => {
 	const el = input instanceof Element ? input : input?.container;
 	return el.querySelector(selectors);
+};
+
+/**
+ * Wrapper for `select` that returns a `data-testid`.
+ */
+export const selectTestId = (
+	input: Element | ReturnType<typeof reactRender>,
+	testId: string
+) => {
+	const el = input instanceof Element ? input : input?.container;
+	return el.querySelector(`[data-testid=${testId}]`);
 };
 
 /**

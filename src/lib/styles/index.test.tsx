@@ -1,5 +1,4 @@
-import { waitFor } from "@testing-library/react";
-import { getStyle, render, select } from "tests";
+import { getStyle, render, select, selectTestId } from "tests";
 import { describe, expect, test } from "vitest";
 
 import StylesMock from "tests/StylesMock";
@@ -14,46 +13,38 @@ import StylesMock from "tests/StylesMock";
 
 describe("@linaria with theme injection", () => {
 	test("renders colors", async () => {
-		const { container } = render(<StylesMock />);
+		const { container } = await render(<StylesMock />);
 
-		await waitFor(() => {
-			const styleTitle = getStyle(select(container, "h1"));
-			expect(styleTitle.color).toBe("#38a169");
+		const styleTitle = getStyle(select(container, "h1"));
+		expect(styleTitle.color).toBe("#38a169");
 
-			const styleSubTitle = getStyle(select(container, "h2"));
-			expect(styleSubTitle.color).toBe("#dd6b20");
-		});
+		const styleSubTitle = getStyle(select(container, "h2"));
+		expect(styleSubTitle.color).toBe("#dd6b20");
 	});
 
 	test("renders mixins", async () => {
-		const { container } = render(<StylesMock />);
+		const { container } = await render(<StylesMock />);
 
-		await waitFor(() => {
-			const styleContainer = getStyle(select(container, "div"));
-			expect(styleContainer.maxWidth).toBe("567px");
-			expect(styleContainer.marginLeft).toBe("auto");
-			expect(styleContainer.marginRight).toBe("auto");
-			expect(styleContainer.transition).toBe("all, 80ms, ease");
-		});
+		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
+		expect(styleContainer.maxWidth).toBe("567px");
+		expect(styleContainer.marginLeft).toBe("auto");
+		expect(styleContainer.marginRight).toBe("auto");
+		expect(styleContainer.transition).toBe("all, 80ms, ease");
 	});
 
 	test("renders shadows", async () => {
-		const { container } = render(<StylesMock />);
+		const { container } = await render(<StylesMock />);
 
-		await waitFor(() => {
-			const styleContainer = getStyle(select(container, "div"));
-			expect(styleContainer.boxShadow).toBe(
-				"0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
-			);
-		});
+		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
+		expect(styleContainer.boxShadow).toBe(
+			"0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
+		);
 	});
 
 	test("renders variables", async () => {
-		const { container } = render(<StylesMock />);
+		const { container } = await render(<StylesMock />);
 
-		await waitFor(() => {
-			const styleContainer = getStyle(select(container, "div"));
-			expect(styleContainer.width).toBe("5678px");
-		});
+		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
+		expect(styleContainer.width).toBe("5678px");
 	});
 });
