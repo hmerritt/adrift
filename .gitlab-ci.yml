@@ -41,8 +41,6 @@ test-e2e:
     stage: test
     image: node:20
     extends: .dependencies_cache
-    cache:
-        policy: pull-push
     before_script:
         - apk update && apk add git bash
         - yarn install
