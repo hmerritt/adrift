@@ -163,20 +163,16 @@ async function run(command, path = __dirname, fallback = undefined) {
 /**
  * Execute OS commands, streams response from stdout
  */
-function runStream(command, path = __dirname) {
+function runStream(command, path = __dirname, exitOnError = true) {
 	const execProcess = exec(command, { cwd: path });
 
 	execProcess.stdout.pipe(process.stdout);
 	execProcess.stderr.pipe(process.stderr);
 
-	process.on("exit", (code) => {
-		// console.log(
-		// 	"[runStream] Child process exited with code " + code.toString()
-		// );
-
+	execProcess.on("exit", (code) => {
 		if (code !== 0) {
-			console.log("ERROR, process finished with a non-zero code");
-			process.exit(1);
+			console.log("ERROR: process finished with a non-zero code");
+			if (exitOnError) process.exit(1);
 		}
 	});
 }
