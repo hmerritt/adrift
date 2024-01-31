@@ -14,7 +14,7 @@ type Children = {
 
 const internalTestId = "__routerHasMounted";
 
-export const render = async (ui: Element) => {
+export const render = async (ui: Element, skipWaitFor = false) => {
 	const Wrapper = ({ children }: Children) => {
 		return (
 			<Provider store={store}>
@@ -29,14 +29,16 @@ export const render = async (ui: Element) => {
 
 	const r = reactRender(ui, { wrapper: Wrapper });
 
-	await waitFor(() => {
-		r.getByTestId(internalTestId);
-	});
+	if (!skipWaitFor) {
+		await waitFor(() => {
+			r.getByTestId(internalTestId);
+		});
+	}
 
 	return r;
 };
 
-export const renderBasic = async (ui: Element) => {
+export const renderBasic = async (ui: Element, skipWaitFor = false) => {
 	const Wrapper = ({ children }: Children) => {
 		return (
 			<Provider store={store}>
@@ -47,9 +49,11 @@ export const renderBasic = async (ui: Element) => {
 
 	const r = reactRender(ui, { wrapper: Wrapper });
 
-	await waitFor(() => {
-		r.getByTestId(internalTestId);
-	});
+	if (!skipWaitFor) {
+		await waitFor(() => {
+			r.getByTestId(internalTestId);
+		});
+	}
 
 	return r;
 };
