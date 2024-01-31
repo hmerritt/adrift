@@ -24,20 +24,31 @@ variables:
 #
 test:
     stage: test
-    image: node:18-alpine
+    image: node:20-alpine
     extends: .dependencies_cache
     cache:
         policy: pull-push
     before_script:
         - apk update && apk add git bash
-        - yarn install --cache-folder .npm --prefer-offline
-        - yarn test:e2e:setup
+        - yarn install --cache-folder .npm
     script:
         - yarn test:coverage
-        - yarn test:e2e
         - unset CI
         - yarn build
     coverage: /All\sfiles.*?\s+(\d+.\d+)/
+
+test-e2e:
+    stage: test
+    image: node:20-alpine
+    extends: .dependencies_cache
+    cache:
+        policy: pull-push
+    before_script:
+        - apk update && apk add git bash
+        - yarn install --cache-folder .npm
+        - yarn test:e2e:setup
+    script:
+        - yarn test:e2e
 
 #
 # Build
@@ -57,7 +68,7 @@ build:
           command: ["--experimental"]
     before_script:
         - apk update && apk add git bash
-        - yarn install --cache-folder .npm --prefer-offline
+        - yarn install --cache-folder .npm
         - yarn build
     script:
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
