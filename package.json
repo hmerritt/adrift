@@ -12,6 +12,8 @@
 		"preview": "node bootstrap.cjs vite preview",
 		"start": "node bootstrap.cjs vite",
 		"test": "node bootstrap.cjs vitest run",
+		"test:e2e": "node bootstrap.cjs yarn playwright test",
+		"test:e2e:setup": "yarn playwright install --with-deps",
 		"test:bench": "node bootstrap.cjs vitest bench",
 		"test:coverage": "node bootstrap.cjs vitest run --coverage",
 		"test:ui": "node bootstrap.cjs vitest --ui",
@@ -39,6 +41,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.23.9",
 		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@playwright/test": "^1.41.1",
 		"@rollup/pluginutils": "^5.1.0",
 		"@testing-library/jest-dom": "^6.3.0",
 		"@testing-library/react": "^14.1.2",

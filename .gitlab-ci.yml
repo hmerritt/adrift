@@ -31,8 +31,10 @@ test:
     before_script:
         - apk update && apk add git bash
         - yarn install --cache-folder .npm --prefer-offline
+        - yarn test:e2e:setup
     script:
         - yarn test:coverage
+        - yarn test:e2e
         - unset CI
         - yarn build
     coverage: /All\sfiles.*?\s+(\d+.\d+)/
