@@ -4,13 +4,14 @@ Template react app with batteries included 🔋
 
 -   [Vite](https://vitejs.dev)
 -   [Vitest (testing for Vite)](https://vitest.dev/)
+-   [Playwright (testing end-to-end)](https://playwright.dev)
 -   [Typescript](https://www.typescriptlang.org)
 -   [Redux](https://redux.js.org)
 -   [TanStack Router](https://tanstack.com/router/latest)
 -   [Linaria (SASS-in-JS)](https://github.com/callstack/linaria)
 -   Custom (hackable) build script
 -   Custom utils and helper functions
-    -   Global `log` functions with extra functionality than using `console.log`
+    -   Global `log` functions with more functionality than `console.log`
     -   Global `feature` flag function
 
 > Checkout [Adrift Native](https://github.com/hmerritt/adrift-native) to run Adrift apps natively on Windows, Mac, and Linux.
@@ -37,9 +38,9 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 
 #### `log`, and `debug` functions
 
-> `debug`, and `debugn` will only log in development.
-
 Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
+
+> `debug`, and `debugn` will only log in development.
 
 ```js
 // Behaves like `console.log`
