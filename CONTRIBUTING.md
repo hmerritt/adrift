@@ -13,15 +13,15 @@ It should:
 -   contain a short description of the change (preferably 50 characters or less)
 -   be entirely in lowercase with the exception of proper nouns, acronyms, and the words that refer to code, like function/variable names
 -   be prefixed with one of the following word:
-    -   fix : bug fix
-    -   hotfix : urgent bug fix
-    -   feat : new or updated feature
-    -   refactor : code refactoring (no functional change)
-    -   test : tests updates
-    -   ci : CI and build updates
-    -   chore : miscellaneous housekeeping updates
-    -   Merge branch : when merging branch
-    -   Merge pull request : when merging PR
+    -   `fix` : bug fix
+    -   `hotfix` : urgent bug fix
+    -   `feat` : new or updated feature
+    -   `refactor` : code refactoring (no functional change)
+    -   `test` : tests updates
+    -   `ci` : ci and build updates
+    -   `chore` : miscellaneous housekeeping updates
+    -   `Merge branch` : when merging branch
+    -   `Merge pull request` : when merging PR
 
 ## Tests
 
