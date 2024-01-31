@@ -16,9 +16,9 @@ It should:
     -   fix : bug fix
     -   hotfix : urgent bug fix
     -   feat : new or updated feature
-    -   docs : documentation updates
     -   refactor : code refactoring (no functional change)
     -   test : tests updates
+    -   ci : CI and build updates
     -   chore : miscellaneous housekeeping updates
     -   Merge branch : when merging branch
     -   Merge pull request : when merging PR
