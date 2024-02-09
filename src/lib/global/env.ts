@@ -1,3 +1,7 @@
+import { get } from "lodash-es";
+
+import { DeepKeyofPaths } from "lib/type-assertions";
+
 import { parseEnv, setGlobalValue } from "./utils";
 
 /**
@@ -27,9 +31,21 @@ export const env = Object.freeze({
 	someOtherFeature: false
 });
 
+/**
+ * Resolve value from env object.
+ *
+ * Supports resolving values nested in objects.
+ *
+ * @example envGet("plausible.enable") -> true
+ */
+export const envGet = (key: EnvKeys) => {
+	return get(env, key);
+};
+
 export type EnvObj = typeof env;
-export type EnvKeys = keyof EnvObj;
+export type EnvKeys = DeepKeyofPaths<EnvObj>;
 
 export const injectEnv = () => {
 	setGlobalValue("env", env);
+	setGlobalValue("envGet", envGet);
 };

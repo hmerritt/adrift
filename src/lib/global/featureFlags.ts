@@ -1,4 +1,4 @@
-import { type EnvKeys, env } from "./env";
+import { type EnvKeys, env, envGet } from "./env";
 import { setGlobalValue } from "./utils";
 
 /**
@@ -18,7 +18,7 @@ export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boole
 	}
 
 	// Feature is truthy in featureFlags{}
-	if (env[mode] && !isFalse(env[mode])) {
+	if (envGet(mode) && !isFalse(envGet(mode))) {
 		return true;
 	}
 
