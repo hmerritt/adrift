@@ -36,17 +36,12 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 	const calculatePaneCount = useCallback(() => {
 		if (!$div.current) return;
 
-		if (paneDirection === "row") {
-			setPaneCount(
-				Math.floor($div.current?.clientWidth / paneMaxWidth) || paneInitialCount
-			);
-		}
+		const paneCalc =
+			paneDirection === "row"
+				? $div.current?.clientWidth / paneMaxWidth
+				: $div.current?.clientHeight / paneMaxHeight;
 
-		if (paneDirection === "column") {
-			setPaneCount(
-				Math.floor($div.current?.clientHeight / paneMaxHeight) || paneInitialCount
-			);
-		}
+		setPaneCount(Math.floor(paneCalc) || paneInitialCount);
 	}, [paneInitialCount, paneMaxWidth]);
 
 	useEffect(() => {
@@ -65,14 +60,9 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 		<div ref={$div} {...divProps} className={className}>
 			{children}
 
-			<div
-				className={cx(paneContainer, paneDirection === "row" ? "row" : "column")}
-			>
+			<div className={cx(paneContainer, paneDirection)}>
 				{[...Array(paneCount).keys()].map((i) => (
-					<div
-						key={i}
-						className={cx(pane, paneDirection === "row" ? "row" : "column")}
-					/>
+					<div key={i} className={cx(pane, paneDirection)} />
 				))}
 			</div>
 		</div>
