@@ -31,10 +31,10 @@ export const DotGrid: React.FC<DotGridProps> = ({
 	position = "absolute",
 	spacing = 25,
 	dotSize = 1,
-	damping = 0.4,
+	damping = 0.45,
 	returnSpeed = 0.18,
-	attractionBase = 1.06,
-	maxAttraction = 0.4,
+	attractionBase = 1.03,
+	maxAttraction = 0.6,
 	refForMousePosition,
 	reactToWindowResize = true,
 	...canvasProps
