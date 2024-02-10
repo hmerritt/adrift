@@ -22,6 +22,11 @@ export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
 	reactToWindowResize?: boolean;
 };
 
+/**
+ * Grid of dots that are attracted to the mouse position.
+ *
+ * Inspired by https://twitter.com/eliguerron/status/1738116017631740213
+ */
 export const DotGrid: React.FC<DotGridProps> = ({
 	position = "absolute",
 	spacing = 25,
