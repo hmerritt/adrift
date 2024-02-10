@@ -57,7 +57,7 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 	}, [reactToWindowResize, calculatePaneCount]);
 
 	return (
-		<div ref={$div} {...divProps} className={className}>
+		<div ref={$div} {...divProps} className={cx(frostedGlass, className)}>
 			{children}
 
 			<div className={cx(paneContainer, paneDirection)}>
@@ -68,6 +68,10 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 		</div>
 	);
 };
+
+const frostedGlass = css`
+	position: relative;
+`;
 
 const paneContainer = css`
 	position: absolute;
