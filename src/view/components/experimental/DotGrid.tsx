@@ -142,7 +142,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 				const touch = native?.touches?.[0] ?? native?.changedTouches?.[0];
 				mousePosition.current.x = touch?.clientX;
 				mousePosition.current.y = touch?.clientY;
-			} else if (e.type === "touchend") {
+			} else if (e.type === "mouseout" || e.type === "touchend") {
 				mousePosition.current.x = -1000;
 				mousePosition.current.y = -1000;
 			}
@@ -152,6 +152,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 				? window
 				: refForMousePosition?.current || $canvas.current;
 		$elForMousePosition.addEventListener("mousemove", trackMousePosition);
+		$elForMousePosition.addEventListener("mouseout", trackMousePosition);
 		$elForMousePosition.addEventListener("touchmove", trackMousePosition);
 		$elForMousePosition.addEventListener("touchend", trackMousePosition);
 
@@ -165,6 +166,9 @@ export const DotGrid: React.FC<DotGridProps> = ({
 			resetAnimationFrame();
 			window.removeEventListener("resize", drawDotGrid);
 			$elForMousePosition?.removeEventListener("mousemove", trackMousePosition);
+			$elForMousePosition?.removeEventListener("mouseout", trackMousePosition);
+			$elForMousePosition?.removeEventListener("touchmove", trackMousePosition);
+			$elForMousePosition?.removeEventListener("touchend", trackMousePosition);
 		};
 	}, [drawDotGrid, reactToWindowResize]);
 
