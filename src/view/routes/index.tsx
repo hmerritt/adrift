@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import theme from "lib/styles";
 
-import { Fullscreen, Stack, Waves } from "view/components";
+import { FrostedGlass, Fullscreen, Stack, Waves } from "view/components";
 
 export const Route = createFileRoute("/")({
 	component: IndexRoute
@@ -21,7 +21,9 @@ export function IndexRoute() {
 			>
 				<div className={pictureFrame}>
 					<h1 className={header}>Adrift</h1>
-					<h4>Template react app with batteries included 🔋</h4>
+					<FrostedGlass>
+						<h4>Template react app with batteries included 🔋</h4>
+					</FrostedGlass>
 					<Waves />
 				</div>
 			</Fullscreen>
