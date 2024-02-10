@@ -77,7 +77,7 @@ const frostedGlass = css`
 
 const paneContainer = css`
 	position: absolute;
-	z-index: -1;
+	z-index: -2;
 	inset: 0;
 	display: flex;
 	align-items: stretch;
@@ -95,12 +95,12 @@ const paneContainer = css`
 
 const pane = css`
 	flex: 1;
+	backdrop-filter: blur(8px);
 	background: linear-gradient(
 		to right,
 		rgba(255, 255, 255, 0.2),
 		rgba(255, 255, 255, 0.1)
 	);
-	backdrop-filter: blur(10px);
 
 	&.row {
 		height: 100%;
