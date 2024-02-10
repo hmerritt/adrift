@@ -18,6 +18,8 @@ export type FrostedGlassProps = JSX.IntrinsicElements["div"] & {
  * Frosted glass effect.
  *
  * Items behind the glass will be blurred (on the other side of a translucent glass pane).
+ *
+ * Inspired by Anders Tornblad's codepen: https://jsfiddle.net/atornblad/35orypsL/1/
  */
 export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 	children,
