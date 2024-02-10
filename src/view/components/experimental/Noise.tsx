@@ -52,7 +52,7 @@ export const Noise = ({
 	framerate = 12,
 	size = 256,
 	alpha = 25,
-	reactToWindowResize = false
+	reactToWindowResize = true
 }) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
 
@@ -100,7 +100,7 @@ export const NoiseImg = ({
 	framerate = 12,
 	size = 256,
 	alpha = 25,
-	reactToWindowResize = false,
+	reactToWindowResize = true,
 	// Img
 	src,
 	imgProps,

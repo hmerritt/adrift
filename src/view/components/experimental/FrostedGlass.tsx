@@ -28,7 +28,7 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 	paneMaxWidth = 25,
 	paneMaxHeight = 25,
 	paneInitialCount = 5,
-	reactToWindowResize = false,
+	reactToWindowResize = true,
 	...divProps
 }) => {
 	const $div = useRef<HTMLDivElement>(null);
