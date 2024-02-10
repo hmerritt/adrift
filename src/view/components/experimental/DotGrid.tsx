@@ -1,36 +1,53 @@
 import { css, cx } from "@linaria/core";
-import { useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 
-export type DotGridProps = {
+export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
+	/** Container position. Use `fixed` for background usage */
+	position?: "absolute" | "fixed";
 	/** Spacing between the dots */
-	spacing: number;
+	spacing?: number;
 	/** Size of each dot */
-	dotSize: number;
+	dotSize?: number;
 	/** Damping for smoother motion */
-	damping: number;
+	damping?: number;
 	/** Speed at which dots return to their original position */
-	returnSpeed: number;
+	returnSpeed?: number;
 	/** Base for the exponential function */
-	attractionBase: number;
+	attractionBase?: number;
 	/** Maximum attraction to avoid extreme values */
-	maxAttraction: number;
+	maxAttraction?: number;
+	/** ref of element to use for mouse position (leave undefined to use the canvas) */
+	refForMousePosition?: RefObject<any> | "window";
 	/** Redraw canvas on window resize (responsive, but may impact performance) */
 	reactToWindowResize?: boolean;
 };
 
 export const DotGrid: React.FC<DotGridProps> = ({
+	position = "absolute",
 	spacing = 25,
 	dotSize = 1,
 	damping = 0.4,
-	returnSpeed = 0.15,
+	returnSpeed = 0.18,
 	attractionBase = 1.06,
 	maxAttraction = 0.4,
-	reactToWindowResize = true
+	refForMousePosition,
+	reactToWindowResize = true,
+	...canvasProps
 }) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
+	const mousePosition = useRef({ x: -1000, y: -1000 });
+	const animationFrameHandle = useRef(-1);
 
-	useEffect(() => {
+	const resetAnimationFrame = () => {
+		if (animationFrameHandle.current !== -1) {
+			cancelAnimationFrame(animationFrameHandle.current); // Cancel previous frame
+			animationFrameHandle.current = -1;
+		}
+	};
+
+	const drawDotGrid = useCallback(() => {
 		if (!$canvas.current) return;
+		resetAnimationFrame();
 
 		const canvas = $canvas.current;
 		const ctx = canvas.getContext("2d");
@@ -38,8 +55,6 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 
-		let mouseX = -1000; // Start off canvas
-		let mouseY = -1000;
 		const dots: {
 			x: number;
 			y: number;
@@ -63,21 +78,16 @@ export const DotGrid: React.FC<DotGridProps> = ({
 			}
 		}
 
-		canvas.addEventListener("mousemove", function (event) {
-			mouseX = event.clientX;
-			mouseY = event.clientY;
-		});
-
 		function draw() {
 			if (!ctx) return;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			for (let dot of dots) {
-				let dx = mouseX - dot.x;
-				let dy = mouseY - dot.y;
-				let distance = Math.sqrt(dx * dx + dy * dy);
+			for (const dot of dots) {
+				const dx = mousePosition.current.x - dot.x;
+				const dy = mousePosition.current.y - dot.y;
+				const distance = Math.sqrt(dx * dx + dy * dy);
 
 				// Exponential attraction calculation
-				let attractionFactor = Math.min(
+				const attractionFactor = Math.min(
 					Math.pow(attractionBase, -distance),
 					maxAttraction
 				);
@@ -100,7 +110,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 
 				drawDot(dot.x, dot.y, dotSize);
 			}
-			requestAnimationFrame(draw);
+			animationFrameHandle.current = requestAnimationFrame(draw);
 		}
 
 		function drawDot(x: number, y: number, size: number) {
@@ -112,14 +122,49 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		}
 
 		draw();
-	}, []);
+	}, [spacing, dotSize, damping, returnSpeed, attractionBase, maxAttraction]);
 
-	return <canvas ref={$canvas} className={dotGrid} />;
+	useEffect(() => {
+		if (!$canvas.current) return;
+
+		const trackMousePosition = (event: MouseEvent) => {
+			mousePosition.current.x = event.clientX;
+			mousePosition.current.y = event.clientY;
+		};
+		const $elForMousePosition =
+			refForMousePosition === "window"
+				? window
+				: refForMousePosition?.current || $canvas.current;
+		$elForMousePosition.addEventListener("mousemove", trackMousePosition);
+
+		drawDotGrid();
+
+		if (reactToWindowResize) {
+			window.addEventListener("resize", drawDotGrid);
+		}
+
+		return () => {
+			resetAnimationFrame();
+			window.removeEventListener("resize", drawDotGrid);
+			$elForMousePosition?.removeEventListener("mousemove", trackMousePosition);
+		};
+	}, [drawDotGrid, reactToWindowResize]);
+
+	return (
+		<canvas
+			{...canvasProps}
+			ref={$canvas}
+			className={cx(dotGrid, position === "fixed" && dotGridFixed)}
+		/>
+	);
 };
 
 const dotGrid = css`
 	position: absolute;
 	display: block;
-	width: 100%;
-	height: 100%;
+	inset: 0;
+`;
+
+const dotGridFixed = css`
+	position: fixed;
 `;
