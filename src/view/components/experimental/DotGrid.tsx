@@ -132,15 +132,28 @@ export const DotGrid: React.FC<DotGridProps> = ({
 	useEffect(() => {
 		if (!$canvas.current) return;
 
-		const trackMousePosition = (event: MouseEvent) => {
-			mousePosition.current.x = event.clientX;
-			mousePosition.current.y = event.clientY;
+		const trackMousePosition = (e: MouseEvent | TouchEvent) => {
+			if (e.type === "mousemove") {
+				const native = e as MouseEvent;
+				mousePosition.current.x = native?.clientX;
+				mousePosition.current.y = native?.clientY;
+			} else if (e.type === "touchmove") {
+				const native = e as TouchEvent;
+				const touch = native?.touches?.[0] ?? native?.changedTouches?.[0];
+				mousePosition.current.x = touch?.clientX;
+				mousePosition.current.y = touch?.clientY;
+			} else if (e.type === "touchend") {
+				mousePosition.current.x = -1000;
+				mousePosition.current.y = -1000;
+			}
 		};
 		const $elForMousePosition =
 			refForMousePosition === "window"
 				? window
 				: refForMousePosition?.current || $canvas.current;
 		$elForMousePosition.addEventListener("mousemove", trackMousePosition);
+		$elForMousePosition.addEventListener("touchmove", trackMousePosition);
+		$elForMousePosition.addEventListener("touchend", trackMousePosition);
 
 		drawDotGrid();
 
