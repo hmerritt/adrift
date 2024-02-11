@@ -2632,9 +2632,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.15.23, @tanstack/react-router@npm:^1.15.23":
-  version: 1.15.23
-  resolution: "@tanstack/react-router@npm:1.15.23"
+"@tanstack/react-router@npm:1.16.0, @tanstack/react-router@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "@tanstack/react-router@npm:1.16.0"
   dependencies:
     "@tanstack/history": 1.15.13
     "@tanstack/react-store": ^0.2.1
@@ -2643,7 +2643,7 @@ __metadata:
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: dcb740cca1ac0aa368d381a98aaa97d4bd61d0d09b06e3464effc01ca7ca955a27973b29660b217728ef22dbee3d4865bc3dc9e4831817c8cd2b579775f0dedd
+  checksum: 6564c7441a1d8996ecf0e4459413b75b867f45b64e6784c2c33c29cb5623d9b743558a6512898029b96674fe30abe125b29fb8c1dd59a17a8c34bc4c917f4b5f
   languageName: node
   linkType: hard
 
@@ -2660,35 +2660,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.15.23":
-  version: 1.15.23
-  resolution: "@tanstack/router-devtools@npm:1.15.23"
+"@tanstack/router-devtools@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "@tanstack/router-devtools@npm:1.16.0"
   dependencies:
-    "@tanstack/react-router": 1.15.23
+    "@tanstack/react-router": 1.16.0
     date-fns: ^2.29.1
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 48b925b322741ab89008890d238db7b486a53d03e77afd81b66795ff072c71f9e5fea2fd3b285b863d89067a84fdaa07cc2822e3c9801999228f15f13c7a5cd6
+  checksum: aef61de57506a5a9174a95c7e1dde77ead02df935040a15050f0fdb0a675f9feaa7512c614c1269e7a56ccf3c5330fbb2ec2c16af4e2bc4e7d068921e9f0bc16
   languageName: node
   linkType: hard
 
-"@tanstack/router-generator@npm:1.15.22":
-  version: 1.15.22
-  resolution: "@tanstack/router-generator@npm:1.15.22"
+"@tanstack/router-generator@npm:1.16.1":
+  version: 1.16.1
+  resolution: "@tanstack/router-generator@npm:1.16.1"
   dependencies:
     prettier: ^3.1.1
     zod: ^3.22.4
-  checksum: e9b9b48b0a26bc4ab998a1646e70e6eae7ee38bef06ee1003898b340181266987724f17952e980bc331d6ad86ce4a243d35e27da99ceac6256ad2f60f0b86120
+  checksum: 37972b43fa396890252f9e7b7bfe47db1a85044342d44835e486b16214ce7b37e68736124b392d756195c799418def91476cdfe7b6c537064ca1554f9eea1064
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.15.22":
-  version: 1.15.22
-  resolution: "@tanstack/router-vite-plugin@npm:1.15.22"
+"@tanstack/router-vite-plugin@npm:^1.16.1":
+  version: 1.16.1
+  resolution: "@tanstack/router-vite-plugin@npm:1.16.1"
   dependencies:
-    "@tanstack/router-generator": 1.15.22
-  checksum: d0610948c02b756b81cdba031c5c34fc564fe310743f056cc67032396e321b00d186b388e0f4e15f507d4880a5b78f0dce404004f9a8896e3a07a6355658c920
+    "@tanstack/router-generator": 1.16.1
+  checksum: f717e6de0ba047876258b6fed282f9d29b0a6c6562e6b268cde3b56df3637de92f0e9a7e28b899f7063b21d8231fee1c8fbea1bad6f44eedbe0c4dd74937a274
   languageName: node
   linkType: hard
 
@@ -3254,9 +3254,9 @@ __metadata:
     "@playwright/test": ^1.41.2
     "@reduxjs/toolkit": ^2.1.0
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.15.23
-    "@tanstack/router-devtools": ^1.15.23
-    "@tanstack/router-vite-plugin": ^1.15.22
+    "@tanstack/react-router": ^1.16.0
+    "@tanstack/router-devtools": ^1.16.0
+    "@tanstack/router-vite-plugin": ^1.16.1
     "@testing-library/jest-dom": ^6.3.0
     "@testing-library/react": ^14.1.2
     "@testing-library/react-hooks": ^8.0.1
