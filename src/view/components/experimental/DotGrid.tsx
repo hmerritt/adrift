@@ -29,7 +29,7 @@ export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
  */
 export const DotGrid: React.FC<DotGridProps> = ({
 	position = "absolute",
-	spacing = 25,
+	spacing = 40,
 	dotSize = 1,
 	damping = 0.45,
 	returnSpeed = 0.18,
@@ -57,8 +57,16 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		const canvas = $canvas.current;
 		const ctx = canvas.getContext("2d");
 
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+		// Set canvas size
+		if (refForMousePosition === "window") {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		} else {
+			// Get parent element size
+			const parentElement = canvas.parentElement;
+			canvas.width = parentElement?.offsetWidth || window.innerWidth;
+			canvas.height = parentElement?.offsetHeight || window.innerHeight;
+		}
 
 		const dots: {
 			x: number;
@@ -133,19 +141,36 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		if (!$canvas.current) return;
 
 		const trackMousePosition = (e: MouseEvent | TouchEvent) => {
+			if (!$canvas.current) return;
+
+			let x = mousePosition.current.x;
+			let y = mousePosition.current.y;
+
 			if (e.type === "mousemove") {
 				const native = e as MouseEvent;
-				mousePosition.current.x = native?.clientX;
-				mousePosition.current.y = native?.clientY;
+				x = native?.offsetX;
+				y = native?.offsetY;
+				if (refForMousePosition === "window") {
+					x = native?.clientX;
+					y = native?.clientY;
+				}
 			} else if (e.type === "touchmove") {
 				const native = e as TouchEvent;
-				const touch = native?.touches?.[0] ?? native?.changedTouches?.[0];
-				mousePosition.current.x = touch?.clientX;
-				mousePosition.current.y = touch?.clientY;
+				const bcr = $canvas.current.getBoundingClientRect();
+				const touch = native?.touches?.[0] ?? native?.targetTouches?.[0];
+				x = touch.clientX - bcr.x;
+				y = touch.clientY - bcr.y;
+				if (refForMousePosition === "window") {
+					x = touch.clientX;
+					y = touch.clientY;
+				}
 			} else if (e.type === "mouseout" || e.type === "touchend") {
-				mousePosition.current.x = -1000;
-				mousePosition.current.y = -1000;
+				x = -1000;
+				y = -1000;
 			}
+
+			mousePosition.current.x = x;
+			mousePosition.current.y = y;
 		};
 		const $elForMousePosition =
 			refForMousePosition === "window"
