@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { lazy } from "react";
 
-import { Icon } from "view/components";
+import { DotGrid, Icon } from "view/components";
 
 const TanStackRouterDevtools =
 	env.isDevelopment && env.showDevTools
@@ -47,9 +47,10 @@ function RouterSpinner() {
 export function NotFoundRoute() {
 	return (
 		<div className="flex-center" style={{ height: "100vh" }}>
-			<h2 style={{ fontSize: "2rem", textAlign: "center" }}>
+			<h2 style={{ fontSize: "2rem", textAlign: "center", zIndex: 10 }}>
 				404, Page not found :(
 			</h2>
+			<DotGrid position="fixed" refForMousePosition="window" spacing={50} />
 		</div>
 	);
 }
