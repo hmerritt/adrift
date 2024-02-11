@@ -55,7 +55,9 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		resetAnimationFrame();
 
 		const canvas = $canvas.current;
-		const ctx = canvas.getContext("2d");
+		if (!canvas?.getContext) return; // Tests fail without this
+
+		const ctx = canvas?.getContext("2d");
 
 		// Set canvas size
 		if (refForMousePosition === "window") {
