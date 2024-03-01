@@ -3,6 +3,8 @@ const util = require("util");
 const exec = require("child_process").exec;
 const execAwait = util.promisify(exec);
 
+const { adriftVersion } = require("./version.cjs");
+
 /**
  * Validate args
  * @note CURRENTLY NOT IN USE
@@ -184,7 +186,7 @@ function runStream(command, path = __dirname, exitOnError = true) {
  *
  * E.g `App [Version 1.0.0 (development 4122b6...dc7c)]`
  */
-const versionString = (adriftVersion = undefined, appName = undefined, appVersion = undefined, gitBranch = undefined, gitCommitHash = undefined) => {
+const versionString = (appName = undefined, appVersion = undefined, gitBranch = undefined, gitCommitHash = undefined) => {
 	if (!appVersion) {
 		return `${appName} [Version unknown]`;
 	}
