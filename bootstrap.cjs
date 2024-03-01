@@ -27,8 +27,9 @@ async function bootstrap() {
 
 	// Set ENV array to inject, key/value
 	const env = [
-		["NODE_ENV", "development"],
-		["GENERATE_SOURCEMAP", false],
+		["NODE_ENV", core.getNodeEnv(args)],
+		["GENERATE_SOURCEMAP", core.getNodeEnv(args) === "development"],
+		["VITE_ADRIFT_VERSION", adriftVersion],
 		["VITE_NAME", appName],
 		["VITE_VERSION", appVersion],
 		["VITE_GIT_BRANCH", gitBranch],
@@ -37,12 +38,6 @@ async function bootstrap() {
 		// ['VITE_PLAUSIBLE_DOMAIN', 'PLAUSIBLE_DOMAIN'],
 		// ['VITE_PLAUSIBLE_API_HOST', 'https://plausible.io']
 	];
-
-	const isProd = args.length >= 2 && (args[1] === "build" || args[1] === "preview");
-	if (isProd) env[0][1] = "production";
-
-	const isTest = args.length >= 1 && args[0] === "vitest";
-	if (isTest) env[0][1] = "test";
 
 	// Log app name and version info
 	console.log(core.versionString(appName, appVersion, gitBranch, gitCommitHashShort), "\n");
