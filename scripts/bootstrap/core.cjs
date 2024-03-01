@@ -184,7 +184,7 @@ function runStream(command, path = __dirname, exitOnError = true) {
  *
  * E.g `App [Version 1.0.0 (development 4122b6...dc7c)]`
  */
-const versionString = (appName = undefined, appVersion = undefined, gitBranch = undefined, gitCommitHash = undefined) => {
+const versionString = (adriftVersion = undefined, appName = undefined, appVersion = undefined, gitBranch = undefined, gitCommitHash = undefined) => {
 	if (!appVersion) {
 		return `${appName} [Version unknown]`;
 	}
@@ -202,6 +202,8 @@ const versionString = (appName = undefined, appVersion = undefined, gitBranch = 
 	}
 
 	versionString += `]`;
+
+	if (adriftVersion) versionString += ` with \x1b[36madrift@${adriftVersion}\x1b[0m`;
 
 	return versionString;
 };

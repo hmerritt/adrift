@@ -5,6 +5,9 @@ const packageJSON = require("./package.json");
 const path = __dirname;
 const args = process.argv.slice(2);
 
+// Internal adrift version. Useful for debugging.
+const adriftVersion = "0.10.437";
+
 // Run bootrap
 bootstrap();
 
@@ -41,7 +44,7 @@ async function bootstrap() {
 	if (isTest) env[0][1] = "test";
 
 	// Log app name and version info
-	console.log(`${core.versionString(appName, appVersion, gitBranch, gitCommitHashShort)}\n`);
+	console.log(core.versionString(adriftVersion, appName, appVersion, gitBranch, gitCommitHashShort), "\n");
 
 	// Run bootstrap script
 	core.bootstrap(env, allowEnvOverride, args, path);
