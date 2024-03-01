@@ -3,10 +3,12 @@
 /**
  * Internal adrift version.
  */
-const adriftVersion = "0.10.439";
+const adriftVersion = "0.10.440";
 
 /**
  * Checks with latest GitHub release to see if there is an update.
+ * 
+ * @returns latest version number
  */
 async function isAdriftUpdateAvailable() {
 	try {
@@ -20,7 +22,19 @@ async function isAdriftUpdateAvailable() {
 			throw new Error("No version found");
 		}
 
-		if (adriftVersion !== match) {
+		// Compare versions
+		const current = adriftVersion.split(".").map(x => Number(x));
+		const latest = match.split(".").map(x => Number(x));
+		let comparison = 0;
+		for (let i = 0; i < Math.max(current.length, latest.length); i++) {
+			if ((current[i] || 0) < (latest[i] || 0)) {
+				comparison = -1;
+			} else if ((current[i] || 0) > (latest[i] || 0)) {
+				comparison = 1;
+			}
+		}
+
+		if (comparison === -1) {
 			return match;
 		}
 	} catch (error) { }
