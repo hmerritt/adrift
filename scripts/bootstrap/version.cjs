@@ -3,7 +3,7 @@
 /**
  * Internal adrift version.
  */
-const adriftVersion = "0.10.442";
+const adriftVersion = "0.10.443";
 
 /**
  * Checks with latest GitHub release to see if there is an update.
