@@ -18,6 +18,12 @@ Template react app with batteries included 🔋
 
 ## Getting started
 
+**_Quick start_**, get up an running in one command:
+
+```bash
+git clone https://github.com/hmerritt/adrift && cd adrift && yarn && yarn dev
+```
+
 Clone this repo and run one of the following scripts:
 
 Available scripts (run using `yarn <script>` or `npm run <script>`):
