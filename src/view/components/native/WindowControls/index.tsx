@@ -1,6 +1,8 @@
 import { css, cx } from "@linaria/core";
 import { FC } from "react";
 
+import { Ripple } from "view/components/experimental";
+
 import { MacClose, MacMaximize, MacMinimize } from "./icons";
 
 export type WindowControlsProps = {
@@ -25,19 +27,25 @@ export const WindowControls: FC<WindowControlsProps> = ({
 		// @TODO Icons - separate icons for mac and windows?
 		<div className={controls}>
 			{onClose && (
-				<div className={cx(controlMac, controlMacClose)} onClick={onClose}>
+				<Ripple className={cx(controlMac, controlMacClose)} onClick={onClose}>
 					<MacClose />
-				</div>
+				</Ripple>
 			)}
 			{onMinimize && (
-				<div className={cx(controlMac, controlMacMinimize)} onClick={onMinimize}>
+				<Ripple
+					className={cx(controlMac, controlMacMinimize)}
+					onClick={onMinimize}
+				>
 					<MacMinimize />
-				</div>
+				</Ripple>
 			)}
 			{onMaximize && (
-				<div className={cx(controlMac, controlMacMaximize)} onClick={onMaximize}>
+				<Ripple
+					className={cx(controlMac, controlMacMaximize)}
+					onClick={onMaximize}
+				>
 					<MacMaximize />
-				</div>
+				</Ripple>
 			)}
 		</div>
 	);
@@ -55,8 +63,8 @@ const controls = css`
 
 const controlMac = css`
 	cursor: pointer;
-	width: 1.5rem;
-	height: 1.5rem;
+	width: 1.4rem;
+	height: 1.4rem;
 	border-radius: 100%;
 	display: flex;
 	align-items: center;
