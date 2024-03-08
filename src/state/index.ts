@@ -1,40 +1,36 @@
-import { type Action, type ThunkAction, configureStore } from "@reduxjs/toolkit";
-import { createLogger } from "redux-logger";
+import { Store } from "@tanstack/react-store";
 
-import rootReducer from "./reducers";
+import { colorStore } from "./slices/color/colorStore";
+import { countStore } from "./slices/count/countStore";
 
-const logger = createLogger({
-	collapsed: true
-	// Exclude "COUNT_INCREMENT" type from redux-logger
-	// predicate: (getState: any, action: any) => action.type !== "COUNT_INCREMENT"
-});
-
-const store = configureStore({
-	reducer: rootReducer,
-	middleware: (getDefaultMiddleware) => {
-		const middleware = getDefaultMiddleware({
-			immutableCheck: false,
-			serializableCheck: false
-		});
-
-		// Add development middleware
-		if (import.meta.env.NODE_ENV === "development") {
-			middleware.push(logger);
-		}
-
-		return middleware;
-	},
-	devTools: import.meta.env.NODE_ENV !== "production"
-	//   enhancers: [reduxBatch],
+/**
+ * Main state store for entire app ⚡.
+ *
+ * Built from individual slices defined in `state/slices`. A slice is a way of namespacing state within the store.
+ * Since a slice is used mainly for organization, an action in any slice can change the state of any other slice.
+ * This differs from Redux's `combineReducers`, which can NOT be used to change the state of other reducers.
+ *
+ * @usage
+ * Create a new slice by creating a directory with `[name]Store` and `[name]Actions` files. The store file only
+ * contains an object (the initial state) for that slice. The actions contain functions that update the state.
+ *
+ * Slices are then combined into the main store below.
+ *
+ * @example
+ * // Access state anywhere:
+ * import { store } from "state";
+ * const count = store.state.count.current;
+ *
+ * @example
+ * // Access state within a component:
+ * import { useStore } from "lib/hooks";
+ * const count = useStore((state) => state.count.current);
+ */
+export const store = new Store({
+	color: colorStore,
+	count: countStore
 });
 
 export default store;
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	Action<string>
->;
+export type RootState = typeof store.state;
