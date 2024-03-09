@@ -30,7 +30,29 @@ export const store = new Store({
 	color: colorStore,
 	count: countStore
 });
-
 export default store;
-
 export type RootState = typeof store.state;
+
+/**
+ * Update a slice of the store.
+ *
+ * @example
+ * import { updateSlice } from "state";
+ * updateSlice("count", (count) => ({
+ * 	current: count.current + 1
+ * }));
+ */
+export const updateSlice = <T extends keyof RootState>(
+	slice: T,
+	getNext: (current: RootState[T]) => Partial<RootState[T]>
+) => {
+	store.setState((state) => {
+		return {
+			...state,
+			[slice]: {
+				...state[slice],
+				...getNext(state[slice])
+			}
+		};
+	});
+};
