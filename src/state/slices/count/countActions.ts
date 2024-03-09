@@ -5,3 +5,9 @@ export const countIncrement = (incrementAmount = 0.1) => {
 		current: Number((Number(count.current) + Number(incrementAmount)).toFixed(2))
 	}));
 };
+
+export const countReset = () => {
+	updateSlice("count", (count) => ({
+		current: 0
+	}));
+};
