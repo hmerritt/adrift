@@ -1,5 +1,5 @@
 import { Store } from "@tanstack/react-store";
-import { create } from "mutative";
+import { create as produce } from "mutative";
 
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
@@ -35,11 +35,22 @@ export default store;
 export type RootState = typeof store.state;
 
 /**
+ * Standard mutative options.
+ *
+ * @see https://mutative.js.org/docs/intro
+ */
+const mutativeOptions = {
+	strict: false as false,
+	enablePatches: false as false,
+	enableAutoFreeze: false as false
+};
+
+/**
  * Update store state.
  *
- * Uses `immer` draft syntax.
+ * Mutate `draft` state object to update state.
  *
- * Mutate `draft` state object to update state (no need to return anything).
+ * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
  *
  * @example
  * import { updateState } from "state";
@@ -49,20 +60,16 @@ export type RootState = typeof store.state;
  */
 export const updateState = (mutateFn: (draft: RootState) => void) => {
 	store.setState((state) => {
-		return create(state, mutateFn, {
-			strict: false,
-			enablePatches: false,
-			enableAutoFreeze: false
-		});
+		return produce(state, mutateFn, mutativeOptions);
 	});
 };
 
 /**
  * Update a slice of the store.
  *
- * Uses `immer` draft syntax.
+ * Mutate `draft` state object to update state.
  *
- * Mutate `draft` state object to update state (no need to return anything).
+ * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
  *
  * @example
  * import { updateSlice } from "state";
@@ -77,11 +84,7 @@ export const updateSlice = <T extends keyof RootState>(
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: create(state[slice], mutateFn, {
-				strict: false,
-				enablePatches: false,
-				enableAutoFreeze: false
-			})
+			[slice]: produce(state[slice], mutateFn, mutativeOptions)
 		};
 	});
 };
