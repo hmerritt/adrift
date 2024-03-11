@@ -1,4 +1,5 @@
 import { Store } from "@tanstack/react-store";
+import { create } from "mutative";
 
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
@@ -34,25 +35,53 @@ export default store;
 export type RootState = typeof store.state;
 
 /**
+ * Update store state.
+ *
+ * Uses `immer` draft syntax.
+ *
+ * Mutate `draft` state object to update state (no need to return anything).
+ *
+ * @example
+ * import { updateState } from "state";
+ * updateState((draft) => {
+ * 	draft.count.current += 1;
+ * });
+ */
+export const updateState = (mutateFn: (draft: RootState) => void) => {
+	store.setState((state) => {
+		return create(state, mutateFn, {
+			strict: false,
+			enablePatches: false,
+			enableAutoFreeze: false
+		});
+	});
+};
+
+/**
  * Update a slice of the store.
+ *
+ * Uses `immer` draft syntax.
+ *
+ * Mutate `draft` state object to update state (no need to return anything).
  *
  * @example
  * import { updateSlice } from "state";
- * updateSlice("count", (count) => ({
- * 	current: count.current + 1
- * }));
+ * updateSlice("count", (draftSlice) => {
+ * 	draftSlice.current += 1;
+ * });
  */
 export const updateSlice = <T extends keyof RootState>(
 	slice: T,
-	getNext: (current: RootState[T]) => Partial<RootState[T]>
+	mutateFn: (draftSlice: RootState[T]) => void
 ) => {
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: {
-				...state[slice],
-				...getNext(state[slice])
-			}
+			[slice]: create(state[slice], mutateFn, {
+				strict: false,
+				enablePatches: false,
+				enableAutoFreeze: false
+			})
 		};
 	});
 };

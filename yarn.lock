@@ -2975,6 +2975,7 @@ __metadata:
     dayjs: ^1.11.10
     happy-dom: 13.7.0
     lodash-es: ^4.17.21
+    mutative: ^1.0.3
     plausible-tracker: ^0.3.8
     prettier: 3.2.5
     react: ^18.2.0
@@ -5558,6 +5559,13 @@ __metadata:
   version: 2.1.2
   resolution: "ms@npm:2.1.2"
   checksum: 673cdb2c3133eb050c745908d8ce632ed2c02d85640e2edb3ace856a2266a813b30c613569bf3354fdf4ea7d1a1494add3bfa95e2713baa27d0c2c71fc44f58f
+  languageName: node
+  linkType: hard
+
+"mutative@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "mutative@npm:1.0.3"
+  checksum: b0feb71edd4ae1222c94c6b25a3d28dfd2e9e609b11b61cbcf5f0bd8719d7ba4c4bf4a5c43f11485758c49c3284548d33f1e096979efb846bdbde9e7559e874b
   languageName: node
   linkType: hard
 
