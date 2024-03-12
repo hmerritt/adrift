@@ -1,5 +1,6 @@
 import { Store } from "@tanstack/react-store";
 
+import { stateLogger } from "./logger";
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
 
@@ -48,10 +49,14 @@ export type RootState = typeof store.state;
  */
 export const mutate = <TState>(
 	state: TState,
-	mutateFn: (draft: TState) => void
+	mutateFn: (draft: TState) => void,
+	middleware?: ((prevState: TState, nextState: TState) => void)[]
 ): TState => {
 	const nextState = { ...state };
 	mutateFn(nextState);
+	for (const middlewareFn of middleware ?? []) {
+		middlewareFn(state, nextState);
+	}
 	return nextState;
 };
 
@@ -70,7 +75,7 @@ export const mutate = <TState>(
  */
 export const updateState = (mutateFn: (draft: RootState) => void) => {
 	store.setState((state) => {
-		return mutate(state, mutateFn);
+		return mutate(state, mutateFn, [stateLogger]);
 	});
 };
 
@@ -94,7 +99,7 @@ export const updateSlice = <T extends keyof RootState>(
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: mutate(state[slice], mutateFn)
+			[slice]: mutate(state[slice], mutateFn, [stateLogger])
 		};
 	});
 };
