@@ -2343,9 +2343,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.19.7, @tanstack/react-router@npm:^1.19.7":
-  version: 1.19.7
-  resolution: "@tanstack/react-router@npm:1.19.7"
+"@tanstack/react-router@npm:1.19.9, @tanstack/react-router@npm:^1.19.9":
+  version: 1.19.9
+  resolution: "@tanstack/react-router@npm:1.19.9"
   dependencies:
     "@tanstack/history": 1.15.13
     "@tanstack/react-store": ^0.2.1
@@ -2354,7 +2354,7 @@ __metadata:
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 20623f6fb05438c444e93abaf4507a1c5de921fe9466a2099fe42a1854229405e9d3a47d1ea27b8f8a6d7621737a528896ff8f5c12607653f0f5ce01244e73f5
+  checksum: 8620a18bbfa1a7de049cd114f8a3a8091cf9fec33c594b464f0376eec4b693f855df99436f42a3d3edc922937a6102b854503a59724c5e6c114a6ff6e287aff6
   languageName: node
   linkType: hard
 
@@ -2384,18 +2384,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.19.7":
-  version: 1.19.7
-  resolution: "@tanstack/router-devtools@npm:1.19.7"
+"@tanstack/router-devtools@npm:^1.19.9":
+  version: 1.19.9
+  resolution: "@tanstack/router-devtools@npm:1.19.9"
   dependencies:
-    "@tanstack/react-router": 1.19.7
+    "@tanstack/react-router": 1.19.9
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: f7975af4edbf185262f07d6c718f75fcad44a8094a5a455b84bcc0be45573a88bed1784b4aea1971996c8c9e70e1084d6b7451353de384f1fc04e2d6ea84fce8
+  checksum: 3a8cb24086de6a9e39945f4dbd04c2ed53bb9b5eacf2f88c5372183f0f909f4b169083a00d91afdcb8af031e617328fc525f26e7eb79980db56e1ad6c93bfeca
   languageName: node
   linkType: hard
 
@@ -2948,9 +2948,9 @@ __metadata:
     "@linaria/react": 6.1.0
     "@playwright/test": ^1.42.1
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.19.7
+    "@tanstack/react-router": ^1.19.9
     "@tanstack/react-store": ^0.3.1
-    "@tanstack/router-devtools": ^1.19.7
+    "@tanstack/router-devtools": ^1.19.9
     "@tanstack/router-vite-plugin": ^1.19.6
     "@testing-library/jest-dom": ^6.4.2
     "@testing-library/react": ^14.2.1
