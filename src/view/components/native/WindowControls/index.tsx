@@ -57,7 +57,7 @@ const controls = css`
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	gap: 0.9rem;
+	gap: 1rem;
 	--runtime-draggable: drag;
 `;
 
@@ -72,8 +72,9 @@ const controlMac = css`
 
 	svg {
 		opacity: 0;
-		width: 1.2rem;
-		height: 1.2rem;
+		width: 1.1rem;
+		height: 1.1rem;
+		transition: opacity 150ms ease-in-out;
 	}
 
 	&:hover svg {
