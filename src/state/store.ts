@@ -1,5 +1,4 @@
 import { Store } from "@tanstack/react-store";
-import { create as produce } from "mutative";
 
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
@@ -35,14 +34,25 @@ export default store;
 export type RootState = typeof store.state;
 
 /**
- * Standard mutative options.
+ * Produce the next state by mutating the (current) state object.
  *
- * @see https://mutative.js.org/docs/intro
+ * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
+ *
+ * @example
+ * import { mutate } from "state";
+ * const state = { count: 1 };
+ * const next = mutate(state, (draft) => {
+ * 	draft.count++;
+ * })
+ * // next = { count: 2 }
  */
-const mutativeOptions = {
-	strict: false as false,
-	enablePatches: false as false,
-	enableAutoFreeze: false as false
+export const mutate = <TState>(
+	state: TState,
+	mutateFn: (draft: TState) => void
+): TState => {
+	const nextState = { ...state };
+	mutateFn(nextState);
+	return nextState;
 };
 
 /**
@@ -60,7 +70,7 @@ const mutativeOptions = {
  */
 export const updateState = (mutateFn: (draft: RootState) => void) => {
 	store.setState((state) => {
-		return produce(state, mutateFn, mutativeOptions);
+		return mutate(state, mutateFn);
 	});
 };
 
@@ -84,7 +94,7 @@ export const updateSlice = <T extends keyof RootState>(
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: produce(state[slice], mutateFn, mutativeOptions)
+			[slice]: mutate(state[slice], mutateFn)
 		};
 	});
 };
