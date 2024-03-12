@@ -14,14 +14,26 @@
 export const mutate = <TState>(
 	state: TState,
 	mutateFn: (draft: TState) => void,
-	middleware?: ((prevState: TState, nextState: TState, mutateTitle?: string) => void)[],
-	mutateTitle?: string
+	options?: {
+		callbacks?: ((
+			prevState: TState,
+			nextState: TState,
+			mutateTitle?: string
+		) => void)[];
+		mutateTitle?: string;
+	}
 ): TState => {
+	// Shallow copy + mutate
 	const nextState = { ...state };
 	mutateFn(nextState);
-	for (const middlewareFn of middleware ?? []) {
-		middlewareFn(state, nextState, mutateTitle);
+
+	// Run callbacks
+	if (options?.callbacks?.length) {
+		for (const cb of options?.callbacks ?? []) {
+			cb(state, nextState, options?.mutateTitle);
+		}
 	}
+
 	return nextState;
 };
 

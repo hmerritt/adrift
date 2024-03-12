@@ -49,7 +49,10 @@ export type RootState = typeof store.state;
  */
 export const updateState = (mutateFn: (draft: RootState) => void) => {
 	store.setState((state) => {
-		return mutate(state, mutateFn, [mutateLogger], `(state)`);
+		return mutate(state, mutateFn, {
+			callbacks: [mutateLogger],
+			mutateTitle: `(state)`
+		});
 	});
 };
 
@@ -72,7 +75,10 @@ export const updateSlice = <T extends keyof RootState>(
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: mutate(state[slice], mutateFn, [mutateLogger], `(slice) ${slice}`)
+			[slice]: mutate(state[slice], mutateFn, {
+				callbacks: [mutateLogger],
+				mutateTitle: `(slice) ${slice}`
+			})
 		};
 	});
 };
