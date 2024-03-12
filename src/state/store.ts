@@ -1,6 +1,6 @@
 import { Store } from "@tanstack/react-store";
 
-import { stateLogger } from "./logger";
+import { mutate, mutateLogger } from "./mutate";
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
 
@@ -8,12 +8,14 @@ import { countStore } from "./slices/count/countStore";
  * Main state store for entire app ⚡.
  *
  * Built from individual slices defined in `state/slices`. A slice is a way of namespacing state within the store.
- * Since a slice is used mainly for organization, an action in any slice can change the state of any other slice.
- * This differs from Redux's `combineReducers`, which can NOT be used to change the state of other reducers.
+ * In this context, slices are used only to organize big state objects (they do not limit functionality in any way).
+ * An action in any slice can change the state of any other slice. This differs from Redux's `combineReducers`,
+ * which can NOT be used to change the state of other reducers.
  *
  * @usage
  * Create a new slice by creating a directory with `[name]Store` and `[name]Actions` files. The store file only
  * contains an object (the initial state) for that slice. The actions contain functions that update the state.
+ * Ideally, state updates should only be made from within actions. This ensures state updates are predictable.
  *
  * Slices are then combined into the main store below.
  *
@@ -35,37 +37,9 @@ export default store;
 export type RootState = typeof store.state;
 
 /**
- * Produce the next state by mutating the (current) state object.
- *
- * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
- *
- * @example
- * import { mutate } from "state";
- * const state = { count: 1 };
- * const next = mutate(state, (draft) => {
- * 	draft.count++;
- * })
- * // next = { count: 2 }
- */
-export const mutate = <TState>(
-	state: TState,
-	mutateFn: (draft: TState) => void,
-	middleware?: ((prevState: TState, nextState: TState) => void)[]
-): TState => {
-	const nextState = { ...state };
-	mutateFn(nextState);
-	for (const middlewareFn of middleware ?? []) {
-		middlewareFn(state, nextState);
-	}
-	return nextState;
-};
-
-/**
  * Update store state.
  *
- * Mutate `draft` state object to update state.
- *
- * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
+ * @param mutateFn - mutate current state (`draft`) which will become the the new state. Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
  *
  * @example
  * import { updateState } from "state";
@@ -75,16 +49,15 @@ export const mutate = <TState>(
  */
 export const updateState = (mutateFn: (draft: RootState) => void) => {
 	store.setState((state) => {
-		return mutate(state, mutateFn, [stateLogger]);
+		return mutate(state, mutateFn, [mutateLogger], `(state)`);
 	});
 };
 
 /**
  * Update a slice of the store.
  *
- * Mutate `draft` state object to update state.
- *
- * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
+ * @param slice - name of the slice (top-level object key) to update
+ * @param mutateFn - mutate current state (`draft`) which will become the the new state. Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
  *
  * @example
  * import { updateSlice } from "state";
@@ -99,7 +72,7 @@ export const updateSlice = <T extends keyof RootState>(
 	store.setState((state) => {
 		return {
 			...state,
-			[slice]: mutate(state[slice], mutateFn, [stateLogger])
+			[slice]: mutate(state[slice], mutateFn, [mutateLogger], `(slice) ${slice}`)
 		};
 	});
 };
