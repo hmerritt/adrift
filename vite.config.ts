@@ -1,13 +1,17 @@
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
-import { defineConfig } from "vite";
+import { type UserConfig, defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import type { UserConfig as VitestUserConfig } from "vitest/config";
+import { type InlineConfig } from "vitest";
 
 import linaria from "./config/linaria-rollup";
 
 const isDev = process.env.NODE_ENV !== "production";
+
+interface ViteConfig extends UserConfig {
+	test: InlineConfig;
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -55,4 +59,4 @@ export default defineConfig({
 		// Debug
 		logHeapUsage: true
 	}
-});
+} as ViteConfig);
