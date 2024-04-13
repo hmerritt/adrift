@@ -2441,14 +2441,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.43.0":
-  version: 1.43.0
-  resolution: "@playwright/test@npm:1.43.0"
+"@playwright/test@npm:^1.43.1":
+  version: 1.43.1
+  resolution: "@playwright/test@npm:1.43.1"
   dependencies:
-    playwright: 1.43.0
+    playwright: 1.43.1
   bin:
     playwright: cli.js
-  checksum: c7c0c6e8fde4e9dceea22d48384642b78c3d539fb0512edeaa581dc4dc07cedfd166dba92c5e9e69a378b7fd63362b142450dbdd5c9b65d76c4def162a5c470d
+  checksum: f9db387b488a03125e5dc22dd7ffed9c661d1f2428188912a35a2235b3bd9d826b390e7600d04998639994f5a96695b9dc9034ca9cb59e261d2fdee93a60df3f
   languageName: node
   linkType: hard
 
@@ -2755,9 +2755,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.26.20, @tanstack/react-router@npm:^1.26.20":
-  version: 1.26.20
-  resolution: "@tanstack/react-router@npm:1.26.20"
+"@tanstack/react-router@npm:1.27.0, @tanstack/react-router@npm:^1.27.0":
+  version: 1.27.0
+  resolution: "@tanstack/react-router@npm:1.27.0"
   dependencies:
     "@tanstack/history": 1.26.10
     "@tanstack/react-store": ^0.2.1
@@ -2766,7 +2766,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: ccb0b77c75f1ad683eede21691b7aed630d959b88bb0f82aff2f948e1e9d6fd9d8f15f7d12565b4cff234da7228b124e0921a1ff34814686659b34d93584ea75
+  checksum: f7ea9670ff0ac43b266cff6851ca84a1d866dab8fee138a11413080cc0be5a1878702e82bb7f23599a087e62edd60ee4c231e2a35989d02e69d01a5ecbcb3320
   languageName: node
   linkType: hard
 
@@ -2796,18 +2796,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.26.20":
-  version: 1.26.20
-  resolution: "@tanstack/router-devtools@npm:1.26.20"
+"@tanstack/router-devtools@npm:^1.27.0":
+  version: 1.27.0
+  resolution: "@tanstack/router-devtools@npm:1.27.0"
   dependencies:
-    "@tanstack/react-router": 1.26.20
+    "@tanstack/react-router": 1.27.0
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: b2cdca61236328f83dd8062b8a09609687344ff356e2ec6cb6ad904f917d991eefb291007dd6a6548d1d6889e450d7afa9f64f5690d7d67cf137b6d06ae2d05f
+  checksum: a4006f98b3689862ba062be9cd78ca7d274f910c46ebef2b59d3ab63ce31853d4dbcf80c1796ae2969a472143d52a49d8366b833d6b246bcec40363de202cfaf
   languageName: node
   linkType: hard
 
@@ -2821,9 +2821,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.26.16":
-  version: 1.26.16
-  resolution: "@tanstack/router-vite-plugin@npm:1.26.16"
+"@tanstack/router-vite-plugin@npm:^1.26.21":
+  version: 1.26.21
+  resolution: "@tanstack/router-vite-plugin@npm:1.26.21"
   dependencies:
     "@babel/core": ^7.23.7
     "@babel/generator": ^7.23.6
@@ -2841,7 +2841,7 @@ __metadata:
     "@types/babel__traverse": ^7.20.5
     "@vitejs/plugin-react": ^4.2.1
     zod: ^3.22.4
-  checksum: 8551773a915c3591db75ec0407f75f65e2941ffe838fc9eeb0ca3b6c7d3660e3442e18f0f7e90b724cdcbf1573e12c2c8c9d3f1e358b74a1f544641996933b61
+  checksum: 0d32f2274680016b1a29d9ad69aea662496f0b64c2f1a6e303c00fdafed4dd496fe71371b962dc5ac5e49700ef475efb6702f5774ee8850e77889d6b570ac296
   languageName: node
   linkType: hard
 
@@ -2930,9 +2930,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^15.0.1":
-  version: 15.0.1
-  resolution: "@testing-library/react@npm:15.0.1"
+"@testing-library/react@npm:^15.0.2":
+  version: 15.0.2
+  resolution: "@testing-library/react@npm:15.0.2"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@testing-library/dom": ^10.0.0
@@ -2940,7 +2940,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
-  checksum: 9992087563279bc975e5be69c0d380ecee84eb9e5c5e474b8b01b95804477ecae0978c61ded15821335d926fec058ab6c23442150584b0f19bee72c561ad19b7
+  checksum: 32be030a5540164403f3cd8d6f46ad907119b2bc0a0df43ce6b925cdd520d5003298d06af1ee94d7bd764f294d74e802b6509caf2cf10afc77e67407baa9c1fb
   languageName: node
   linkType: hard
 
@@ -3119,13 +3119,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.77":
-  version: 18.2.77
-  resolution: "@types/react@npm:18.2.77"
+"@types/react@npm:^18.2.78":
+  version: 18.2.78
+  resolution: "@types/react@npm:18.2.78"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: 7014b06565228ffb24740e3b2cad168a52c1befa78f52f421c7eb61f86dcf599b494b8220c7bfc77882e19cb52440a1ed713d4a483dc8941c4ce824bd9729755
+  checksum: f686d735707d46690d05ac76e8c8a619802ea6a4a8f2837981669f7dc13b6984751edc4994242afa3be279df15c67b72a5a658f02a7c5ca16f9a0b4878f1bf18
   languageName: node
   linkType: hard
 
@@ -3383,21 +3383,21 @@ __metadata:
     "@dnd-kit/utilities": ^3.2.2
     "@linaria/core": 6.1.0
     "@linaria/react": 6.1.0
-    "@playwright/test": ^1.43.0
+    "@playwright/test": ^1.43.1
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.26.20
+    "@tanstack/react-router": ^1.27.0
     "@tanstack/react-store": ^0.3.1
-    "@tanstack/router-devtools": ^1.26.20
-    "@tanstack/router-vite-plugin": ^1.26.16
+    "@tanstack/router-devtools": ^1.27.0
+    "@tanstack/router-vite-plugin": ^1.26.21
     "@testing-library/jest-dom": ^6.4.2
-    "@testing-library/react": ^15.0.1
+    "@testing-library/react": ^15.0.2
     "@testing-library/react-hooks": ^8.0.1
     "@testing-library/user-event": ^14.5.2
     "@trivago/prettier-plugin-sort-imports": ^4.3.0
     "@types/css": ^0.0.37
     "@types/lodash-es": ^4.17.12
     "@types/node": ^20.12.7
-    "@types/react": ^18.2.77
+    "@types/react": ^18.2.78
     "@types/react-dom": ^18.2.25
     "@vitejs/plugin-react": ^4.2.1
     "@vitest/coverage-v8": ^1.5.0
@@ -6274,27 +6274,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.43.0":
-  version: 1.43.0
-  resolution: "playwright-core@npm:1.43.0"
+"playwright-core@npm:1.43.1":
+  version: 1.43.1
+  resolution: "playwright-core@npm:1.43.1"
   bin:
     playwright-core: cli.js
-  checksum: b35265d356d87eb4114997e6af985ee3cb5a473f15a465d6e02834288a55f0cae4233a18178658389ff443f92405e020815fc165274d2262c3ca1c2b5be948cf
+  checksum: 7c96b3a4a4bce2ee22c3cd680c9b0bb9e4bf07ee4b51d1e9a7f47a6489c7b0b960d4b550e530b8f41d1ffeadd26c7c6bb626ae8689dfd90dce1cb8e35ae78ff7
   languageName: node
   linkType: hard
 
-"playwright@npm:1.43.0":
-  version: 1.43.0
-  resolution: "playwright@npm:1.43.0"
+"playwright@npm:1.43.1":
+  version: 1.43.1
+  resolution: "playwright@npm:1.43.1"
   dependencies:
     fsevents: 2.3.2
-    playwright-core: 1.43.0
+    playwright-core: 1.43.1
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: edd4ef9644398c197d20e957cf2a5e5a95d7e0144f3c971923e709247f5b48551bf6168c74b34909f263ab96fac6e49466b65a9cd1349ad400dabd4b8b364acf
+  checksum: de9db021f93018a18275bbb5af09ebf1804aa0534f47578b35b440064abc774509740205802824afc94a99fc84dd55ffe9e215718ad3ecc691b251ab3882b096
   languageName: node
   linkType: hard
 
