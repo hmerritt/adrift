@@ -3,8 +3,6 @@
  * It uses the transform.ts function to generate class names from source code,
  * returns transformed code without template literals and attaches generated source maps
  */
-import type { FilterPattern } from "@rollup/pluginutils";
-import { createFilter } from "@rollup/pluginutils";
 import { logger, syncResolve } from "@wyw-in-js/shared";
 import type {
 	IFileReporterOptions,
@@ -15,13 +13,18 @@ import {
 	TransformCacheCollection,
 	createFileReporter,
 	getFileIdx,
-	slugify,
 	transform
 } from "@wyw-in-js/transform";
 import { existsSync } from "fs";
 import path from "path";
-import { optimizeDeps } from "vite";
-import type { ModuleNode, Plugin, ResolvedConfig, ViteDevServer } from "vite";
+import { createFilter, optimizeDeps } from "vite";
+import type {
+	FilterPattern,
+	ModuleNode,
+	Plugin,
+	ResolvedConfig,
+	ViteDevServer
+} from "vite";
 
 type VitePluginOptions = {
 	debug?: IFileReporterOptions | false | null | undefined;
@@ -178,12 +181,10 @@ export default function wywInJS({
 
 			dependencies ??= [];
 
-			const slug = slugify(cssText);
-
 			// @IMPORTANT: We *need* to use `.scss` extension here.
 			// This tiny change is the only difference between this file and using `https://github.com/Anber/wyw-in-js/blob/main/packages/vite/src/index.ts`.
 			const cssFilename = path
-				.normalize(`${id.replace(/\.[jt]sx?$/, "")}_${slug}.scss`)
+				.normalize(`${id.replace(/\.[jt]sx?$/, "")}.wyw-in-js.scss`)
 				.replace(/\\/g, path.posix.sep);
 
 			const cssRelativePath = path
@@ -201,15 +202,6 @@ export default function wywInJS({
 			cssFileLookup[cssId] = cssFilename;
 
 			result.code += `\nimport ${JSON.stringify(cssFilename)};\n`;
-			if (devServer?.moduleGraph) {
-				const module = devServer.moduleGraph.getModuleById(cssId);
-
-				if (module) {
-					devServer.moduleGraph.invalidateModule(module);
-					module.lastHMRTimestamp =
-						module.lastInvalidationTimestamp || Date.now();
-				}
-			}
 
 			for (let i = 0, end = dependencies.length; i < end; i++) {
 				// eslint-disable-next-line no-await-in-loop
@@ -221,6 +213,14 @@ export default function wywInJS({
 			const target = targets.find((t) => t.id === id);
 			if (!target) targets.push({ id, dependencies });
 			else target.dependencies = dependencies;
+
+			if (devServer?.moduleGraph) {
+				const module = devServer.moduleGraph.getModuleById(cssFilename);
+
+				if (module) {
+					devServer.reloadModule(module);
+				}
+			}
 			/* eslint-disable-next-line consistent-return */
 			return { code: result.code, map: result.sourceMap };
 		}

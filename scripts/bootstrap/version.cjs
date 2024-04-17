@@ -3,7 +3,7 @@
 /**
  * Internal adrift version.
  */
-const adriftVersion = "0.11.472";
+const adriftVersion = "0.11.473";
 
 /**
  * Bumps the adrift `patch` version number using the total commit count.

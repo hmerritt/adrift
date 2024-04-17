@@ -2517,7 +2517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.4, @rollup/pluginutils@npm:^5.1.0":
+"@rollup/pluginutils@npm:^5.1.0":
   version: 5.1.0
   resolution: "@rollup/pluginutils@npm:5.1.0"
   dependencies:
@@ -2748,25 +2748,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/history@npm:1.26.10":
-  version: 1.26.10
-  resolution: "@tanstack/history@npm:1.26.10"
-  checksum: 8f2aabec4fc855f43651437ee04ee831afe3ec6cdf02280fa1a4272be6c133897c14cf4bb08ad62feb6a8e0e35e4b10f69ad543343f17d6d78484990b0b9b049
+"@tanstack/history@npm:1.28.9":
+  version: 1.28.9
+  resolution: "@tanstack/history@npm:1.28.9"
+  checksum: 936dc934d90a67abcb1ee6d3f3854a73ab0bc94e45f493915a01a13dcb8372cdcc76f2f3a32cab7eb1a60383fe1f7f83a5d220a12883ef1fb71ba196de2e1fe2
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.27.0, @tanstack/react-router@npm:^1.27.0":
-  version: 1.27.0
-  resolution: "@tanstack/react-router@npm:1.27.0"
+"@tanstack/react-router@npm:1.28.9, @tanstack/react-router@npm:^1.28.9":
+  version: 1.28.9
+  resolution: "@tanstack/react-router@npm:1.28.9"
   dependencies:
-    "@tanstack/history": 1.26.10
+    "@tanstack/history": 1.28.9
     "@tanstack/react-store": ^0.2.1
     tiny-invariant: ^1.3.1
     tiny-warning: ^1.0.3
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: f7ea9670ff0ac43b266cff6851ca84a1d866dab8fee138a11413080cc0be5a1878702e82bb7f23599a087e62edd60ee4c231e2a35989d02e69d01a5ecbcb3320
+  checksum: 0be4100cb4bfd91ac71b7162c28eb7b3ca0a334833afacd45406a102d76c5fcff0f7f2cc3109a836ba84e3324c10cbc1a4cbfc2b31029d8dda218c8f74d17944
   languageName: node
   linkType: hard
 
@@ -2796,34 +2796,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.27.0":
-  version: 1.27.0
-  resolution: "@tanstack/router-devtools@npm:1.27.0"
+"@tanstack/router-devtools@npm:^1.28.9":
+  version: 1.28.9
+  resolution: "@tanstack/router-devtools@npm:1.28.9"
   dependencies:
-    "@tanstack/react-router": 1.27.0
+    "@tanstack/react-router": 1.28.9
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: a4006f98b3689862ba062be9cd78ca7d274f910c46ebef2b59d3ab63ce31853d4dbcf80c1796ae2969a472143d52a49d8366b833d6b246bcec40363de202cfaf
+  checksum: 4b875d19ed8c05508fbb61527d324852c9dabb55e67c0f36d4f045a04be081dc31e398346f733a670dc6c11dabbb61d20230b654e502bda036e0bdf20a3524f2
   languageName: node
   linkType: hard
 
-"@tanstack/router-generator@npm:1.26.16":
-  version: 1.26.16
-  resolution: "@tanstack/router-generator@npm:1.26.16"
+"@tanstack/router-generator@npm:1.28.2":
+  version: 1.28.2
+  resolution: "@tanstack/router-generator@npm:1.28.2"
   dependencies:
     prettier: ^3.1.1
     zod: ^3.22.4
-  checksum: 6786781f5e17f4e2b1f2c6caa1abb1301ccbd4e5222b6989ef29b73b30c7db020eeb086feba8e0f2bc0b5db899a8d6658a7a07c79b609ce8760063331998a186
+  checksum: 18ca1c2310bbb3060f0b6ecdff5a390e493b3dc17b537ddb1eec2464ed463f4facfbfcdca91fcd1aaf94355c1ff83839105fc80c6d8b15ccf324e33d62ebb379
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.26.21":
-  version: 1.26.21
-  resolution: "@tanstack/router-vite-plugin@npm:1.26.21"
+"@tanstack/router-vite-plugin@npm:^1.28.2":
+  version: 1.28.2
+  resolution: "@tanstack/router-vite-plugin@npm:1.28.2"
   dependencies:
     "@babel/core": ^7.23.7
     "@babel/generator": ^7.23.6
@@ -2834,14 +2834,14 @@ __metadata:
     "@babel/template": ^7.24.0
     "@babel/traverse": ^7.24.1
     "@babel/types": ^7.24.0
-    "@tanstack/router-generator": 1.26.16
+    "@tanstack/router-generator": 1.28.2
     "@types/babel__core": ^7.20.5
     "@types/babel__generator": ^7.6.8
     "@types/babel__template": ^7.4.4
     "@types/babel__traverse": ^7.20.5
     "@vitejs/plugin-react": ^4.2.1
     zod: ^3.22.4
-  checksum: 0d32f2274680016b1a29d9ad69aea662496f0b64c2f1a6e303c00fdafed4dd496fe71371b962dc5ac5e49700ef475efb6702f5774ee8850e77889d6b570ac296
+  checksum: 2bd2aec19b6e165c39448c086774578c6f980bc6f5b02b0282a61087a29508e5d6993a685a8d052de1a07ce19f0236030f4e440c6a60d20259966b6e1a2f00a2
   languageName: node
   linkType: hard
 
@@ -3119,13 +3119,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.78":
-  version: 18.2.78
-  resolution: "@types/react@npm:18.2.78"
+"@types/react@npm:^18.2.79":
+  version: 18.2.79
+  resolution: "@types/react@npm:18.2.79"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: f686d735707d46690d05ac76e8c8a619802ea6a4a8f2837981669f7dc13b6984751edc4994242afa3be279df15c67b72a5a658f02a7c5ca16f9a0b4878f1bf18
+  checksum: 85aa96e0e88725c84d8fc5f04f10a4da6a1f507dde33557ac9cc211414756867721264bfefd9e02bae1288ce2905351d949b652b931e734ea24519ee5c625138
   languageName: node
   linkType: hard
 
@@ -3261,23 +3261,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wyw-in-js/babel-preset@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@wyw-in-js/babel-preset@npm:0.5.0"
+"@wyw-in-js/babel-preset@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@wyw-in-js/babel-preset@npm:0.5.1"
   dependencies:
     "@babel/core": ^7.23.5
-    "@wyw-in-js/transform": 0.5.0
-  checksum: 04a89a1ffdbef53a328d045a27483f0573d1b7cc68ed1426700e6017a4ae63f0de92f7c2dd95724120de7b7ff9b29ab6a5f131bbfd6d1f3fe7259d978f2692b5
+    "@wyw-in-js/transform": 0.5.1
+  checksum: b023d3a161d52c7cbe64c15575cc0d75ba4e3f30b3cb438a5027b340b2db6116abb9514efeeb4dbd6e2ba3bd1eadc228121c1483bed0c6f5488dc7dee3026d62
   languageName: node
   linkType: hard
 
-"@wyw-in-js/processor-utils@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@wyw-in-js/processor-utils@npm:0.5.0"
+"@wyw-in-js/processor-utils@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@wyw-in-js/processor-utils@npm:0.5.1"
   dependencies:
     "@babel/generator": ^7.23.5
-    "@wyw-in-js/shared": 0.5.0
-  checksum: 7e1e7df95f31acc23aec8cf4ff2eab1b022b2e3596d4781dfc7219dddb97af97466a1a092924f1e98f5ce6cc86c6b2b37e91108c1b579d9583436edfc020006a
+    "@wyw-in-js/shared": 0.5.1
+  checksum: ce1a76796c1314e214bae7e89e0c4c285b33aae851a38df02fced2507b2f5f14c2fd262d7fe0f62c245b5c53cd3e378e31c242c49d868ab8666efd60e1e406c9
   languageName: node
   linkType: hard
 
@@ -3302,20 +3302,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wyw-in-js/shared@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@wyw-in-js/shared@npm:0.5.0"
+"@wyw-in-js/shared@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@wyw-in-js/shared@npm:0.5.1"
   dependencies:
     debug: ^4.3.4
     find-up: ^5.0.0
     minimatch: ^9.0.3
-  checksum: 5ca569bc60df980c70a2fadd7835eac7ba6251e66b3c91b2cb6680ee928e3b419fa7a312a64a79de563e44ad3a518d517950f01a7b9aace37f0f721d5457196b
+  checksum: df104ff041e1d4e5df01f41c5c67860613024783ddbff2202e5f57bd2585b1aa02f8d7caa7292e017cf3ea9b3950c6b081eb38a792c0ba70d14f2d1ee6dd8c00
   languageName: node
   linkType: hard
 
-"@wyw-in-js/transform@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@wyw-in-js/transform@npm:0.5.0"
+"@wyw-in-js/transform@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@wyw-in-js/transform@npm:0.5.1"
   dependencies:
     "@babel/core": ^7.23.5
     "@babel/generator": ^7.23.5
@@ -3324,28 +3324,27 @@ __metadata:
     "@babel/template": ^7.22.15
     "@babel/traverse": ^7.23.5
     "@babel/types": ^7.23.5
-    "@wyw-in-js/processor-utils": 0.5.0
-    "@wyw-in-js/shared": 0.5.0
+    "@wyw-in-js/processor-utils": 0.5.1
+    "@wyw-in-js/shared": 0.5.1
     babel-merge: ^3.0.0
     cosmiconfig: ^8.0.0
     happy-dom: ^12.5.0
     source-map: ^0.7.4
     stylis: ^4.3.0
     ts-invariant: ^0.10.3
-  checksum: b54f86cab68d13641d696dc2455a50bb789e2d39a252efc5fe7c790210502b833225017d83f28cff46eb90bb3a4ac8a026309677a141417ad1568e8aa661df80
+  checksum: 70f3d7700e94343a59d7a9fac6f29c6639348b642fa26a9129e848bcfefe8ddc82482400f84f646abc7aeb7ad9dc58f5f24d4ad4fc5fc7a69b2e2724d7599c59
   languageName: node
   linkType: hard
 
-"@wyw-in-js/vite@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@wyw-in-js/vite@npm:0.5.0"
+"@wyw-in-js/vite@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@wyw-in-js/vite@npm:0.5.1"
   dependencies:
-    "@rollup/pluginutils": ^5.0.4
-    "@wyw-in-js/shared": 0.5.0
-    "@wyw-in-js/transform": 0.5.0
+    "@wyw-in-js/shared": 0.5.1
+    "@wyw-in-js/transform": 0.5.1
   peerDependencies:
     vite: ">=3.2.7"
-  checksum: 5c88094b7fac29158976cbbb43395bb9db25dc54ed377e7dab1224bfcfd0d018a913c6e24fffc7ee402a661e4e64a107ddf3e56e8bf7d1c75db6240ddf7b013a
+  checksum: 04f42a1ba47599aec984b1be8257bef11bb6d87a245e7d36f12eeef153ff5880c2c4179abcc140e78a3198e83eda59f1dec0f723961f34e13490a711fd52fcc0
   languageName: node
   linkType: hard
 
@@ -3385,10 +3384,10 @@ __metadata:
     "@linaria/react": 6.1.0
     "@playwright/test": ^1.43.1
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.27.0
+    "@tanstack/react-router": ^1.28.9
     "@tanstack/react-store": ^0.3.1
-    "@tanstack/router-devtools": ^1.27.0
-    "@tanstack/router-vite-plugin": ^1.26.21
+    "@tanstack/router-devtools": ^1.28.9
+    "@tanstack/router-vite-plugin": ^1.28.2
     "@testing-library/jest-dom": ^6.4.2
     "@testing-library/react": ^15.0.2
     "@testing-library/react-hooks": ^8.0.1
@@ -3397,15 +3396,15 @@ __metadata:
     "@types/css": ^0.0.37
     "@types/lodash-es": ^4.17.12
     "@types/node": ^20.12.7
-    "@types/react": ^18.2.78
+    "@types/react": ^18.2.79
     "@types/react-dom": ^18.2.25
     "@vitejs/plugin-react": ^4.2.1
     "@vitest/coverage-v8": ^1.5.0
     "@vitest/ui": ^1.5.0
-    "@wyw-in-js/babel-preset": 0.5.0
-    "@wyw-in-js/shared": 0.5.0
-    "@wyw-in-js/transform": 0.5.0
-    "@wyw-in-js/vite": 0.5.0
+    "@wyw-in-js/babel-preset": 0.5.1
+    "@wyw-in-js/shared": 0.5.1
+    "@wyw-in-js/transform": 0.5.1
+    "@wyw-in-js/vite": 0.5.1
     babel-preset-react-app: ^10.0.1
     cross-env: ^7.0.3
     css: ^3.0.0
@@ -3420,7 +3419,7 @@ __metadata:
     rollup-plugin-workbox: ^8.1.0
     sass: ^1.75.0
     typescript: ^5.4.5
-    vite: ^5.2.8
+    vite: ^5.2.9
     vite-bundle-visualizer: ^1.1.0
     vite-tsconfig-paths: ^4.3.2
     vitest: ^1.5.0
@@ -7727,9 +7726,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.2.8":
-  version: 5.2.8
-  resolution: "vite@npm:5.2.8"
+"vite@npm:^5.2.9":
+  version: 5.2.9
+  resolution: "vite@npm:5.2.9"
   dependencies:
     esbuild: ^0.20.1
     fsevents: ~2.3.3
@@ -7763,7 +7762,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: c0a77271b548fce443af59a383939924ffcba8e6d0ba6ecb2e481d0ec2318465d2116ce9317599c448e6d6d8af11a67b8efc5b52cb1deab37d2e83311ac4f1b5
+  checksum: 7a97f9547af8550c55bc2529cc6827c1ef0a043a09e9686cf20b615e8d59305cbe917954e806c5fdad6c33bfb883c1ce51325a9c474b5aa5bc13c377a74805fd
   languageName: node
   linkType: hard
 
