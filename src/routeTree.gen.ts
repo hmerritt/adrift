@@ -44,14 +44,23 @@ const UserUserIdLazyRoute = UserUserIdLazyImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
       preLoaderRoute: typeof UserLazyImport
       parentRoute: typeof rootRoute
     }
     '/user/$userId': {
+      id: '/user/$userId'
+      path: '/$userId'
+      fullPath: '/user/$userId'
       preLoaderRoute: typeof UserUserIdLazyImport
       parentRoute: typeof UserLazyImport
     }
@@ -60,9 +69,9 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  UserLazyRoute.addChildren([UserUserIdLazyRoute]),
-])
+  UserLazyRoute: UserLazyRoute.addChildren({ UserUserIdLazyRoute }),
+})
 
 /* prettier-ignore-end */
