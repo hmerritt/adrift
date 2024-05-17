@@ -1,6 +1,7 @@
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
+import sass from "sass";
 import { type UserConfig, defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { type InlineConfig } from "vitest";
@@ -30,7 +31,15 @@ export default defineConfig({
 		}),
 		linaria({
 			sourceMap: isDev,
-			preprocessor: "none",
+			preprocessor: (selector, cssText) => {
+				try {
+					const result = sass.compileString(`${selector} {${cssText}}\n`);
+					return result.css.toString();
+				} catch (error) {
+					console.error("Error processing SCSS:", error);
+					return "";
+				}
+			},
 			exclude: ["src/global/**", "**/*.test.{ts,tsx}"],
 			include: ["**/*.{ts,tsx}"]
 		}),
