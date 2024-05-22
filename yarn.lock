@@ -2523,6 +2523,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@linaria/atomic@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "@linaria/atomic@npm:6.2.0"
+  dependencies:
+    "@linaria/core": ^6.2.0
+    "@linaria/react": ^6.2.1
+    "@wyw-in-js/processor-utils": ^0.5.3
+    "@wyw-in-js/shared": ^0.5.3
+    known-css-properties: ^0.24.0
+    postcss: ^8.4.31
+    stylis: ^4.3.0
+    ts-invariant: ^0.10.3
+  peerDependencies:
+    react: ">=16"
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: f568193c0c0a56dc0fcc890178699cc9ddc38d4fc488761266ba98b1d9ffe2a3d52e3b81ce4ea93e85ed99b8bf760855890a2cac826e123fd9a63a77a38c27e0
+  languageName: node
+  linkType: hard
+
 "@linaria/core@npm:6.2.0, @linaria/core@npm:^6.2.0":
   version: 6.2.0
   resolution: "@linaria/core@npm:6.2.0"
@@ -2532,7 +2553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linaria/react@npm:6.2.1":
+"@linaria/react@npm:6.2.1, @linaria/react@npm:^6.2.1":
   version: 6.2.1
   resolution: "@linaria/react@npm:6.2.1"
   dependencies:
@@ -2955,9 +2976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.32.12, @tanstack/react-router@npm:^1.32.12":
-  version: 1.32.12
-  resolution: "@tanstack/react-router@npm:1.32.12"
+"@tanstack/react-router@npm:1.33.7, @tanstack/react-router@npm:^1.33.7":
+  version: 1.33.7
+  resolution: "@tanstack/react-router@npm:1.33.7"
   dependencies:
     "@tanstack/history": 1.31.16
     "@tanstack/react-store": ^0.2.1
@@ -2966,7 +2987,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: f18e820fde6e4645fe00443e35f4f8114b0222ab38f1f6fbf35678dc4cd48148a2aebad2e2f0fdd1b676ead40fac57fa4a60c7ffebab2ab4c4bb2eeeb58261ff
+  checksum: f7c362c09427f0bebcc3c58d9f8226271ad843881a4967e60bc54652ebd6d2786390452f3948786e0a46216c500ad714bfec764d5a3d9594b656c39262afc665
   languageName: node
   linkType: hard
 
@@ -2996,18 +3017,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.32.12":
-  version: 1.32.12
-  resolution: "@tanstack/router-devtools@npm:1.32.12"
+"@tanstack/router-devtools@npm:^1.33.7":
+  version: 1.33.7
+  resolution: "@tanstack/router-devtools@npm:1.33.7"
   dependencies:
-    "@tanstack/react-router": 1.32.12
+    "@tanstack/react-router": 1.33.7
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 4c490b4cce7a85d6358cc449ce14d6552e62664471600133030b65ae823e49f7b386870950f8bdab746a6884370f277230c867b6ea646c3e9a98d86a24456c95
+  checksum: 5b4bc9d4fa6c22dc22ce163d4b8356bca17e099f4c74b65d7caf207bf03c2f79bc6b11360b0bc0aa55144b407d65982a99b709dcc26f40261f7c4286b88b546b
   languageName: node
   linkType: hard
 
@@ -3021,9 +3042,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.32.10":
-  version: 1.32.10
-  resolution: "@tanstack/router-vite-plugin@npm:1.32.10"
+"@tanstack/router-vite-plugin@npm:^1.32.17":
+  version: 1.32.17
+  resolution: "@tanstack/router-vite-plugin@npm:1.32.17"
   dependencies:
     "@babel/core": ^7.23.7
     "@babel/generator": ^7.23.6
@@ -3041,7 +3062,7 @@ __metadata:
     "@types/babel__traverse": ^7.20.5
     "@vitejs/plugin-react": ^4.2.1
     zod: ^3.22.4
-  checksum: d5ff9de8cffab819dc6bc3a09b0de79d9d670aea35ca38061633a9f4326783856539bdcb97c9243ec72d4d5e96d8c4acb1fe9ff679a7394346565eb9f7ccc17d
+  checksum: 82825d9ef1c4d0f6aa728f0bbcb62d3e2561eaabb2008aef6a962c9f646d3d416aeee9b337dadf2dd7e1a10e472d796da87ef84a5b2c6d3b698ccd679881c8de
   languageName: node
   linkType: hard
 
@@ -3612,14 +3633,15 @@ __metadata:
     "@dnd-kit/core": ^6.1.0
     "@dnd-kit/sortable": ^8.0.0
     "@dnd-kit/utilities": ^3.2.2
+    "@linaria/atomic": ^6.2.0
     "@linaria/core": 6.2.0
     "@linaria/react": 6.2.1
     "@playwright/test": ^1.44.0
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.32.12
+    "@tanstack/react-router": ^1.33.7
     "@tanstack/react-store": ^0.4.1
-    "@tanstack/router-devtools": ^1.32.12
-    "@tanstack/router-vite-plugin": ^1.32.10
+    "@tanstack/router-devtools": ^1.33.7
+    "@tanstack/router-vite-plugin": ^1.32.17
     "@testing-library/jest-dom": ^6.4.5
     "@testing-library/react": ^15.0.7
     "@testing-library/react-hooks": ^8.0.1
@@ -3650,7 +3672,7 @@ __metadata:
     react-device-detect: ^2.2.3
     react-dom: ^19.0.0-rc-915b914b3a-20240515
     rollup-plugin-workbox: ^8.1.0
-    sass: ^1.77.1
+    sass: ^1.77.2
     typescript: ^5.4.5
     vite: ^5.2.11
     vite-bundle-visualizer: ^1.2.1
@@ -5901,6 +5923,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"known-css-properties@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "known-css-properties@npm:0.24.0"
+  checksum: 071c3a9457ed2c5c46b6172d2c7b6a253ca4aec0c5c84da06e705026c377529fc57b690957c87f9313606be63a5152dc706102c09ba36102cc484936ec2f96b9
+  languageName: node
+  linkType: hard
+
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -6570,6 +6599,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss@npm:^8.4.31, postcss@npm:^8.4.38":
+  version: 8.4.38
+  resolution: "postcss@npm:8.4.38"
+  dependencies:
+    nanoid: ^3.3.7
+    picocolors: ^1.0.0
+    source-map-js: ^1.2.0
+  checksum: 649f9e60a763ca4b5a7bbec446a069edf07f057f6d780a5a0070576b841538d1ecf7dd888f2fbfd1f76200e26c969e405aeeae66332e6927dbdc8bdcb90b9451
+  languageName: node
+  linkType: hard
+
 "postcss@npm:^8.4.35":
   version: 8.4.35
   resolution: "postcss@npm:8.4.35"
@@ -6578,17 +6618,6 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: cf3c3124d3912a507603f6d9a49b3783f741075e9aa73eb592a6dd9194f9edab9d20a8875d16d137d4f779fe7b6fbd1f5727e39bfd1c3003724980ee4995e1da
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.4.38":
-  version: 8.4.38
-  resolution: "postcss@npm:8.4.38"
-  dependencies:
-    nanoid: ^3.3.7
-    picocolors: ^1.0.0
-    source-map-js: ^1.2.0
-  checksum: 649f9e60a763ca4b5a7bbec446a069edf07f057f6d780a5a0070576b841538d1ecf7dd888f2fbfd1f76200e26c969e405aeeae66332e6927dbdc8bdcb90b9451
   languageName: node
   linkType: hard
 
@@ -7127,16 +7156,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.77.1":
-  version: 1.77.1
-  resolution: "sass@npm:1.77.1"
+"sass@npm:^1.77.2":
+  version: 1.77.2
+  resolution: "sass@npm:1.77.2"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 97976bcb781bf1784662a4a690352dc6d87529fea9de0c9c6ce21994765067da801ffd54fa5c3891735e8ef9c30065eb61a02ca2eb27ed878e9606542e827d9a
+  checksum: fd75b1f255a30ecd4ee79fa020830d7bf426dd15de2f47cf9610130707dc2a029da3677ca0a6c89e8d4626b0a2816456bb7fb706cb518cfbf2e7c0038ef7a4b8
   languageName: node
   linkType: hard
 

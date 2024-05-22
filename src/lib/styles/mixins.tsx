@@ -8,6 +8,13 @@ const mixins = `
         transition: all, 80ms, ease;
     }
 
+    /* Long text go like this... */
+    @mixin text-ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
     /* Grid: RAM (Repeat, Auto, Minmax) */
     @mixin gridColumnsRAM($min: 150px, $max: 1fr) {
         grid-template-columns: repeat(auto-fit, minmax($min, $max));

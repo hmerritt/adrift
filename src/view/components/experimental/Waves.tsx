@@ -1,4 +1,4 @@
-import { css } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 import { useState } from "react";
 
 import { useEventListener, useInterval } from "lib/hooks";
@@ -36,17 +36,17 @@ export const Waves = () => {
 	});
 
 	return (
-		<div className={waveContainer}>
+		<div className={cx(waveContainer)}>
 			<div>
 				<svg
-					className={wave}
+					className={cx(wave)}
 					viewBox="0 0 1440 320"
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path d={waveStates[waveState]} />
 				</svg>
 			</div>
-			<div className={waveFill} style={{ height: `${fillHeight}vh` }} />
+			<div className={cx(waveFill)} style={{ height: `${fillHeight}vh` }} />
 		</div>
 	);
 };
