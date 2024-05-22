@@ -1,5 +1,4 @@
-import { css } from "@linaria/atomic";
-import { cx } from "@linaria/core";
+import { css, cx } from "@linaria/core";
 import { Link, createLazyFileRoute } from "@tanstack/react-router";
 
 import { Stack } from "view/components";
