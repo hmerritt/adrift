@@ -1,4 +1,5 @@
-import { css, cx } from "@linaria/core";
+import { css } from "@linaria/atomic";
+import { cx } from "@linaria/core";
 import { RefObject, useCallback, useEffect, useRef } from "react";
 
 export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
