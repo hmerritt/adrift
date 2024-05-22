@@ -69,6 +69,7 @@ async function isAdriftUpdateAvailable() {
 		for (let i = 0; i < Math.max(current.length, latest.length); i++) {
 			if ((current[i] || 0) < (latest[i] || 0)) {
 				comparison = -1;
+				break;
 			} else if ((current[i] || 0) > (latest[i] || 0)) {
 				comparison = 1;
 			}
