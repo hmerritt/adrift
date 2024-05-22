@@ -2976,9 +2976,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.32.13, @tanstack/react-router@npm:^1.32.13":
-  version: 1.32.13
-  resolution: "@tanstack/react-router@npm:1.32.13"
+"@tanstack/react-router@npm:1.33.7, @tanstack/react-router@npm:^1.33.7":
+  version: 1.33.7
+  resolution: "@tanstack/react-router@npm:1.33.7"
   dependencies:
     "@tanstack/history": 1.31.16
     "@tanstack/react-store": ^0.2.1
@@ -2987,7 +2987,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 8cf9843a603fda35cf303831eda6053de15dba00ebda12ccac049bb460550322fadd2139572073b371caf458e0b0ca59d7953e43c499f2e3a9c197c5298a7a30
+  checksum: f7c362c09427f0bebcc3c58d9f8226271ad843881a4967e60bc54652ebd6d2786390452f3948786e0a46216c500ad714bfec764d5a3d9594b656c39262afc665
   languageName: node
   linkType: hard
 
@@ -3017,18 +3017,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.32.13":
-  version: 1.32.13
-  resolution: "@tanstack/router-devtools@npm:1.32.13"
+"@tanstack/router-devtools@npm:^1.33.7":
+  version: 1.33.7
+  resolution: "@tanstack/router-devtools@npm:1.33.7"
   dependencies:
-    "@tanstack/react-router": 1.32.13
+    "@tanstack/react-router": 1.33.7
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 59bdf776edbfdafb777890d9cf6eb2f3a5e199bc32e282bd759f77925e03bfa55b223985c6b588e9585b81e31da4096286e29c692e11a0a57ed593d6836f3072
+  checksum: 5b4bc9d4fa6c22dc22ce163d4b8356bca17e099f4c74b65d7caf207bf03c2f79bc6b11360b0bc0aa55144b407d65982a99b709dcc26f40261f7c4286b88b546b
   languageName: node
   linkType: hard
 
@@ -3042,9 +3042,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.32.10":
-  version: 1.32.10
-  resolution: "@tanstack/router-vite-plugin@npm:1.32.10"
+"@tanstack/router-vite-plugin@npm:^1.32.17":
+  version: 1.32.17
+  resolution: "@tanstack/router-vite-plugin@npm:1.32.17"
   dependencies:
     "@babel/core": ^7.23.7
     "@babel/generator": ^7.23.6
@@ -3062,7 +3062,7 @@ __metadata:
     "@types/babel__traverse": ^7.20.5
     "@vitejs/plugin-react": ^4.2.1
     zod: ^3.22.4
-  checksum: d5ff9de8cffab819dc6bc3a09b0de79d9d670aea35ca38061633a9f4326783856539bdcb97c9243ec72d4d5e96d8c4acb1fe9ff679a7394346565eb9f7ccc17d
+  checksum: 82825d9ef1c4d0f6aa728f0bbcb62d3e2561eaabb2008aef6a962c9f646d3d416aeee9b337dadf2dd7e1a10e472d796da87ef84a5b2c6d3b698ccd679881c8de
   languageName: node
   linkType: hard
 
@@ -3638,10 +3638,10 @@ __metadata:
     "@linaria/react": 6.2.1
     "@playwright/test": ^1.44.0
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.32.13
+    "@tanstack/react-router": ^1.33.7
     "@tanstack/react-store": ^0.4.1
-    "@tanstack/router-devtools": ^1.32.13
-    "@tanstack/router-vite-plugin": ^1.32.10
+    "@tanstack/router-devtools": ^1.33.7
+    "@tanstack/router-vite-plugin": ^1.32.17
     "@testing-library/jest-dom": ^6.4.5
     "@testing-library/react": ^15.0.7
     "@testing-library/react-hooks": ^8.0.1
