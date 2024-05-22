@@ -1,7 +1,7 @@
+import * as sass from "sass";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
-import sass from "sass";
 import { type UserConfig, defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { type InlineConfig } from "vitest";
