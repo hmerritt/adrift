@@ -183,7 +183,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 					y = -1000;
 					mousePosition.current.x = x;
 					mousePosition.current.y = y;
-				}, 1000);
+				}, 600);
 			}
 
 			mousePosition.current.x = x;
