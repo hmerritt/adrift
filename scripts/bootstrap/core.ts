@@ -18,12 +18,17 @@ const __dirname = path.dirname(__filename);
  *
  * Injects ENV array into cross-env before running script
  */
-export async function bootstrap(env: Env, allowEnvOverride, args, path) {
+export async function bootstrap(
+	env: Env,
+	allowEnvOverride: boolean | undefined,
+	args = [] as string[],
+	path: string | undefined
+) {
 	try {
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const argString = args?.length > 0 ? args.join(" ") : "";
+		const argString = args?.length > 0 ? args?.join(" ") : "";
 
 		// Run scripts/start|build command
 		runStream(`npx cross-env ${envString} ${argString}`, path);
@@ -35,15 +40,15 @@ export async function bootstrap(env: Env, allowEnvOverride, args, path) {
 /**
  * Shortens a string at both ends, separated by '...', eg '123456789' -> '12345...789'
  */
-export function shorten(str, numCharsStart = 6, numCharsEnd = 4) {
-	if (str?.length <= 11) return str;
+export function shorten(str: string | undefined, numCharsStart = 6, numCharsEnd = 4) {
+	if (!str || str?.length <= 11) return str;
 	return `${str.substring(0, numCharsStart)}...${str.slice(str.length - numCharsEnd)}`;
 }
 
 /**
  * Returns the current git branch
  */
-export async function getGitBranch(path, fallback = undefined) {
+export async function getGitBranch(path: string, fallback = undefined) {
 	let gitBranch = await run(`git rev-parse --abbrev-ref HEAD`, path, null);
 
 	// Detect CircleCI
@@ -52,7 +57,6 @@ export async function getGitBranch(path, fallback = undefined) {
 	}
 
 	// Detect GitHub Actions CI
-	// prettier-ignore
 	if (process.env.GITHUB_REF_NAME && process.env.GITHUB_REF_TYPE === "branch") {
 		gitBranch = process.env.GITHUB_REF_NAME;
 	}
@@ -162,11 +166,11 @@ export function runStream(command: string, path = __dirname, exitOnError = true)
 	});
 }
 
-export function isProd(args) {
+export function isProd(args = [] as string[]) {
 	return args.length >= 2 && (args[1] === "build" || args[1] === "preview");
 }
 
-export function isTest(args) {
+export function isTest(args = [] as string[]) {
 	return args.length >= 1 && args[0] === "vitest";
 }
 
@@ -175,7 +179,7 @@ export function isTest(args) {
  *
  * @returns `NODE_ENV` value
  */
-export function getNodeEnv(args) {
+export function getNodeEnv(args = [] as string[]) {
 	switch (true) {
 		case isProd(args):
 			return "production";
