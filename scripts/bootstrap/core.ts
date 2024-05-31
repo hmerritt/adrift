@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import util from "util";
 
-import { adriftVersion } from "./version.cjs";
+import { adriftVersion } from "./version";
 
 const exec = execBase.exec;
 const execAwait = util.promisify(exec);
