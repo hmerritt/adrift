@@ -7,7 +7,7 @@ import * as core from "./core";
 /**
  * Internal adrift version.
  */
-export const adriftVersion = "0.11.491";
+export const adriftVersion = "0.11.497";
 
 /**
  * Bumps the adrift `patch` version number using the total commit count.
@@ -25,8 +25,8 @@ export async function bumpAdriftPatchVersion() {
 			await core.run(`git rev-list --count HEAD`, pathRoot, "")
 		).trim();
 
-		// Read the contents of version.cjs
-		const versionFile = path.join(__dirname, "version.cjs");
+		// Read the contents of version.ts
+		const versionFile = path.join(__dirname, "version.ts");
 		const versionFileContent = fs.readFileSync(versionFile, "utf8");
 
 		// Extract the version number parts
@@ -37,7 +37,7 @@ export async function bumpAdriftPatchVersion() {
 		const newVersion = `${majorMinor}${commitCount}`;
 
 		if (!majorMinor) {
-			throw new Error("No version number found in version.cjs");
+			throw new Error("No version number found in version.ts");
 		}
 
 		// Replace the version patch with the commit count
@@ -46,7 +46,7 @@ export async function bumpAdriftPatchVersion() {
 			`$1${newVersion}$3`
 		);
 
-		// Write the updated content back to version.cjs
+		// Write the updated content back to version.ts
 		fs.writeFileSync(versionFile, updatedContent, "utf8");
 
 		console.log(`\x1b[36madrift@${newVersion}\x1b[0m`);
@@ -63,7 +63,7 @@ export async function bumpAdriftPatchVersion() {
 export async function isAdriftUpdateAvailable() {
 	try {
 		const url =
-			"https://raw.githubusercontent.com/hmerritt/adrift/master/scripts/bootstrap/version.cjs";
+			"https://raw.githubusercontent.com/hmerritt/adrift/master/scripts/bootstrap/version.ts";
 		const rawGithubText = await (await fetch(url)).text();
 
 		const versionRegex = /adriftVersion\s*=\s*"([^"]+)"/;
