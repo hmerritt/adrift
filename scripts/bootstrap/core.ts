@@ -31,7 +31,7 @@ export async function bootstrap(
 		const argString = args?.length > 0 ? args?.join(" ") : "";
 
 		// Run scripts/start|build command
-		runStream(`npx cross-env ${envString} ${argString}`, path);
+		runStream(`yarn cross-env ${envString} ${argString}`, path);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
