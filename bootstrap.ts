@@ -1,8 +1,13 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
 import * as core from "./scripts/bootstrap/core";
 import packageJSON from "./package.json";
 import { type Env } from "./scripts/bootstrap/core";
 import { adriftVersion, isAdriftUpdateAvailable } from "./scripts/bootstrap/version.cjs";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const pathRoot = __dirname;
 const args = process.argv.slice(2);
 

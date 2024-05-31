@@ -1,4 +1,6 @@
 import execBase from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
 import util from "util";
 
 import { adriftVersion } from "./version.cjs";
@@ -7,6 +9,9 @@ const exec = execBase.exec;
 const execAwait = util.promisify(exec);
 
 export type Env = [string, any][];
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Bootstrap runs code before react start/build.
