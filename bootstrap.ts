@@ -19,7 +19,7 @@ bootstrap();
 // prettier-ignore
 async function bootstrap() {
 	const gitCommitHash = await core.run(`git rev-parse HEAD`, pathRoot, '');
-	const gitCommitHashShort = gitCommitHash ? core.shorten(gitCommitHash) : '';
+	const gitCommitHashShort = core.shorten(gitCommitHash) || '';
 	const gitBranch = await core.getGitBranch(pathRoot);
 	const appVersion = packageJSON?.version;
 	const appName = packageJSON?.name;

@@ -38,7 +38,7 @@ export async function bootstrap(
 }
 
 /**
- * Shortens a string at both ends, separated by '...', eg '123456789' -> '12345...789'
+ * Shortens a string at both ends, separated by `...`, eg `123456789` -> `12345...789`
  */
 export function shorten(str: string | undefined, numCharsStart = 6, numCharsEnd = 4) {
 	if (!str || str?.length <= 11) return str;
