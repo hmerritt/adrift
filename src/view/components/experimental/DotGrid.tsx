@@ -174,8 +174,16 @@ export const DotGrid: React.FC<DotGridProps> = ({
 					y = touch.clientY;
 				}
 			} else if (e.type === "mouseout" || e.type === "touchend") {
-				x = -1000;
-				y = -1000;
+				setTimeout(() => {
+					// If mouse position has changed, abort reset (this means mouse has moved back into tracking area)
+					if (x !== mousePosition.current.x || y !== mousePosition.current.y)
+						return;
+
+					x = -1000;
+					y = -1000;
+					mousePosition.current.x = x;
+					mousePosition.current.y = y;
+				}, 1000);
 			}
 
 			mousePosition.current.x = x;
