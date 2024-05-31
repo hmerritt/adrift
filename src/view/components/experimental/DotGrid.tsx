@@ -1,6 +1,7 @@
 import { css } from "@linaria/atomic";
 import { cx } from "@linaria/core";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { useMove } from "@use-gesture/react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
 	/** Container position. Use `fixed` for background usage */
@@ -41,8 +42,23 @@ export const DotGrid: React.FC<DotGridProps> = ({
 	...canvasProps
 }) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
-	const mousePosition = useRef({ x: -1000, y: -1000 });
 	const animationFrameHandle = useRef(-1);
+	const mousePosition = useRef({ x: -1000, y: -1000 });
+
+	const getTargetToBind = () =>
+		refForMousePosition === "window"
+			? window
+			: refForMousePosition?.current || $canvas.current;
+	const [targetToBind, setTargetToBind] = useState(getTargetToBind());
+	const bind = useMove(
+		(state) => {
+			mousePosition.current.x = state?.xy?.[0];
+			mousePosition.current.y = state?.xy?.[1];
+		},
+		{
+			target: targetToBind
+		}
+	);
 
 	const resetAnimationFrame = () => {
 		if (animationFrameHandle.current !== -1) {
@@ -143,66 +159,35 @@ export const DotGrid: React.FC<DotGridProps> = ({
 	useEffect(() => {
 		if (!$canvas.current) return;
 
-		const trackMousePosition = (e: MouseEvent | TouchEvent) => {
-			if (!$canvas.current) return;
-
-			let x = mousePosition.current.x;
-			let y = mousePosition.current.y;
-
-			if (e.type === "mousemove") {
-				const native = e as MouseEvent;
-				x = native?.offsetX;
-				y = native?.offsetY;
-				if (refForMousePosition === "window") {
-					x = native?.clientX;
-					y = native?.clientY;
-				}
-			} else if (e.type === "touchmove") {
-				const native = e as TouchEvent;
-				const bcr = $canvas.current.getBoundingClientRect();
-				const touch = native?.touches?.[0] ?? native?.targetTouches?.[0];
-				x = touch.clientX - bcr.x;
-				y = touch.clientY - bcr.y;
-				if (refForMousePosition === "window") {
-					x = touch.clientX;
-					y = touch.clientY;
-				}
-			} else if (e.type === "mouseout" || e.type === "touchend") {
-				x = -1000;
-				y = -1000;
-			}
-
-			mousePosition.current.x = x;
-			mousePosition.current.y = y;
-		};
-		const $elForMousePosition =
-			refForMousePosition === "window"
-				? window
-				: refForMousePosition?.current || $canvas.current;
-		$elForMousePosition.addEventListener("mousemove", trackMousePosition);
-		$elForMousePosition.addEventListener("mouseout", trackMousePosition);
-		$elForMousePosition.addEventListener("touchmove", trackMousePosition);
-		$elForMousePosition.addEventListener("touchend", trackMousePosition);
-
+		setTargetToBind(getTargetToBind());
 		drawDotGrid();
 
 		if (reactToWindowResize) {
 			window.addEventListener("resize", drawDotGrid);
 		}
 
+		// Reset mouse position when off-screen
+		const resetMousePosition = () => {
+			setTimeout(() => {
+				mousePosition.current.x = -1000;
+				mousePosition.current.y = -1000;
+			}, 400);
+		};
+		window.addEventListener("touchend", resetMousePosition);
+		document.addEventListener("mouseleave", resetMousePosition);
+
 		return () => {
 			resetAnimationFrame();
 			window.removeEventListener("resize", drawDotGrid);
-			$elForMousePosition?.removeEventListener("mousemove", trackMousePosition);
-			$elForMousePosition?.removeEventListener("mouseout", trackMousePosition);
-			$elForMousePosition?.removeEventListener("touchmove", trackMousePosition);
-			$elForMousePosition?.removeEventListener("touchend", trackMousePosition);
+			window.removeEventListener("touchend", resetMousePosition);
+			document.removeEventListener("mouseleave", resetMousePosition);
 		};
 	}, [drawDotGrid, reactToWindowResize]);
 
 	return (
 		<canvas
 			{...canvasProps}
+			{...bind}
 			ref={$canvas}
 			className={cx(dotGrid, position === "fixed" && dotGridFixed)}
 		/>
