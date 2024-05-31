@@ -3230,9 +3230,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:^1.34.5":
-  version: 1.34.5
-  resolution: "@tanstack/react-router@npm:1.34.5"
+"@tanstack/react-router@npm:^1.34.7":
+  version: 1.34.7
+  resolution: "@tanstack/react-router@npm:1.34.7"
   dependencies:
     "@tanstack/history": 1.31.16
     "@tanstack/react-store": ^0.2.1
@@ -3241,7 +3241,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 969f4dfa5f2d622f59cf1b826f2f932c09e215e6d5eae978894071bc2acf80ff371f9af30fc9dd7fbf8dcbbf1b574d43458d41992d539c20c5ff012c1a18b295
+  checksum: 2f7acdfacbd2d896691cc5bf77b488421abb78911c9104f319dc204b85432730d720879c6e7129bed72a071255f363667df597dae336655de9ea5b1beb6ab3ec
   languageName: node
   linkType: hard
 
@@ -3271,34 +3271,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.34.5":
-  version: 1.34.5
-  resolution: "@tanstack/router-devtools@npm:1.34.5"
+"@tanstack/router-devtools@npm:^1.34.7":
+  version: 1.34.7
+  resolution: "@tanstack/router-devtools@npm:1.34.7"
   dependencies:
     clsx: ^2.1.0
     date-fns: ^2.29.1
     goober: ^2.1.14
   peerDependencies:
-    "@tanstack/react-router": ^1.34.5
+    "@tanstack/react-router": ^1.34.7
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 33d74fcbfe29ad5a53071ebbd5f72e17ab7d75d76c3dbba0681c7a8aa5be7e2c1cf746aaac66a058440573af6fc4c2d4f024ac1027f8303f2a1610ca05cefea2
+  checksum: 3f9b9038f05873bba30ae29884531ab31b11ede90bbc33e03f552b8e4b68b451c242486ec436de6e11729dd138b70493a62fa32ddd9f53039bdb155a7e32d424
   languageName: node
   linkType: hard
 
-"@tanstack/router-generator@npm:1.33.12":
-  version: 1.33.12
-  resolution: "@tanstack/router-generator@npm:1.33.12"
+"@tanstack/router-generator@npm:1.34.8":
+  version: 1.34.8
+  resolution: "@tanstack/router-generator@npm:1.34.8"
   dependencies:
     prettier: ^3.1.1
     zod: ^3.22.4
-  checksum: 66af44245b8e448beabf851fb1695a43d35d593a538007ca2b8051fd1c8efbf4e1bb3a9ad5fa7ff5eb0dd5ccf80699644c605c57cd73083309b70a4df67fc926
+  checksum: 3c280f99cadb73b1256e81e3860a47a14d918a51a10e1561856bd313f8d04111ec4bffc8f83f1d285a461fd74dee66e314ea8d9a8572a954e97ea50cb8a3a607
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.34.1":
-  version: 1.34.1
-  resolution: "@tanstack/router-vite-plugin@npm:1.34.1"
+"@tanstack/router-vite-plugin@npm:^1.34.8":
+  version: 1.34.8
+  resolution: "@tanstack/router-vite-plugin@npm:1.34.8"
   dependencies:
     "@babel/core": ^7.23.7
     "@babel/generator": ^7.23.6
@@ -3309,14 +3309,14 @@ __metadata:
     "@babel/template": ^7.24.0
     "@babel/traverse": ^7.24.1
     "@babel/types": ^7.24.0
-    "@tanstack/router-generator": 1.33.12
+    "@tanstack/router-generator": 1.34.8
     "@types/babel__core": ^7.20.5
     "@types/babel__generator": ^7.6.8
     "@types/babel__template": ^7.4.4
     "@types/babel__traverse": ^7.20.5
     "@vitejs/plugin-react": ^4.2.1
     zod: ^3.22.4
-  checksum: c45d27892fa2b982ab278d2bf0eeb0ce7b7860dbb49832f4072b315f0ad9462bd130e65b2768f1ff5bad2d1fc931cdfb5473bb6eb34a3d551ee268b76af94042
+  checksum: 40b926862f66bad8f06e508fefd83f80e062a398bda0d016090d6fd1f2f0c72eb3291580c125b33f72f08be8a7a0a1471e9f692823866141c9160d9d1f927543
   languageName: node
   linkType: hard
 
@@ -3572,12 +3572,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.12.12":
-  version: 20.12.12
-  resolution: "@types/node@npm:20.12.12"
+"@types/node@npm:^20.12.13":
+  version: 20.12.13
+  resolution: "@types/node@npm:20.12.13"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 5373983874b9af7c216e7ca5d26b32a8d9829c703a69f1e66f2113598b5be8582c0e009ca97369f1ec9a6282b3f92812208d06eb1e9fc3bd9b939b022303d042
+  checksum: 9ec8971a76b2435379c10689c639ba1bbf4451075709bdf4bf23b7972a63f7d966947914410f2d3711a315e1157d782b76cfadc32944e29db9dd444221aea699
   languageName: node
   linkType: hard
 
@@ -3907,10 +3907,10 @@ __metadata:
     "@linaria/react": 6.2.1
     "@playwright/test": ^1.44.1
     "@rollup/pluginutils": ^5.1.0
-    "@tanstack/react-router": ^1.34.5
+    "@tanstack/react-router": ^1.34.7
     "@tanstack/react-store": ^0.4.1
-    "@tanstack/router-devtools": ^1.34.5
-    "@tanstack/router-vite-plugin": ^1.34.1
+    "@tanstack/router-devtools": ^1.34.7
+    "@tanstack/router-vite-plugin": ^1.34.8
     "@testing-library/jest-dom": ^6.4.5
     "@testing-library/react": ^15.0.7
     "@testing-library/react-hooks": ^8.0.1
@@ -3918,7 +3918,7 @@ __metadata:
     "@trivago/prettier-plugin-sort-imports": ^4.3.0
     "@types/css": ^0.0.37
     "@types/lodash-es": ^4.17.12
-    "@types/node": ^20.12.12
+    "@types/node": ^20.12.13
     "@types/react": ^18.3.3
     "@types/react-dom": ^18.3.0
     "@vitejs/plugin-react": ^4.3.0
@@ -3933,7 +3933,7 @@ __metadata:
     cross-env: ^7.0.3
     css: ^3.0.0
     dayjs: ^1.11.11
-    happy-dom: 14.11.4
+    happy-dom: 14.12.0
     lodash-es: ^4.17.21
     plausible-tracker: ^0.3.9
     prettier: 3.2.5
@@ -3941,7 +3941,8 @@ __metadata:
     react-device-detect: ^2.2.3
     react-dom: ^19.0.0-rc-935180c7e0-20240524
     rollup-plugin-workbox: ^8.1.0
-    sass: ^1.77.2
+    sass: ^1.77.4
+    tsx: ^4.11.0
     typescript: ^5.4.5
     vite: ^5.2.12
     vite-bundle-visualizer: ^1.2.1
@@ -4978,7 +4979,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.20.1":
+"esbuild@npm:^0.20.1, esbuild@npm:~0.20.2":
   version: 0.20.2
   resolution: "esbuild@npm:0.20.2"
   dependencies:
@@ -5383,6 +5384,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-tsconfig@npm:^4.7.5":
+  version: 4.7.5
+  resolution: "get-tsconfig@npm:4.7.5"
+  dependencies:
+    resolve-pkg-maps: ^1.0.0
+  checksum: e5b271fae2b4cd1869bbfc58db56983026cc4a08fdba988725a6edd55d04101507de154722503a22ee35920898ff9bdcba71f99d93b17df35dddb8e8a2ad91be
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^5.1.2, glob-parent@npm:~5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -5469,14 +5479,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:14.11.4":
-  version: 14.11.4
-  resolution: "happy-dom@npm:14.11.4"
+"happy-dom@npm:14.12.0":
+  version: 14.12.0
+  resolution: "happy-dom@npm:14.12.0"
   dependencies:
     entities: ^4.5.0
     webidl-conversions: ^7.0.0
     whatwg-mimetype: ^3.0.0
-  checksum: 03b19c461f3a33662e2e126b5e7f41b132d05e48b44b0fc5b946913090b6f2bfc4fe5908432a084cfc66506ad11ffd0be47b22b94b4f213bb3f5ed91012cd524
+  checksum: 67acb1054a22ec76aa4f847fc84e272407a7451a9bab366ad8d939fd3c7edfda4c1d458ddbfc7e1a2a7363eeb3d5021e6ef2bfe33a3697ee8f3b10968a1a6a82
   languageName: node
   linkType: hard
 
@@ -7174,6 +7184,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"resolve-pkg-maps@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "resolve-pkg-maps@npm:1.0.0"
+  checksum: 1012afc566b3fdb190a6309cc37ef3b2dcc35dff5fa6683a9d00cd25c3247edfbc4691b91078c97adc82a29b77a2660c30d791d65dab4fc78bfc473f60289977
+  languageName: node
+  linkType: hard
+
 "resolve@npm:^1.14.2, resolve@npm:^1.19.0, resolve@npm:^1.22.1, resolve@npm:^1.22.8":
   version: 1.22.8
   resolution: "resolve@npm:1.22.8"
@@ -7432,16 +7449,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.77.2":
-  version: 1.77.2
-  resolution: "sass@npm:1.77.2"
+"sass@npm:^1.77.4":
+  version: 1.77.4
+  resolution: "sass@npm:1.77.4"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: fd75b1f255a30ecd4ee79fa020830d7bf426dd15de2f47cf9610130707dc2a029da3677ca0a6c89e8d4626b0a2816456bb7fb706cb518cfbf2e7c0038ef7a4b8
+  checksum: 415d76960e35d78310ffc33bc61fdb2b35a54bb2823dfc4eff50eee960096dacc210d7ef7ae6695120e1a4f005f269719c34d58c77c54ff7787516bda6a89e55
   languageName: node
   linkType: hard
 
@@ -8049,6 +8066,22 @@ __metadata:
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 329ea56123005922f39642318e3d1f0f8265d1e7fcb92c633e0809521da75eeaca28d2cf96d7248229deb40e5c19adf408259f4b9640afd20d13aecc1430f3ad
+  languageName: node
+  linkType: hard
+
+"tsx@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "tsx@npm:4.11.0"
+  dependencies:
+    esbuild: ~0.20.2
+    fsevents: ~2.3.3
+    get-tsconfig: ^4.7.5
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    tsx: dist/cli.mjs
+  checksum: 677b415cec06f1b0da67877ecf8ac6260cb97a0779f0f4492ad49b750f019bb184016b8502e6c83e50dc2a673106b7d0bb109d799328826c145a0e336d67da2d
   languageName: node
   linkType: hard
 
