@@ -1,5 +1,5 @@
 import * as sass from "sass";
-import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import linaria from "@wyw-in-js/vite";
 import { injectManifest } from "rollup-plugin-workbox";

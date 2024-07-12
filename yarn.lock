@@ -3394,15 +3394,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-vite-plugin@npm:^1.44.3":
-  version: 1.44.3
-  resolution: "@tanstack/router-vite-plugin@npm:1.44.3"
-  dependencies:
-    "@tanstack/router-plugin": ^1.44.3
-  checksum: 137c4c61ad6d78a5c1e21709ecc1822438dbff6073ad17056c2ab89132cbd55052f000b6361d6c855033034170fd337c8bdeddf129766e0fcf134fa32b64fc4d
-  languageName: node
-  linkType: hard
-
 "@tanstack/store@npm:0.5.4":
   version: 0.5.4
   resolution: "@tanstack/store@npm:0.5.4"
@@ -4000,7 +3991,7 @@ __metadata:
     "@tanstack/react-router": ^1.44.4
     "@tanstack/react-store": ^0.5.5
     "@tanstack/router-devtools": ^1.44.4
-    "@tanstack/router-vite-plugin": ^1.44.3
+    "@tanstack/router-plugin": ^1.44.3
     "@testing-library/dom": ^10.3.1
     "@testing-library/jest-dom": ^6.4.6
     "@testing-library/react": ^16.0.0
