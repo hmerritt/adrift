@@ -1,4 +1,5 @@
 import * as sass from "sass";
+//@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import linaria from "@wyw-in-js/vite";
