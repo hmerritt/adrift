@@ -3,6 +3,7 @@ import * as sass from "sass";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import linaria from "@wyw-in-js/vite";
+import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
 import { type UserConfig, defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -50,6 +51,18 @@ export default defineConfig({
 			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
 		})
 	],
+	css: {
+		modules: {
+			localsConvention: "camelCaseOnly",
+			generateScopedName: "[name]__[local]___[hash:base64:5]"
+		},
+		preprocessorOptions: {
+			scss: {
+				// Inject SCSS variables into every module
+				additionalData: `@import "${path.resolve(__dirname, "src/lib/styles/var/index.scss").replace(/\\/g, "/")}";`
+			}
+		}
+	},
 	test: {
 		// https://vitest.dev/api/
 		globals: false,

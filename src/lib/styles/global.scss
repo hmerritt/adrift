@@ -1,3 +1,4 @@
+/* stylelint-disable property-no-unknown */
 body {
 	font-family:
 		"MiSans",
@@ -9,7 +10,7 @@ body {
 	font-smooth: always;
 	touch-action: manipulation;
 	font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
+	text-rendering: optimizelegibility;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
@@ -22,4 +23,10 @@ body {
 
 .none {
 	display: none;
+}
+
+.text-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }

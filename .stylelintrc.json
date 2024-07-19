@@ -1,0 +1,15 @@
+{
+	"extends": ["stylelint-config-standard-scss"],
+	"plugins": ["stylelint-scss"],
+	"rules": {
+		"color-function-notation": null,
+		"comment-empty-line-before": null,
+		"font-family-name-quotes": null,
+		"rule-empty-line-before": null,
+		"scss/comment-no-empty": null,
+		"scss/dollar-variable-empty-line-before": null,
+		"scss/dollar-variable-no-missing-interpolation": true,
+		"scss/no-global-function-names": null
+	},
+	"ignoreFiles": ["scss-variables.scss"]
+}

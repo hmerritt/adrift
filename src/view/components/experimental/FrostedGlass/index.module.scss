@@ -1,0 +1,19 @@
+.pane {
+	flex: 1;
+	backdrop-filter: blur(8px);
+	background: linear-gradient(
+		to right,
+		color(red 255 green 255 blue 255 alpha 0.2),
+		color(red 255 green 255 blue 255 alpha 0.1)
+	);
+
+	&.row {
+		height: 100%;
+	}
+
+	&.column {
+		width: 100%;
+	}
+
+	// color:$pr;
+}

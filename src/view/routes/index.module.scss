@@ -1,0 +1,28 @@
+.picture-frame {
+	position: relative;
+	width: 700px;
+	height: 350px;
+	margin: auto;
+	display: flex;
+	overflow: hidden;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	box-shadow: shadow-block($blue-400);
+
+	h4 {
+		font-style: italic;
+		padding: 1rem;
+		opacity: 0.8;
+		font-size: 1.5rem;
+	}
+}
+
+.header {
+	text-transform: lowercase;
+	font-style: italic;
+	font-size: 10rem;
+	font-weight: thin;
+	color: $blue-100;
+	text-shadow: shadow-block($blue-400);
+}

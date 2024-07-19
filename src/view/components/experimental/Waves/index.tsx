@@ -1,8 +1,8 @@
-import { css, cx } from "@linaria/core";
 import { useState } from "react";
 
 import { useEventListener, useInterval } from "lib/hooks";
-import theme from "lib/styles";
+
+import styles from "./index.module.scss";
 
 /**
  * SVG Wave
@@ -36,59 +36,20 @@ export const Waves = () => {
 	});
 
 	return (
-		<div className={cx(waveContainer)}>
+		<div className={styles["waveContainer"]}>
 			<div>
 				<svg
-					className={cx(wave)}
+					className={styles["wave"]}
 					viewBox="0 0 1440 320"
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path d={waveStates[waveState]} />
 				</svg>
 			</div>
-			<div className={cx(waveFill)} style={{ height: `${fillHeight}vh` }} />
+			<div className={styles["waveFill"]} style={{ height: `${fillHeight}vh` }} />
 		</div>
 	);
 };
-
-const waveContainer = css`
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: -1;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	/* transform: rotate(180deg); */
-
-	& > div {
-		width: 100%;
-	}
-`;
-
-const wave = css`
-	${theme}
-	width: 100%;
-	height: auto;
-	flex-shrink: 1;
-
-	path {
-		fill: lighten($blue-100, 8%);
-		transform-origin: 0px 0px;
-		transition: all 800ms ease 0s;
-	}
-`;
-
-const waveFill = css`
-	${theme}
-	width: 100%;
-	height: 30vh;
-	margin-top: -0.5rem;
-	transition: all 100ms ease 0s;
-	background-color: lighten($blue-100, 8%);
-`;
 
 const waveStates = [
 	"M0,192L48,181.3C96,171,192,149,288,160C384,171,480,213,576,229.3C672,245,768,235,864,224C960,213,1056,203,1152,197.3C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",

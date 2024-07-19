@@ -2,6 +2,8 @@ import { css } from "@linaria/atomic";
 import { cx } from "@linaria/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import styles from "./index.module.scss";
+
 export type FrostedGlassProps = JSX.IntrinsicElements["div"] & {
 	/** Pane direction */
 	paneDirection?: "row" | "column";
@@ -65,7 +67,7 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 
 			<div className={cx(paneContainer, paneDirection)}>
 				{[...Array(paneCount).keys()].map((i) => (
-					<div key={i} className={cx(pane, paneDirection)} />
+					<div key={i} className={cx(styles.pane, paneDirection)} />
 				))}
 			</div>
 		</div>
@@ -94,20 +96,20 @@ const paneContainer = css`
 	}
 `;
 
-const pane = css`
-	flex: 1;
-	backdrop-filter: blur(8px);
-	background: linear-gradient(
-		to right,
-		rgba(255, 255, 255, 0.2),
-		rgba(255, 255, 255, 0.1)
-	);
+// const pane = css`
+// 	flex: 1;
+// 	backdrop-filter: blur(8px);
+// 	background: linear-gradient(
+// 		to right,
+// 		rgba(255, 255, 255, 0.2),
+// 		rgba(255, 255, 255, 0.1)
+// 	);
 
-	&.row {
-		height: 100%;
-	}
+// 	&.row {
+// 		height: 100%;
+// 	}
 
-	&.column {
-		width: 100%;
-	}
-`;
+// 	&.column {
+// 		width: 100%;
+// 	}
+// `;
