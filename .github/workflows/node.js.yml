@@ -25,7 +25,7 @@ jobs:
               with:
                   path: ".npm"
                   key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            - run: corepack enable && corepack prepare yarn@stable --activate && yarn set version 3.5.0
+            - run: corepack enable && corepack prepare yarn@stable --activate && yarn set version 4.3.1
             - run: yarn install
             - run: yarn test:e2e:setup
             - run: yarn test:coverage
