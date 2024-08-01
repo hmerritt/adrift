@@ -26,9 +26,9 @@
 		"@linaria/atomic": "^6.2.0",
 		"@linaria/core": "6.2.0",
 		"@linaria/react": "6.2.1",
-		"@tanstack/react-router": "^1.45.15",
+		"@tanstack/react-router": "^1.46.0",
 		"@tanstack/react-store": "^0.5.5",
-		"@tanstack/router-devtools": "^1.45.15",
+		"@tanstack/router-devtools": "^1.46.0",
 		"@tanstack/router-plugin": "^1.45.13",
 		"@use-gesture/react": "^10.3.1",
 		"dayjs": "^1.11.12",
@@ -69,7 +69,7 @@
 		"happy-dom": "14.12.3",
 		"prettier": "3.3.3",
 		"rollup-plugin-workbox": "^8.1.0",
-		"tsx": "^4.16.3",
+		"tsx": "^4.16.5",
 		"typescript": "^5.5.4",
 		"vite": "^5.3.5",
 		"vite-bundle-visualizer": "^1.2.1",
@@ -99,5 +99,5 @@
 	"engines": {
 		"node": ">=18.0.0"
 	},
-	"packageManager": "yarn@3.5.0"
+	"packageManager": "yarn@4.3.1"
 }
