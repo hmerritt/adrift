@@ -3250,9 +3250,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:^1.46.7":
-  version: 1.46.7
-  resolution: "@tanstack/react-router@npm:1.46.7"
+"@tanstack/react-router@npm:^1.46.8":
+  version: 1.46.8
+  resolution: "@tanstack/react-router@npm:1.46.8"
   dependencies:
     "@tanstack/history": "npm:1.45.3"
     "@tanstack/react-store": "npm:^0.5.5"
@@ -3261,7 +3261,7 @@ __metadata:
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/226e050e219e2ed3dda86262441371712d27694764a8a4d192b152d137402f5f408a29cc02449374459904b3cdfb65c70f82d43338db11e783b82b9d82474fb2
+  checksum: 10/84ce497b25aae8a70d7337ac4eedbbe2c3e7a57e635a3a9ab8851c76544675bfe6431150b9143f8439ca1db3ef3560a4104116b9ba8a3b3366540422fa608bc1
   languageName: node
   linkType: hard
 
@@ -3278,17 +3278,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:^1.46.7":
-  version: 1.46.7
-  resolution: "@tanstack/router-devtools@npm:1.46.7"
+"@tanstack/router-devtools@npm:^1.46.9":
+  version: 1.46.9
+  resolution: "@tanstack/router-devtools@npm:1.46.9"
   dependencies:
     clsx: "npm:^2.1.1"
     goober: "npm:^2.1.14"
   peerDependencies:
-    "@tanstack/react-router": ^1.46.7
+    "@tanstack/react-router": ^1.46.8
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/aa7adfec62a62d2bca1f5065b63699628cd69a2c38f8cbf1fe6436ff9844450771cd19334979cb8dc60ff1ca3296a5a41cc08b7aaabcd41a0683b865d646333c
+  checksum: 10/70dad2353d394cfc7b5ac9968060434123377c071a60000661f8818b01d679e42cf4195bd7a3353af9ac372a25e137e6ef99c3c22b28ff25aebbccb8cb548bf3
   languageName: node
   linkType: hard
 
@@ -3928,9 +3928,9 @@ __metadata:
     "@linaria/react": "npm:6.2.1"
     "@playwright/test": "npm:^1.46.0"
     "@rollup/pluginutils": "npm:^5.1.0"
-    "@tanstack/react-router": "npm:^1.46.7"
+    "@tanstack/react-router": "npm:^1.46.8"
     "@tanstack/react-store": "npm:^0.5.5"
-    "@tanstack/router-devtools": "npm:^1.46.7"
+    "@tanstack/router-devtools": "npm:^1.46.9"
     "@tanstack/router-plugin": "npm:^1.46.6"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/jest-dom": "npm:^6.4.8"
@@ -3951,7 +3951,7 @@ __metadata:
     "@wyw-in-js/shared": "npm:0.5.4"
     "@wyw-in-js/transform": "npm:0.5.4"
     "@wyw-in-js/vite": "npm:0.5.4"
-    babel-plugin-react-compiler: "npm:0.0.0-experimental-334f00b-20240725"
+    babel-plugin-react-compiler: "npm:0.0.0-experimental-0dbad55-20240807"
     babel-preset-react-app: "npm:^10.0.1"
     cross-env: "npm:^7.0.3"
     css: "npm:^3.0.0"
@@ -3960,14 +3960,14 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     plausible-tracker: "npm:^0.3.9"
     prettier: "npm:3.3.3"
-    react: "npm:^19.0.0-rc-65903583-20240805"
+    react: "npm:^19.0.0-rc-e948a5ac-20240807"
     react-device-detect: "npm:^2.2.3"
-    react-dom: "npm:^19.0.0-rc-65903583-20240805"
+    react-dom: "npm:^19.0.0-rc-e948a5ac-20240807"
     rollup-plugin-workbox: "npm:^8.1.0"
     sass: "npm:^1.77.8"
     tsx: "npm:^4.16.5"
     typescript: "npm:^5.5.4"
-    vite: "npm:^5.3.5"
+    vite: "npm:^5.4.0"
     vite-bundle-visualizer: "npm:^1.2.1"
     vite-tsconfig-paths: "npm:^4.3.2"
     vitest: "npm:^2.0.5"
@@ -4224,9 +4224,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-compiler@npm:0.0.0-experimental-334f00b-20240725":
-  version: 0.0.0-experimental-334f00b-20240725
-  resolution: "babel-plugin-react-compiler@npm:0.0.0-experimental-334f00b-20240725"
+"babel-plugin-react-compiler@npm:0.0.0-experimental-0dbad55-20240807":
+  version: 0.0.0-experimental-0dbad55-20240807
+  resolution: "babel-plugin-react-compiler@npm:0.0.0-experimental-0dbad55-20240807"
   dependencies:
     "@babel/generator": "npm:7.2.0"
     "@babel/types": "npm:^7.19.0"
@@ -4235,7 +4235,7 @@ __metadata:
     pretty-format: "npm:^24"
     zod: "npm:^3.22.4"
     zod-validation-error: "npm:^2.1.0"
-  checksum: 10/ef5de8fcc872f18af511dd587cfb83ca19a5a32c22b1c8bb4befde6947d812c137ab16a56f0532823a02120140daeb224118376efe3883ae1a68ff6ce904a2dd
+  checksum: 10/13ec02a649c56545ec748552fada4d18aba6e15cc05dc167e7935b562f53effe7fba738e63f05254b6c12ce7de424b5174d6cd6f15ffa13e8757efcfda96d1f6
   languageName: node
   linkType: hard
 
@@ -6966,14 +6966,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.39":
-  version: 8.4.39
-  resolution: "postcss@npm:8.4.39"
+"postcss@npm:^8.4.40":
+  version: 8.4.41
+  resolution: "postcss@npm:8.4.41"
   dependencies:
     nanoid: "npm:^3.3.7"
     picocolors: "npm:^1.0.1"
     source-map-js: "npm:^1.2.0"
-  checksum: 10/ad9c1add892c96433b9a5502878201ede4a20c4ce02d056251f61f8d9a3e5426dab3683fe5a086edfa78a1a19f2b4988c8cea02c5122136d29758cb5a17e2621
+  checksum: 10/6e6176c2407eff60493ca60a706c6b7def20a722c3adda94ea1ece38345eb99964191336fd62b62652279cec6938e79e0b1e1d477142c8d3516e7a725a74ee37
   languageName: node
   linkType: hard
 
@@ -7068,7 +7068,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19.0.0-rc-65903583-20240805":
+"react-dom@npm:^19.0.0-rc-e948a5ac-20240807":
   version: 19.0.0-rc-fb9a90fa48-20240614
   resolution: "react-dom@npm:19.0.0-rc-fb9a90fa48-20240614"
   dependencies:
@@ -7120,7 +7120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.0.0-rc-65903583-20240805":
+"react@npm:^19.0.0-rc-e948a5ac-20240807":
   version: 19.0.0-rc-fb9a90fa48-20240614
   resolution: "react@npm:19.0.0-rc-fb9a90fa48-20240614"
   checksum: 10/a1e9eb61546620c3dc306969bf711969f22b9ca87e07e8dc728015dafdd628c4d32cd2e6e757b27a4876cb22f0d0ae892944445de02833cd874582f9c9811bf2
@@ -8450,19 +8450,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.3.5":
-  version: 5.3.5
-  resolution: "vite@npm:5.3.5"
+"vite@npm:^5.4.0":
+  version: 5.4.0
+  resolution: "vite@npm:5.4.0"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
-    postcss: "npm:^8.4.39"
+    postcss: "npm:^8.4.40"
     rollup: "npm:^4.13.0"
   peerDependencies:
     "@types/node": ^18.0.0 || >=20.0.0
     less: "*"
     lightningcss: ^1.21.0
     sass: "*"
+    sass-embedded: "*"
     stylus: "*"
     sugarss: "*"
     terser: ^5.4.0
@@ -8478,6 +8479,8 @@ __metadata:
       optional: true
     sass:
       optional: true
+    sass-embedded:
+      optional: true
     stylus:
       optional: true
     sugarss:
@@ -8486,7 +8489,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/5672dde4a969349d9cf90a9e43029c8489dfff60fb04d6a10717d6224553cf12283a8cace633fa80b006df6037f72d08a459a38bf8ea66cb19075d60fe159482
+  checksum: 10/5a98b1d30cc8c0263551f417a360102d40b78b9170e9e58a99c1a394ab700c7e604d3c52dafda323c11356a76eba865800d3d8588b33a8febdeaddd5a8981410
   languageName: node
   linkType: hard
 
