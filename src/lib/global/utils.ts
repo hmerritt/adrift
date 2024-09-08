@@ -43,3 +43,25 @@ export const parseEnv = (value: any, isJson = false) => {
 	}
 	return value;
 };
+
+/**
+ * Safely run async task, catching and returning any errors as a variable (similar to Go).
+ *
+ * @example const [error, result] = await run(myPromise())
+ */
+export const run = async <T, E = Error>(
+	promise: Promise<T>
+): Promise<[null, T] | [E, null]> => {
+	try {
+		const result = await promise;
+		return [null, result];
+	} catch (error) {
+		return [error as E, null];
+	}
+};
+
+export type RunFn = typeof run;
+
+export const injectRun = () => {
+	setGlobalValue("run", run);
+};
