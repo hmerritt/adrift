@@ -49,19 +49,19 @@ export const parseEnv = (value: any, isJson = false) => {
  *
  * @example const [error, result] = await run(myPromise())
  */
-export const run = async <T, E = Error>(
-	promise: Promise<T>
-): Promise<[null, T] | [E, null]> => {
+export const safeAwait = async <T, E = Error>(
+	promise: Promise<T> | T
+): Promise<[T, null] | [null, E]> => {
 	try {
 		const result = await promise;
-		return [null, result];
+		return [result, null];
 	} catch (error) {
-		return [error as E, null];
+		return [null, error as E];
 	}
 };
 
-export type RunFn = typeof run;
+export type SafeAwaitFn = typeof safeAwait;
 
-export const injectRun = () => {
-	setGlobalValue("run", run);
+export const injectSafeAwait = () => {
+	setGlobalValue("safeAwait", safeAwait);
 };
