@@ -1,3 +1,5 @@
+import { logn } from "./log";
+
 /**
  * Returns global object to use.
  *
@@ -38,8 +40,10 @@ export const parseEnv = (value: any, isJson = false) => {
 	if (value === "null") return null;
 	if (isJson) {
 		try {
-			return JSON.parse(value);
-		} catch (e) {}
+			return JSON.parse(value ?? "");
+		} catch (e) {
+			logn("parseEnv", "error", "JSON value failed to parse", value, e);
+		}
 	}
 	return value;
 };
