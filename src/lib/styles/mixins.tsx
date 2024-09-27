@@ -26,7 +26,7 @@ const mixins = `
     }
 
     /* Scrollbar styles */
-    @mixin scrollbar($width: 1rem, $height: 1rem, $bgTrack: transparent, $bgThumb: lighten(#181818, 60%), $bgThumbHover: lighten(#181818, 40%)) {
+    @mixin scrollbar($width: 1rem, $height: 1rem, $bgTrack: transparent, $bgThumb: #b1b1b1, $bgThumbHover: #7e7e7e) {
         ::-webkit-scrollbar {
             width: $width;
             height: $height;

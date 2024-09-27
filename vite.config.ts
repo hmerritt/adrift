@@ -23,6 +23,13 @@ export default defineConfig({
 	define: {
 		"process.env": {}
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: "modern-compiler"
+			}
+		}
+	},
 	plugins: [
 		react(),
 		tsconfigPaths(),

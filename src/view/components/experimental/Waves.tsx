@@ -75,7 +75,7 @@ const wave = css`
 	flex-shrink: 1;
 
 	path {
-		fill: lighten($blue-100, 8%);
+		fill: rgb(226.8333333333, 242.8666666667, 251.9666666667);
 		transform-origin: 0px 0px;
 		transition: all 800ms ease 0s;
 	}
@@ -87,7 +87,7 @@ const waveFill = css`
 	height: 30vh;
 	margin-top: -0.5rem;
 	transition: all 100ms ease 0s;
-	background-color: lighten($blue-100, 8%);
+	background-color: rgb(226.8333333333, 242.8666666667, 251.9666666667);
 `;
 
 const waveStates = [
