@@ -1,6 +1,7 @@
 import { css } from "@linaria/core";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { useInterval } from "lib/hooks";
 import theme from "lib/styles";
 
 import { DotGrid, FrostedGlass, Fullscreen, Stack, Waves } from "view/components";
@@ -9,7 +10,42 @@ export const Route = createFileRoute("/")({
 	component: IndexRoute
 });
 
+const testAsync = async () => {
+	// await new Promise((resolve) => setTimeout(resolve, 500));
+
+	if (Math.random() > 0.5) {
+		throw new Error("Something went wrong");
+	}
+
+	return 5;
+};
+
 export function IndexRoute() {
+	useInterval(() => {
+		(async () => {
+			//
+			// BEFORE
+			//
+			try {
+				const result = await testAsync();
+				// ...result
+			} catch (error) {
+				log("error", error);
+			}
+
+			//
+			// AFTER
+			//
+			const [result, error] = await safeAwait(testAsync());
+
+			if (error) {
+				log("error", error);
+			}
+
+			// ...result
+		})();
+	}, 2500);
+
 	return (
 		<>
 			<Stack spacing={15}>

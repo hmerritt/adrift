@@ -69,10 +69,59 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  UserLazyRoute: UserLazyRoute.addChildren({ UserUserIdLazyRoute }),
-})
+interface UserLazyRouteChildren {
+  UserUserIdLazyRoute: typeof UserUserIdLazyRoute
+}
+
+const UserLazyRouteChildren: UserLazyRouteChildren = {
+  UserUserIdLazyRoute: UserUserIdLazyRoute,
+}
+
+const UserLazyRouteWithChildren = UserLazyRoute._addFileChildren(
+  UserLazyRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/user': typeof UserLazyRouteWithChildren
+  '/user/$userId': typeof UserUserIdLazyRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/user': typeof UserLazyRouteWithChildren
+  '/user/$userId': typeof UserUserIdLazyRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/user': typeof UserLazyRouteWithChildren
+  '/user/$userId': typeof UserUserIdLazyRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/user' | '/user/$userId'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/user' | '/user/$userId'
+  id: '__root__' | '/' | '/user' | '/user/$userId'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  UserLazyRoute: typeof UserLazyRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  UserLazyRoute: UserLazyRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
