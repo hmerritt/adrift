@@ -1,7 +1,6 @@
 import { css } from "@linaria/core";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useInterval } from "lib/hooks";
 import theme from "lib/styles";
 
 import { DotGrid, FrostedGlass, Fullscreen, Stack, Waves } from "view/components";
@@ -33,7 +32,7 @@ export function IndexRoute() {
 				</Fullscreen>
 			</Stack>
 
-			<DotGrid position="fixed" refForMousePosition="window" spacing={50} />
+			<DotGrid position="fixed" refForMousePosition="window" spacing={40} />
 		</>
 	);
 }
