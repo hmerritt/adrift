@@ -7,7 +7,7 @@ import * as core from "./core";
 /**
  * Internal adrift version.
  */
-export const adriftVersion = "0.11.539";
+export const adriftVersion = "0.11.540";
 
 /**
  * Bumps the adrift `patch` version number using the total commit count.

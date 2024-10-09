@@ -4234,9 +4234,9 @@ __metadata:
     lodash-es: "npm:4.17.21"
     plausible-tracker: "npm:0.3.9"
     prettier: "npm:3.3.3"
-    react: "npm:19.0.0-rc-1460d67c-20241003"
+    react: "npm:19.0.0-rc-ed966dac-20241007"
     react-device-detect: "npm:2.2.3"
-    react-dom: "npm:19.0.0-rc-1460d67c-20241003"
+    react-dom: "npm:19.0.0-rc-ed966dac-20241007"
     rollup-plugin-workbox: "npm:8.1.0"
     sass: "npm:1.79.4"
     tsx: "npm:4.19.1"
@@ -7388,14 +7388,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.0.0-rc-1460d67c-20241003":
-  version: 19.0.0-rc-1460d67c-20241003
-  resolution: "react-dom@npm:19.0.0-rc-1460d67c-20241003"
+"react-dom@npm:19.0.0-rc-ed966dac-20241007":
+  version: 19.0.0-rc-ed966dac-20241007
+  resolution: "react-dom@npm:19.0.0-rc-ed966dac-20241007"
   dependencies:
-    scheduler: "npm:0.25.0-rc-1460d67c-20241003"
+    scheduler: "npm:0.25.0-rc-ed966dac-20241007"
   peerDependencies:
-    react: 19.0.0-rc-1460d67c-20241003
-  checksum: 10/42f9b6b21eb081123cfbc7842ac654f1768ec468f7413cda190a7aff67e83ef18e718334d9595950306c1f127f4e080c9b06a531e551cbc7ae5081c9356d9416
+    react: 19.0.0-rc-ed966dac-20241007
+  checksum: 10/26b8a09d90c278be855d505b2fa9972951f21e1f55b9bdcc707a44766d6319c92ac86c3a53b191a04f4394c8730e6865a40efa69dd73bfc3e5d1f32cf2296898
   languageName: node
   linkType: hard
 
@@ -7440,10 +7440,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.0.0-rc-1460d67c-20241003":
-  version: 19.0.0-rc-1460d67c-20241003
-  resolution: "react@npm:19.0.0-rc-1460d67c-20241003"
-  checksum: 10/5a938c143221b58fac1bc8c7f642ffbfbd65b9210e5e72b4977456531e9ef337319ab383d8f5b8a71693d72682aadab090a972334513f8e43691195f13c4864b
+"react@npm:19.0.0-rc-ed966dac-20241007":
+  version: 19.0.0-rc-ed966dac-20241007
+  resolution: "react@npm:19.0.0-rc-ed966dac-20241007"
+  checksum: 10/122077fd9cdbbbcd45eb9edd678d9aa1f034f12a85a80dce183f7c33e6812b9a94b73376557b928611241d6b89b303be7ca1e915e984fa5b1db4b55303fd8702
   languageName: node
   linkType: hard
 
@@ -7828,10 +7828,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.25.0-rc-1460d67c-20241003":
-  version: 0.25.0-rc-1460d67c-20241003
-  resolution: "scheduler@npm:0.25.0-rc-1460d67c-20241003"
-  checksum: 10/ae8a23fb6984addf87556362e222c97f207cc23ff8474807ace44f06cda8e9f8b25b847ade95fe2a15f80f197f76a1be94cb019fa3639d8c683ab7794a85bc4f
+"scheduler@npm:0.25.0-rc-ed966dac-20241007":
+  version: 0.25.0-rc-ed966dac-20241007
+  resolution: "scheduler@npm:0.25.0-rc-ed966dac-20241007"
+  checksum: 10/6a22906a74a574397e08b11e6b1e2416721458197c19b2a088954a116bc3aa0931bc12e32edb9c908e2dc4f2630ea755ab7d5a5b32f4914d42446500cbc7ad52
   languageName: node
   linkType: hard
 
