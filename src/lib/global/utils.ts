@@ -51,21 +51,37 @@ export const parseEnv = (value: any, isJson = false) => {
 /**
  * Run async task, catching and returning any errors as a variable (similar to Go).
  *
- * @example const [result, error] = await run(myPromise())
+ * @example const [result, error] = await go(myPromise())
  */
 export const go = async <T, E = Error>(
-	promise: Promise<T> | T
-): Promise<[T, null] | [null, E]> => {
+	promise: Promise<T>
+): Promise<[T, null] | [T, E]> => {
 	try {
 		const result = await promise;
 		return [result, null];
 	} catch (error) {
-		return [null, error as E];
+		return [null as T, error as E];
+	}
+};
+
+/**
+ * Run synchronous task, catching and returning any errors as a variable (similar to Go).
+ *
+ * @example const [result, error] = goSync(() => myFn(...props))
+ */
+export const goSync = <R, E = Error>(cb: () => R): [R, null] | [R, E] => {
+	try {
+		const result = cb();
+		return [result, null];
+	} catch (error) {
+		return [null as R, error as E];
 	}
 };
 
 export type GoFn = typeof go;
+export type GoSyncFn = typeof goSync;
 
 export const injectGo = () => {
 	setGlobalValue("go", go);
+	setGlobalValue("goSync", goSync);
 };

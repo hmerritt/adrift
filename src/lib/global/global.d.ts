@@ -1,7 +1,7 @@
 import type { EnvKeys, EnvObj } from "./env";
 import type { FeatureFlags, FeatureOptions } from "./featureFlags";
 import type { LogStoreType } from "./log";
-import type { GoFn } from "./utils";
+import type { GoFn, GoSyncFn } from "./utils";
 
 type LogFn = (logLevel: any, ...args: any[]) => void;
 type LognFn = (namespace: string, logLevel: any, ...args: any[]) => void;
@@ -15,6 +15,7 @@ declare global {
 	var logStore: LogStoreType;
 	var env: EnvObj;
 	var go: GoFn;
+	var goSync: GoSyncFn;
 	var envGet: (key: EnvKeys) => any;
 	var feature: FeatureFn;
 	var getNumberOfEventListeners: () => number;
@@ -28,6 +29,7 @@ declare global {
 		logStore: LogStoreType;
 		env: EnvObj;
 		go: GoFn;
+		goSync: GoSyncFn;
 		envGet: (key: EnvKeys) => any;
 		feature: FeatureFn;
 		getNumberOfEventListeners: () => number;
