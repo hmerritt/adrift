@@ -21,31 +21,6 @@ const testAsync = async () => {
 };
 
 export function IndexRoute() {
-	useInterval(() => {
-		(async () => {
-			//
-			// BEFORE
-			//
-			try {
-				const result = await testAsync();
-				// ...result
-			} catch (error) {
-				log("error", error);
-			}
-
-			//
-			// AFTER
-			//
-			const [result, error] = await safeAwait(testAsync());
-
-			if (error) {
-				log("error", error);
-			}
-
-			// ...result
-		})();
-	}, 2500);
-
 	return (
 		<>
 			<Stack spacing={15}>

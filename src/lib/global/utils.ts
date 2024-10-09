@@ -49,11 +49,11 @@ export const parseEnv = (value: any, isJson = false) => {
 };
 
 /**
- * Safely run async task, catching and returning any errors as a variable (similar to Go).
+ * Run async task, catching and returning any errors as a variable (similar to Go).
  *
- * @example const [error, result] = await run(myPromise())
+ * @example const [result, error] = await run(myPromise())
  */
-export const safeAwait = async <T, E = Error>(
+export const go = async <T, E = Error>(
 	promise: Promise<T> | T
 ): Promise<[T, null] | [null, E]> => {
 	try {
@@ -64,8 +64,8 @@ export const safeAwait = async <T, E = Error>(
 	}
 };
 
-export type SafeAwaitFn = typeof safeAwait;
+export type GoFn = typeof go;
 
-export const injectSafeAwait = () => {
-	setGlobalValue("safeAwait", safeAwait);
+export const injectGo = () => {
+	setGlobalValue("go", go);
 };
