@@ -1,5 +1,3 @@
-import { cx } from "@linaria/core";
-
 export type FlexProps = JSX.IntrinsicElements["div"] & {
 	center?: boolean;
 	grow?: boolean;

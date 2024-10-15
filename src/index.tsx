@@ -6,6 +6,7 @@ import "lib/styles/global/index.scss";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
+import "./stylex.css";
 
 plausibleBootstrap();
 

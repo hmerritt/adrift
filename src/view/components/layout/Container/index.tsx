@@ -1,34 +1,39 @@
-import { css, cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
+
+import { type SxProp } from "lib/type-assertions";
 
 // @TODO: improve this
 
 export const Container = ({
+	sx,
 	className,
 	padding,
 	style,
 	width = "1320px",
 	...props
-}: JSX.IntrinsicElements["div"] & {
-	width?: string;
-	padding?: string;
-}) => {
+}: JSX.IntrinsicElements["div"] &
+	SxProp & {
+		width?: string;
+		padding?: string;
+	}) => {
 	return (
 		<div
-			className={cx(container, className)}
+			{...stylex.props(styles.container, sx)}
 			style={{ ...style, padding, maxWidth: width }}
 			{...props}
 		/>
 	);
 };
 
-const container = css`
-	position: relative;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0 2rem;
-
-	@media screen and (max-width: 768px) {
-		padding: 0 1rem;
+const styles = stylex.create({
+	container: {
+		position: "relative",
+		width: "100%",
+		marginLeft: "auto",
+		marginRight: "auto",
+		padding: "0 2rem",
+		"@media screen and (max-width: 768px)": {
+			padding: "0 1rem"
+		}
 	}
-`;
+});

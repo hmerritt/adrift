@@ -1,11 +1,11 @@
-import { css } from "@linaria/atomic";
-import { cx } from "@linaria/core";
-import { useEffect, useRef } from "react";
+import * as stylex from "@stylexjs/stylex";
+import { Children, cloneElement, isValidElement, useEffect, useRef } from "react";
 import { isMobile } from "react-device-detect";
 
 import { useEventListener } from "lib/hooks";
+import { type SxProp } from "lib/type-assertions";
 
-export type HaloProps = JSX.IntrinsicElements["div"];
+export type HaloProps = JSX.IntrinsicElements["div"] & SxProp;
 export type HaloProviderProps = {
 	children: React.ReactNode;
 	staticForMobile?: boolean;
@@ -21,10 +21,17 @@ export type HaloProviderProps = {
  *
  * Tracks and updates according to the mouse position.
  */
-export const Halo = ({ children, className, ...divProps }: HaloProps) => {
+export const Halo = ({ sx, children, ...divProps }: HaloProps) => {
 	return (
-		<div {...divProps} className={cx(halo, className)} data-halo>
-			{children}
+		<div {...divProps} {...stylex.props(styles.halo, sx)} data-halo>
+			{Children.map(children, (child) => {
+				if (isValidElement(child)) {
+					return cloneElement(child, {
+						...stylex.props(styles.haloChild)
+					});
+				}
+				return child;
+			})}
 		</div>
 	);
 };
@@ -119,13 +126,14 @@ export const HaloProvider = ({
 	return children;
 };
 
-// Fill parent container
-const halo = css`
-	padding: 1px;
-	border-radius: 8px;
-
-	& > * {
-		border-radius: 7px;
-		background-color: white;
+const styles = stylex.create({
+	// Fill parent container
+	halo: {
+		borderRadius: "8px",
+		padding: "1px"
+	},
+	haloChild: {
+		borderRadius: "7px",
+		backgroundColor: "white"
 	}
-`;
+});

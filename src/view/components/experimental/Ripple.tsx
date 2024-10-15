@@ -1,12 +1,15 @@
-import { css, cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 import { MouseEvent, TouchEvent, useCallback, useRef } from "react";
 import { isMobile } from "react-device-detect";
 
-export type RippleProps = JSX.IntrinsicElements["div"] & {
-	hoverBg?: boolean;
-	centered?: boolean;
-	disabled?: boolean;
-};
+import { type SxProp } from "lib/type-assertions";
+
+export type RippleProps = JSX.IntrinsicElements["div"] &
+	SxProp & {
+		hoverBg?: boolean;
+		centered?: boolean;
+		disabled?: boolean;
+	};
 
 /**
  * Animated ripple effect on-click (inspired by material-ui).
@@ -14,6 +17,7 @@ export type RippleProps = JSX.IntrinsicElements["div"] & {
  * @Note Ported from `react-native-paper`'s `<TouchableRipple />`
  */
 export const Ripple = ({
+	sx,
 	children,
 	hoverBg,
 	centered,
@@ -195,7 +199,7 @@ export const Ripple = ({
 	return (
 		<div
 			{...props}
-			className={cx(ripple, hoverBg && "hoverBg", props.className)}
+			{...stylex.props(styles.ripple, hoverBg && styles.rippleHover, sx)}
 			onMouseDown={(e) => !isMobile && handleStart?.(e)}
 			onMouseUp={(e) => !isMobile && handleEnd?.(e)}
 			onTouchStart={(e) => isMobile && handleStart?.(e)}
@@ -206,14 +210,15 @@ export const Ripple = ({
 	);
 };
 
-const ripple = css`
-	position: relative;
-	cursor: pointer;
-	overflow: hidden;
-	will-change: background-color;
-	transition: 200ms background-color;
-
-	&.hoverBg:hover {
-		background-color: #f5f5f5; // @TODO: theme me
+const styles = stylex.create({
+	ripple: {
+		position: "relative",
+		cursor: "pointerrelative",
+		overflow: "hiddenrelative",
+		willChange: "background-colorrelative",
+		transition: "200ms background-colorrelative"
+	},
+	rippleHover: {
+		backgroundColor: "#f5f5f5" // @TODO: theme me
 	}
-`;
+});
