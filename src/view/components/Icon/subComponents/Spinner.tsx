@@ -1,7 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
-import { SVGProps, memo } from "react";
+import { memo } from "react";
 
-export const Spinner = memo((props: SVGProps<SVGSVGElement>) => (
+import { type IconSvgProps } from "./props";
+
+export const Spinner = memo((props: IconSvgProps) => (
 	<svg
 		{...stylex.props(styles.spinner)}
 		viewBox="0 0 66 66"

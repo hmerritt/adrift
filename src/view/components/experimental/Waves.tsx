@@ -1,8 +1,7 @@
-import { css, cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 import { useState } from "react";
 
 import { useEventListener, useInterval } from "lib/hooks";
-import theme from "lib/styles";
 
 /**
  * SVG Wave
@@ -36,59 +35,23 @@ export const Waves = () => {
 	});
 
 	return (
-		<div className={cx(waveContainer)}>
-			<div>
+		<div {...stylex.props(styles.waveContainer)}>
+			<div {...stylex.props(styles.fullWidth)}>
 				<svg
-					className={cx(wave)}
+					{...stylex.props(styles.wave)}
 					viewBox="0 0 1440 320"
 					xmlns="http://www.w3.org/2000/svg"
 				>
-					<path d={waveStates[waveState]} />
+					<path d={waveStates[waveState]} {...stylex.props(styles.wavePath)} />
 				</svg>
 			</div>
-			<div className={cx(waveFill)} style={{ height: `${fillHeight}vh` }} />
+			<div
+				style={{ height: `${fillHeight}vh` }}
+				{...stylex.props(styles.waveFill, styles.fullWidth)}
+			/>
 		</div>
 	);
 };
-
-const waveContainer = css`
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: -1;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-	/* transform: rotate(180deg); */
-
-	& > div {
-		width: 100%;
-	}
-`;
-
-const wave = css`
-	${theme}
-	width: 100%;
-	height: auto;
-	flex-shrink: 1;
-
-	path {
-		fill: rgb(226.8333333333, 242.8666666667, 251.9666666667);
-		transform-origin: 0px 0px;
-		transition: all 800ms ease 0s;
-	}
-`;
-
-const waveFill = css`
-	${theme}
-	width: 100%;
-	height: 30vh;
-	margin-top: -0.5rem;
-	transition: all 100ms ease 0s;
-	background-color: rgb(226.8333333333, 242.8666666667, 251.9666666667);
-`;
 
 const waveStates = [
 	"M0,192L48,181.3C96,171,192,149,288,160C384,171,480,213,576,229.3C672,245,768,235,864,224C960,213,1056,203,1152,197.3C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
@@ -100,3 +63,38 @@ const waveStates = [
 	"M0,288L48,245.3C96,203,192,117,288,117.3C384,117,480,203,576,208C672,213,768,139,864,96C960,53,1056,43,1152,53.3C1248,64,1344,96,1392,112L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
 	"M0,128L48,149.3C96,171,192,213,288,208C384,203,480,149,576,154.7C672,160,768,224,864,218.7C960,213,1056,139,1152,133.3C1248,128,1344,192,1392,224L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
 ];
+
+const styles = stylex.create({
+	waveContainer: {
+		position: "absolute",
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		zIndex: -1,
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-end"
+		/* transform: rotate(180deg); */
+	},
+	wave: {
+		width: "100%",
+		height: "auto",
+		flexShrink: 1
+	},
+	wavePath: {
+		fill: "rgb(226.8333333333, 242.8666666667, 251.9666666667)",
+		transformOrigin: "0px 0px",
+		transition: "all 800ms ease 0s"
+	},
+	waveFill: {
+		width: "100%",
+		height: "30vh",
+		marginTop: "-0.5rem",
+		transition: "all 100ms ease 0s",
+		backgroundColor: "rgb(226.8333333333, 242.8666666667, 251.9666666667)"
+	},
+	fullWidth: {
+		width: "100%"
+	}
+});

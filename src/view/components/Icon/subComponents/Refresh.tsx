@@ -1,6 +1,8 @@
-import { memo, SVGProps } from "react";
+import { memo } from "react";
 
-export const Refresh = memo((props: SVGProps<SVGSVGElement>) => (
+import { type IconSvgProps } from "./props";
+
+export const Refresh = memo((props: IconSvgProps) => (
 	<svg
 		width="20"
 		viewBox="0 0 24 20"
