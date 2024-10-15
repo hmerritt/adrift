@@ -1,7 +1,6 @@
 import { ErrorComponent, RouterProvider, createRouter } from "@tanstack/react-router";
 
-import { HaloProvider } from "view/components";
-
+// import { HaloProvider } from "view/components";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
@@ -19,9 +18,9 @@ declare module "@tanstack/react-router" {
 
 function App() {
 	return (
-		<HaloProvider>
-			<RouterProvider router={router} defaultPreload="intent" context={{}} />
-		</HaloProvider>
+		// <HaloProvider>
+		<RouterProvider router={router} defaultPreload="intent" context={{}} />
+		// {/* </HaloProvider> */}
 	);
 }
 

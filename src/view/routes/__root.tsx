@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { lazy } from "react";
 
-import { DotGrid, Icon } from "view/components";
+// import { DotGrid, Icon } from "view/components";
 
 const TanStackRouterDevtools =
 	env.isDevelopment && env.showDevTools
@@ -41,7 +41,7 @@ function RootRoute() {
 
 function RouterSpinner() {
 	const isLoading = useRouterState({ select: (s) => s.status === "pending" });
-	return isLoading ? <Icon name="Spinner" /> : null;
+	return null;
 }
 
 export function NotFoundRoute() {
@@ -50,7 +50,7 @@ export function NotFoundRoute() {
 			<h2 style={{ fontSize: "2rem", textAlign: "center", zIndex: 10 }}>
 				404, Page not found :(
 			</h2>
-			<DotGrid position="fixed" refForMousePosition="window" spacing={50} />
+			{/* <DotGrid position="fixed" refForMousePosition="window" spacing={50} /> */}
 		</div>
 	);
 }

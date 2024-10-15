@@ -23,7 +23,7 @@ export type HaloProviderProps = {
  */
 export const Halo = ({ children, className, ...divProps }: HaloProps) => {
 	return (
-		<div {...divProps} className={cx(halo, className)} data-halo>
+		<div {...divProps} className={cx(className)} data-halo>
 			{children}
 		</div>
 	);
@@ -120,12 +120,12 @@ export const HaloProvider = ({
 };
 
 // Fill parent container
-const halo = css`
-	padding: 1px;
-	border-radius: 8px;
+// const halo = css`
+// 	padding: 1px;
+// 	border-radius: 8px;
 
-	& > * {
-		border-radius: 7px;
-		background-color: white;
-	}
-`;
+// 	& > * {
+// 		border-radius: 7px;
+// 		background-color: white;
+// 	}
+// `;
