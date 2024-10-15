@@ -1,7 +1,7 @@
 import * as sass from "sass";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react";
+import react from '@vitejs/plugin-react-swc';
 import linaria from "@wyw-in-js/vite";
 import { injectManifest } from "rollup-plugin-workbox";
 import { type UserConfig, defineConfig } from "vite";
