@@ -27,7 +27,9 @@ export default defineConfig({
 	},
 	plugins: [
 		react(),
-		styleX(),
+		styleX({
+			useCSSLayers: false
+		}),
 		tsconfigPaths(),
 		TanStackRouterVite({
 			routesDirectory: "src/view/routes"
