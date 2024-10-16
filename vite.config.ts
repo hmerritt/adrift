@@ -1,9 +1,9 @@
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import react from '@vitejs/plugin-react-swc';
-import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 import { injectManifest } from "rollup-plugin-workbox";
-import styleX from 'vite-plugin-stylex';
+import { defineConfig } from "vite";
+import styleX from "vite-plugin-stylex";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 const isDev = process.env.NODE_ENV !== "production";

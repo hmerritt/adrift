@@ -9,6 +9,8 @@
 		"@trivago/prettier-plugin-sort-imports",
 		"prettier-plugin-stylex-key-sort"
 	],
+	"minKeys": 2,
+	"validImports": ["@stylexjs/stylex", "stylex"],
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
 		"^(lib|locale|state|tests|types)/(.*)$",
