@@ -67,7 +67,7 @@ const styles = stylex.create({
 		fontSize: "10rem",
 		fontWeight: "thin",
 		color: "#bee3f8",
-		boxShadow: `0.25px 0.25px 0 #4299e1, 0.5px 0.5px 0 #4299e1, 0.75px 0.75px 0 #4299e1,
+		textShadow: `0.25px 0.25px 0 #4299e1, 0.5px 0.5px 0 #4299e1, 0.75px 0.75px 0 #4299e1,
 			1px 1px 0 #4299e1, 1.25px 1.25px 0 #4299e1, 1.5px 1.5px 0 #4299e1,
 			1.75px 1.75px 0 #4299e1, 2px 2px 0 #4299e1, 2.25px 2.25px 0 #4299e1,
 			2.5px 2.5px 0 #4299e1, 2.75px 2.75px 0 #4299e1, 3px 3px 0 #4299e1,
