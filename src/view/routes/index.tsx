@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
 	component: IndexRoute
 });
 
-export function IndexRoute() {
+function IndexRoute() {
 	return (
 		<>
 			<Stack spacing={15}>

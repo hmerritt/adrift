@@ -39,6 +39,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "7.25.8",
+		"@million/lint": "^1.0.11",
 		"@playwright/test": "1.48.1",
 		"@rollup/pluginutils": "5.1.2",
 		"@testing-library/dom": "10.4.0",

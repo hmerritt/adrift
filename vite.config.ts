@@ -1,3 +1,4 @@
+import MillionLint from "@million/lint";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react-swc";
@@ -30,6 +31,13 @@ export default defineConfig({
 		tsconfigPaths(),
 		TanStackRouterVite({
 			routesDirectory: "src/view/routes"
+		}),
+		MillionLint.vite({
+			enabled: false, // @TODO
+			telemetry: false,
+			filter: {
+				include: "**/src/*.{mtsx,mjsx,tsx,jsx}"
+			}
 		}),
 		injectManifest({
 			swDest: "dist/sw.js",
