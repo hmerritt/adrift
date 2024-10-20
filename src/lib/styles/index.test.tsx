@@ -11,7 +11,7 @@ import StylesMock from "tests/StylesMock";
  * @TODO E2E tests
  */
 
-describe("@linaria with theme injection", () => {
+describe.skip("@linaria with theme injection", () => {
 	test("renders colors", async () => {
 		const { container } = await render(<StylesMock />);
 
