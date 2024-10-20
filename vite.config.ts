@@ -1,7 +1,7 @@
 import MillionLint from "@million/lint";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
 import styleX from "vite-plugin-stylex";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -29,7 +29,7 @@ export default defineConfig({
 	plugins: [
 		react(),
 		styleX({
-			// test: isTest,
+			test: isTest,
 			useCSSLayers: false,
 			useRemForFontSize: true
 		}),
