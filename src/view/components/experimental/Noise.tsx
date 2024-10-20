@@ -1,6 +1,7 @@
-import { css } from "@linaria/atomic";
-import { cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 import { useEffect, useRef } from "react";
+
+import { type SxProp } from "lib/type-assertions";
 
 import { Image, ImageProps } from "../Image";
 
@@ -30,7 +31,7 @@ const canvasResize = (canvas: HTMLCanvasElement, patternSize = 64) => {
 	canvas.height = patternSize;
 };
 
-export type NoiseProps = {
+export type NoiseProps = SxProp & {
 	framerate?: number;
 	size?: number;
 	alpha?: number;
@@ -50,6 +51,7 @@ export type NoiseImgProps = NoiseProps &
  * @warning can negatively impact performance
  */
 export const Noise = ({
+	sx,
 	framerate = 12,
 	size = 256,
 	alpha = 25,
@@ -90,7 +92,7 @@ export const Noise = ({
 		};
 	}, [alpha, framerate, reactToWindowResize, size]);
 
-	return <canvas ref={$canvas} className={canvasStyle} />;
+	return <canvas ref={$canvas} {...stylex.props(styles.canvasStyle, sx)} />;
 };
 
 /**
@@ -106,13 +108,14 @@ export const NoiseImg = ({
 	src,
 	imgProps,
 	// NoiseImg
+	sx,
 	children,
 	childrenIsAboveNoise = true,
 	className,
 	...divProps
 }: NoiseImgProps) => {
 	return (
-		<div className={cx(noiseImg, className)} {...divProps}>
+		<div {...divProps} {...stylex.props(styles.noiseImg, sx)}>
 			<Image
 				src={src}
 				width="100%"
@@ -128,11 +131,11 @@ export const NoiseImg = ({
 			/>
 			{children && (
 				<div
-					className={cx(
-						noiseImgChildren,
+					{...stylex.props(
+						styles.noiseImgChildren,
 						childrenIsAboveNoise
-							? noiseImgChildrenAbove
-							: noiseImgChildrenBelow
+							? styles.noiseImgChildrenAbove
+							: styles.noiseImgChildrenBelow
 					)}
 				>
 					{children}
@@ -142,34 +145,31 @@ export const NoiseImg = ({
 	);
 };
 
-// Fill parent container
-const canvasStyle = css`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 10;
-	user-select: none;
-	pointer-events: none;
-`;
-
-const noiseImg = css`
-	position: relative;
-`;
-
-const noiseImgChildren = css`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-`;
-
-const noiseImgChildrenAbove = css`
-	z-index: 20;
-`;
-
-const noiseImgChildrenBelow = css`
-	z-index: 5;
-`;
+const styles = stylex.create({
+	canvasStyle: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
+		zIndex: 10,
+		userSelect: "none",
+		pointerEvents: "none"
+	},
+	noiseImg: {
+		position: "relative"
+	},
+	noiseImgChildren: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%"
+	},
+	noiseImgChildrenAbove: {
+		zIndex: 20
+	},
+	noiseImgChildrenBelow: {
+		zIndex: 5
+	}
+});

@@ -23,16 +23,19 @@ const UserUserIdLazyImport = createFileRoute('/user/$userId')()
 // Create/Update Routes
 
 const UserLazyRoute = UserLazyImport.update({
+  id: '/user',
   path: '/user',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./view/routes/user.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
+  id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
 const UserUserIdLazyRoute = UserUserIdLazyImport.update({
+  id: '/$userId',
   path: '/$userId',
   getParentRoute: () => UserLazyRoute,
 } as any).lazy(() =>

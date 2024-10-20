@@ -39,6 +39,7 @@ dist-ssr
 vite.config.ts.timestamp*
 
 vite-app
+.million/
 
 # e2e playwright tests
 /test-results/

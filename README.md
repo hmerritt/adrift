@@ -8,7 +8,7 @@ Template react app with batteries included 🔋
 -   [Typescript](https://www.typescriptlang.org)
 -   [TanStack Store](https://tanstack.com/store/latest)
 -   [TanStack Router](https://tanstack.com/router/latest)
--   [Linaria (SASS-in-JS)](https://github.com/callstack/linaria)
+-   [StyleX](https://stylexjs.com/)
 -   Custom (hackable) build script
 -   Custom utils and helper functions
     -   Global `log` functions with more functionality than `console.log`
@@ -38,7 +38,7 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 -   [Custom functions](#custom-functions)
     -   [Logs](#log-and-debug-functions)
     -   [Feature flag](#feature-flag-function)
--   [Styles](#styling-sass-in-js-via-linaria)
+-   [Styles](#styling-stylex)
 
 ### Custom functions
 
@@ -79,30 +79,11 @@ if (feature("myAwesomeFlag")) {
 }
 ```
 
-### Styling (SASS-in-JS via Linaria)
+### Styling (StyleX)
 
-Adrift uses Linaria, a **Zero runtime** CSS in JS library.
+Adrift uses StyleX, a **Zero runtime** CSS in JS library.
 
-A custom config is used to enable the use of **SASS-in-JS**.
-
-SASS allows for theming to be imported and used directly within the Linaria styles.
-
-```js
-const card = css`
-	${theme} // Import theme object - can now use all SCSS variables and mixins set in styles/theme.ts
-	color: $red-500; // See styles/colors.tsx
-	box-shadow: $shadow-1; // See styles/shadows.tsx
-
-	// All valid SCSS syntax is valid here (this is just an example)
-	@for $i from 1 through 20 {
-		.stack.stack-#{$i} {
-			& > * {
-				margin-top: #{$i}rem;
-			}
-		}
-	}
-`;
-```
+StyleX builds optimized styles using collision-free atomic CSS which is superior to what could be authored and maintained by hand.
 
 > Other popular libraries such as `styled-components` can negatively impact app performance due to their use of a runtime.
 >

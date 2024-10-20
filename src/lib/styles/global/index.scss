@@ -1,6 +1,5 @@
-@import "fonts";
+@use "fonts";
 
-@import "reset";
-@import "global";
-@import "keyframes";
-@import "layout";
+@use "reset";
+@use "global";
+@use "keyframes";

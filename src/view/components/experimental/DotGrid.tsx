@@ -1,27 +1,29 @@
-import { css } from "@linaria/atomic";
-import { cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 import { RefObject, useCallback, useEffect, useRef } from "react";
 
-export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
-	/** Container position. Use `fixed` for background usage */
-	position?: "absolute" | "fixed";
-	/** Spacing between the dots */
-	spacing?: number;
-	/** Size of each dot */
-	dotSize?: number;
-	/** Damping for smoother motion */
-	damping?: number;
-	/** Speed at which dots return to their original position */
-	returnSpeed?: number;
-	/** Base for the exponential function */
-	attractionBase?: number;
-	/** Maximum attraction to avoid extreme values */
-	maxAttraction?: number;
-	/** ref of element to use for mouse position (leave undefined to use the canvas) */
-	refForMousePosition?: RefObject<any> | "window";
-	/** Redraw canvas on window resize (responsive, but may impact performance) */
-	reactToWindowResize?: boolean;
-};
+import { type SxProp } from "lib/type-assertions";
+
+export type DotGridProps = JSX.IntrinsicElements["canvas"] &
+	SxProp & {
+		/** Container position. Use `fixed` for background usage */
+		position?: "absolute" | "fixed";
+		/** Spacing between the dots */
+		spacing?: number;
+		/** Size of each dot */
+		dotSize?: number;
+		/** Damping for smoother motion */
+		damping?: number;
+		/** Speed at which dots return to their original position */
+		returnSpeed?: number;
+		/** Base for the exponential function */
+		attractionBase?: number;
+		/** Maximum attraction to avoid extreme values */
+		maxAttraction?: number;
+		/** ref of element to use for mouse position (leave undefined to use the canvas) */
+		refForMousePosition?: RefObject<any> | "window";
+		/** Redraw canvas on window resize (responsive, but may impact performance) */
+		reactToWindowResize?: boolean;
+	};
 
 /**
  * Grid of dots that are attracted to the mouse position.
@@ -29,6 +31,7 @@ export type DotGridProps = JSX.IntrinsicElements["canvas"] & {
  * Inspired by https://twitter.com/eliguerron/status/1738116017631740213
  */
 export const DotGrid: React.FC<DotGridProps> = ({
+	sx,
 	position = "absolute",
 	spacing = 40,
 	dotSize = 1,
@@ -212,17 +215,22 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		<canvas
 			{...canvasProps}
 			ref={$canvas}
-			className={cx(dotGrid, position === "fixed" && dotGridFixed)}
+			{...stylex.props(
+				styles.dotGrid,
+				position === "fixed" && styles.dotGridFixed,
+				sx
+			)}
 		/>
 	);
 };
 
-const dotGrid = css`
-	position: absolute;
-	display: block;
-	inset: 0;
-`;
-
-const dotGridFixed = css`
-	position: fixed;
-`;
+const styles = stylex.create({
+	dotGrid: {
+		position: "absolute",
+		display: "block",
+		inset: 0
+	},
+	dotGridFixed: {
+		position: "fixed"
+	}
+});

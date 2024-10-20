@@ -4,14 +4,12 @@ import { describe, expect, test } from "vitest";
 import StylesMock from "tests/StylesMock";
 
 /**
- * Test to see if the styles are being compiled and injected correctly.
- *
- * (linaria needs to compile our custom SCSS `theme` object. This can fails so it's good to test)
+ * Test to see if StyleX styles are being compiled correctly.
  *
  * @TODO E2E tests
  */
 
-describe("@linaria with theme injection", () => {
+describe("StyleX theme", () => {
 	test("renders colors", async () => {
 		const { container } = await render(<StylesMock />);
 
@@ -29,7 +27,7 @@ describe("@linaria with theme injection", () => {
 		expect(styleContainer.maxWidth).toBe("567px");
 		expect(styleContainer.marginLeft).toBe("auto");
 		expect(styleContainer.marginRight).toBe("auto");
-		expect(styleContainer.transition).toBe("all, 80ms, ease");
+		expect(styleContainer.transition).toBe("all,.08s,ease");
 	});
 
 	test("renders shadows", async () => {
@@ -37,7 +35,7 @@ describe("@linaria with theme injection", () => {
 
 		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
 		expect(styleContainer.boxShadow).toBe(
-			"0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
+			"0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24)"
 		);
 	});
 

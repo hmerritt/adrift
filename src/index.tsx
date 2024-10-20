@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import { plausibleBootstrap } from "lib/analytics";
 import "lib/styles/global/index.scss";
+import "lib/styles/stylex.css";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";

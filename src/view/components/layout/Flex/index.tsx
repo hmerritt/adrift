@@ -1,16 +1,20 @@
-import { cx } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 
-export type FlexProps = JSX.IntrinsicElements["div"] & {
-	center?: boolean;
-	grow?: boolean;
-	row?: boolean;
-	shrink?: boolean;
-	wrap?: boolean;
-	vc?: boolean;
-	hc?: boolean;
-};
+import { type SxProp } from "lib/type-assertions";
+
+export type FlexProps = JSX.IntrinsicElements["div"] &
+	SxProp & {
+		center?: boolean;
+		grow?: boolean;
+		row?: boolean;
+		shrink?: boolean;
+		wrap?: boolean;
+		vc?: boolean;
+		hc?: boolean;
+	};
 
 export const Flex = ({
+	sx,
 	center = false,
 	grow = false,
 	row = false,
@@ -19,22 +23,52 @@ export const Flex = ({
 	vc = false,
 	hc = false,
 	className,
-	...rest
+	...props
 }: FlexProps) => {
 	return (
 		<div
-			className={cx(
-				className,
-				"flex",
-				center && "center",
-				grow && "grow",
-				row && "row",
-				shrink && "shrink",
-				wrap && "wrap",
-				vc && "v-center",
-				hc && "h-center"
+			{...props}
+			{...stylex.props(
+				flexStyles.flex,
+				center && flexStyles.center,
+				grow && flexStyles.grow,
+				row && flexStyles.row,
+				shrink && flexStyles.shrink,
+				wrap && flexStyles.wrap,
+				vc && flexStyles.vc,
+				hc && flexStyles.hc,
+				sx
 			)}
-			{...rest}
 		/>
 	);
 };
+
+export const flexStyles = stylex.create({
+	flex: {
+		display: "flex",
+		flexWrap: "nowrap",
+		flexDirection: "column"
+	},
+	center: {
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	row: {
+		flexDirection: "row"
+	},
+	grow: {
+		flexGrow: 1
+	},
+	shrink: {
+		flexShrink: 1
+	},
+	vc: {
+		alignItems: "center"
+	},
+	hc: {
+		justifyContent: "center"
+	},
+	wrap: {
+		flexWrap: "wrap"
+	}
+});

@@ -1,9 +1,9 @@
-import { css } from "@linaria/core";
+import * as stylex from "@stylexjs/stylex";
 import { createFileRoute } from "@tanstack/react-router";
 
-import theme from "lib/styles";
+import { colors, shadowFn } from "lib/styles";
 
-import { DotGrid, FrostedGlass, Fullscreen, Stack, Waves } from "view/components";
+import { DotGrid, FrostedGlass, Stack, Waves } from "view/components";
 
 export const Route = createFileRoute("/")({
 	component: IndexRoute
@@ -13,59 +13,79 @@ export function IndexRoute() {
 	return (
 		<>
 			<Stack spacing={15}>
-				<Fullscreen
-					center
-					zIndex={1}
-					position="relative"
-					padding="1rem 2rem"
-					style={{ height: "70vh" }}
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						position: "relative",
+						height: "70vh",
+						padding: "1rem 2rem",
+						zIndex: 1
+					}}
 				>
 					<FrostedGlass>
-						<div className={pictureFrame}>
-							<h1 className={header}>Adrift</h1>
+						<div
+							{...stylex.props(
+								styles.pictureFrame,
+								shadowFn.boxBlock(colors.primary)
+							)}
+						>
+							<h1
+								{...stylex.props(
+									styles.header,
+									shadowFn.textBlock(colors.primary)
+								)}
+							>
+								Adrift
+							</h1>
 							<FrostedGlass>
-								<h4>Template react app with batteries included 🔋</h4>
+								<h4 {...stylex.props(styles.subtitle)}>
+									Template react app with batteries included 🔋
+								</h4>
 							</FrostedGlass>
 							<Waves />
 						</div>
 					</FrostedGlass>
-				</Fullscreen>
+				</div>
 			</Stack>
 
-			<DotGrid position="fixed" refForMousePosition="window" spacing={40} />
+			<DotGrid
+				position="fixed"
+				refForMousePosition="window"
+				spacing={40}
+				damping={0.5}
+				returnSpeed={0.18}
+				attractionBase={1.025}
+				maxAttraction={0.8}
+			/>
 		</>
 	);
 }
 
-// This will get compiled at build time into a css file.
-// Why? - Performance is *greatly* improved over something like styled-components which compiles at run time!
-const pictureFrame = css`
-	${theme} // Import theme object - can now use all SCSS variables and mixins set in styles/theme.ts
-	position: relative;
-	width: 700px;
-	height: 350px;
-	margin: auto;
-	display: flex;
-	overflow: hidden;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	box-shadow: shadowBlock($blue-400);
-
-	h4 {
-		font-style: italic;
-		padding: 1rem;
-		opacity: 0.8;
-		font-size: 1.5rem;
+const styles = stylex.create({
+	pictureFrame: {
+		position: "relative",
+		width: "700px",
+		height: "350px",
+		margin: "auto",
+		display: "flex",
+		overflow: "hidden",
+		alignItems: "center",
+		flexDirection: "column",
+		justifyContent: "center"
+	},
+	header: {
+		textTransform: "lowercase",
+		fontStyle: "italic",
+		fontSize: "10rem",
+		fontWeight: "thin",
+		color: "#bee3f8"
+	},
+	subtitle: {
+		opacity: 0.8,
+		padding: "1rem",
+		fontSize: "1.5rem",
+		fontStyle: "italic"
 	}
-`;
-
-const header = css`
-	${theme}
-	text-transform: lowercase;
-	font-style: italic;
-	font-size: 10rem;
-	font-weight: thin;
-	color: $blue-100;
-	text-shadow: shadowBlock($blue-400);
-`;
+});

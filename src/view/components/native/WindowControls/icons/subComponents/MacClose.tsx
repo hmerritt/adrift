@@ -1,7 +1,15 @@
-import { SVGProps, memo } from "react";
+import * as stylex from "@stylexjs/stylex";
+import { memo } from "react";
 
-export const MacClose = memo((props: SVGProps<SVGSVGElement>) => (
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+import { type IconSvgProps } from "view/components/Icon/subComponents/props";
+
+export const MacClose = memo(({ sx, ...props }: IconSvgProps) => (
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		viewBox="0 0 256 256"
+		{...props}
+		{...stylex.props(sx)}
+	>
 		<g>
 			<path
 				stroke="none"
