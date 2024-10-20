@@ -1,4 +1,5 @@
 import MillionLint from "@million/lint";
+import styleXPlugin from "@stylexjs/babel-plugin";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
@@ -27,7 +28,25 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		react(),
+		react({
+			babel: {
+				plugins: [
+					"babel-plugin-react-compiler",
+					[
+						styleXPlugin,
+						{
+							dev: isDev,
+							test: isTest,
+							// Required for CSS variable support
+							unstable_moduleResolution: {
+								type: "commonJS",
+								rootDir: __dirname
+							}
+						}
+					]
+				]
+			}
+		}),
 		styleX({
 			test: isTest,
 			useCSSLayers: false,
