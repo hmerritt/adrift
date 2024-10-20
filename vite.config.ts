@@ -32,24 +32,29 @@ export default defineConfig({
 			babel: {
 				plugins: [
 					"babel-plugin-react-compiler",
-					[
-						styleXPlugin,
-						{
-							dev: isDev || isTest,
-							test: false,
-							// Required for CSS variable support
-							unstable_moduleResolution: {
-								type: "commonJS",
-								rootDir: __dirname
-							}
-						}
-					]
+					// StyleX Babel is only required for tests
+					...(isTest
+						? [
+								[
+									styleXPlugin,
+									{
+										dev: isDev || isTest,
+										test: false,
+										// Required for CSS variable support
+										unstable_moduleResolution: {
+											type: "commonJS",
+											rootDir: __dirname
+										}
+									}
+								]
+							]
+						: [])
 				]
 			}
 		}),
 		styleX({
 			test: false,
-			useCSSLayers: false,
+			useCSSLayers: true,
 			useRemForFontSize: true
 		}),
 		tsconfigPaths(),
