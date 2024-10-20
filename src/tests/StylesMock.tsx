@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
 /**
- * Mini mock component to test stylex.
+ * Mini mock component to test StyleX.
  *
  * Test in `styles/index.test.tsx`.
  */

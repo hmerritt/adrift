@@ -8,6 +8,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
 
 const isDev = process.env.NODE_ENV !== "production";
+const isTest = process.env.NODE_ENV === "test";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -28,7 +29,9 @@ export default defineConfig({
 	plugins: [
 		react(),
 		styleX({
-			useCSSLayers: false
+			// test: isTest,
+			useCSSLayers: false,
+			useRemForFontSize: true
 		}),
 		tsconfigPaths(),
 		TanStackRouterVite({

@@ -1,6 +1,8 @@
 import * as stylex from "@stylexjs/stylex";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { colors, shadowFn } from "lib/styles";
+
 import { DotGrid, FrostedGlass, Stack, Waves } from "view/components";
 
 export const Route = createFileRoute("/")({
@@ -23,8 +25,20 @@ export function IndexRoute() {
 					}}
 				>
 					<FrostedGlass>
-						<div {...stylex.props(styles.pictureFrame)}>
-							<h1 {...stylex.props(styles.header)}>Adrift</h1>
+						<div
+							{...stylex.props(
+								styles.pictureFrame,
+								shadowFn.boxBlock(colors.primary)
+							)}
+						>
+							<h1
+								{...stylex.props(
+									styles.header,
+									shadowFn.textBlock(colors.primary)
+								)}
+							>
+								Adrift
+							</h1>
 							<FrostedGlass>
 								<h4 {...stylex.props(styles.subtitle)}>
 									Template react app with batteries included 🔋
@@ -59,30 +73,14 @@ const styles = stylex.create({
 		overflow: "hidden",
 		alignItems: "center",
 		flexDirection: "column",
-		justifyContent: "center",
-		boxShadow: `0.25px 0.25px 0 #4299e1, 0.5px 0.5px 0 #4299e1, 0.75px 0.75px 0 #4299e1,
-			1px 1px 0 #4299e1, 1.25px 1.25px 0 #4299e1, 1.5px 1.5px 0 #4299e1,
-			1.75px 1.75px 0 #4299e1, 2px 2px 0 #4299e1, 2.25px 2.25px 0 #4299e1,
-			2.5px 2.5px 0 #4299e1, 2.75px 2.75px 0 #4299e1, 3px 3px 0 #4299e1,
-			3.25px 3.25px 0 #4299e1, 3.5px 3.5px 0 #4299e1, 3.75px 3.75px 0 #4299e1,
-			4px 4px 0 #4299e1, 4.25px 4.25px 0 #4299e1, 4.5px 4.5px 0 #4299e1, 4.75px 4.75px 0 #4299e1,
-			5px 5px 0 #4299e1, 5.25px 5.25px 0 #4299e1, 5.5px 5.5px 0 #4299e1, 5.75px 5.75px 0 #4299e1,
-			6px 6px 0 #4299e1`
+		justifyContent: "center"
 	},
 	header: {
 		textTransform: "lowercase",
 		fontStyle: "italic",
 		fontSize: "10rem",
 		fontWeight: "thin",
-		color: "#bee3f8",
-		textShadow: `0.25px 0.25px 0 #4299e1, 0.5px 0.5px 0 #4299e1, 0.75px 0.75px 0 #4299e1,
-			1px 1px 0 #4299e1, 1.25px 1.25px 0 #4299e1, 1.5px 1.5px 0 #4299e1,
-			1.75px 1.75px 0 #4299e1, 2px 2px 0 #4299e1, 2.25px 2.25px 0 #4299e1,
-			2.5px 2.5px 0 #4299e1, 2.75px 2.75px 0 #4299e1, 3px 3px 0 #4299e1,
-			3.25px 3.25px 0 #4299e1, 3.5px 3.5px 0 #4299e1, 3.75px 3.75px 0 #4299e1,
-			4px 4px 0 #4299e1, 4.25px 4.25px 0 #4299e1, 4.5px 4.5px 0 #4299e1, 4.75px 4.75px 0 #4299e1,
-			5px 5px 0 #4299e1, 5.25px 5.25px 0 #4299e1, 5.5px 5.5px 0 #4299e1, 5.75px 5.75px 0 #4299e1,
-			6px 6px 0 #4299e1`
+		color: "#bee3f8"
 	},
 	subtitle: {
 		opacity: 0.8,

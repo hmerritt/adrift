@@ -12,7 +12,7 @@ test("renders home", async () => {
 	const linkElement = screen.getByText(/Template react app with batteries included/i);
 	expect(linkElement).toBeInTheDocument();
 
-	// Test @linaria styles are working.
+	// Test StyleX styles are working.
 	// Worth doing for a few components to test the `theme` object imports properly.
 	const style = getStyle(select(r.container, "h1"));
 	expect(style.color).toBe("#bee3f8");

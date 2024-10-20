@@ -3842,22 +3842,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:1.74.0":
-  version: 1.74.0
-  resolution: "@tanstack/react-router@npm:1.74.0"
+"@tanstack/react-router@npm:1.74.2":
+  version: 1.74.2
+  resolution: "@tanstack/react-router@npm:1.74.2"
   dependencies:
     "@tanstack/history": "npm:1.61.1"
     "@tanstack/react-store": "npm:^0.5.5"
     tiny-invariant: "npm:^1.3.3"
     tiny-warning: "npm:^1.0.3"
   peerDependencies:
-    "@tanstack/router-generator": 1.73.1
+    "@tanstack/router-generator": 1.74.2
     react: ">=18"
     react-dom: ">=18"
   peerDependenciesMeta:
     "@tanstack/router-generator":
       optional: true
-  checksum: 10/97e260466f8ac4e42758883adfba4023c1c3b19fbcc91911023b44486ab38912534f6ab4e94386cd6fde3552d3409ca310e43c2411b2963c47377dff1115364a
+  checksum: 10/3f6759d766020c0f7ec660d640b298f78cef02b6cec3d0016643f30ab20ed3b5671b9d3187537c8ebd3fd8ab2c288bc00334453524d98340d1aa13b6d65c5abe
   languageName: node
   linkType: hard
 
@@ -3887,35 +3887,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-devtools@npm:1.74.0":
-  version: 1.74.0
-  resolution: "@tanstack/router-devtools@npm:1.74.0"
+"@tanstack/router-devtools@npm:1.74.2":
+  version: 1.74.2
+  resolution: "@tanstack/router-devtools@npm:1.74.2"
   dependencies:
     clsx: "npm:^2.1.1"
     goober: "npm:^2.1.16"
   peerDependencies:
-    "@tanstack/react-router": ^1.74.0
+    "@tanstack/react-router": ^1.74.2
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10/4ee3befb08ff94f56e572d95605e1925e1f05f69bf10763958e9d6fb2eed701e7488d8f5bc8e97542fc1d839d08ae4118850d684ec868243f4bf27811f10a772
+  checksum: 10/bd2eec410b147a3411d88a153929eec2f97d8e94bfeaccaf810b9d8ce8fd248c780ad1d5c4600713ace043dd436869516d103275ac5b59f2067a619ac24ec13a
   languageName: node
   linkType: hard
 
-"@tanstack/router-generator@npm:^1.73.1":
-  version: 1.73.1
-  resolution: "@tanstack/router-generator@npm:1.73.1"
+"@tanstack/router-generator@npm:^1.74.2":
+  version: 1.74.2
+  resolution: "@tanstack/router-generator@npm:1.74.2"
   dependencies:
     "@tanstack/virtual-file-routes": "npm:^1.64.0"
     prettier: "npm:^3.3.3"
     tsx: "npm:^4.19.1"
     zod: "npm:^3.23.8"
-  checksum: 10/147874178ba51d0014864724bcdfe5e0711dd4deb30dc2bc1036eefb1902ae33326fa249b4e63b9247c10d7ccce73f18b548d438facfddc23668f73d95de21f5
+  checksum: 10/9a23870eaf657b78766f6250aa51c1462fbd72984a2176badd207a9c6532a89113081751250fe217e67c6c97ff7071d7864a454b0c6023a5c859fe3ab4142a29
   languageName: node
   linkType: hard
 
-"@tanstack/router-plugin@npm:1.73.1":
-  version: 1.73.1
-  resolution: "@tanstack/router-plugin@npm:1.73.1"
+"@tanstack/router-plugin@npm:1.74.2":
+  version: 1.74.2
+  resolution: "@tanstack/router-plugin@npm:1.74.2"
   dependencies:
     "@babel/core": "npm:^7.25.8"
     "@babel/generator": "npm:^7.25.7"
@@ -3925,7 +3925,7 @@ __metadata:
     "@babel/template": "npm:^7.25.7"
     "@babel/traverse": "npm:^7.25.7"
     "@babel/types": "npm:^7.25.8"
-    "@tanstack/router-generator": "npm:^1.73.1"
+    "@tanstack/router-generator": "npm:^1.74.2"
     "@tanstack/virtual-file-routes": "npm:^1.64.0"
     "@types/babel__core": "npm:^7.20.5"
     "@types/babel__generator": "npm:^7.6.8"
@@ -3946,7 +3946,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 10/cf049f045655c956842d784deb7da9041ae5f9d0fc5a08ac1d079b2e700edb5aadc39cda7535d660abb03388ac7aa40065e8cf84795f33f9f8dcc5f9a8630987
+  checksum: 10/ec188359801086eac16e9aa6d28d6c2c0d5f1bc4fba7e80a24e8f4d1d4fe2eb8c52b881b98b06dfa03cc93e345374644deb0e64de497339323622e8f8f5ce355
   languageName: node
   linkType: hard
 
@@ -4499,10 +4499,10 @@ __metadata:
     "@playwright/test": "npm:1.48.1"
     "@rollup/pluginutils": "npm:5.1.2"
     "@stylexjs/stylex": "npm:^0.8.0"
-    "@tanstack/react-router": "npm:1.74.0"
+    "@tanstack/react-router": "npm:1.74.2"
     "@tanstack/react-store": "npm:0.5.6"
-    "@tanstack/router-devtools": "npm:1.74.0"
-    "@tanstack/router-plugin": "npm:1.73.1"
+    "@tanstack/router-devtools": "npm:1.74.2"
+    "@tanstack/router-plugin": "npm:1.74.2"
     "@testing-library/dom": "npm:10.4.0"
     "@testing-library/jest-dom": "npm:6.6.2"
     "@testing-library/react": "npm:16.0.1"

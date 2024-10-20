@@ -38,7 +38,7 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 -   [Custom functions](#custom-functions)
     -   [Logs](#log-and-debug-functions)
     -   [Feature flag](#feature-flag-function)
--   [Styles](#styling-sass-in-js-via-linaria)
+-   [Styles](#styling-stylex)
 
 ### Custom functions
 

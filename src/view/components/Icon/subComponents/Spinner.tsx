@@ -5,10 +5,10 @@ import { type IconSvgProps } from "./props";
 
 export const Spinner = memo((props: IconSvgProps) => (
 	<svg
-		{...stylex.props(styles.spinner)}
 		viewBox="0 0 66 66"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}
+		{...stylex.props(styles.spinner)}
 	>
 		<circle
 			{...stylex.props(styles.path)}

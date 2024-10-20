@@ -6,7 +6,7 @@ import StylesMock from "tests/StylesMock";
 /**
  * Test to see if the styles are being compiled and injected correctly.
  *
- * (linaria needs to compile our custom SCSS `theme` object. This can fails so it's good to test)
+ * (linaria needs to compile our custom SCSS `theme` object. This can fail so it's good to test)
  *
  * @TODO E2E tests
  */
