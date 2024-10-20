@@ -1,6 +1,6 @@
 import { Link, Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
-// import { Fullscreen, Stack } from "view/components";
+import { Stack } from "view/components";
 
 export const Route = createLazyFileRoute("/user")({
 	component: UserLayoutComponent
@@ -8,12 +8,12 @@ export const Route = createLazyFileRoute("/user")({
 
 function UserLayoutComponent() {
 	return (
-		<div>
+		<Stack spacing={15}>
 			<Link to="/user/$userId" params={{ userId: "123" }}>
 				User 123
 			</Link>
 			{/* Render sub routes */}
 			<Outlet />
-		</div>
+		</Stack>
 	);
 }
