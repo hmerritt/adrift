@@ -48,7 +48,7 @@ export default defineConfig({
 			}
 		}),
 		styleX({
-			test: isTest,
+			test: false,
 			useCSSLayers: false,
 			useRemForFontSize: true
 		}),
