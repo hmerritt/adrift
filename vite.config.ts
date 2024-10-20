@@ -35,8 +35,8 @@ export default defineConfig({
 					[
 						styleXPlugin,
 						{
-							dev: isDev,
-							test: isTest,
+							dev: isDev || isTest,
+							test: false,
 							// Required for CSS variable support
 							unstable_moduleResolution: {
 								type: "commonJS",

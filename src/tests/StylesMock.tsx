@@ -18,7 +18,10 @@ export const StylesMock = () => (
 
 const styles = stylex.create({
 	container: {
-		maxWidth: "567px"
+		maxWidth: "567px",
+		marginLeft: "auto",
+		marginRight: "auto",
+		transition: "all, 80ms, ease"
 	},
 	shadow: {
 		boxShadow: `0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)`

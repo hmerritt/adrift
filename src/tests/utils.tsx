@@ -66,3 +66,11 @@ export const getStyle = (el: Element | null): CSSStyleDeclaration => {
 	if (!el) return {} as CSSStyleDeclaration;
 	return window.getComputedStyle(el);
 };
+
+/**
+ * Standardize style string.
+ */
+export const cleanStyle = (s: string) => {
+	s = s.replace(/\s+/g, " ").trim();
+	return s;
+};
