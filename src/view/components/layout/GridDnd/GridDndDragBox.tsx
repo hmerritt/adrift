@@ -1,7 +1,8 @@
-import { cx } from "@linaria/core";
-import { css } from '@linaria/atomic';
+import * as stylex from "@stylexjs/stylex";
 
-export type GridDndDragBoxProps = {
+import { type SxProp } from "lib/type-assertions";
+
+export type GridDndDragBoxProps = SxProp & {
 	dataItem: any;
 	renderIndex: number;
 	renderWith: (props: any) => JSX.Element;
@@ -14,6 +15,7 @@ export type GridDndDragBoxProps = {
  * such as an incorrect height of the GridDndDragBox.
  */
 export const GridDndDragBox = ({
+	sx,
 	dataItem,
 	renderIndex,
 	renderWith
@@ -21,23 +23,25 @@ export const GridDndDragBox = ({
 	const RenderWith = renderWith;
 
 	return (
-		<div className={cx(gridDragbox)}>
+		<div {...stylex.props(styles.gridDragbox, sx)}>
 			<RenderWith {...dataItem} renderIndex={renderIndex} />
 		</div>
 	);
 };
 
-const gridDragbox = css`
-	display: table;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	border-radius: 0.8rem;
-	border: 0.1rem dashed #ededed;
+const styles = stylex.create({
+	gridDragbox: {
+		display: "table",
+		position: "relative",
+		width: "100%",
+		height: "100%",
+		borderRadius: "0.8rem",
+		border: "0.1rem dashed #ededed" // @TODO theme
+	}
 
 	// Hide all children.
 	// This ensures the content height is preserved and fixes layout issues when rendering.
-	* {
-		opacity: 0 !important;
-	}
-`;
+	// * {
+	// 	opacity: 0 !important;
+	// }
+});

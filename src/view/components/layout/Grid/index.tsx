@@ -1,12 +1,14 @@
-import { cx } from "@linaria/core";
-import { css } from '@linaria/atomic';
+import * as stylex from "@stylexjs/stylex";
 
-export type GridProps = JSX.IntrinsicElements["div"] & {
-	maxWidth?: string | number;
-	minWidth?: string | number;
-	center?: boolean;
-	gutter?: number;
-};
+import { type SxProp } from "lib/type-assertions";
+
+export type GridProps = JSX.IntrinsicElements["div"] &
+	SxProp & {
+		maxWidth?: string | number;
+		minWidth?: string | number;
+		center?: boolean;
+		gutter?: number;
+	};
 
 // Use `rem` if a number is passed, otherwise use the string as is.
 const getUnit = (value: string | number) => {
@@ -18,6 +20,7 @@ const getUnit = (value: string | number) => {
 };
 
 export const Grid = ({
+	sx,
 	center = false,
 	children,
 	className,
@@ -34,21 +37,26 @@ export const Grid = ({
 	return (
 		<div
 			{...props}
-			className={cx(className, grid)}
-			style={{
-				gridGap: gutter,
-				gridTemplateColumns: gridTemplateColumns,
-				...(center && { justifyContent: "center" }),
-				...props.style
-			}}
+			{...stylex.props(
+				styles.grid({ gridTemplateColumns, gutter }),
+				center && styles.center,
+				sx
+			)}
 		>
 			{children}
 		</div>
 	);
 };
 
-const grid = css`
-	position: relative;
-	display: grid;
-	width: 100%;
-`;
+const styles = stylex.create({
+	grid: (s: { gridTemplateColumns: string; gutter: number }) => ({
+		position: "relative",
+		display: "grid",
+		width: "100%",
+		gridGap: s.gutter,
+		gridTemplateColumns: s.gridTemplateColumns
+	}),
+	center: {
+		justifyContent: "center"
+	}
+});

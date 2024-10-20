@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
 	component: IndexRoute
 });
 
-function IndexRoute() {
+export function IndexRoute() {
 	return (
 		<>
 			<Stack spacing={15}>
@@ -36,7 +36,15 @@ function IndexRoute() {
 				</div>
 			</Stack>
 
-			<DotGrid position="fixed" refForMousePosition="window" spacing={40} />
+			<DotGrid
+				position="fixed"
+				refForMousePosition="window"
+				spacing={40}
+				damping={0.5}
+				returnSpeed={0.18}
+				attractionBase={1.025}
+				maxAttraction={0.8}
+			/>
 		</>
 	);
 }
