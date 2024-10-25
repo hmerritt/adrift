@@ -4,6 +4,7 @@ import styleXPlugin from "@stylexjs/babel-plugin";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { injectManifest } from "rollup-plugin-workbox";
+import eslint from "vite-plugin-eslint";
 import styleX from "vite-plugin-stylex";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
@@ -28,6 +29,8 @@ export default defineConfig({
 		}
 	},
 	plugins: [
+		eslint(),
+		tsconfigPaths(),
 		react({
 			babel: {
 				plugins: [
@@ -57,9 +60,14 @@ export default defineConfig({
 			useCSSLayers: true,
 			useRemForFontSize: true
 		}),
-		tsconfigPaths(),
 		TanStackRouterVite({
 			routesDirectory: "src/view/routes"
+		}),
+		injectManifest({
+			swDest: "dist/sw.js",
+			globDirectory: "dist",
+			swSrc: "src/service-worker.ts",
+			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
 		}),
 		MillionLint.vite({
 			enabled: false, // @TODO
@@ -67,12 +75,6 @@ export default defineConfig({
 			filter: {
 				include: "**/src/*.{mtsx,mjsx,tsx,jsx}"
 			}
-		}),
-		injectManifest({
-			swDest: "dist/sw.js",
-			globDirectory: "dist",
-			swSrc: "src/service-worker.ts",
-			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
 		})
 	],
 	test: {
