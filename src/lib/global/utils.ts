@@ -10,7 +10,7 @@ export const getGlobal = () => {
 		if (typeof window !== "undefined") return window;
 		if (typeof globalThis !== "undefined") return globalThis;
 		return global;
-	} catch (e) {
+	} catch (_) {
 		return global;
 	}
 };

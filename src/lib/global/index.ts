@@ -26,11 +26,13 @@ export const globalInit = () => {
 
 	// Log app name+version. Hide for tests to reduce clutter in console.
 	if (!env.isTesting) {
+		// eslint-disable-next-line no-console
 		console.log(`%c${versionString()}`, "font-size: 1.1em;padding: 1rem 0;");
 	}
 
 	if (env.isDevelopment) {
 		injectDevTools();
+		// eslint-disable-next-line no-console
 		console.log("env", env);
 	}
 };

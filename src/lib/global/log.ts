@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import dayjs from "dayjs";
 
 import { padChar } from "lib/strings";

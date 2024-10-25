@@ -23,7 +23,6 @@ export const Grid = ({
 	sx,
 	center = false,
 	children,
-	className,
 	gutter = 10,
 	maxWidth = "1fr",
 	minWidth = 20,

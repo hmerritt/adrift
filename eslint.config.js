@@ -2,10 +2,10 @@ import globals from "globals";
 import js from "@eslint/js";
 import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
+import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
 import typescript from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
-import reactCompiler from "eslint-plugin-react-compiler";
 
 export default [
 	{
@@ -27,17 +27,24 @@ export default [
 		},
 		plugins: {
 			"@typescript-eslint": typescript,
+			prettier: prettier,
 			react: react,
 			"react-compiler": reactCompiler,
-			"react-hooks": reactHooks,
-			prettier: prettier
+			"react-hooks": reactHooks
 		},
 		rules: {
 			// TypeScript specific rules
-			"@typescript-eslint/no-explicit-any": "warn",
+			"@typescript-eslint/no-explicit-any": "off",
 			"@typescript-eslint/explicit-function-return-type": "off",
 			"@typescript-eslint/explicit-module-boundary-types": "off",
-			"@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+			"@typescript-eslint/no-unused-vars": [
+				"warn",
+				{
+					argsIgnorePattern: "^_",
+					varsIgnorePattern: "^_",
+					caughtErrorsIgnorePattern: "^_"
+				}
+			],
 			"@typescript-eslint/no-non-null-assertion": "warn",
 
 			// React specific rules

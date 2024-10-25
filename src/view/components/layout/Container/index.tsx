@@ -6,9 +6,7 @@ import { type SxProp } from "lib/type-assertions";
 
 export const Container = ({
 	sx,
-	className,
 	padding,
-	style,
 	width = "1320px",
 	...props
 }: JSX.IntrinsicElements["div"] &

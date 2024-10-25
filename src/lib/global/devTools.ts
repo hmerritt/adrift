@@ -12,7 +12,7 @@ export const getNumberOfEventListeners = () => {
 			pre += events?.[evt]?.length || 0;
 		});
 		return pre;
-	} catch (e) {
+	} catch (_) {
 		return -1;
 	}
 };
@@ -35,7 +35,7 @@ export const getObjectOfEventListeners = () => {
 			},
 			{ _total: 0 }
 		);
-	} catch (e) {
+	} catch (_) {
 		return {};
 	}
 };

@@ -141,7 +141,15 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		}
 
 		draw();
-	}, [spacing, dotSize, damping, returnSpeed, attractionBase, maxAttraction]);
+	}, [
+		refForMousePosition,
+		spacing,
+		attractionBase,
+		maxAttraction,
+		returnSpeed,
+		damping,
+		dotSize
+	]);
 
 	useEffect(() => {
 		if (!$canvas.current) return;
@@ -209,7 +217,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 			$elForMousePosition?.removeEventListener("touchmove", trackMousePosition);
 			$elForMousePosition?.removeEventListener("touchend", trackMousePosition);
 		};
-	}, [drawDotGrid, reactToWindowResize]);
+	}, [drawDotGrid, reactToWindowResize, refForMousePosition]);
 
 	return (
 		<canvas

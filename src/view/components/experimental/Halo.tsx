@@ -98,7 +98,7 @@ export const HaloProvider = ({
 		updateAllHalos();
 	});
 
-	useEventListener("scroll", (evt) => {
+	useEventListener("scroll", (_) => {
 		if (state.current.stopUpdates) return;
 
 		if (isMobile) {

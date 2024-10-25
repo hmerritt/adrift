@@ -18,7 +18,6 @@ export type ImageProps = JSX.IntrinsicElements["img"] &
 export const Image = ({
 	sx,
 	aspectRatioMaintain,
-	className,
 	fallbackSrc,
 	height,
 	hideWhileLoading,

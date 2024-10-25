@@ -10,5 +10,5 @@ export const usePrevious = (value: any) => {
 		ref.current = value;
 	}, [value]);
 
-	return ref.current;
+	return ref?.current;
 };

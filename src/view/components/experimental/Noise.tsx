@@ -111,7 +111,6 @@ export const NoiseImg = ({
 	sx,
 	children,
 	childrenIsAboveNoise = true,
-	className,
 	...divProps
 }: NoiseImgProps) => {
 	return (

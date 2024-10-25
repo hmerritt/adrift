@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * Produce the next state by mutating the (current) state object.
  *

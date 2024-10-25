@@ -22,7 +22,6 @@ export const Flex = ({
 	wrap = false,
 	vc = false,
 	hc = false,
-	className,
 	...props
 }: FlexProps) => {
 	return (
