@@ -13,7 +13,10 @@
 	"validImports": ["@stylexjs/stylex", "stylex"],
 	"importOrder": [
 		"<THIRD_PARTY_MODULES>",
-		"^(lib|locale|state|tests|types)/(.*)$",
+		"^lib/(.*)$",
+		"^state/(.*)$",
+		"^tests/(.*)$",
+		"^types/(.*)$",
 		"^view/(.*)$",
 		"^[./](.*)$"
 	],
