@@ -35,8 +35,10 @@ const styles = stylex.create({
 		position: "relative",
 		width: "100%",
 		height: "100%",
-		borderRadius: "0.8rem",
-		border: "0.1rem dashed #ededed" // @TODO theme
+		borderRadius: "0.8rem", // @TODO theme
+		borderWidth: "0.1rem", // @TODO theme
+		borderStyle: "dashed", // @TODO theme
+		borderColor: "#ededed" // @TODO theme
 	}
 
 	// Hide all children.

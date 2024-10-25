@@ -101,7 +101,7 @@ const styles = stylex.create({
 		height: "100%"
 	},
 	pane: {
-		flex: 1,
+		flex: "1",
 		backdropFilter: "blur(8px)",
 		background: `linear-gradient(
 			to right,

@@ -4,6 +4,7 @@ import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
+import stylex from "@stylexjs/eslint-plugin";
 import typescript from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 
@@ -26,6 +27,7 @@ export default [
 			globals: globals.browser
 		},
 		plugins: {
+			"@stylexjs": stylex,
 			"@typescript-eslint": typescript,
 			prettier: prettier,
 			react: react,
@@ -54,11 +56,12 @@ export default [
 			"react/jsx-props-no-spreading": "off",
 			"react/require-default-props": "off",
 
-			"react-compiler/react-compiler": "error",
-
 			// React Hooks rules
 			"react-hooks/rules-of-hooks": "error",
 			"react-hooks/exhaustive-deps": "warn",
+
+			"react-compiler/react-compiler": "error",
+			"@stylexjs/valid-styles": "warn",
 
 			// General rules
 			"no-console": ["warn", { allow: ["warn", "error"] }],

@@ -24,9 +24,9 @@ const styles = stylex.create({
 		maxWidth: s.width || "initial",
 		marginLeft: "auto",
 		marginRight: "auto",
-		padding: s.padding || "0 2rem",
-		"@media screen and (max-width: 768px)": {
-			padding: "0 1rem"
+		padding: {
+			default: s.padding || "0 2rem",
+			"@media screen and (max-width: 768px)": "0 1rem"
 		}
 	})
 });

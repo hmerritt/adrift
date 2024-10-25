@@ -37,6 +37,7 @@ export const mixins = stylex.create({
 			borderRadius: "1000px",
 			background: bgThumb
 		},
+		// eslint-disable-next-line @stylexjs/valid-styles
 		"::-webkit-scrollbar-thumb:hover": {
 			background: bgThumbHover
 		}
