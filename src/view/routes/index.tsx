@@ -59,6 +59,7 @@ export function IndexRoute() {
 			<DotGrid
 				position="fixed"
 				refForMousePosition="window"
+				reactToWindowResize
 				spacing={40}
 				damping={0.5}
 				returnSpeed={0.18}

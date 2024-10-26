@@ -62,6 +62,9 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		if (!canvas?.getContext) return; // Tests fail without this
 
 		const ctx = canvas?.getContext("2d");
+		const dpr = window.devicePixelRatio || 1;
+
+		ctx?.scale(dpr, dpr);
 
 		// Set canvas size
 		if (refForMousePosition === "window") {
@@ -84,8 +87,9 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		}[] = [];
 
 		// Initialize dots array
-		for (let x = Math.round(spacing / 2); x < canvas.width; x += spacing) {
-			for (let y = Math.round(spacing / 2); y < canvas.height; y += spacing) {
+		const xySpacing = Math.round(spacing + spacing / 2);
+		for (let x = -xySpacing; x < canvas.width + xySpacing; x += spacing) {
+			for (let y = -xySpacing; y < canvas.height + xySpacing; y += spacing) {
 				dots.push({
 					x: x,
 					y: y,
@@ -135,7 +139,8 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		function drawDot(x: number, y: number, size: number) {
 			if (!ctx) return;
 			ctx.beginPath();
-			ctx.arc(x, y, size, 0, Math.PI * 2, false);
+			ctx.arc(Math.round(x), Math.round(y), size, 0, Math.PI * 2, false);
+			ctx.imageSmoothingEnabled = false;
 			ctx.fillStyle = "black";
 			ctx.fill();
 		}
