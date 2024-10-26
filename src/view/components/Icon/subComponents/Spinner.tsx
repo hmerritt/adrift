@@ -1,7 +1,8 @@
 import * as stylex from "@stylexjs/stylex";
 import { memo } from "react";
 
-import { keyframes } from "../../../../lib/styles/keyframes.stylex";
+import { keyframes } from "lib/styles/keyframes.stylex";
+
 import { IconSvgProps } from "./props";
 
 export const Spinner = memo(({ sx, ...props }: IconSvgProps) => (

@@ -3,6 +3,7 @@ import styleXPlugin from "@stylexjs/babel-plugin";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
 import eslint from "vite-plugin-eslint";
 import styleX from "vite-plugin-stylex";
@@ -11,6 +12,13 @@ import { ViteUserConfig, defineConfig } from "vitest/config";
 
 const isDev = process.env.NODE_ENV !== "production";
 const isTest = process.env.NODE_ENV === "test";
+const aliases = {
+	"lib/*": [path.join(__dirname, "src/lib/*")],
+	"state/*": [path.join(__dirname, "src/state/*")],
+	"tests/*": [path.join(__dirname, "src/tests/*")],
+	"types/*": [path.join(__dirname, "src/types/*")],
+	"view/*": [path.join(__dirname, "src/view/*")]
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -41,6 +49,7 @@ export default defineConfig({
 								[
 									styleXPlugin,
 									{
+										aliases,
 										dev: isDev || isTest,
 										test: false,
 										// Required for CSS variable support
@@ -56,6 +65,7 @@ export default defineConfig({
 			}
 		}),
 		styleX({
+			aliases,
 			test: false,
 			useCSSLayers: true,
 			useRemForFontSize: true
