@@ -53,7 +53,7 @@ const styles = stylex.create({
 		display: "grid",
 		width: "100%",
 		gridGap: s.gutter,
-		gridTemplateColumns: s.gridTemplateColumns
+		gridTemplateColumns: `${s.gridTemplateColumns}`
 	}),
 	center: {
 		justifyContent: "center"
