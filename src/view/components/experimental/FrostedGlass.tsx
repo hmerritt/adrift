@@ -89,7 +89,8 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 
 const styles = stylex.create({
 	frostedGlass: {
-		position: "relative"
+		position: "relative",
+		zIndex: 1
 	},
 	paneContainer: {
 		position: "absolute",
