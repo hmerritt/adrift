@@ -1,3 +1,4 @@
+import * as stylex from "@stylexjs/stylex";
 import {
 	Outlet,
 	createRootRouteWithContext,
@@ -5,7 +6,10 @@ import {
 } from "@tanstack/react-router";
 import { lazy } from "react";
 
-import { DotGrid, Icon } from "view/components";
+import { colors } from "lib/styles/colors.stylex";
+import { shadowFn } from "lib/styles/shadows.stylex";
+
+import { DotGrid, FrostedGlass, Icon, Stack } from "view/components";
 
 const TanStackRouterDevtools =
 	env.isDevelopment && env.showDevTools
@@ -46,11 +50,39 @@ function RouterSpinner() {
 
 export function NotFoundRoute() {
 	return (
-		<div className="flex-center" style={{ height: "100vh" }}>
-			<h2 style={{ fontSize: "2rem", textAlign: "center", zIndex: 10 }}>
-				404, Page not found :(
-			</h2>
-			<DotGrid position="fixed" refForMousePosition="window" spacing={50} />
-		</div>
+		<>
+			<Stack center sx={styles.fullScreen}>
+				<FrostedGlass sx={[styles.titleGlass, shadowFn.boxBlock(colors.primary)]}>
+					<h2 {...stylex.props(styles.title)}>404, Page not found :(</h2>
+				</FrostedGlass>
+			</Stack>
+			<DotGrid
+				position="fixed"
+				refForMousePosition="window"
+				reactToWindowResize
+				spacing={40}
+				damping={0.5}
+				returnSpeed={0.18}
+				attractionBase={1.025}
+				maxAttraction={0.8}
+			/>
+		</>
 	);
 }
+
+const styles = stylex.create({
+	fullScreen: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		height: "100vh"
+	},
+	titleGlass: {
+		padding: "2.5rem"
+	},
+	title: {
+		fontSize: "2rem",
+		textAlign: "center",
+		zIndex: 10
+	}
+});
