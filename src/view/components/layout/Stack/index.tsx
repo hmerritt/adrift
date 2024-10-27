@@ -38,11 +38,7 @@ export const Stack = ({
 		<Flex
 			row={row}
 			{...props}
-			{...stylex.props(
-				stackStyles.stack,
-				row ? stackStyles.stackRow : stackStyles.stack,
-				sx
-			)}
+			sx={[stackStyles.stack, row ? stackStyles.stackRow : stackStyles.stack, sx]}
 		>
 			{Children.map(children, (child, index) => {
 				if (isValidElement(child)) {
