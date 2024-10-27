@@ -9,9 +9,9 @@ export const shadows = stylex.defineVars({
 	box4: "0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)",
 	box5: "0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22)",
 	/* Text shadows */
-	text0: "0px 0px 0x rgba(0, 0, 0, 0)",
+	text1: "0px 0px 0x rgba(0, 0, 0, 0)",
 	/* TEST VALUES: DO NOT DELETE */
-	test1: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
+	test2: "0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)"
 });
 
 export const shadowFn = stylex.create({

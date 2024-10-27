@@ -1,12 +1,12 @@
 import * as stylex from "@stylexjs/stylex";
 
 export const colors = stylex.defineVars({
-	primary: "#4299e1",
-	secondary: "#e53e3e",
-	accent: "#ecc94b",
+	primary: "#4299E1",
+	secondary: "#E53E3E",
+	accent: "#ECC94B",
 	textPrimary: "#222222",
 	textSecondary: "#FFFFFF",
 	/* TEST VALUES: DO NOT DELETE */
-	test100: "#38a169",
-	test200: "#dd6b20"
+	test1: "#38A169",
+	test2: "#DD6B20"
 });
