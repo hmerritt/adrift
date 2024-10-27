@@ -82,6 +82,7 @@ export default defineConfig({
 		MillionLint.vite({
 			enabled: false, // @TODO
 			telemetry: false,
+			optimizeDOM: false,
 			filter: {
 				include: "**/src/*.{mtsx,mjsx,tsx,jsx}"
 			}
