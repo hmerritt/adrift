@@ -1,4 +1,3 @@
-import MillionLint from "@million/lint";
 import styleXPlugin from "@stylexjs/babel-plugin";
 //@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
@@ -78,14 +77,6 @@ export default defineConfig({
 			globDirectory: "dist",
 			swSrc: "src/service-worker.ts",
 			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
-		}),
-		MillionLint.vite({
-			enabled: false, // @TODO
-			telemetry: false,
-			optimizeDOM: false,
-			filter: {
-				include: "**/src/*.{mtsx,mjsx,tsx,jsx}"
-			}
 		})
 	],
 	test: {
