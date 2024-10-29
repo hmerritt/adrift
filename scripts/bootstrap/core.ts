@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import execBase from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -136,7 +137,7 @@ export async function run(
 	fallback = undefined as any
 ) {
 	try {
-		const { stdout, stderr } = await execAwait(command, { cwd: path });
+		const { stdout } = await execAwait(command, { cwd: path });
 		return stdout?.trim();
 	} catch (e) {
 		if (fallback === undefined) {

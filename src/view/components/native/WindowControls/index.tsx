@@ -18,7 +18,6 @@ export type WindowControlsProps = {
  * Used for frameless windows.
  */
 export const WindowControls: FC<WindowControlsProps> = ({
-	type,
 	onClose,
 	onMinimize,
 	onMaximize
@@ -62,6 +61,7 @@ const styles = stylex.create({
 		alignItems: "center",
 		justifyContent: "center",
 		gap: "1rem",
+		// eslint-disable-next-line @stylexjs/valid-styles
 		"--runtime-draggable": "drag"
 	},
 	controlMac: {
@@ -74,25 +74,31 @@ const styles = stylex.create({
 		justifyContent: "center"
 	},
 	controlMacSvg: {
-		opacity: 0,
+		opacity: {
+			default: 0,
+			":hover": 1
+		},
 		width: "1.1rem",
 		height: "1.1rem",
-		transition: "opacity 150ms ease-in-out",
-		":hover": {
-			opacity: 1
-		}
+		transition: "opacity 150ms ease-in-out"
 	},
 	controlMacClose: {
 		backgroundColor: "#fc5753",
-		border: "0.1rem solid #df4744"
+		borderWidth: "0.1rem",
+		borderStyle: "solid",
+		borderColor: "#df4744"
 	},
 	controlMacMinimize: {
 		backgroundColor: "#fdbc40",
-		border: "0.1rem solid #de9f34"
+		borderWidth: "0.1rem",
+		borderStyle: "solid",
+		borderColor: "#de9f34"
 	},
 	controlMacMaximize: {
 		backgroundColor: "#33c748",
-		border: "0.1rem solid #27aa35"
+		borderWidth: "0.1rem",
+		borderStyle: "solid",
+		borderColor: "#27aa35"
 		// This button is sometimes gray ??!!
 		// backgroundColor: "#ded8dc",
 		// border: "0.1rem solid #cac4c8"

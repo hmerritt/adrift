@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -7,7 +8,7 @@ import * as core from "./core";
 /**
  * Internal adrift version.
  */
-export const adriftVersion = "0.11.581";
+export const adriftVersion = "0.11.582";
 
 /**
  * Bumps the adrift `patch` version number using the total commit count.
