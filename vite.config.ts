@@ -23,7 +23,7 @@ const aliases = {
 export default defineConfig({
 	build: {
 		sourcemap: isDev,
-		minify: true
+		minify: !isDev
 	},
 	define: {
 		"process.env": {}
@@ -43,7 +43,7 @@ export default defineConfig({
 				plugins: [
 					"babel-plugin-react-compiler",
 					// StyleX Babel is only required for tests
-					...(isTest
+					...(isDev
 						? [
 								[
 									styleXPlugin,
