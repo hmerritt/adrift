@@ -38,7 +38,8 @@ async function bootstrap() {
 		["VITE_NAME", appName],
 		["VITE_VERSION", appVersion],
 		["VITE_GIT_BRANCH", gitBranch],
-		["VITE_GIT_COMMIT", gitCommitHashShort]
+		["VITE_GIT_COMMIT", gitCommitHashShort],
+		["VITE_SHOW_DEVTOOLS", true]
 		// ['VITE_PLAUSIBLE_ENABLE', true],
 		// ['VITE_PLAUSIBLE_DOMAIN', 'PLAUSIBLE_DOMAIN'],
 		// ['VITE_PLAUSIBLE_API_HOST', 'https://plausible.io']

@@ -1,5 +1,4 @@
 import styleXPlugin from "@stylexjs/babel-plugin";
-//@ts-ignore Complaining that the export does not exist, when in fact it does
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";

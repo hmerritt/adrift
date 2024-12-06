@@ -11,14 +11,13 @@ import { shadowFn } from "lib/styles/shadows.stylex";
 
 import { DotGrid, FrostedGlass, Icon, Stack } from "view/components";
 
-const TanStackRouterDevtools =
-	env.isDevelopment && env.showDevTools
-		? lazy(() =>
-				import("@tanstack/router-devtools").then((res) => ({
-					default: res.TanStackRouterDevtools
-				}))
-			)
-		: () => null;
+const TanStackRouterDevtools = env.showDevTools
+	? lazy(() =>
+			import("@tanstack/router-devtools").then((res) => ({
+				default: res.TanStackRouterDevtools
+			}))
+		)
+	: () => null;
 
 /**
  * `@tanstack/react-router` file-based routing.
