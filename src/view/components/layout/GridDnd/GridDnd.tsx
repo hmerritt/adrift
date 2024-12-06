@@ -32,7 +32,7 @@ export type GridDndrops = GridProps & {
 	data: Data[];
 	mouseSensorOptions?: MouseSensorOptions;
 	pointerSensorOptions?: PointerSensorOptions;
-	renderWith: (props: RenderWithProps) => JSX.Element;
+	renderWith: (props: RenderWithProps) => React.JSX.Element;
 	getProps?: (data: Data, index?: number) => Record<string, unknown>;
 	setData: React.Dispatch<React.SetStateAction<any[]>>;
 	// Custom drag events

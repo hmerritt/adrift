@@ -5,7 +5,7 @@ import { type SxProp } from "lib/type-assertions";
 export type GridDndDragBoxProps = SxProp & {
 	dataItem: any;
 	renderIndex: number;
-	renderWith: (props: any) => JSX.Element;
+	renderWith: (props: any) => React.JSX.Element;
 };
 
 /**

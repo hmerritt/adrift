@@ -9,7 +9,7 @@ export const Container = ({
 	padding,
 	width = "1320px",
 	...props
-}: JSX.IntrinsicElements["div"] &
+}: React.JSX.IntrinsicElements["div"] &
 	SxProp & {
 		width?: string;
 		padding?: string;

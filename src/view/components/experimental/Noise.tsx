@@ -39,7 +39,7 @@ export type NoiseProps = SxProp & {
 };
 
 export type NoiseImgProps = NoiseProps &
-	JSX.IntrinsicElements["div"] & {
+	React.JSX.IntrinsicElements["div"] & {
 		src?: string;
 		imgProps?: ImageProps;
 		childrenIsAboveNoise?: boolean;

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type FrostedGlassProps = JSX.IntrinsicElements["div"] &
+export type FrostedGlassProps = React.JSX.IntrinsicElements["div"] &
 	SxProp & {
 		/** Pane direction */
 		paneDirection?: "row" | "column";

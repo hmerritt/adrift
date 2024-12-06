@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type FlexProps = JSX.IntrinsicElements["div"] &
+export type FlexProps = React.JSX.IntrinsicElements["div"] &
 	SxProp & {
 		center?: boolean;
 		grow?: boolean;

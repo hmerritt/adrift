@@ -3,7 +3,7 @@ import { RefObject, useCallback, useEffect, useRef } from "react";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type DotGridProps = JSX.IntrinsicElements["canvas"] &
+export type DotGridProps = React.JSX.IntrinsicElements["canvas"] &
 	SxProp & {
 		/** Container position. Use `fixed` for background usage */
 		position?: "absolute" | "fixed";

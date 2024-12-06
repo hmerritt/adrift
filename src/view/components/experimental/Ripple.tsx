@@ -4,7 +4,7 @@ import { isMobile } from "react-device-detect";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type RippleProps = JSX.IntrinsicElements["div"] &
+export type RippleProps = React.JSX.IntrinsicElements["div"] &
 	SxProp & {
 		hoverBg?: boolean;
 		centered?: boolean;

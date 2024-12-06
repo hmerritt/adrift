@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type ImageProps = JSX.IntrinsicElements["img"] &
+export type ImageProps = React.JSX.IntrinsicElements["img"] &
 	SxProp & {
 		/** Maintains image aspect ratio - even when render width/height are fluid */
 		aspectRatioMaintain?: boolean;

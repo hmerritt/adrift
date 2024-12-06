@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 
 import { type SxProp } from "lib/type-assertions";
 
-export type GridProps = JSX.IntrinsicElements["div"] &
+export type GridProps = React.JSX.IntrinsicElements["div"] &
 	SxProp & {
 		maxWidth?: string | number;
 		minWidth?: string | number;
