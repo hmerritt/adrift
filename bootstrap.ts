@@ -18,6 +18,7 @@ bootstrap();
 // Run anything you like, here we get the app version from the package.json + the current commit hash.
 // prettier-ignore
 async function bootstrap() {
+	const isDev = core.isDev(args);
 	const gitCommitHash = await core.run(`git rev-parse HEAD`, pathRoot, '');
 	const gitCommitHashShort = core.shorten(gitCommitHash) || '';
 	const gitBranch = await core.getGitBranch(pathRoot);
@@ -25,7 +26,7 @@ async function bootstrap() {
 	const appName = packageJSON?.name;
 
 	// Checks GitHub for any adrift updates.
-	const checkForAdriftUpdate = true;
+	const checkForAdriftUpdate = isDev;
 
 	// When true, the env array below can be overridden by whatever is in the environment at runtime.
 	const allowEnvOverride = true;

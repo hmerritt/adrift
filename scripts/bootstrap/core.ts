@@ -175,6 +175,10 @@ export function isTest(args = [] as string[]) {
 	return args.length >= 1 && args[0] === "vitest";
 }
 
+export function isDev(args = [] as string[]) {
+	return !isProd(args) && !isTest(args);
+}
+
 /**
  * Determine `NODE_ENV` from args passed to the script.
  *
