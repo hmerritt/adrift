@@ -33,12 +33,13 @@ async function bootstrap() {
 	// Set ENV array to inject, key/value
 	const env: Env = [
 		["NODE_ENV", core.getNodeEnv(args)],
-		["GENERATE_SOURCEMAP", core.getNodeEnv(args) === "development"],
+		["GENERATE_SOURCEMAP", isDev],
 		["VITE_ADRIFT_VERSION", adriftVersion],
 		["VITE_NAME", appName],
 		["VITE_VERSION", appVersion],
 		["VITE_GIT_BRANCH", gitBranch],
 		["VITE_GIT_COMMIT", gitCommitHashShort],
+		["VITE_APP_HOST", "http://localhost:5173"],
 		["VITE_SHOW_DEVTOOLS", true]
 		// ['VITE_PLAUSIBLE_ENABLE', true],
 		// ['VITE_PLAUSIBLE_DOMAIN', 'PLAUSIBLE_DOMAIN'],
