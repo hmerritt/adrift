@@ -8,7 +8,7 @@ import { setGlobalValue } from "./utils";
  */
 export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boolean => {
 	const { alwaysShowOnDev } = {
-		alwaysShowOnDev: true,
+		alwaysShowOnDev: false,
 		...options
 	};
 
