@@ -18,7 +18,7 @@ export const env = Object.freeze({
 	adriftVersion: import.meta.env.VITE_ADRIFT_VERSION,
 	showDevTools:
 		import.meta.env.MODE === "development" &&
-		(parseEnv(import.meta.env.VITE_SHOW_DEVTOOLS) ?? false),
+		parseEnv(import.meta.env.VITE_SHOW_DEVTOOLS),
 	plausible: {
 		enable: parseEnv(import.meta.env.VITE_PLAUSIBLE_ENABLE),
 		domain: import.meta.env.VITE_PLAUSIBLE_DOMAIN,
@@ -30,7 +30,7 @@ export const env = Object.freeze({
 	isTesting: import.meta.env.MODE === "test" || import.meta.env.MODE === "testing",
 	isStaging: import.meta.env.MODE === "stage" || import.meta.env.MODE === "staging",
 	// Features
-	timerIncrement: import.meta.env.VITE_FEATURE_INCREMENT,
+	timerIncrement: parseEnv(import.meta.env.VITE_FEATURE_INCREMENT),
 	someOtherFeature: false
 });
 

@@ -4,7 +4,11 @@
  * https://github.com/aidenybai/react-scan
  */
 export const injectReactScan = async () => {
-	if (!feature("showDevTools") || typeof window === "undefined") return;
+	if (
+		!feature("showDevTools", { alwaysShowOnDev: false }) ||
+		typeof window === "undefined"
+	)
+		return;
 
 	const [scan, error] = await go(
 		(async () => {

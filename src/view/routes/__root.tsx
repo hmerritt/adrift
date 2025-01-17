@@ -11,7 +11,7 @@ import { shadowFn } from "lib/styles/shadows.stylex";
 
 import { DotGrid, FrostedGlass, Icon, Stack } from "view/components";
 
-const TanStackRouterDevtools = feature("showDevTools")
+const TanStackRouterDevtools = feature("showDevTools", { alwaysShowOnDev: false })
 	? lazy(() =>
 			import("@tanstack/router-devtools").then((res) => ({
 				default: res.TanStackRouterDevtools
