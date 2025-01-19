@@ -42,7 +42,7 @@ export default defineConfig({
 				plugins: [
 					"babel-plugin-react-compiler",
 					// StyleX Babel is only required for tests
-					...(isDev
+					...(isTest
 						? [
 								[
 									styleXPlugin,
