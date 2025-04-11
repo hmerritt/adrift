@@ -43,7 +43,7 @@ function RootRoute() {
 }
 
 function RouterSpinner() {
-	const isLoading = useRouterState({ select: (s) => s.status === "pending" });
+	const isLoading = useRouterState({ select: (s) => s.isLoading });
 	return isLoading ? <Icon name="Spinner" /> : null;
 }
 
