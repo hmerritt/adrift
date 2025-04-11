@@ -5046,6 +5046,7 @@ __metadata:
     "@tanstack/react-router-devtools": "npm:1.115.2"
     "@tanstack/react-store": "npm:0.7.0"
     "@tanstack/router-plugin": "npm:1.115.2"
+    "@tanstack/store": "npm:^0.7.0"
     "@testing-library/dom": "npm:10.4.0"
     "@testing-library/jest-dom": "npm:6.6.3"
     "@testing-library/react": "npm:16.3.0"
