@@ -2,10 +2,12 @@ import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
 import { afterEach } from "vitest";
 
-import globalInit from "lib/global/index";
+import { injectLog } from "lib/global/log";
+import { injectGo } from "lib/global/utils";
 import "lib/styles/stylex.css";
 
-globalInit();
+injectGo();
+injectLog();
 
 afterEach(() => {
 	cleanup();

@@ -1,4 +1,4 @@
-import { expect, test, vitest } from "vitest";
+import { expect, test, vi } from "vitest";
 
 import { mutate } from "./mutate";
 
@@ -36,7 +36,7 @@ test("should return a new object reference", () => {
 
 test("should call callbacks with previous state, next state, and title", () => {
 	const initialState = { count: 10 };
-	const mockCallback = vitest.fn();
+	const mockCallback = vi.fn();
 	const options = {
 		callbacks: [mockCallback],
 		mutateTitle: "Test Mutate"
@@ -62,8 +62,8 @@ test("should call callbacks with previous state, next state, and title", () => {
 
 test("should handle multiple callbacks", () => {
 	const initialState = { count: 10 };
-	const mockCallback1 = vitest.fn();
-	const mockCallback2 = vitest.fn();
+	const mockCallback1 = vi.fn();
+	const mockCallback2 = vi.fn();
 	const options = {
 		callbacks: [mockCallback1, mockCallback2]
 	};

@@ -1,4 +1,4 @@
-import { type EnvKeys, env, envGet } from "./env";
+import { type EnvKeys, envGet } from "./env";
 import { parseEnv, setGlobalValue } from "./utils";
 
 /**
@@ -15,7 +15,7 @@ export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boole
 	// Bypass feature flag in dev mode if `alwaysShowOnDev` is true (unless explicitly set to false)
 	if (
 		alwaysShowOnDev &&
-		(env.isDevelopment || env.isTesting) &&
+		(envGet("isDevelopment") || envGet("isTesting")) &&
 		parseEnv(envGet(mode)) !== false
 	) {
 		return true;
