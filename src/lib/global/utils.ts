@@ -54,9 +54,10 @@ export const parseEnv = (value: any, isJson = false) => {
  * @example const [result, error] = await go(myPromise())
  */
 export const go = async <T, E = Error>(
-	promise: Promise<T>
+	promise: Promise<T> | (() => Promise<T>)
 ): Promise<[T, null] | [T, E]> => {
 	try {
+		if (typeof promise === "function") promise = promise();
 		const result = await promise;
 		return [result, null];
 	} catch (error) {

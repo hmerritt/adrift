@@ -10,12 +10,10 @@ export const injectReactScan = async () => {
 	)
 		return;
 
-	const [scan, error] = await go(
-		(async () => {
-			const { scan } = await import("react-scan");
-			return scan;
-		})()
-	);
+	const [scan, error] = await go(async () => {
+		const { scan } = await import("react-scan");
+		return scan;
+	});
 
 	if (error) {
 		log("error", "injectReactScan", error);
