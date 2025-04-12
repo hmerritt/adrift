@@ -15,6 +15,8 @@ export const getGlobal = () => {
 	}
 };
 
+export const $global = getGlobal();
+
 /**
  * Set immutable global variable.
  */
@@ -25,8 +27,6 @@ export const setGlobalValue = (key: string, value: any) => {
 		writable: false
 	});
 };
-
-export const $global = getGlobal();
 
 /**
  * Parse string environment variable into a primitive.
