@@ -95,25 +95,25 @@ const timestampString = (diff: chars, namespace?: string) => {
 /**
  * Internal log function. Handles namespace, timestamp, and log level.
  */
-const _log = (namespace: string, logLevel: any, ...args: any[]) => {
+const _log = (namespace: string, consoleFn: any, ...args: any[]) => {
 	const timeElapsed = dayjs().diff($global.logStore.getTime(namespace), "millisecond");
 	const stringToLog = timestampString(timeElapsed, namespace);
 	$global.logStore.increment(namespace);
 
 	// Special case for table. No timestamp or styles as it messes with the table.
-	if (logLevel === "table") {
+	if (consoleFn === "table") {
 		return console.table(...args);
 	}
 
-	if (ConsoleFunctions[logLevel as ConsoleFunctions]) {
-		console[ConsoleFunctions[logLevel as ConsoleFunctions]](
+	if (ConsoleFunctions[consoleFn as ConsoleFunctions]) {
+		console[ConsoleFunctions[consoleFn as ConsoleFunctions]](
 			stringToLog,
 			styles,
 			"",
 			...args
 		);
 	} else {
-		console.log(stringToLog, styles, "", logLevel, ...args);
+		console.log(stringToLog, styles, "", consoleFn, ...args);
 	}
 };
 
