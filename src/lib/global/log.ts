@@ -129,49 +129,56 @@ type LognMethods = {
 };
 
 type LogCallable = typeof console.log;
+type LognCallable = (namespace: string, ...args: Parameters<typeof console.log>) => void;
 
 export type LogFn = LogCallable & LogMethods;
-export type LognFn = LogCallable & LognMethods;
+export type LognFn = LognCallable & LognMethods;
 
 /**
  * log.
  *
  * Adds a timestamp and timediff to each log automatically.
  */
-export const log = ((...args: any[]) => {
+const logFn: LogCallable = (...args: any[]) => {
 	_log($global.logStore.defaultNamespace, "log", ...args);
-}) as LogFn;
-populateLogFn(log, false);
+};
 
 /**
  * Namespaced `log`.
  *
  * @example debug("socket", "msg received") -> "[socket] msg recieved"
  */
-export const logn = ((namespace: string, ...args: any[]) => {
+const lognFn: LognCallable = (namespace: string, ...args: any[]) => {
 	_log(namespace, "log", ...args);
-}) as LognFn;
-populateLogFn(logn, true);
+};
 
 /**
  * Log in development only (`NODE_ENV !== "production"`)
  */
-export const debug = ((...args: any[]) => {
+const debugFn: LogCallable = (...args: any[]) => {
 	if (env.isProduction) return;
 	_log($global.logStore.defaultNamespace, "log", ...args);
-}) as LogFn;
-populateLogFn(debug, false);
+};
 
 /**
  * Namespaced `debug`.
  *
  * @example debugn("socket", "msg received") -> "[socket] msg recieved"
  */
-export const debugn = ((namespace: string, ...args: any[]) => {
+const debugnFn: LognCallable = (namespace: string, ...args: any[]) => {
 	if (env.isProduction) return;
 	_log(namespace, "log", ...args);
-}) as LognFn;
-populateLogFn(debugn, true);
+};
+
+populateLogFn(logFn as LogFn, false);
+populateLogFn(lognFn as LognFn, true);
+populateLogFn(debugFn as LogFn, false);
+populateLogFn(debugnFn as LognFn, true);
+
+export const log = logFn as LogFn;
+export const logn = lognFn as LognFn;
+export const debug = debugFn as LogFn;
+export const debugn = debugnFn as LognFn;
 
 export const injectLog = () => {
 	$global.logStore = new LogStore();
