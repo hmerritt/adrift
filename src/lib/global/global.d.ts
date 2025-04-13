@@ -1,11 +1,7 @@
 import type { EnvKeys, EnvObj } from "./env";
-import type { FeatureFlags, FeatureOptions } from "./featureFlags";
-import type { LogStoreType } from "./log";
+import type { FeatureFn } from "./featureFlags";
+import type { LogFn, LogStoreType, LognFn } from "./log";
 import type { GoFn, GoSyncFn } from "./utils";
-
-type LogFn = (logLevel: any, ...args: any[]) => void;
-type LognFn = (namespace: string, logLevel: any, ...args: any[]) => void;
-type FeatureFn = (mode: FeatureFlags, options?: FeatureOptions) => boolean;
 
 declare global {
 	var log: LogFn;
