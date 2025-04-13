@@ -38,7 +38,7 @@ export const Stack = ({
 		<Flex
 			row={row}
 			{...props}
-			sx={[stackStyles.stack, row ? stackStyles.stackRow : stackStyles.stack, sx]}
+			sx={[row ? stackStyles.stackRow : stackStyles.stack, sx]}
 		>
 			{Children.map(children, (child, index) => {
 				if (isValidElement(child)) {
@@ -83,7 +83,8 @@ export const stackStyles = stylex.create({
 		flexDirection: "column"
 	},
 	stackRow: {
-		display: "flex"
+		display: "flex",
+		flexDirection: "row"
 	},
 	stackFirst: {
 		marginTop: "0rem"
