@@ -10,7 +10,7 @@ import { $global, setGlobalValue } from "./utils";
  *
  * Injects into global object as `$global.logStore`.
  */
-class LogStore {
+export class LogStore {
 	defaultNamespace: string;
 	logStore: Record<string, [number, number]>;
 
