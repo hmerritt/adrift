@@ -16,7 +16,7 @@ export const injectReactScan = async () => {
 	});
 
 	if (error) {
-		log("error", "injectReactScan", error);
+		logn.error("injectReactScan", error);
 		return;
 	}
 

@@ -34,6 +34,7 @@ export type FeatureOptions = {
 };
 
 export type FeatureFlags = EnvKeys;
+export type FeatureFn = typeof feature;
 
 export const injectFeature = () => {
 	setGlobalValue("feature", feature);
