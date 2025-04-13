@@ -42,7 +42,7 @@ export const parseEnv = (value: any, isJson = false) => {
 		try {
 			return JSON.parse(value ?? "");
 		} catch (e) {
-			logn("parseEnv", "error", "JSON value failed to parse", value, e);
+			logn.error("parseEnv", value, e);
 		}
 	}
 	return value;

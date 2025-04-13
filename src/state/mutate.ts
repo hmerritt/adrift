@@ -51,8 +51,8 @@ export const mutate = <TState>(
  */
 export const mutateLogger = (prevState: any, nextState: any, mutateTitle = "(state)") => {
 	if (!env.isDevelopment) return;
-	logn("state", "groupCollapsed", `${mutateTitle}`);
+	logn.groupCollapsed("state", `${mutateTitle}`);
 	console.log("prev", prevState);
 	console.log("next", nextState);
-	logn("state", "groupEnd");
+	logn.groupEnd("state");
 };
