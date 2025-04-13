@@ -27,7 +27,7 @@ export const env = Object.freeze({
 	mode: import.meta.env.MODE,
 	isDevelopment: import.meta.env.MODE === "development",
 	isProduction: import.meta.env.MODE === "production",
-	isTesting: import.meta.env.MODE === "test" || import.meta.env.MODE === "testing",
+	isTesting: import.meta.env.MODE === "test",
 	isStaging: import.meta.env.MODE === "stage" || import.meta.env.MODE === "staging",
 	// Features
 	timerIncrement: parseEnv(import.meta.env.VITE_FEATURE_INCREMENT),
