@@ -20,12 +20,12 @@ const getUnit = (value: string | number) => {
 };
 
 export const Grid = ({
-	sx,
 	center = false,
 	children,
 	gutter = 10,
 	maxWidth = "1fr",
-	minWidth = 20,
+	minWidth = 100,
+	sx,
 	...props
 }: GridProps) => {
 	// Specify the minimum width of each item in the grid,
