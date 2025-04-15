@@ -3,6 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 import { screen } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 
+import { testBasicComponent } from "tests/macros";
 import { renderBasic as render } from "tests/render";
 
 import { FlexProps } from "view/components";
@@ -95,32 +96,24 @@ const customStyles = stylex.create({
 });
 
 describe("Stack component", () => {
-	test("renders children correctly", async () => {
-		await render(
-			<Stack>
-				<div>Child 1</div>
-				<span>Child 2</span>
-			</Stack>
-		);
-
-		expect(screen.getByText("Child 1")).toBeInTheDocument();
-		expect(screen.getByText("Child 2")).toBeInTheDocument();
-	});
-
-	test("applies default styles (column direction, spacing 1)", async () => {
-		await render(<Stack>Child</Stack>);
-		const flexElement = screen.getByTestId("mock-flex");
-
-		expect(flexElement).toHaveStyle("display: flex");
-		expect(flexElement).toHaveStyle("flex-direction: column");
-		expect(flexElement).toHaveStyle(`gap: ${stackStyles.stack0.gap}`);
+	testBasicComponent({
+		name: "(default)",
+		Component: Stack,
+		props: {},
+		hasChildren: true,
+		hasSx: true,
+		shouldHaveStyles: {
+			display: "flex",
+			flexDirection: "column",
+			gap: stackStyles.stack0.gap
+		}
 	});
 
 	test("applies row direction when row prop is true", async () => {
 		await render(<Stack row>Child</Stack>);
-		const flexElement = screen.getByTestId("mock-flex");
+		const $el = screen.getByTestId("mock-flex");
 
-		expect(flexElement).toHaveStyle("flex-direction: row");
+		expect($el).toHaveStyle("flex-direction: row");
 	});
 
 	test.each([
@@ -133,9 +126,9 @@ describe("Stack component", () => {
 		"applies correct gap for spacing $spacing",
 		async ({ spacing, expectedGap }) => {
 			await render(<Stack spacing={spacing}>Child</Stack>);
-			const flexElement = screen.getByTestId("mock-flex");
+			const $el = screen.getByTestId("mock-flex");
 
-			expect(flexElement).toHaveStyle(`gap: ${expectedGap}`);
+			expect($el).toHaveStyle(`gap: ${expectedGap}`);
 		}
 	);
 
@@ -145,16 +138,16 @@ describe("Stack component", () => {
 				Child
 			</Stack>
 		);
-		const flexElement = screen.getByTestId("mock-flex");
+		const $el = screen.getByTestId("mock-flex");
 
 		// Check default styles are still applied
-		expect(flexElement).toHaveStyle("display: flex");
-		expect(flexElement).toHaveStyle("flex-direction: column");
-		expect(flexElement).toHaveStyle(`gap: ${stackStyles.stack2.gap}`); // Default spacing
+		expect($el).toHaveStyle("display: flex");
+		expect($el).toHaveStyle("flex-direction: column");
+		expect($el).toHaveStyle(`gap: ${stackStyles.stack2.gap}`); // Default spacing
 
 		// Check custom styles are applied
-		expect(flexElement).toHaveStyle("background-color: blue");
-		expect(flexElement).toHaveStyle("padding: 10px");
+		expect($el).toHaveStyle("background-color: blue");
+		expect($el).toHaveStyle("padding: 10px");
 	});
 
 	test("merges custom sx styles with specified props (row=true, spacing=5)", async () => {
@@ -163,16 +156,16 @@ describe("Stack component", () => {
 				Child
 			</Stack>
 		);
-		const flexElement = screen.getByTestId("mock-flex");
+		const $el = screen.getByTestId("mock-flex");
 
 		// Check specified prop styles are applied
-		expect(flexElement).toHaveStyle("display: flex");
-		expect(flexElement).toHaveStyle("flex-direction: row");
-		expect(flexElement).toHaveStyle(`gap: ${stackStyles.stack5.gap}`);
+		expect($el).toHaveStyle("display: flex");
+		expect($el).toHaveStyle("flex-direction: row");
+		expect($el).toHaveStyle(`gap: ${stackStyles.stack5.gap}`);
 
 		// Check custom styles are applied and potentially override (though none conflict here)
-		expect(flexElement).toHaveStyle("background-color: blue");
-		expect(flexElement).toHaveStyle("padding: 10px");
+		expect($el).toHaveStyle("background-color: blue");
+		expect($el).toHaveStyle("padding: 10px");
 	});
 
 	test("passes through other props to the underlying Flex component", async () => {
@@ -181,30 +174,10 @@ describe("Stack component", () => {
 				Child
 			</Stack>
 		);
-		const flexElement = screen.getByTestId("mock-flex");
+		const $el = screen.getByTestId("mock-flex");
 
-		expect(flexElement).toHaveAttribute("id", "my-stack");
-		expect(flexElement).toHaveAttribute("data-custom", "value");
-		expect(flexElement).toHaveAttribute("aria-label", "My Stack Section");
-	});
-
-	test("handles sx prop being an array", async () => {
-		await render(
-			<Stack spacing={2} sx={[customStyles.override, customStyles.border]}>
-				Child
-			</Stack>
-		);
-		const flexElement = screen.getByTestId("mock-flex");
-
-		// Check default styles
-		expect(flexElement).toHaveStyle("flex-direction: column");
-		expect(flexElement).toHaveStyle(`gap: ${stackStyles.stack2.gap}`);
-
-		// Check styles from both items in the sx array
-		expect(flexElement).toHaveStyle("background-color: blue");
-		expect(flexElement).toHaveStyle("padding: 10px");
-		expect(flexElement).toHaveStyle("borderWidth: 1px");
-		expect(flexElement).toHaveStyle("borderStyle: solid");
-		expect(flexElement).toHaveStyle("borderColor: red");
+		expect($el).toHaveAttribute("id", "my-stack");
+		expect($el).toHaveAttribute("data-custom", "value");
+		expect($el).toHaveAttribute("aria-label", "My Stack Section");
 	});
 });
