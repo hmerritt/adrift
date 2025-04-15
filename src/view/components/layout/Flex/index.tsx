@@ -46,7 +46,8 @@ export const flexStyles = stylex.create({
 	flex: {
 		display: "flex",
 		flexWrap: "nowrap",
-		flexDirection: "column"
+		flexDirection: "column",
+		minWidth: 0 // Fixes overflow issues
 	},
 	center: {
 		alignItems: "center",

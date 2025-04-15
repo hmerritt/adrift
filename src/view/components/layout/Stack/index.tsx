@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { Flex, type FlexProps } from "view/components";
+import { Flex, type FlexProps, flexStyles } from "view/components";
 
 interface StackProps extends FlexProps {
 	spacing?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
@@ -15,10 +15,10 @@ export const Stack = ({
 }: StackProps) => {
 	return (
 		<Flex
-			row={row}
 			{...props}
+			row={row}
 			sx={[
-				stackStyles.base,
+				flexStyles.flex,
 				row ? stackStyles.directionRow : stackStyles.directionColumn,
 				spacing === 0 && stackStyles.stack0,
 				spacing === 1 && stackStyles.stack1,
@@ -45,10 +45,6 @@ export const Stack = ({
 };
 
 export const stackStyles = stylex.create({
-	base: {
-		display: "flex",
-		minWidth: 0 // Fixes overflow issues
-	},
 	directionColumn: {
 		flexDirection: "column"
 	},

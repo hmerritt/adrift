@@ -12,7 +12,7 @@ import { Stack } from "./index";
 vi.mock("view/components", async (importOriginal) => {
 	const actual = await importOriginal<typeof import("view/components")>();
 	return {
-		...actual, // Keep other exports if any
+		...actual,
 		Flex: vi.fn(
 			({ children, sx, style, className, ...rest }: FlexProps & { sx?: any }) => {
 				const resolvedProps = stylex.props(sx);
@@ -86,7 +86,6 @@ const stackStyles = {
 	}
 };
 
-// --- Custom StyleX styles for testing the `sx` prop ---
 const customStyles = stylex.create({
 	override: {
 		backgroundColor: "blue",
@@ -95,8 +94,7 @@ const customStyles = stylex.create({
 	border: { borderWidth: "1px", borderStyle: "solid", borderColor: "red" }
 });
 
-// --- Tests ---
-describe("Stack Component", () => {
+describe("Stack component", () => {
 	test("renders children correctly", async () => {
 		await render(
 			<Stack>
@@ -113,7 +111,6 @@ describe("Stack Component", () => {
 		await render(<Stack>Child</Stack>);
 		const flexElement = screen.getByTestId("mock-flex");
 
-		// Check computed styles
 		expect(flexElement).toHaveStyle("display: flex");
 		expect(flexElement).toHaveStyle("flex-direction: column");
 		expect(flexElement).toHaveStyle(`gap: ${stackStyles.stack0.gap}`);
@@ -123,10 +120,9 @@ describe("Stack Component", () => {
 		await render(<Stack row>Child</Stack>);
 		const flexElement = screen.getByTestId("mock-flex");
 
-		expect(flexElement).toHaveStyle("flex-direction: row"); // row=true -> directionRow
+		expect(flexElement).toHaveStyle("flex-direction: row");
 	});
 
-	// Test various spacing values
 	test.each([
 		{ spacing: 1, expectedGap: stackStyles.stack1.gap },
 		{ spacing: 3, expectedGap: stackStyles.stack3.gap },
