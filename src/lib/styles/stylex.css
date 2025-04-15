@@ -488,34 +488,26 @@ input[type="submit"] {
      *
      */
 
-	/**
- * Use a more-intuitive box-sizing model.
-*/
+	/** Use a more-intuitive box-sizing model. */
 	*,
 	*::before,
 	*::after {
 		box-sizing: border-box;
 	}
 
-	/**
- * Remove default margin
-*/
+	/** Remove default margin */
 	* {
 		margin: 0;
 	}
 
-	/**
- * Allow percentage-based heights in the application
-*/
+	/** Allow percentage-based heights in the application */
 	html,
 	body {
 		height: 100%;
 		-webkit-tap-highlight-color: transparent;
 	}
 
-	/**
- * 1 rem = 10px :)
-*/
+	/** 1 rem = 10px :) */
 	html {
 		font-size: 62.5%;
 	}
