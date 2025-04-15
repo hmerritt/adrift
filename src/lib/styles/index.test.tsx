@@ -2,9 +2,9 @@ import * as stylex from "@stylexjs/stylex";
 import { cleanStyle, getStyle, render, selectTestId } from "tests";
 import { describe, expect, test } from "vitest";
 
-import { colors } from "lib/styles/colors.stylex";
-import { shadowFn, shadows } from "lib/styles/shadows.stylex";
-import { variables } from "lib/styles/variables.stylex";
+import { colors } from "../../lib/styles/colors.stylex";
+import { shadowFn, shadows } from "../../lib/styles/shadows.stylex";
+import { variables } from "../../lib/styles/variables.stylex";
 
 /**
  * Mini mock component to test StyleX styles are being compiled correctly.
