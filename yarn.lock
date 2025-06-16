@@ -4065,18 +4065,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylexjs/babel-plugin@npm:0.13.1":
-  version: 0.13.1
-  resolution: "@stylexjs/babel-plugin@npm:0.13.1"
+"@stylexjs/babel-plugin@npm:0.12.0":
+  version: 0.12.0
+  resolution: "@stylexjs/babel-plugin@npm:0.12.0"
   dependencies:
     "@babel/core": "npm:^7.26.8"
     "@babel/helper-module-imports": "npm:^7.25.9"
     "@babel/traverse": "npm:^7.26.8"
     "@babel/types": "npm:^7.26.8"
     "@dual-bundle/import-meta-resolve": "npm:^4.1.0"
-    "@stylexjs/stylex": "npm:0.13.1"
-    postcss-value-parser: "npm:^4.1.0"
-  checksum: 10/3feb870cd33b8d4e6e07f52466b8df3f6ba403fd34ce678dc8a911dbf0571719171db60f292038c9d4e437cd28ce14077f82f2776b4f24546d00a80b5e866c0b
+    "@stylexjs/shared": "npm:0.12.0"
+    "@stylexjs/stylex": "npm:0.12.0"
+  checksum: 10/1a82010358f463b82a6c254b71cd3f3f28e4f4c01db3b83cc67e83aec2de14821c3d75510331fda025870581cc9efb5b00b2262ef615f1e073a6371a32709f41
   languageName: node
   linkType: hard
 
@@ -4095,13 +4095,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylexjs/eslint-plugin@npm:0.13.1":
-  version: 0.13.1
-  resolution: "@stylexjs/eslint-plugin@npm:0.13.1"
+"@stylexjs/eslint-plugin@npm:0.12.0":
+  version: 0.12.0
+  resolution: "@stylexjs/eslint-plugin@npm:0.12.0"
   dependencies:
     css-shorthand-expand: "npm:^1.2.0"
     micromatch: "npm:^4.0.5"
-  checksum: 10/8b433543ba2b311a5d1335a3e1a20fb624bbe525385c6c5620532f774b5a9adf983f914ff348a539c61785a3bd20c5612f7fd97e388a5210e5a72188a497b49c
+  checksum: 10/dec4f8428792cc578378423f21ad9ff6834bf65eaa0332b041dab02c29c97cde3e94133771f6623a788e5376aa2d54d2b779f2974bbfdddef8220b5359826658
+  languageName: node
+  linkType: hard
+
+"@stylexjs/shared@npm:0.12.0":
+  version: 0.12.0
+  resolution: "@stylexjs/shared@npm:0.12.0"
+  dependencies:
+    postcss-value-parser: "npm:^4.1.0"
+  checksum: 10/6798c7fbbce91f21b6204eed19b1b80530604b7761a2ade9935c33203024cd270c7905c0fda4bae3de43a465d6340cbc89fcf6ad6bbbcd3a5d84d76950eb3478
   languageName: node
   linkType: hard
 
@@ -4123,14 +4132,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylexjs/stylex@npm:0.13.1":
-  version: 0.13.1
-  resolution: "@stylexjs/stylex@npm:0.13.1"
+"@stylexjs/stylex@npm:0.12.0":
+  version: 0.12.0
+  resolution: "@stylexjs/stylex@npm:0.12.0"
   dependencies:
     css-mediaquery: "npm:^0.1.2"
     invariant: "npm:^2.2.4"
     styleq: "npm:0.2.1"
-  checksum: 10/05c86df4f9bf6ac09d42305cbb0f9866721d284d2e3fe34b9a9bb0eb5518d041dbe73d0de122ee9cab341a3c9be65614aeec997099f5d71473a92ea1e9f94193
+  checksum: 10/65477794bf46fc0774e21180bae3b4ee8c16bfa063581b6783a674f3039895018f655b5360130f97488c8bda0fe18cd557fc9fd98192d22cf1349c611b522aac
   languageName: node
   linkType: hard
 
@@ -5031,9 +5040,9 @@ __metadata:
     "@eslint/js": "npm:9.29.0"
     "@playwright/test": "npm:1.53.0"
     "@rollup/pluginutils": "npm:5.1.4"
-    "@stylexjs/babel-plugin": "npm:0.13.1"
-    "@stylexjs/eslint-plugin": "npm:0.13.1"
-    "@stylexjs/stylex": "npm:0.13.1"
+    "@stylexjs/babel-plugin": "npm:0.12.0"
+    "@stylexjs/eslint-plugin": "npm:0.12.0"
+    "@stylexjs/stylex": "npm:0.12.0"
     "@tanstack/react-router": "npm:1.121.16"
     "@tanstack/react-router-devtools": "npm:1.121.16"
     "@tanstack/react-store": "npm:0.7.1"
