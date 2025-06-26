@@ -30,7 +30,7 @@ export const createTestRouter = (element: any) => {
 	const router = createRouter({
 		routeTree: rootRoute.addChildren([componentRoute]),
 		history: createHashHistory(),
-		defaultPendingMinMs: 0,
+		defaultPendingMinMs: 0
 	});
 
 	return router;
