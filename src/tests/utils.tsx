@@ -29,7 +29,8 @@ export const createTestRouter = (element: any) => {
 
 	const router = createRouter({
 		routeTree: rootRoute.addChildren([componentRoute]),
-		history: createHashHistory()
+		history: createHashHistory(),
+		defaultPendingMinMs: 0,
 	});
 
 	return router;
