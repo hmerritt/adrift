@@ -146,24 +146,24 @@ export const NoiseImg = ({
 
 const styles = stylex.create({
 	canvasStyle: {
+		height: "100%",
+		left: 0,
+		pointerEvents: "none",
 		position: "absolute",
 		top: 0,
-		left: 0,
-		width: "100%",
-		height: "100%",
-		zIndex: 10,
 		userSelect: "none",
-		pointerEvents: "none"
+		width: "100%",
+		zIndex: 10
 	},
 	noiseImg: {
 		position: "relative"
 	},
 	noiseImgChildren: {
+		height: "100%",
+		left: 0,
 		position: "absolute",
 		top: 0,
-		left: 0,
-		width: "100%",
-		height: "100%"
+		width: "100%"
 	},
 	noiseImgChildrenAbove: {
 		zIndex: 20

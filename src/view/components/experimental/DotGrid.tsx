@@ -239,9 +239,9 @@ export const DotGrid: React.FC<DotGridProps> = ({
 
 const styles = stylex.create({
 	dotGrid: {
-		position: "absolute",
 		display: "block",
-		inset: 0
+		inset: 0,
+		position: "absolute"
 	},
 	dotGridFixed: {
 		position: "fixed"

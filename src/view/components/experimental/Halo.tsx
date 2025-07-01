@@ -133,7 +133,7 @@ const styles = stylex.create({
 		padding: "1px"
 	},
 	haloChild: {
-		borderRadius: "7px",
-		backgroundColor: "white"
+		backgroundColor: "white",
+		borderRadius: "7px"
 	}
 });

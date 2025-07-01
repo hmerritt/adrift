@@ -212,11 +212,11 @@ export const Ripple = ({
 
 const styles = stylex.create({
 	ripple: {
-		position: "relative",
 		cursor: "pointer",
 		overflow: "hidden",
-		willChange: "background-color",
-		transition: "200ms background-color"
+		position: "relative",
+		transition: "200ms background-color",
+		willChange: "background-color"
 	},
 	rippleHover: {
 		backgroundColor: "#f5f5f5" // @TODO: theme me

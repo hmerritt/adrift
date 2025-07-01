@@ -88,38 +88,38 @@ export const FrostedGlass: React.FC<FrostedGlassProps> = ({
 };
 
 const styles = stylex.create({
+	column: {
+		flexDirection: "column"
+	},
 	frostedGlass: {
 		position: "relative",
 		zIndex: 1
-	},
-	paneContainer: {
-		position: "absolute",
-		zIndex: -2,
-		inset: 0,
-		display: "flex",
-		alignItems: "stretch",
-		width: "100%",
-		height: "100%"
-	},
-	pane: {
-		flex: "1",
-		backdropFilter: "blur(8px)",
-		background: `linear-gradient(
-			to right,
-			rgba(255, 255, 255, 0.2),
-			rgba(255, 255, 255, 0.1)
-		)`
-	},
-	row: {
-		flexDirection: "row"
-	},
-	column: {
-		flexDirection: "column"
 	},
 	fullHeight: {
 		height: "100%"
 	},
 	fullWidth: {
 		width: "100%"
+	},
+	pane: {
+		backdropFilter: "blur(8px)",
+		background: `linear-gradient(
+			to right,
+			rgba(255, 255, 255, 0.2),
+			rgba(255, 255, 255, 0.1)
+		)`,
+		flex: "1"
+	},
+	paneContainer: {
+		alignItems: "stretch",
+		display: "flex",
+		height: "100%",
+		inset: 0,
+		position: "absolute",
+		width: "100%",
+		zIndex: -2
+	},
+	row: {
+		flexDirection: "row"
 	}
 });

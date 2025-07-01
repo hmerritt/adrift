@@ -2,14 +2,14 @@ import * as stylex from "@stylexjs/stylex";
 
 const backgroundSweep = stylex.keyframes({
 	"0%": { backgroundPosition: "0% 50%" },
-	"50%": { backgroundPosition: "100% 50%" },
-	"100%": { backgroundPosition: "0% 50%" }
+	"100%": { backgroundPosition: "0% 50%" },
+	"50%": { backgroundPosition: "100% 50%" }
 });
 
 const dash = stylex.keyframes({
 	"0%": { strokeDashoffset: "187" },
-	"50%": { strokeDashoffset: "46.75", transform: "rotate(135deg)" },
-	"100%": { strokeDashoffset: "187", transform: "rotate(450deg)" }
+	"100%": { strokeDashoffset: "187", transform: "rotate(450deg)" },
+	"50%": { strokeDashoffset: "46.75", transform: "rotate(135deg)" }
 });
 
 const rotator = stylex.keyframes({

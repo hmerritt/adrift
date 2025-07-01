@@ -54,53 +54,53 @@ export const WindowControls: FC<WindowControlsProps> = ({
 };
 
 const styles = stylex.create({
-	controls: {
-		position: "relative",
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		gap: "1rem",
-		// eslint-disable-next-line @stylexjs/valid-styles
-		"--runtime-draggable": "drag"
-	},
 	controlMac: {
-		cursor: "pointer",
-		width: "1.4rem",
-		height: "1.4rem",
-		borderRadius: "100%",
-		display: "flex",
 		alignItems: "center",
-		justifyContent: "center"
+		borderRadius: "100%",
+		cursor: "pointer",
+		display: "flex",
+		height: "1.4rem",
+		justifyContent: "center",
+		width: "1.4rem"
+	},
+	controlMacClose: {
+		backgroundColor: "#fc5753",
+		borderColor: "#df4744",
+		borderStyle: "solid",
+		borderWidth: "0.1rem"
+	},
+	controlMacMaximize: {
+		backgroundColor: "#33c748",
+		borderColor: "#27aa35",
+		// This button is sometimes gray ??!!
+		// backgroundColor: "#ded8dc",
+		// border: "0.1rem solid #cac4c8"
+		borderStyle: "solid",
+		borderWidth: "0.1rem"
+	},
+	controlMacMinimize: {
+		backgroundColor: "#fdbc40",
+		borderColor: "#de9f34",
+		borderStyle: "solid",
+		borderWidth: "0.1rem"
 	},
 	controlMacSvg: {
+		height: "1.1rem",
 		opacity: {
 			default: 0,
 			":hover": 1
 		},
-		width: "1.1rem",
-		height: "1.1rem",
-		transition: "opacity 150ms ease-in-out"
+		transition: "opacity 150ms ease-in-out",
+		width: "1.1rem"
 	},
-	controlMacClose: {
-		backgroundColor: "#fc5753",
-		borderWidth: "0.1rem",
-		borderStyle: "solid",
-		borderColor: "#df4744"
-	},
-	controlMacMinimize: {
-		backgroundColor: "#fdbc40",
-		borderWidth: "0.1rem",
-		borderStyle: "solid",
-		borderColor: "#de9f34"
-	},
-	controlMacMaximize: {
-		backgroundColor: "#33c748",
-		borderWidth: "0.1rem",
-		borderStyle: "solid",
-		borderColor: "#27aa35"
-		// This button is sometimes gray ??!!
-		// backgroundColor: "#ded8dc",
-		// border: "0.1rem solid #cac4c8"
+	controls: {
+		// eslint-disable-next-line @stylexjs/valid-styles
+		"--runtime-draggable": "drag",
+		alignItems: "center",
+		display: "flex",
+		flexDirection: "row",
+		gap: "1rem",
+		justifyContent: "center",
+		position: "relative"
 	}
 });

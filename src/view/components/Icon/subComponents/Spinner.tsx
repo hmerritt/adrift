@@ -25,19 +25,19 @@ export const Spinner = memo(({ sx, ...props }: IconSvgProps) => (
 ));
 
 const styles = stylex.create({
-	spinner: {
-		animationName: keyframes.rotator,
-		animationDuration: "1.4s",
-		animationTimingFunction: "linear",
-		animationIterationCount: "infinite"
-	},
 	path: {
-		strokeDashoffset: 0,
-		strokeDasharray: "187",
-		transformOrigin: "center",
-		animationName: keyframes.dash,
 		animationDuration: "1.4s",
+		animationIterationCount: "infinite",
+		animationName: keyframes.dash,
 		animationTimingFunction: "ease-in-out",
-		animationIterationCount: "infinite"
+		strokeDasharray: "187",
+		strokeDashoffset: 0,
+		transformOrigin: "center"
+	},
+	spinner: {
+		animationDuration: "1.4s",
+		animationIterationCount: "infinite",
+		animationName: keyframes.rotator,
+		animationTimingFunction: "linear"
 	}
 });

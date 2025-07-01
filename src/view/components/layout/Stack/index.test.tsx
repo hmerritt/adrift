@@ -88,11 +88,11 @@ const stackStyles = {
 };
 
 const customStyles = stylex.create({
+	border: { borderColor: "red", borderStyle: "solid", borderWidth: "1px" },
 	override: {
 		backgroundColor: "blue",
 		padding: "10px"
-	},
-	border: { borderWidth: "1px", borderStyle: "solid", borderColor: "red" }
+	}
 });
 
 describe("Stack component", () => {

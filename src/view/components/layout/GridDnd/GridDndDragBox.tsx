@@ -31,14 +31,14 @@ export const GridDndDragBox = ({
 
 const styles = stylex.create({
 	gridDragbox: {
-		display: "table",
-		position: "relative",
-		width: "100%",
-		height: "100%",
+		borderColor: "#ededed", // @TODO theme
 		borderRadius: "0.8rem", // @TODO theme
-		borderWidth: "0.1rem", // @TODO theme
 		borderStyle: "dashed", // @TODO theme
-		borderColor: "#ededed" // @TODO theme
+		borderWidth: "0.1rem", // @TODO theme
+		display: "table",
+		height: "100%",
+		position: "relative",
+		width: "100%"
 	}
 
 	// Hide all children.

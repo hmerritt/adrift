@@ -48,14 +48,14 @@ export const Grid = ({
 };
 
 const styles = stylex.create({
+	center: {
+		justifyContent: "center"
+	},
 	grid: (s: { gridTemplateColumns: string; gutter: number }) => ({
 		position: "relative",
 		display: "grid",
 		width: "100%",
 		gridGap: s.gutter,
 		gridTemplateColumns: `${s.gridTemplateColumns}`
-	}),
-	center: {
-		justifyContent: "center"
-	}
+	})
 });

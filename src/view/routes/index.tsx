@@ -66,28 +66,28 @@ export function IndexRoute() {
 }
 
 const styles = stylex.create({
-	pictureFrame: {
-		position: "relative",
-		width: "700px",
-		height: "350px",
-		margin: "auto",
-		display: "flex",
-		overflow: "hidden",
-		alignItems: "center",
-		flexDirection: "column",
-		justifyContent: "center"
-	},
 	header: {
-		textTransform: "lowercase",
-		fontStyle: "italic",
+		color: "#bee3f8",
 		fontSize: "10rem",
+		fontStyle: "italic",
 		fontWeight: "bold",
-		color: "#bee3f8"
+		textTransform: "lowercase"
+	},
+	pictureFrame: {
+		alignItems: "center",
+		display: "flex",
+		flexDirection: "column",
+		height: "350px",
+		justifyContent: "center",
+		margin: "auto",
+		overflow: "hidden",
+		position: "relative",
+		width: "700px"
 	},
 	subtitle: {
-		opacity: 0.8,
-		padding: "1rem",
 		fontSize: "1.5rem",
-		fontStyle: "italic"
+		fontStyle: "italic",
+		opacity: 0.8,
+		padding: "1rem"
 	}
 });

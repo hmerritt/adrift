@@ -71,17 +71,17 @@ export function NotFoundRoute() {
 
 const styles = stylex.create({
 	fullScreen: {
-		display: "flex",
 		alignItems: "center",
-		justifyContent: "center",
-		height: "100vh"
-	},
-	titleGlass: {
-		padding: "2.5rem"
+		display: "flex",
+		height: "100vh",
+		justifyContent: "center"
 	},
 	title: {
 		fontSize: "2rem",
 		textAlign: "center",
 		zIndex: 10
+	},
+	titleGlass: {
+		padding: "2.5rem"
 	}
 });

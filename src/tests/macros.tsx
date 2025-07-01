@@ -5,15 +5,15 @@ import { describe, expect, test } from "vitest";
 import { render } from "./render";
 
 const styles = stylex.create({
-	test: {
-		backgroundColor: "rgb(0, 0, 255)",
-		padding: "1rem"
-	},
+	border: { borderColor: "red", borderStyle: "solid", borderWidth: "1px" },
 	override: {
 		backgroundColor: "blue",
 		padding: "10px"
 	},
-	border: { borderWidth: "1px", borderStyle: "solid", borderColor: "red" }
+	test: {
+		backgroundColor: "rgb(0, 0, 255)",
+		padding: "1rem"
+	}
 });
 
 /**

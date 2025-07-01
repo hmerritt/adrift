@@ -65,36 +65,36 @@ const waveStates = [
 ];
 
 const styles = stylex.create({
-	waveContainer: {
-		position: "absolute",
-		top: 0,
-		bottom: 0,
-		left: 0,
-		right: 0,
-		zIndex: -1,
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "flex-end"
-		/* transform: rotate(180deg); */
+	fullWidth: {
+		width: "100%"
 	},
 	wave: {
-		width: "100%",
+		flexShrink: 1,
 		height: "auto",
-		flexShrink: 1
+		width: "100%"
+	},
+	waveContainer: {
+		bottom: 0,
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-end",
+		/* transform: rotate(180deg); */
+		left: 0,
+		position: "absolute",
+		right: 0,
+		top: 0,
+		zIndex: -1
+	},
+	waveFill: {
+		backgroundColor: "rgb(226.8333333333, 242.8666666667, 251.9666666667)",
+		height: "30vh",
+		marginTop: "-0.5rem",
+		transition: "all 100ms ease 0s",
+		width: "100%"
 	},
 	wavePath: {
 		fill: "rgb(226.8333333333, 242.8666666667, 251.9666666667)",
 		transformOrigin: "0px 0px",
 		transition: "all 800ms ease 0s"
-	},
-	waveFill: {
-		width: "100%",
-		height: "30vh",
-		marginTop: "-0.5rem",
-		transition: "all 100ms ease 0s",
-		backgroundColor: "rgb(226.8333333333, 242.8666666667, 251.9666666667)"
-	},
-	fullWidth: {
-		width: "100%"
 	}
 });

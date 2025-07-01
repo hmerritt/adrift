@@ -40,21 +40,21 @@ function TestStylesRoute() {
 
 const styles = stylex.create({
 	container: {
-		maxWidth: "567px",
 		marginLeft: "auto",
 		marginRight: "auto",
+		maxWidth: "567px",
 		transition: "all, 80ms, ease"
 	},
 	shadow: {
 		boxShadow: shadows.test2
 	},
-	variable: {
-		width: variables.test1
+	subTitle: {
+		color: colors.test2
 	},
 	title: {
 		color: colors.test1
 	},
-	subTitle: {
-		color: colors.test2
+	variable: {
+		width: variables.test1
 	}
 });
