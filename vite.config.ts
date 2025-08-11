@@ -1,5 +1,5 @@
 import styleXPlugin from "@stylexjs/babel-plugin";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
@@ -68,7 +68,7 @@ export default defineConfig({
 			useCSSLayers: true,
 			useRemForFontSize: true
 		}),
-		TanStackRouterVite({
+		tanstackRouter({
 			routesDirectory: "src/view/routes"
 		}),
 		injectManifest({
