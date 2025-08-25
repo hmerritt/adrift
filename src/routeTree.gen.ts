@@ -12,7 +12,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './view/routes/__root'
 import { Route as IndexRouteImport } from './view/routes/index'
-import { Route as TestsStackRouteImport } from './view/routes/tests/stack'
 
 const UserLazyRouteImport = createFileRoute('/user')()
 const UserUserIdLazyRouteImport = createFileRoute('/user/$userId')()
@@ -42,23 +41,16 @@ const TestsStyleLazyRoute = TestsStyleLazyRouteImport.update({
 } as any).lazy(() =>
   import('./view/routes/tests/style.lazy').then((d) => d.Route),
 )
-const TestsStackRoute = TestsStackRouteImport.update({
-  id: '/tests/stack',
-  path: '/tests/stack',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/user': typeof UserLazyRouteWithChildren
-  '/tests/stack': typeof TestsStackRoute
   '/tests/style': typeof TestsStyleLazyRoute
   '/user/$userId': typeof UserUserIdLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/user': typeof UserLazyRouteWithChildren
-  '/tests/stack': typeof TestsStackRoute
   '/tests/style': typeof TestsStyleLazyRoute
   '/user/$userId': typeof UserUserIdLazyRoute
 }
@@ -66,28 +58,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/user': typeof UserLazyRouteWithChildren
-  '/tests/stack': typeof TestsStackRoute
   '/tests/style': typeof TestsStyleLazyRoute
   '/user/$userId': typeof UserUserIdLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/user' | '/tests/stack' | '/tests/style' | '/user/$userId'
+  fullPaths: '/' | '/user' | '/tests/style' | '/user/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/user' | '/tests/stack' | '/tests/style' | '/user/$userId'
-  id:
-    | '__root__'
-    | '/'
-    | '/user'
-    | '/tests/stack'
-    | '/tests/style'
-    | '/user/$userId'
+  to: '/' | '/user' | '/tests/style' | '/user/$userId'
+  id: '__root__' | '/' | '/user' | '/tests/style' | '/user/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UserLazyRoute: typeof UserLazyRouteWithChildren
-  TestsStackRoute: typeof TestsStackRoute
   TestsStyleLazyRoute: typeof TestsStyleLazyRoute
 }
 
@@ -121,13 +105,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestsStyleLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tests/stack': {
-      id: '/tests/stack'
-      path: '/tests/stack'
-      fullPath: '/tests/stack'
-      preLoaderRoute: typeof TestsStackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -146,7 +123,6 @@ const UserLazyRouteWithChildren = UserLazyRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UserLazyRoute: UserLazyRouteWithChildren,
-  TestsStackRoute: TestsStackRoute,
   TestsStyleLazyRoute: TestsStyleLazyRoute,
 }
 export const routeTree = rootRouteImport
