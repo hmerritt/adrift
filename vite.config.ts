@@ -1,10 +1,9 @@
-import styleXPlugin from "@stylexjs/babel-plugin";
+import eslint from "@nabla/vite-plugin-eslint";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
-import eslint from "vite-plugin-eslint";
-import styleX from "vite-plugin-stylex";
+import stylex from "unplugin-stylex/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
 
@@ -35,38 +34,22 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		eslint(),
+		eslint({ eslintOptions: { stats: true } }),
 		tsconfigPaths(),
 		react({
 			babel: {
-				plugins: [
-					"babel-plugin-react-compiler",
-					// StyleX Babel is only required for tests
-					...(isTest
-						? [
-								[
-									styleXPlugin,
-									{
-										aliases,
-										dev: isDev || isTest,
-										test: false,
-										// Required for CSS variable support
-										unstable_moduleResolution: {
-											type: "commonJS",
-											rootDir: __dirname
-										}
-									}
-								]
-							]
-						: [])
-				]
+				plugins: ["babel-plugin-react-compiler"]
 			}
 		}),
-		styleX({
-			aliases,
-			test: false,
-			useCSSLayers: true,
-			useRemForFontSize: true
+		stylex({
+			dev: isDev,
+			stylex: {
+				aliases,
+				useCSSLayers: true,
+				genConditionalClasses: false,
+				treeshakeCompensation: false,
+				runtimeInjection: isTest // isDev
+			}
 		}),
 		tanstackRouter({
 			routesDirectory: "src/view/routes"
