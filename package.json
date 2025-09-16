@@ -8,7 +8,7 @@
 	"scripts": {
 		"build": "tsc && tsx bootstrap vite build",
 		"dev": "yarn start",
-		"lint": "tsc",
+		"lint": "tsc && eslint",
 		"preview": "tsc && tsx bootstrap vite preview",
 		"start": "tsx bootstrap vite",
 		"test": "tsx bootstrap vitest run",
