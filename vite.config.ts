@@ -56,22 +56,24 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		eslint({ eslintOptions: { stats: true } }),
 		tsconfigPaths(),
+		eslint({ eslintOptions: { concurrency: "auto", stats: true } }),
 		react({
 			babel: {
 				plugins: ["babel-plugin-react-compiler"]
 			}
 		}),
 		stylex({
-			fileName: "assets/stylex.css",
 			aliases,
 			dev: isDev,
 			debug: isDev,
 			test: isTest,
 			useCSSLayers: true,
+			// rewriteAliases: false,
 			runtimeInjection: isDev,
-			treeshakeCompensation: true,
+			// treeshakeCompensation: false,
+			// enableMinifiedKeys: isProd,
+			fileName: "assets/stylex-[hash].css",
 			unstable_moduleResolution: {
 				type: "commonJS",
 				rootDir: path.join(__dirname, "src")
