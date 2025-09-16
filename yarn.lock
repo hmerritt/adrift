@@ -146,7 +146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.28.4, @babel/core@npm:^7.27.1":
+"@babel/core@npm:7.28.4":
   version: 7.28.4
   resolution: "@babel/core@npm:7.28.4"
   dependencies:
@@ -1482,7 +1482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-flow@npm:^7.27.1":
+"@babel/plugin-syntax-flow@npm:^7.26.0":
   version: 7.27.1
   resolution: "@babel/plugin-syntax-flow@npm:7.27.1"
   dependencies:
@@ -1537,7 +1537,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-jsx@npm:^7.27.1":
+"@babel/plugin-syntax-jsx@npm:^7.25.9, @babel/plugin-syntax-jsx@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/plugin-syntax-jsx@npm:7.27.1"
   dependencies:
@@ -1636,7 +1636,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-typescript@npm:^7.27.1":
+"@babel/plugin-syntax-typescript@npm:^7.25.9, @babel/plugin-syntax-typescript@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/plugin-syntax-typescript@npm:7.27.1"
   dependencies:
@@ -3735,7 +3735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:5.3.0, @rollup/pluginutils@npm:^5.1.4":
+"@rollup/pluginutils@npm:5.3.0":
   version: 5.3.0
   resolution: "@rollup/pluginutils@npm:5.3.0"
   dependencies:
@@ -4076,18 +4076,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylexjs/babel-plugin@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@stylexjs/babel-plugin@npm:0.12.0"
+"@stylexjs/babel-plugin@npm:0.15.4":
+  version: 0.15.4
+  resolution: "@stylexjs/babel-plugin@npm:0.15.4"
   dependencies:
     "@babel/core": "npm:^7.26.8"
     "@babel/helper-module-imports": "npm:^7.25.9"
     "@babel/traverse": "npm:^7.26.8"
     "@babel/types": "npm:^7.26.8"
     "@dual-bundle/import-meta-resolve": "npm:^4.1.0"
-    "@stylexjs/shared": "npm:0.12.0"
-    "@stylexjs/stylex": "npm:0.12.0"
-  checksum: 10/1a82010358f463b82a6c254b71cd3f3f28e4f4c01db3b83cc67e83aec2de14821c3d75510331fda025870581cc9efb5b00b2262ef615f1e073a6371a32709f41
+    "@stylexjs/stylex": "npm:0.15.4"
+    postcss-value-parser: "npm:^4.1.0"
+  checksum: 10/7d15d158232c136d6c3ee21cd8d8640db76196cfe7990792c757a4c83daac048121600a1a05a1ece4876fa43434e4f3166cad765406c3893de59172253a977a7
   languageName: node
   linkType: hard
 
@@ -4101,23 +4101,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylexjs/shared@npm:0.12.0":
-  version: 0.12.0
-  resolution: "@stylexjs/shared@npm:0.12.0"
+"@stylexjs/rollup-plugin@npm:^0.15.4":
+  version: 0.15.4
+  resolution: "@stylexjs/rollup-plugin@npm:0.15.4"
   dependencies:
-    postcss-value-parser: "npm:^4.1.0"
-  checksum: 10/6798c7fbbce91f21b6204eed19b1b80530604b7761a2ade9935c33203024cd270c7905c0fda4bae3de43a465d6340cbc89fcf6ad6bbbcd3a5d84d76950eb3478
-  languageName: node
-  linkType: hard
-
-"@stylexjs/stylex@npm:0.12.0":
-  version: 0.12.0
-  resolution: "@stylexjs/stylex@npm:0.12.0"
-  dependencies:
-    css-mediaquery: "npm:^0.1.2"
-    invariant: "npm:^2.2.4"
-    styleq: "npm:0.2.1"
-  checksum: 10/65477794bf46fc0774e21180bae3b4ee8c16bfa063581b6783a674f3039895018f655b5360130f97488c8bda0fe18cd557fc9fd98192d22cf1349c611b522aac
+    "@babel/core": "npm:^7.26.8"
+    "@babel/plugin-syntax-flow": "npm:^7.26.0"
+    "@babel/plugin-syntax-jsx": "npm:^7.25.9"
+    "@babel/plugin-syntax-typescript": "npm:^7.25.9"
+    "@stylexjs/babel-plugin": "npm:0.15.4"
+    lightningcss: "npm:^1.29.1"
+  checksum: 10/f65ddb77fe4a4fa1106a845613c44b5b8ef4b68922d4bc9f79f241bf77900bf2cc852095dbd38e380cfa8f583f8a5fca7569db56261b495b659976b500f38e08
   languageName: node
   linkType: hard
 
@@ -4561,6 +4555,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/html-minifier-terser@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@types/html-minifier-terser@npm:7.0.2"
+  checksum: 10/312d9285b034538fc8c851d99b5cc47f83e802f0dccc1be4adf10d4ee881d92d14f97ca1862313a827b844a7f71db6ab80198d7741f1747a9bcf7de77181ce40
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.15":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -4617,15 +4618,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.19.2"
   checksum: 10/11604a47adf383892394a59a339136b2746a71addf4a3b13f661d23b6e81e8a4f3b35e69dbcffc94698368e5ab5ec056a43a86c87eff00b1b8ea8cfcbfe641df
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^24.0.15":
-  version: 24.5.0
-  resolution: "@types/node@npm:24.5.0"
-  dependencies:
-    undici-types: "npm:~7.12.0"
-  checksum: 10/d9fb6541d526a0f9e5f44866b9eed59a9621a506ff660ae6d52b49f0f3c007ce46384eed2f40ee03348e9e3dc848e296131adb94b85b9cf224d57acb3bd71268
   languageName: node
   linkType: hard
 
@@ -4857,7 +4849,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/coverage-v8@npm:3.2.4, @vitest/coverage-v8@npm:^3.2.4":
+"@vitest/coverage-v8@npm:3.2.4":
   version: 3.2.4
   resolution: "@vitest/coverage-v8@npm:3.2.4"
   dependencies:
@@ -5049,6 +5041,7 @@ __metadata:
     "@playwright/test": "npm:1.55.0"
     "@rollup/pluginutils": "npm:5.3.0"
     "@stylexjs/eslint-plugin": "npm:0.15.4"
+    "@stylexjs/rollup-plugin": "npm:^0.15.4"
     "@stylexjs/stylex": "npm:0.15.4"
     "@tanstack/react-router": "npm:1.131.44"
     "@tanstack/react-router-devtools": "npm:1.131.44"
@@ -5095,9 +5088,9 @@ __metadata:
     tsx: "npm:4.20.5"
     typescript: "npm:5.9.2"
     typescript-eslint: "npm:8.44.0"
-    unplugin-stylex: "npm:^0.5.4"
     vite: "npm:7.1.5"
     vite-bundle-visualizer: "npm:1.2.1"
+    vite-plugin-minify: "npm:^2.1.0"
     vite-tsconfig-paths: "npm:5.1.4"
     vitest: "npm:3.2.4"
     workbox-build: "npm:7.3.0"
@@ -5680,6 +5673,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"camel-case@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "camel-case@npm:4.1.2"
+  dependencies:
+    pascal-case: "npm:^3.1.2"
+    tslib: "npm:^2.0.3"
+  checksum: 10/bcbd25cd253b3cbc69be3f535750137dbf2beb70f093bdc575f73f800acc8443d34fd52ab8f0a2413c34f1e8203139ffc88428d8863e4dfe530cfb257a379ad6
+  languageName: node
+  linkType: hard
+
 "caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001663":
   version: 1.0.30001737
   resolution: "caniuse-lite@npm:1.0.30001737"
@@ -5754,6 +5757,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clean-css@npm:~5.3.2":
+  version: 5.3.3
+  resolution: "clean-css@npm:5.3.3"
+  dependencies:
+    source-map: "npm:~0.6.0"
+  checksum: 10/2db1ae37b384c8ff0a06a12bfa80f56cc02b4abcaaf340db98c0ae88a61dd67c856653fd8135ace6eb0ec13aeab3089c425d2e4238d2a2ad6b6917e6ccc74729
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -5808,6 +5820,13 @@ __metadata:
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: 10/b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
+  languageName: node
+  linkType: hard
+
+"commander@npm:^10.0.0":
+  version: 10.0.1
+  resolution: "commander@npm:10.0.1"
+  checksum: 10/8799faa84a30da985802e661cc9856adfaee324d4b138413013ef7f087e8d7924b144c30a1f1405475f0909f467665cd9e1ce13270a2f41b141dab0b7a58f3fb
   languageName: node
   linkType: hard
 
@@ -6146,6 +6165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"detect-libc@npm:^2.0.3":
+  version: 2.1.0
+  resolution: "detect-libc@npm:2.1.0"
+  checksum: 10/698e0c1a3721742bbda88cda62d925e4bfe5827a761403d2246e5eb2535660601ea04e79fbdfbb9f290d851bbf227239ca514f8149b89cd320f1660fae1b9042
+  languageName: node
+  linkType: hard
+
 "diff@npm:^8.0.2":
   version: 8.0.2
   resolution: "diff@npm:8.0.2"
@@ -6173,6 +6199,16 @@ __metadata:
   version: 0.6.3
   resolution: "dom-accessibility-api@npm:0.6.3"
   checksum: 10/83d3371f8226487fbad36e160d44f1d9017fb26d46faba6a06fcad15f34633fc827b8c3e99d49f71d5f3253d866e2131826866fd0a3c86626f8eccfc361881ff
+  languageName: node
+  linkType: hard
+
+"dot-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "dot-case@npm:3.0.4"
+  dependencies:
+    no-case: "npm:^3.0.4"
+    tslib: "npm:^2.0.3"
+  checksum: 10/a65e3519414856df0228b9f645332f974f2bf5433370f544a681122eab59e66038fc3349b4be1cdc47152779dac71a5864f1ccda2f745e767c46e9c6543b1169
   languageName: node
   linkType: hard
 
@@ -6239,6 +6275,13 @@ __metadata:
   dependencies:
     iconv-lite: "npm:^0.6.2"
   checksum: 10/bb98632f8ffa823996e508ce6a58ffcf5856330fde839ae42c9e1f436cc3b5cc651d4aeae72222916545428e54fd0f6aa8862fd8d25bdbcc4589f1e3f3715e7f
+  languageName: node
+  linkType: hard
+
+"entities@npm:^4.4.0":
+  version: 4.5.0
+  resolution: "entities@npm:4.5.0"
+  checksum: 10/ede2a35c9bce1aeccd055a1b445d41c75a14a2bb1cd22e242f20cf04d236cdcd7f9c859eb83f76885327bfae0c25bf03303665ee1ce3d47c5927b98b0e3e3d48
   languageName: node
   linkType: hard
 
@@ -7687,6 +7730,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"html-minifier-terser@npm:^7.2.0":
+  version: 7.2.0
+  resolution: "html-minifier-terser@npm:7.2.0"
+  dependencies:
+    camel-case: "npm:^4.1.2"
+    clean-css: "npm:~5.3.2"
+    commander: "npm:^10.0.0"
+    entities: "npm:^4.4.0"
+    param-case: "npm:^3.0.4"
+    relateurl: "npm:^0.2.7"
+    terser: "npm:^5.15.1"
+  bin:
+    html-minifier-terser: cli.js
+  checksum: 10/7320095dbf08c361b45e855bd840d1d21fe86326afee775503594163532ebaaed9bb1c9dc98232b03c169dc24b56f30c294d559bca0cade59f9c950a1992db82
+  languageName: node
+  linkType: hard
+
 "http-cache-semantics@npm:^4.1.1":
   version: 4.1.1
   resolution: "http-cache-semantics@npm:4.1.1"
@@ -8580,6 +8640,116 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lightningcss-darwin-arm64@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-darwin-arm64@npm:1.30.1"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-darwin-x64@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-darwin-x64@npm:1.30.1"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-freebsd-x64@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-freebsd-x64@npm:1.30.1"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm-gnueabihf@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-linux-arm-gnueabihf@npm:1.30.1"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-gnu@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-linux-arm64-gnu@npm:1.30.1"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-musl@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-linux-arm64-musl@npm:1.30.1"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-gnu@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-linux-x64-gnu@npm:1.30.1"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-musl@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-linux-x64-musl@npm:1.30.1"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-arm64-msvc@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-win32-arm64-msvc@npm:1.30.1"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-x64-msvc@npm:1.30.1":
+  version: 1.30.1
+  resolution: "lightningcss-win32-x64-msvc@npm:1.30.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss@npm:^1.29.1":
+  version: 1.30.1
+  resolution: "lightningcss@npm:1.30.1"
+  dependencies:
+    detect-libc: "npm:^2.0.3"
+    lightningcss-darwin-arm64: "npm:1.30.1"
+    lightningcss-darwin-x64: "npm:1.30.1"
+    lightningcss-freebsd-x64: "npm:1.30.1"
+    lightningcss-linux-arm-gnueabihf: "npm:1.30.1"
+    lightningcss-linux-arm64-gnu: "npm:1.30.1"
+    lightningcss-linux-arm64-musl: "npm:1.30.1"
+    lightningcss-linux-x64-gnu: "npm:1.30.1"
+    lightningcss-linux-x64-musl: "npm:1.30.1"
+    lightningcss-win32-arm64-msvc: "npm:1.30.1"
+    lightningcss-win32-x64-msvc: "npm:1.30.1"
+  dependenciesMeta:
+    lightningcss-darwin-arm64:
+      optional: true
+    lightningcss-darwin-x64:
+      optional: true
+    lightningcss-freebsd-x64:
+      optional: true
+    lightningcss-linux-arm-gnueabihf:
+      optional: true
+    lightningcss-linux-arm64-gnu:
+      optional: true
+    lightningcss-linux-arm64-musl:
+      optional: true
+    lightningcss-linux-x64-gnu:
+      optional: true
+    lightningcss-linux-x64-musl:
+      optional: true
+    lightningcss-win32-arm64-msvc:
+      optional: true
+    lightningcss-win32-x64-msvc:
+      optional: true
+  checksum: 10/6c921135216cc498dfcb87e35dffe8432e99306cbd58009c598b1daf20c81cc14535abbd4c1066e5d1faf4080ed44a2995e8ecc343633db4897a2d041b76fb05
+  languageName: node
+  linkType: hard
+
 "locate-path@npm:^6.0.0":
   version: 6.0.0
   resolution: "locate-path@npm:6.0.0"
@@ -8648,6 +8818,15 @@ __metadata:
   version: 3.1.4
   resolution: "loupe@npm:3.1.4"
   checksum: 10/06ab1893731f167f2ce71f464a8a68372dc4cb807ecae20f9b844660c93813a298ca76bcd747ba6568b057af725ea63f0034ba3140c8f1d1fbb482d797e593ef
+  languageName: node
+  linkType: hard
+
+"lower-case@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "lower-case@npm:2.0.2"
+  dependencies:
+    tslib: "npm:^2.0.3"
+  checksum: 10/83a0a5f159ad7614bee8bf976b96275f3954335a84fad2696927f609ddae902802c4f3312d86668722e668bef41400254807e1d3a7f2e8c3eede79691aa1f010
   languageName: node
   linkType: hard
 
@@ -8990,6 +9169,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"no-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "no-case@npm:3.0.4"
+  dependencies:
+    lower-case: "npm:^2.0.2"
+    tslib: "npm:^2.0.3"
+  checksum: 10/0b2ebc113dfcf737d48dde49cfebf3ad2d82a8c3188e7100c6f375e30eafbef9e9124aadc3becef237b042fd5eb0aad2fd78669c20972d045bbe7fea8ba0be5c
+  languageName: node
+  linkType: hard
+
 "node-gyp@npm:latest":
   version: 10.0.1
   resolution: "node-gyp@npm:10.0.1"
@@ -9222,12 +9411,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"param-case@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "param-case@npm:3.0.4"
+  dependencies:
+    dot-case: "npm:^3.0.4"
+    tslib: "npm:^2.0.3"
+  checksum: 10/b34227fd0f794e078776eb3aa6247442056cb47761e9cd2c4c881c86d84c64205f6a56ef0d70b41ee7d77da02c3f4ed2f88e3896a8fefe08bdfb4deca037c687
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
   dependencies:
     callsites: "npm:^3.0.0"
   checksum: 10/6ba8b255145cae9470cf5551eb74be2d22281587af787a2626683a6c20fbb464978784661478dd2a3f1dad74d1e802d403e1b03c1a31fab310259eec8ac560ff
+  languageName: node
+  linkType: hard
+
+"pascal-case@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "pascal-case@npm:3.1.2"
+  dependencies:
+    no-case: "npm:^3.0.4"
+    tslib: "npm:^2.0.3"
+  checksum: 10/ba98bfd595fc91ef3d30f4243b1aee2f6ec41c53b4546bfa3039487c367abaa182471dcfc830a1f9e1a0df00c14a370514fa2b3a1aacc68b15a460c31116873e
   languageName: node
   linkType: hard
 
@@ -9771,6 +9980,13 @@ __metadata:
   bin:
     regjsparser: bin/parser
   checksum: 10/be7757ef76e1db10bf6996001d1021048b5fb12f5cb470a99b8cf7f3ff943f0f0e2291c0dcdbb418b458ddc4ac10e48680a822b69ef487a0284c8b6b77beddc3
+  languageName: node
+  linkType: hard
+
+"relateurl@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "relateurl@npm:0.2.7"
+  checksum: 10/f5d6ba58f2a5d5076389090600c243a0ba7072bcf347490a09e4241e2427ccdb260b4e22cea7be4f1fcd3c2bf05908b1e0d0bc9605e3199d4ecf37af1d5681fa
   languageName: node
   linkType: hard
 
@@ -10498,7 +10714,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.1":
+"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.0, source-map@npm:~0.6.1":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 10/59ef7462f1c29d502b3057e822cdbdae0b0e565302c4dd1a95e11e793d8d9d62006cdc10e0fd99163ca33ff2071360cf50ee13f90440806e7ed57d81cba2f7ff
@@ -10871,6 +11087,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"terser@npm:^5.15.1":
+  version: 5.44.0
+  resolution: "terser@npm:5.44.0"
+  dependencies:
+    "@jridgewell/source-map": "npm:^0.3.3"
+    acorn: "npm:^8.15.0"
+    commander: "npm:^2.20.0"
+    source-map-support: "npm:~0.5.20"
+  bin:
+    terser: bin/terser
+  checksum: 10/e094a905016b00dd665a71f47311826618ea67f2d9f5aec37834114f9d27ed0de47e18a4b3bc2421b274bbf3028ac2b082e2d20f0e3b9f24d912ea126c9da4bf
+  languageName: node
+  linkType: hard
+
 "terser@npm:^5.17.4":
   version: 5.30.4
   resolution: "terser@npm:5.30.4"
@@ -11034,7 +11264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.1":
+"tslib@npm:^2.0.1, tslib@npm:^2.0.3":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
@@ -11344,13 +11574,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.12.0":
-  version: 7.12.0
-  resolution: "undici-types@npm:7.12.0"
-  checksum: 10/4a0f927c98828f76fb0d64f356e36e5ac6e074ae4c7bec08d6de8bc36b7cf08ae27a3518fa8eb703f51c1a675241e2d07359bbce63f5575299148a270cea7e43
-  languageName: node
-  linkType: hard
-
 "unicode-canonical-property-names-ecmascript@npm:^2.0.0":
   version: 2.0.0
   resolution: "unicode-canonical-property-names-ecmascript@npm:2.0.0"
@@ -11416,25 +11639,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unplugin-stylex@npm:^0.5.4":
-  version: 0.5.4
-  resolution: "unplugin-stylex@npm:0.5.4"
-  dependencies:
-    "@babel/core": "npm:^7.27.1"
-    "@babel/plugin-syntax-flow": "npm:^7.27.1"
-    "@babel/plugin-syntax-jsx": "npm:^7.27.1"
-    "@babel/plugin-syntax-typescript": "npm:^7.27.1"
-    "@rollup/pluginutils": "npm:^5.1.4"
-    "@stylexjs/babel-plugin": "npm:^0.12.0"
-    "@types/node": "npm:^24.0.15"
-    "@vitest/coverage-v8": "npm:^3.2.4"
-    unplugin: "npm:^1.16.1"
-  peerDependencies:
-    "@stylexjs/stylex": 0.x
-  checksum: 10/7109ca7ee0e9ecadbe389ce096a598bfb2950724bd3e7fb37d5dd157f668b35e0289a9451a11f7b5c88f0766003299a4e01aea8638b6792f8d2a52cbea0bc276
-  languageName: node
-  linkType: hard
-
 "unplugin@npm:2.1.0":
   version: 2.1.0
   resolution: "unplugin@npm:2.1.0"
@@ -11442,16 +11646,6 @@ __metadata:
     acorn: "npm:^8.14.0"
     webpack-virtual-modules: "npm:^0.6.2"
   checksum: 10/b01041839c25ff5b0997677e00ffe8d98aa532443833968d652c0165eab3159702c3c3d1237afa58db35af5ccf25dd0a05782d78b7c22000742797e382362bcd
-  languageName: node
-  linkType: hard
-
-"unplugin@npm:^1.16.1":
-  version: 1.16.1
-  resolution: "unplugin@npm:1.16.1"
-  dependencies:
-    acorn: "npm:^8.14.0"
-    webpack-virtual-modules: "npm:^0.6.2"
-  checksum: 10/4b46d7d2a63d334a45111ba57a266b3f8993ef12a72b77d7b31ffc455e8a9bef9c0e37ea463eb409dbf7ccec0b9868aeb845dd42c690d9288e4b8ac2d90fbefd
   languageName: node
   linkType: hard
 
@@ -11553,6 +11747,18 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 10/343244ecabbab3b6e1a3065dabaeefa269965a7a7c54652d4b7a7207ee82185e887af97268c61755dcb2dd6a6ce5d9e114400cbd694229f38523e935703cc62f
+  languageName: node
+  linkType: hard
+
+"vite-plugin-minify@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "vite-plugin-minify@npm:2.1.0"
+  dependencies:
+    "@types/html-minifier-terser": "npm:^7.0.2"
+    html-minifier-terser: "npm:^7.2.0"
+  peerDependencies:
+    vite: ">=5"
+  checksum: 10/c823a80dc6071f2403a0c6dfe761c9339196a68c6d9f3894345364a699c79762c150d94145717955b6529b8c86b262d9df199c5d5b92c240c2f005a39733516e
   languageName: node
   linkType: hard
 
