@@ -1,5 +1,5 @@
 import eslint from "@nabla/vite-plugin-eslint";
-import stylexRollupPlugin from "@stylexjs/rollup-plugin";
+import stylex from "@stylexjs/rollup-plugin";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -9,7 +9,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
 
 const isProd = process.env.NODE_ENV === "production";
-const isDev = process.env.NODE_ENV === "development";
+const isDev = !isProd;
 const isTest = process.env.NODE_ENV === "test";
 
 const aliases = {
@@ -54,62 +54,21 @@ export default defineConfig({
 				api: "modern-compiler"
 			}
 		}
-		// postcss: {
-		// 	plugins: [
-		// 		stylexPostcss({
-		// 			useCSSLayers: true,
-		// 			include: ["./src/**/*.{js,jsx,ts,tsx}"]
-		// 		}),
-		// 		autoprefixer()
-		// 	]
-		// }
 	},
 	plugins: [
 		eslint({ eslintOptions: { stats: true } }),
 		tsconfigPaths(),
-		// stylex({
-		// 	dev: isDev,
-		// 	stylex: {
-		// 		filename: "stylex.css",
-		// 		aliases,
-		// 		useCSSLayers: true,
-		// 		genConditionalClasses: true,
-		// 		treeshakeCompensation: true,
-		// 		runtimeInjection: isDev, // isDev,
-		// 		unstable_moduleResolution: {
-		// 			type: "commonJS",
-		// 			rootDir: __dirname
-		// 		}
-		// 	}
-		// }),
 		react({
 			babel: {
-				plugins: [
-					"babel-plugin-react-compiler"
-					// [
-					// 	"@stylexjs/babel-plugin",
-					// 	{
-					// 		aliases,
-					// 		dev: isDev,
-					// 		test: isTest,
-					// 		runtimeInjection: isDev,
-					// 		genConditionalClasses: true,
-					// 		treeshakeCompensation: true,
-					// 		unstable_moduleResolution: {
-					// 			type: "commonJS",
-					// 			rootDir: __dirname
-					// 		}
-					// 	}
-					// ]
-				]
+				plugins: ["babel-plugin-react-compiler"]
 			}
 		}),
-		stylexRollupPlugin({
+		stylex({
 			fileName: "assets/stylex.css",
-			dev: isDev,
-			test: isTest,
-			debug: isDev,
 			aliases,
+			dev: isDev,
+			debug: isDev,
+			test: isTest,
 			useCSSLayers: true,
 			runtimeInjection: isDev,
 			treeshakeCompensation: true,

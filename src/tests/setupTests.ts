@@ -4,7 +4,6 @@ import { afterEach, vi } from "vitest";
 
 import { injectLog } from "lib/global/log";
 import { injectGo } from "lib/global/utils";
-import "lib/styles/stylex.css";
 
 injectGo();
 injectLog();
