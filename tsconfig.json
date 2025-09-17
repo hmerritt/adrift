@@ -23,6 +23,7 @@
 		"src/**/*",
 		"scripts/**/*",
 		"tests-e2e/**/*",
+		"config/**/*",
 		"bootstrap.ts",
 		"playwright.config.ts",
 		"vite.config.ts"

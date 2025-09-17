@@ -5,6 +5,7 @@ import { plausibleBootstrap } from "lib/analytics";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import App from "./App";
+import "./lib/styles/stylex.css";
 
 plausibleBootstrap();
 

@@ -1,5 +1,4 @@
 import eslint from "@nabla/vite-plugin-eslint";
-import stylex from "@stylexjs/rollup-plugin";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -7,6 +6,8 @@ import { injectManifest } from "rollup-plugin-workbox";
 import { ViteMinifyPlugin as minify } from "vite-plugin-minify";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
+
+import styleX from "./config/stylex";
 
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
@@ -63,21 +64,12 @@ export default defineConfig({
 				plugins: ["babel-plugin-react-compiler"]
 			}
 		}),
-		stylex({
+		styleX({
 			aliases,
-			dev: isDev,
 			debug: isDev,
 			test: isTest,
-			useCSSLayers: true,
-			// rewriteAliases: false,
-			runtimeInjection: isDev,
-			// treeshakeCompensation: false,
-			// enableMinifiedKeys: isProd,
-			fileName: "assets/stylex-[hash].css",
-			unstable_moduleResolution: {
-				type: "commonJS",
-				rootDir: path.join(__dirname, "src")
-			}
+			runtimeInjection: isTest,
+			useCSSLayers: true
 		}),
 		tanstackRouter({
 			routesDirectory: "src/view/routes"
@@ -94,7 +86,7 @@ export default defineConfig({
 	],
 	test: {
 		globals: false,
-		environment: "happy-dom",
+		environment: "jsdom",
 		setupFiles: "./src/tests/setupTests.ts",
 		css: true, // @Note Parsing CSS is slow
 		exclude: exclude,
