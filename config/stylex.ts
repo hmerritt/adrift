@@ -16,10 +16,6 @@ const require = createRequire(import.meta.url);
 
 interface StyleXVitePluginOptions extends Partial<StyleXOptions> {
 	/**
-	 * @deprecated Use `importSources` instead. You should be able to just replace `stylexImports` with `importSources` in your config.
-	 */
-	stylexImports?: string[];
-	/**
 	 * A map of aliases to their respective paths.
 	 *
 	 * @example
@@ -57,7 +53,6 @@ const STYLEX_REPLACE_RULE = "@stylex stylesheet;";
 
 export default function styleXVitePlugin({
 	unstable_moduleResolution = { type: "commonJS", rootDir: process.cwd() },
-	stylexImports = ["@stylexjs/stylex"],
 	libraries: inputLibraries = [],
 	useCSSLayers = true,
 	...options
@@ -122,9 +117,9 @@ export default function styleXVitePlugin({
 		return stylexCSS;
 	}
 
-	const styleXRelatedModules = new Set([...stylexImports]);
+	const styleXRelatedModules = new Set(["@stylexjs/stylex"]);
 	const importSourcesSet = new Set<StyleXOptions["importSources"][number]>([
-		...stylexImports
+		"@stylexjs/stylex"
 	]);
 
 	if (options.importSources) {
