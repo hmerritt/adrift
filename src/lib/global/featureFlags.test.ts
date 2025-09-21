@@ -8,8 +8,8 @@ import { feature } from "./featureFlags";
 vi.mock("./env");
 
 const initialEnv = {
-	isProduction: false,
-	isDevelopment: false,
+	isProd: false,
+	isDev: false,
 	true: true,
 	trueInt: 1,
 	trueString: "truthy",
@@ -25,7 +25,7 @@ const initialEnv = {
 describe("In Production Environment", () => {
 	beforeEach(() => {
 		vi.mocked(envImport).envGet.mockImplementation((key: any) => {
-			return get({ ...initialEnv, isProduction: true }, key);
+			return get({ ...initialEnv, isProd: true }, key);
 		});
 	});
 
@@ -79,7 +79,7 @@ describe("In Production Environment", () => {
 describe("In Development Environment", () => {
 	beforeEach(() => {
 		vi.mocked(envImport).envGet.mockImplementation((key: any) => {
-			return get({ ...initialEnv, isDevelopment: true }, key);
+			return get({ ...initialEnv, isDev: true }, key);
 		});
 	});
 

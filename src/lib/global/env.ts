@@ -25,10 +25,10 @@ export const env = Object.freeze({
 		apiHost: import.meta.env.VITE_PLAUSIBLE_API_HOST
 	},
 	mode: import.meta.env.MODE,
-	isDevelopment: import.meta.env.MODE === "development",
-	isProduction: import.meta.env.MODE === "production",
-	isTesting: import.meta.env.MODE === "test",
-	isStaging: import.meta.env.MODE === "stage" || import.meta.env.MODE === "staging",
+	isDev: import.meta.env.MODE === "development",
+	isProd: import.meta.env.MODE === "production",
+	isTest: import.meta.env.MODE === "test",
+	isStage: import.meta.env.MODE === "stage" || import.meta.env.MODE === "staging",
 	// Features
 	timerIncrement: parseEnv(import.meta.env.VITE_FEATURE_INCREMENT),
 	someOtherFeature: false

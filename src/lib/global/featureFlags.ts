@@ -15,7 +15,7 @@ export const feature = (mode: FeatureFlags, options: FeatureOptions = {}): boole
 	// Bypass feature flag in dev mode if `alwaysShowOnDev` is true (unless explicitly set to false)
 	if (
 		alwaysShowOnDev &&
-		(envGet("isDevelopment") || envGet("isTesting")) &&
+		(envGet("isDev") || envGet("isTest")) &&
 		parseEnv(envGet(mode)) !== false
 	) {
 		return true;
