@@ -1,4 +1,3 @@
-import eslint from "@nabla/vite-plugin-eslint";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -58,7 +57,6 @@ export default defineConfig({
 	},
 	plugins: [
 		tsconfigPaths(),
-		eslint({ eslintOptions: { concurrency: "auto", stats: true } }),
 		react({
 			babel: {
 				plugins: ["babel-plugin-react-compiler"]
