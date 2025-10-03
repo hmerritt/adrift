@@ -1,3 +1,6 @@
+//
+// https://github.com/HorusGoul/vite-plugin-stylex
+//
 import * as babel from "@babel/core";
 // @ts-ignore
 import jsxSyntaxPlugin from "@babel/plugin-syntax-jsx";
