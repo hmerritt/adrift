@@ -146,7 +146,7 @@ describe("Stack component", () => {
 		expect($el).toHaveStyle(`gap: ${stackStyles.stack2.gap}`); // Default spacing
 
 		// Check custom styles are applied
-		expect($el).toHaveStyle("background-color: blue");
+		expect($el).toHaveStyle("background-color: rgb(0, 0, 255)");
 		expect($el).toHaveStyle("padding: 10px");
 	});
 
@@ -164,7 +164,7 @@ describe("Stack component", () => {
 		expect($el).toHaveStyle(`gap: ${stackStyles.stack5.gap}`);
 
 		// Check custom styles are applied and potentially override (though none conflict here)
-		expect($el).toHaveStyle("background-color: blue");
+		expect($el).toHaveStyle("background-color: rgb(0, 0, 255)");
 		expect($el).toHaveStyle("padding: 10px");
 	});
 

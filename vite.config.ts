@@ -65,7 +65,7 @@ export default defineConfig({
 		styleX({
 			aliases,
 			debug: isDev,
-			test: isTest, // Breaks CSS injection for some reason
+			test: false, // Breaks CSS injection for some reason
 			runtimeInjection: isTest,
 			useCSSLayers: true
 		}),

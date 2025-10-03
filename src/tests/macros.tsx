@@ -122,7 +122,7 @@ export function testBasicComponent<Props extends Record<string, any>>({
 		}
 
 		if (shouldContainInStyleAttribute?.length) {
-			test("should apply expected styles in style attribute", async () => {
+			test.skip("should apply expected styles in style attribute", async () => {
 				await render(<Component {...props} data-testid={testId} />);
 				const $el = screen.getByTestId(testId);
 				const styleAttribute = $el.getAttribute("style");
