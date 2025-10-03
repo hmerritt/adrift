@@ -16,12 +16,12 @@ export const versionString = () => {
 		versionString += ` (`;
 
 		// ENV (hide in production)
-		if (!env.isProduction) {
+		if (!env.isProd) {
 			versionString += `${env.mode || "unknown"} `;
 		}
 
 		// Branch name (hide in production)
-		if (!env.isProduction && env.gitBranch !== "master") {
+		if (!env.isProd && env.gitBranch !== "master") {
 			versionString += `${env.gitBranch || "unknown"}/`;
 		}
 

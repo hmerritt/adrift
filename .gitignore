@@ -40,6 +40,7 @@ vite.config.ts.timestamp*
 
 vite-app
 .million/
+.eslintcache
 
 # e2e playwright tests
 /test-results/

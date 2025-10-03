@@ -1,9 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
-import { colors } from "lib/styles/colors.stylex";
-import { shadowFn, shadows } from "lib/styles/shadows.stylex";
-import { variables } from "lib/styles/variables.stylex";
+import { colors } from "../../../lib/styles/colors.stylex";
+import { shadowFn, shadows } from "../../../lib/styles/shadows.stylex";
+import { variables } from "../../../lib/styles/variables.stylex";
 
 /**
  * Mini route to test StyleX styles are being compiled correctly.

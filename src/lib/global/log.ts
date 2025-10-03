@@ -156,7 +156,7 @@ const lognFn: LognCallable = (namespace: string, ...args: any[]) => {
  * Log in development only (`NODE_ENV !== "production"`)
  */
 const debugFn: LogCallable = (...args: any[]) => {
-	if (env.isProduction) return;
+	if (env.isProd) return;
 	_log($global.logStore.defaultNamespace, "log", ...args);
 };
 
@@ -166,7 +166,7 @@ const debugFn: LogCallable = (...args: any[]) => {
  * @example debugn("socket", "msg received") -> "[socket] msg recieved"
  */
 const debugnFn: LognCallable = (namespace: string, ...args: any[]) => {
-	if (env.isProduction) return;
+	if (env.isProd) return;
 	_log(namespace, "log", ...args);
 };
 

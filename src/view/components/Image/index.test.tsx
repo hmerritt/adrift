@@ -5,7 +5,7 @@ import { testBasicComponent } from "tests/macros";
 import { Image, ImageProps } from "./index";
 
 describe("Image component", () => {
-	(global as any).env = { isProduction: false };
+	(global as any).env = { isProd: false };
 
 	testBasicComponent<ImageProps>({
 		name: "(default)",

@@ -30,4 +30,5 @@ jobs:
             - run: yarn test:e2e:setup
             - run: yarn test:coverage
             - run: yarn test:e2e
+            - run: yarn lint
             - run: yarn build

@@ -103,7 +103,7 @@ const styles = stylex.create({
 	},
 	pane: {
 		backdropFilter: "blur(8px)",
-		background: `linear-gradient(
+		backgroundColor: `linear-gradient(
 			to right,
 			rgba(255, 255, 255, 0.2),
 			rgba(255, 255, 255, 0.1)

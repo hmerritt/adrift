@@ -34,6 +34,7 @@ test:
     script:
         - yarn test:coverage
         - unset CI
+        - yarn lint
         - yarn build
     coverage: /All\sfiles.*?\s+(\d+.\d+)/
 

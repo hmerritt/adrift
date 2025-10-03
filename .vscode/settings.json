@@ -9,13 +9,9 @@
 	"eslint.workingDirectories": ["src"],
 	"files.autoSave": "onFocusChange",
 	"files.exclude": {
-		"**/.git": false
+		"**/.git": true
 	},
 	"javascript.validate.enable": true,
 	"scss.format.spaceAroundSelectorSeparator": true,
-	"search.useIgnoreFiles": true,
-	"millionLint.theme": "million",
-	"millionLint.xrayMode": false,
-	"millionLint.disableAnnotations": false,
-	"millionLint.disableVscode": false
+	"search.useIgnoreFiles": true
 }

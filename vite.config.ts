@@ -1,15 +1,17 @@
-import styleXPlugin from "@stylexjs/babel-plugin";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
-import eslint from "vite-plugin-eslint";
-import styleX from "vite-plugin-stylex";
+import { ViteMinifyPlugin as minify } from "vite-plugin-minify";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
 
-const isDev = process.env.NODE_ENV !== "production";
+import styleX from "./config/stylex";
+
+const isProd = process.env.NODE_ENV === "production";
+const isDev = !isProd;
 const isTest = process.env.NODE_ENV === "test";
+
 const aliases = {
 	"lib/*": [path.join(__dirname, "src/lib/*")],
 	"state/*": [path.join(__dirname, "src/state/*")],
@@ -17,12 +19,31 @@ const aliases = {
 	"types/*": [path.join(__dirname, "src/types/*")],
 	"view/*": [path.join(__dirname, "src/view/*")]
 };
+const exclude = [
+	".cache",
+	".expo-shared",
+	".expo",
+	".git",
+	".github",
+	".husky",
+	".idea",
+	".next",
+	".tanstack",
+	".turbo",
+	".vscode",
+	".yarn",
+	"build",
+	"coverage",
+	"dist",
+	"node_modules",
+	"tests-e2e"
+];
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
 		sourcemap: isDev,
-		minify: !isDev
+		minify: isProd
 	},
 	define: {
 		"process.env": {}
@@ -35,38 +56,18 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		eslint(),
 		tsconfigPaths(),
 		react({
 			babel: {
-				plugins: [
-					"babel-plugin-react-compiler",
-					// StyleX Babel is only required for tests
-					...(isTest
-						? [
-								[
-									styleXPlugin,
-									{
-										aliases,
-										dev: isDev || isTest,
-										test: false,
-										// Required for CSS variable support
-										unstable_moduleResolution: {
-											type: "commonJS",
-											rootDir: __dirname
-										}
-									}
-								]
-							]
-						: [])
-				]
+				plugins: ["babel-plugin-react-compiler"]
 			}
 		}),
 		styleX({
 			aliases,
-			test: false,
-			useCSSLayers: true,
-			useRemForFontSize: true
+			debug: isDev,
+			test: false, // Breaks CSS injection for some reason
+			runtimeInjection: isTest,
+			useCSSLayers: true
 		}),
 		tanstackRouter({
 			routesDirectory: "src/view/routes"
@@ -76,21 +77,24 @@ export default defineConfig({
 			globDirectory: "dist",
 			swSrc: "src/service-worker.ts",
 			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
+		}),
+		minify({
+			minifyCSS: true
 		})
 	],
 	test: {
 		globals: false,
-		environment: "happy-dom",
+		environment: "jsdom",
 		setupFiles: "./src/tests/setupTests.ts",
 		css: true, // @Note Parsing CSS is slow
-		exclude: ["node_modules", "tests-e2e", "dist", ".idea", ".git", ".cache"],
+		exclude: exclude,
 		coverage: {
 			enabled: false,
 			provider: "v8"
 		},
 		benchmark: {
 			include: ["**/*.{bench,benchmark}.?(c|m)[jt]s?(x)"],
-			exclude: ["node_modules", "tests-e2e", "dist", ".idea", ".git", ".cache"]
+			exclude: exclude
 		},
 		// Debug
 		logHeapUsage: true
