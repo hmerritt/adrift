@@ -27,8 +27,8 @@ jobs:
                   key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
             - run: corepack enable && corepack prepare yarn@stable --activate
             - run: yarn install
-            - run: yarn test:e2e:setup
-            - run: yarn test:coverage
-            - run: yarn test:e2e
             - run: yarn lint
             - run: yarn build
+            - run: yarn test:coverage
+            - run: yarn test:e2e:setup
+            - run: yarn test:e2e

@@ -16,7 +16,7 @@ export const Route = createLazyFileRoute("/tests/style")({
 function TestStylesRoute() {
 	return (
 		<div
-			data-testid="StylesMock"
+			data-testid="container"
 			{...stylex.props(styles.container, styles.shadow, styles.variable)}
 		>
 			<h1

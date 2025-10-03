@@ -6,6 +6,8 @@ test.describe("StyleX theme on /tests/style", () => {
 	});
 
 	test("renders colors", async ({ page }) => {
+		await expect(page.getByTestId("container")).toBeVisible();
+
 		const title = page.getByTestId("title");
 		const subTitle = page.getByTestId("sub-title");
 
@@ -17,7 +19,7 @@ test.describe("StyleX theme on /tests/style", () => {
 	});
 
 	test("renders mixins", async ({ page }) => {
-		const container = page.getByTestId("StylesMock");
+		const container = page.getByTestId("container");
 
 		await expect(container).toHaveCSS("max-width", "567px");
 
@@ -30,7 +32,7 @@ test.describe("StyleX theme on /tests/style", () => {
 	});
 
 	test("renders shadows", async ({ page }) => {
-		const container = page.getByTestId("StylesMock");
+		const container = page.getByTestId("container");
 		const title = page.getByTestId("title");
 		const boxShadowElement = page.getByTestId("box-shadow");
 

@@ -46,6 +46,7 @@ test-e2e:
         - apk update && apk add git bash
         - yarn install
         - yarn test:e2e:setup
+        - yarn build
     script:
         - yarn test:e2e
 
