@@ -11,20 +11,20 @@ import globals from "globals";
 export default [
 	{
 		ignores: [
-			".tanstack",
-			".vscode",
-			".idea",
+			".expo-shared",
+			".expo",
 			".git",
 			".github",
 			".husky",
-			".turbo",
+			".idea",
 			".next",
-			".expo",
-			".expo-shared",
+			".tanstack",
+			".turbo",
+			".vscode",
 			".yarn",
-			"dist/*",
 			"build/*",
 			"coverage/*",
+			"dist/*",
 			"node_modules/*"
 		]
 	},

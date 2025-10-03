@@ -6,9 +6,10 @@ import * as babel from "@babel/core";
 import jsxSyntaxPlugin from "@babel/plugin-syntax-jsx";
 // @ts-ignore
 import typescriptSyntaxPlugin from "@babel/plugin-syntax-typescript";
+// @ts-ignore
 import stylexBabelPlugin, {
-	Rule,
-	Options as StyleXOptions
+	type Rule,
+	type Options as StyleXOptions
 } from "@stylexjs/babel-plugin";
 import crypto from "crypto";
 import { createRequire } from "module";
