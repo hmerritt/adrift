@@ -172,10 +172,7 @@ export function isProd(args = [] as string[]) {
 }
 
 export function isTest(args = [] as string[]) {
-	return (
-		args.length >= 1 &&
-		(args[0] === "vitest" || args[0] === "cosmos" || args[0] === "cosmos-export")
-	);
+	return args.length >= 1 && (args[0] === "vitest" || args[0] === "cosmos");
 }
 
 export function isDev(args = [] as string[]) {

@@ -1,3 +1,5 @@
 {
+	"exportPath": "dist-cosmos",
+	"globalImports": ["./src/lib/styles/stylex.css"],
 	"plugins": ["react-cosmos-plugin-vite"]
 }
