@@ -109,6 +109,17 @@ export type ShaderState = {
 	frameCount: number;
 };
 
+export const defaultShaderState: ShaderState = {
+	// Main Application State
+	gl: null,
+	program: null,
+	uniformLocations: {},
+	// Timing and animation
+	startTime: 0,
+	frameTime: 0,
+	frameCount: 0
+};
+
 /**
  * The main setup function.
  *

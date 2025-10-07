@@ -1,28 +1,27 @@
+import * as stylex from "@stylexjs/stylex";
 import { useEffect, useRef } from "react";
 
-import { type ShaderSourceProps, type ShaderState, fetchShader, setup } from "./webgl";
+import { type SxProp } from "lib/type-assertions";
 
-export type ShaderProps = {
-	source: ShaderSourceProps;
-};
+import {
+	type ShaderSourceProps,
+	type ShaderState,
+	defaultShaderState,
+	fetchShader,
+	setup
+} from "./webgl";
 
-const defaultState: ShaderState = {
-	// Main Application State
-	gl: null,
-	program: null,
-	uniformLocations: {},
-	// Timing and animation
-	startTime: 0,
-	frameTime: 0,
-	frameCount: 0
-};
+export type ShaderProps = React.JSX.IntrinsicElements["canvas"] &
+	SxProp & {
+		source: ShaderSourceProps;
+	};
 
 /**
  * Shader component
  */
-export const Shader = ({ source }: ShaderProps) => {
+export const Shader = ({ source, sx, ...canvasProps }: ShaderProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null);
-	const s = useRef<ShaderState>(defaultState);
+	const s = useRef<ShaderState>(defaultShaderState);
 
 	// On mount, fetch the shader and set up WebGL
 	useEffect(() => {
@@ -39,10 +38,10 @@ export const Shader = ({ source }: ShaderProps) => {
 				return;
 			}
 
-			s.current = defaultState; // Reset state on re-setup
+			s.current = defaultShaderState; // Reset state on re-setup
 			setup(mainImageShader, s.current, canvas.current);
 		})();
-	}, [canvas]);
+	}, [canvas, source.rawGLSL, source.url]);
 
-	return <canvas ref={canvas} />;
+	return <canvas {...canvasProps} ref={canvas} {...stylex.props(sx)} />;
 };
