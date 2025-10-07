@@ -2,6 +2,25 @@
 import { FRAGMENT_SHADER_TEMPLATE, VERTEX_SHADER_SOURCE } from "./glsl";
 
 /**
+ * Fetches GLSL shader code from a URL (does not check GLSL validity).
+ *
+ * @example
+ * fetchShader("https://samples.threepipe.org/shaders/tunnel-cylinders.glsl")
+ */
+export const fetchShader = async (url: string): Promise<string> => {
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		return await response.text();
+	} catch (error) {
+		logn.error("shader", "Failed to fetch shader:", error);
+		return "";
+	}
+};
+
+/**
  * Compiles a shader from source code.
  */
 const createShader = (
@@ -73,10 +92,12 @@ export type ShaderSourceProps =
 	| {
 			/** GLSL shader code to inject into the fragment shader template */
 			rawGLSL: string;
+			url?: string;
 	  }
 	| {
 			/** URL to fetch `glsl` shader code  */
 			url: string;
+			rawGLSL?: string;
 	  };
 
 export type ShaderState = {

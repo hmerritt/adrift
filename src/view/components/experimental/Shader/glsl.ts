@@ -42,6 +42,3 @@ export const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
         fragColor.a = 1.0;
     }
 `;
-
-// The default shader to fetch, same as in the original component.
-export const SHADER_URL = "https://samples.threepipe.org/shaders/tunnel-cylinders.glsl";
