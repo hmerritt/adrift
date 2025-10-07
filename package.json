@@ -17,6 +17,8 @@
 		"test:e2e:setup": "yarn playwright install --with-deps",
 		"test:e2e": "tsx bootstrap yarn playwright test",
 		"test:watch": "tsx bootstrap vitest watch --ui --api 9527",
+		"cosmos": "tsx bootstrap cosmos",
+		"cosmos:export": "tsx bootstrap cosmos-export",
 		"update": "yarn upgrade-interactive"
 	},
 	"dependencies": {
@@ -70,6 +72,8 @@
 		"globals": "16.4.0",
 		"jsdom": "27.0.0",
 		"prettier": "3.5.2",
+		"react-cosmos": "^7.0.0",
+		"react-cosmos-plugin-vite": "^7.0.0",
 		"react-scan": "0.4.3",
 		"rollup-plugin-workbox": "8.1.2",
 		"tsx": "4.20.6",

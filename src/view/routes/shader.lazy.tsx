@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 import { Stack } from "view/components";
-import { Shader } from "view/components/experimental/Shader";
+import { Shader } from "view/components/experimental";
 
 export const Route = createLazyFileRoute("/shader")({
 	component: ShaderComponent
@@ -26,13 +26,12 @@ function ShaderComponent() {
 					    }
 					    d += iTime * 0.5;
 
-					vec3 colorA = vec3(0.0, 0.4, 1); // Origin blue
-					vec3 colorB = vec3(.03, .03, .03); // Black
-					float t = cos(a) * 0.5 + 0.5;
-					vec3 col = mix(colorA, colorB, t);
+						vec3 colorA = vec3(0.0, 0.4, 1); // Blue
+						vec3 colorB = vec3(.03, .03, .03); // Black
+						float t = cos(a) * 0.5 + 0.5;
+						vec3 col = mix(colorA, colorB, t);
 
-					    //col = cos(col * cos(vec3(d, a, 2.5)) * 0.8 + 0.5);
-					    fragColor = vec4(col, 1);
+						fragColor = vec4(col, 1);
 					}`
 				}}
 			/>

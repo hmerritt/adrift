@@ -18,6 +18,8 @@ export type ShaderProps = React.JSX.IntrinsicElements["canvas"] &
 
 /**
  * Shader component
+ *
+ * Renders a basic image shader (buffers not supported yet).
  */
 export const Shader = ({ source, sx, ...canvasProps }: ShaderProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null);
