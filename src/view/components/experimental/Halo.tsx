@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import { Children, cloneElement, isValidElement, useEffect, useRef } from "react";
-import { isMobile } from "react-device-detect";
 
+import { isMobile } from "lib/device";
 import { useEventListener } from "lib/hooks";
 import { type SxProp } from "lib/type-assertions";
 
