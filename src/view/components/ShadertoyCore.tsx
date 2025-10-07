@@ -1,0 +1,273 @@
+// The default shader to fetch, same as in the original component.
+const SHADER_URL = "https://samples.threepipe.org/shaders/tunnel-cylinders.glsl";
+
+// region GLSL Code
+// This vertex shader simply renders a fullscreen triangle pair (a quad).
+const VERTEX_SHADER_SOURCE = `#version 300 es
+    // An attribute is an input to a vertex shader.
+    // In this case, it's the position of a vertex.
+    in vec2 a_position;
+
+    void main() {
+        // gl_Position is a special variable that holds the final position.
+        gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+`;
+
+// This template is identical to the original, providing the standard
+// Shadertoy uniform inputs and a main function that calls the fetched shader code.
+const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
+    precision highp float;
+
+    // The final output color of the fragment.
+    out vec4 fragColor;
+
+    // Uniforms (global variables passed from JavaScript to the shader)
+    uniform vec3 iResolution;
+    uniform float iTime;
+    uniform float iTimeDelta;
+    uniform int iFrame;
+    uniform vec4 iMouse;
+    uniform vec4 iDate;
+    uniform float iFrameRate;
+    // Note: iChannel uniforms are declared but not used in this example.
+    uniform sampler2D iChannel0;
+    uniform sampler2D iChannel1;
+    uniform sampler2D iChannel2;
+    uniform sampler2D iChannel3;
+
+    // --- ShaderToy Code Placeholder ---
+    // The fetched GLSL code will be injected here.
+    // It is expected to provide a 'mainImage' function.
+    {{mainImageShader}}
+
+    void main() {
+        // Call the 'mainImage' function from the injected code.
+        mainImage(fragColor, gl_FragCoord.xy);
+        fragColor.a = 1.0;
+    }
+`;
+// endregion
+
+// --- Main Application State ---
+let gl;
+let program;
+let uniformLocations;
+
+// State for timing and animation
+let startTime = 0;
+let lastFrameTime = 0;
+let frameCount = 0;
+
+// State for mouse input
+const mouse = {
+	position: { x: 0, y: 0 },
+	clickPosition: { x: 0, y: 0 },
+	isDown: false
+};
+
+// --- WebGL Helper Functions ---
+
+/**
+ * Compiles a shader from source code.
+ * @param {WebGL2RenderingContext} gl The WebGL context.
+ * @param {number} type The shader type (VERTEX_SHADER or FRAGMENT_SHADER).
+ * @param {string} source The GLSL source code.
+ * @returns {WebGLShader | null} The compiled shader or null on failure.
+ */
+function createShader(gl, type, source) {
+	const shader = gl.createShader(type);
+	gl.shaderSource(shader, source);
+	gl.compileShader(shader);
+	const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+	if (success) {
+		return shader;
+	}
+	console.error(`Failed to compile shader:`, gl.getShaderInfoLog(shader));
+	gl.deleteShader(shader);
+	return null;
+}
+
+/**
+ * Links a vertex and fragment shader into a WebGL program.
+ * @param {WebGL2RenderingContext} gl The WebGL context.
+ * @param {WebGLShader} vertexShader The compiled vertex shader.
+ * @param {WebGLShader} fragmentShader The compiled fragment shader.
+ * @returns {WebGLProgram | null} The linked program or null on failure.
+ */
+function createProgram(gl, vertexShader, fragmentShader) {
+	const program = gl.createProgram();
+	gl.attachShader(program, vertexShader);
+	gl.attachShader(program, fragmentShader);
+	gl.linkProgram(program);
+	const success = gl.getProgramParameter(program, gl.LINK_STATUS);
+	if (success) {
+		return program;
+	}
+	console.error(`Failed to link program:`, gl.getProgramInfoLog(program));
+	gl.deleteProgram(program);
+	return null;
+}
+
+/**
+ * Checks if the canvas needs to be resized and applies the new dimensions.
+ * @param {HTMLCanvasElement} canvas The canvas element.
+ * @returns {boolean} True if the canvas was resized.
+ */
+function resizeCanvasToDisplaySize(canvas) {
+	const displayWidth = canvas.clientWidth;
+	const displayHeight = canvas.clientHeight;
+
+	if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+		canvas.width = displayWidth;
+		canvas.height = displayHeight;
+		return true;
+	}
+	return false;
+}
+
+// --- Initialization and Render Loop ---
+
+/**
+ * The main setup function. Fetches the shader, compiles the program,
+ * sets up geometry, and attaches event listeners.
+ */
+async function setup() {
+	const canvas = document.getElementById("webgl-canvas");
+	gl = canvas.getContext("webgl2");
+	if (!gl) {
+		console.error("WebGL 2 not supported!");
+		return;
+	}
+
+	// 1. Fetch the external shader code
+	let mainImageShader;
+	try {
+		const response = await fetch(SHADER_URL);
+		if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+		mainImageShader = await response.text();
+	} catch (error) {
+		console.error("Failed to fetch shader:", error);
+		return;
+	}
+
+	// 2. Create the final fragment shader source
+	const fragmentShaderSource = FRAGMENT_SHADER_TEMPLATE.replace(
+		"{{mainImageShader}}",
+		mainImageShader
+	);
+
+	// 3. Compile shaders and link program
+	const vertexShader = createShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER_SOURCE);
+	const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+	program = createProgram(gl, vertexShader, fragmentShader);
+	if (!program) return;
+
+	// 4. Look up uniform locations
+	uniformLocations = {
+		iResolution: gl.getUniformLocation(program, "iResolution"),
+		iTime: gl.getUniformLocation(program, "iTime"),
+		iTimeDelta: gl.getUniformLocation(program, "iTimeDelta"),
+		iFrame: gl.getUniformLocation(program, "iFrame"),
+		iMouse: gl.getUniformLocation(program, "iMouse"),
+		iDate: gl.getUniformLocation(program, "iDate")
+	};
+
+	// 5. Set up geometry for a fullscreen quad
+	const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+	const positionBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+	const positions = [-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1];
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+	// 6. Set up Vertex Array Object (VAO)
+	const vao = gl.createVertexArray();
+	gl.bindVertexArray(vao);
+	gl.enableVertexAttribArray(positionAttributeLocation);
+	gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+	// 7. Setup event listeners for mouse input
+	canvas.addEventListener("pointermove", e => {
+		mouse.position.x = e.clientX;
+		mouse.position.y = canvas.height - e.clientY; // Invert Y for GL coords
+	});
+	canvas.addEventListener("pointerdown", e => {
+		mouse.isDown = true;
+		mouse.position.x = e.clientX;
+		mouse.position.y = canvas.height - e.clientY;
+		mouse.clickPosition.x = mouse.position.x;
+		mouse.clickPosition.y = mouse.position.y;
+	});
+	window.addEventListener("pointerup", () => {
+		mouse.isDown = false;
+	});
+
+	// 8. Start the render loop
+	startTime = performance.now();
+	lastFrameTime = startTime;
+	requestAnimationFrame(render);
+}
+
+/**
+ * The main render loop, called once per frame.
+ * @param {DOMHighResTimeStamp} now The current time from performance.now().
+ */
+function render(now) {
+	// Calculate time and delta
+	const elapsedTime = (now - startTime) / 1000;
+	const deltaTime = (now - lastFrameTime) / 1000;
+	lastFrameTime = now;
+	frameCount++;
+
+	// Handle window resizing
+	resizeCanvasToDisplaySize(gl.canvas);
+	gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+	// Clear the canvas (optional for a fullscreen shader)
+	gl.clearColor(0, 0, 0, 0);
+	gl.clear(gl.COLOR_BUFFER_BIT);
+
+	// Use our shader program
+	gl.useProgram(program);
+
+	// Update and set all uniforms
+	gl.uniform3f(
+		uniformLocations.iResolution,
+		gl.canvas.width,
+		gl.canvas.height,
+		1.0
+	);
+	gl.uniform1f(uniformLocations.iTime, elapsedTime);
+	gl.uniform1f(uniformLocations.iTimeDelta, deltaTime);
+	gl.uniform1i(uniformLocations.iFrame, frameCount);
+	gl.uniform4f(
+		uniformLocations.iMouse,
+		mouse.position.x,
+		mouse.position.y,
+		mouse.clickPosition.x * (mouse.isDown ? 1 : -1),
+		mouse.clickPosition.y * (mouse.isDown ? 1 : -1)
+	);
+
+	const date = new Date();
+	const seconds =
+		date.getHours() * 3600 +
+		date.getMinutes() * 60 +
+		date.getSeconds() +
+		date.getMilliseconds() / 1000;
+	gl.uniform4f(
+		uniformLocations.iDate,
+		date.getFullYear(),
+		date.getMonth(), // Note: Shadertoy month is 0-11, same as JS
+		date.getDate(),
+		seconds
+	);
+
+	// Draw the quad
+	gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+	// Request the next frame
+	requestAnimationFrame(render);
+}
+
+// Start the application
+setup();
