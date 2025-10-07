@@ -31,14 +31,14 @@ export const Route = createRootRouteWithContext()({
 
 function RootRoute() {
 	return (
-		<div>
+		<>
 			{/* Show a global spinner when the router is transitioning */}
 			<RouterSpinner />
 			{/* Render our first route match */}
 			<Outlet />
 			{/* Router dev tools */}
 			<TanStackRouterDevtools />
-		</div>
+		</>
 	);
 }
 
