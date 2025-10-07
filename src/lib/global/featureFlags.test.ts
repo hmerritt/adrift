@@ -1,5 +1,5 @@
 // sort-imports-ignore
-import { get } from "lodash-es";
+import { get } from "lib/type-guards";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import * as envImport from "./env";

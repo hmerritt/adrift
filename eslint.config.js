@@ -25,7 +25,8 @@ export default [
 			"build/*",
 			"coverage/*",
 			"dist/*",
-			"node_modules/*"
+			"node_modules/*",
+			"src/lib/device.ts"
 		]
 	},
 	js.configs.recommended,

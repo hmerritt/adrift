@@ -1,6 +1,5 @@
-import { get } from "lodash-es";
-
 import { DeepKeyofPaths } from "lib/type-assertions";
+import { get } from "lib/type-guards";
 
 import { parseEnv, setGlobalValue } from "./utils";
 
