@@ -4,7 +4,7 @@ import { useFixtureInput } from "react-cosmos/client";
 import { Stack } from "view/components";
 import { Shader } from "view/components/experimental/Shader";
 
-const ShaderGLSL = () => {
+const GLSL = () => {
 	const [rawGLSL] = useFixtureInput(
 		"rawGLSL",
 		`void mainImage(out vec4 fragColor, vec2 fragCoord) {
@@ -35,7 +35,7 @@ const ShaderGLSL = () => {
 	);
 };
 
-const ShaderURL = () => {
+const URL = () => {
 	const [url] = useFixtureInput(
 		"url",
 		"https://samples.threepipe.org/shaders/tunnel-cylinders.glsl"
@@ -48,7 +48,7 @@ const ShaderURL = () => {
 	);
 };
 
-export default { ShaderGLSL, ShaderURL };
+export default { GLSL, URL };
 
 const styles = stylex.create({
 	container: {
