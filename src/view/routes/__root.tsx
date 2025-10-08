@@ -30,7 +30,6 @@ function RootRoute() {
 			<Outlet />
 			{/* Router dev tools */}
 			<TanStackRouterDevtools />
-			<TanStackDevtools />
 		</>
 	);
 }
@@ -63,26 +62,6 @@ const TanStackRouterDevtools = feature("showDevTools", { alwaysShowOnDev: false 
 				default: res.TanStackRouterDevtools
 			}))
 		)
-	: () => null;
-
-const TanStackDevtools = feature("showDevTools", { alwaysShowOnDev: false })
-	? lazy(async () => {
-			const TanStackDevtools = (await import("@tanstack/react-devtools"))
-				.TanStackDevtools;
-			const pacerDevtoolsPlugin = (await import("@tanstack/react-pacer-devtools"))
-				.pacerDevtoolsPlugin;
-
-			return {
-				default: () => (
-					<TanStackDevtools
-						eventBusConfig={{
-							debug: false
-						}}
-						plugins={[pacerDevtoolsPlugin()]}
-					/>
-				)
-			};
-		})
 	: () => null;
 
 function RouterSpinner() {
