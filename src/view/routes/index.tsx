@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { colors } from "lib/styles/colors.stylex";
 import { shadowFn } from "lib/styles/shadows.stylex";
 
-import { DotGrid, FrostedGlass, Stack, Waves } from "view/components";
+import { DotGrid, FrostedGlass, Stack } from "view/components";
 
 export const Route = createFileRoute("/")({
 	component: IndexRoute
@@ -45,7 +45,6 @@ export function IndexRoute() {
 									Template react app with batteries included 🔋
 								</h4>
 							</FrostedGlass>
-							<Waves />
 						</div>
 					</FrostedGlass>
 				</div>

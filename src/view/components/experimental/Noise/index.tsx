@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import { type SxProp } from "lib/type-assertions";
 
-import { Image, ImageProps } from "../Image";
+import { Image, ImageProps } from "view/components";
 
 const canvasNoise = (
 	ctx: CanvasRenderingContext2D,

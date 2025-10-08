@@ -33,7 +33,7 @@ export type DotGridProps = React.JSX.IntrinsicElements["canvas"] &
 export const DotGrid: React.FC<DotGridProps> = ({
 	sx,
 	position = "absolute",
-	spacing = 40,
+	spacing: spacingProps = 40,
 	dotSize = 1,
 	damping = 0.45,
 	returnSpeed = 0.18,
@@ -87,6 +87,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		}[] = [];
 
 		// Initialize dots array
+		const spacing = Math.max(5, spacingProps); // Minimum spacing
 		const xySpacing = Math.round(spacing + spacing / 2);
 		for (let x = -xySpacing; x < canvas.width + xySpacing; x += spacing) {
 			for (let y = -xySpacing; y < canvas.height + xySpacing; y += spacing) {
@@ -148,7 +149,7 @@ export const DotGrid: React.FC<DotGridProps> = ({
 		draw();
 	}, [
 		refForMousePosition,
-		spacing,
+		spacingProps,
 		attractionBase,
 		maxAttraction,
 		returnSpeed,

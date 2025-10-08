@@ -50,10 +50,10 @@ export default () => {
 				position="fixed"
 				refForMousePosition="window"
 				reactToWindowResize
-				spacing={40}
-				damping={0.5}
-				returnSpeed={0.18}
-				attractionBase={1.025}
+				spacing={25}
+				damping={0.3}
+				returnSpeed={0.25}
+				attractionBase={1.009}
 				maxAttraction={0.8}
 			/>
 		</div>
