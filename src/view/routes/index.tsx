@@ -1,10 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { colors } from "lib/styles/colors.stylex";
 import { shadowFn } from "lib/styles/shadows.stylex";
 
-import { DotGrid, FrostedGlass, Stack } from "view/components";
+import { FrostedGlass, Shader } from "view/components";
 
 export const Route = createFileRoute("/")({
 	component: IndexRoute
@@ -12,81 +11,76 @@ export const Route = createFileRoute("/")({
 
 export function IndexRoute() {
 	return (
-		<>
-			<Stack spacing={15}>
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						position: "relative",
-						height: "70vh",
-						padding: "1rem 2rem",
-						zIndex: 1
-					}}
-				>
-					<FrostedGlass>
-						<div
-							{...stylex.props(
-								styles.pictureFrame,
-								shadowFn.boxBlock(colors.primary)
-							)}
-						>
-							<h1
-								{...stylex.props(
-									styles.header,
-									shadowFn.textBlock(colors.primary)
-								)}
-							>
-								Adrift
-							</h1>
-							<FrostedGlass>
-								<h4 {...stylex.props(styles.subtitle)}>
-									Template react app with batteries included 🔋
-								</h4>
-							</FrostedGlass>
-						</div>
-					</FrostedGlass>
-				</div>
-			</Stack>
+		<div {...stylex.props(styles.container)}>
+			<h1 {...stylex.props(styles.header, shadowFn.textBlock("#070707"))}>
+				Adrift
+			</h1>
+			<FrostedGlass>
+				<h4 {...stylex.props(styles.subtitle)}>
+					Template react app with batteries included 🔋
+				</h4>
+			</FrostedGlass>
+			<Shader
+				sx={styles.shader}
+				source={{
+					rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+						float mr = min(iResolution.x, iResolution.y);
+						vec2 uv = (fragCoord * 2.0 - iResolution.xy) / mr;
 
-			<DotGrid
-				position="fixed"
-				refForMousePosition="window"
-				reactToWindowResize
-				spacing={40}
-				damping={0.5}
-				returnSpeed={0.18}
-				attractionBase={1.025}
-				maxAttraction={0.8}
+						float d = -iTime * 0.8;
+						float a = 0.0;
+						for (float i = 0.0; i < 8.0; ++i) {
+							a += cos(i - d - a * uv.x);
+							d += sin(uv.y * i + a);
+						}
+						d += iTime * 0.5;
+
+						vec3 colorA = vec3(0.0, 0.4, 1); // Blue
+						vec3 colorB = vec3(.03, .03, .03); // Black
+						float t = cos(a) * 0.5 + 0.5;
+						vec3 col = mix(colorA, colorB, t);
+
+						fragColor = vec4(col, 1);
+					}`
+				}}
 			/>
-		</>
+		</div>
 	);
 }
 
 const styles = stylex.create({
+	container: {
+		display: "flex",
+		position: "fixed",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
+		alignItems: "center",
+		justifyContent: "center",
+		flexDirection: "column",
+		backgroundColor: "#000"
+	},
 	header: {
-		color: "#bee3f8",
+		color: "#fff",
 		fontSize: "10rem",
 		fontStyle: "italic",
 		fontWeight: "bold",
 		textTransform: "lowercase"
 	},
-	pictureFrame: {
-		alignItems: "center",
-		display: "flex",
-		flexDirection: "column",
-		height: "350px",
-		justifyContent: "center",
-		margin: "auto",
-		overflow: "hidden",
-		position: "relative",
-		width: "700px"
-	},
 	subtitle: {
+		color: "#fff",
 		fontSize: "1.5rem",
 		fontStyle: "italic",
 		opacity: 0.8,
 		padding: "1rem"
+	},
+	shader: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
+		zIndex: -1
 	}
 });

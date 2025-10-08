@@ -13,33 +13,13 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './view/routes/__root'
 import { Route as IndexRouteImport } from './view/routes/index'
 
-const UserLazyRouteImport = createFileRoute('/user')()
-const ShaderLazyRouteImport = createFileRoute('/shader')()
-const UserUserIdLazyRouteImport = createFileRoute('/user/$userId')()
 const TestsStyleLazyRouteImport = createFileRoute('/tests/style')()
 
-const UserLazyRoute = UserLazyRouteImport.update({
-  id: '/user',
-  path: '/user',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./view/routes/user.lazy').then((d) => d.Route))
-const ShaderLazyRoute = ShaderLazyRouteImport.update({
-  id: '/shader',
-  path: '/shader',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./view/routes/shader.lazy').then((d) => d.Route))
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserUserIdLazyRoute = UserUserIdLazyRouteImport.update({
-  id: '/$userId',
-  path: '/$userId',
-  getParentRoute: () => UserLazyRoute,
-} as any).lazy(() =>
-  import('./view/routes/user.$userId.lazy').then((d) => d.Route),
-)
 const TestsStyleLazyRoute = TestsStyleLazyRouteImport.update({
   id: '/tests/style',
   path: '/tests/style',
@@ -50,70 +30,38 @@ const TestsStyleLazyRoute = TestsStyleLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/shader': typeof ShaderLazyRoute
-  '/user': typeof UserLazyRouteWithChildren
   '/tests/style': typeof TestsStyleLazyRoute
-  '/user/$userId': typeof UserUserIdLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/shader': typeof ShaderLazyRoute
-  '/user': typeof UserLazyRouteWithChildren
   '/tests/style': typeof TestsStyleLazyRoute
-  '/user/$userId': typeof UserUserIdLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/shader': typeof ShaderLazyRoute
-  '/user': typeof UserLazyRouteWithChildren
   '/tests/style': typeof TestsStyleLazyRoute
-  '/user/$userId': typeof UserUserIdLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/shader' | '/user' | '/tests/style' | '/user/$userId'
+  fullPaths: '/' | '/tests/style'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/shader' | '/user' | '/tests/style' | '/user/$userId'
-  id: '__root__' | '/' | '/shader' | '/user' | '/tests/style' | '/user/$userId'
+  to: '/' | '/tests/style'
+  id: '__root__' | '/' | '/tests/style'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ShaderLazyRoute: typeof ShaderLazyRoute
-  UserLazyRoute: typeof UserLazyRouteWithChildren
   TestsStyleLazyRoute: typeof TestsStyleLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/user': {
-      id: '/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof UserLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shader': {
-      id: '/shader'
-      path: '/shader'
-      fullPath: '/shader'
-      preLoaderRoute: typeof ShaderLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/user/$userId': {
-      id: '/user/$userId'
-      path: '/$userId'
-      fullPath: '/user/$userId'
-      preLoaderRoute: typeof UserUserIdLazyRouteImport
-      parentRoute: typeof UserLazyRoute
     }
     '/tests/style': {
       id: '/tests/style'
@@ -125,22 +73,8 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface UserLazyRouteChildren {
-  UserUserIdLazyRoute: typeof UserUserIdLazyRoute
-}
-
-const UserLazyRouteChildren: UserLazyRouteChildren = {
-  UserUserIdLazyRoute: UserUserIdLazyRoute,
-}
-
-const UserLazyRouteWithChildren = UserLazyRoute._addFileChildren(
-  UserLazyRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ShaderLazyRoute: ShaderLazyRoute,
-  UserLazyRoute: UserLazyRouteWithChildren,
   TestsStyleLazyRoute: TestsStyleLazyRoute,
 }
 export const routeTree = rootRouteImport
