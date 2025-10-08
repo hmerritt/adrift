@@ -11,14 +11,6 @@ import { shadowFn } from "lib/styles/shadows.stylex";
 
 import { DotGrid, FrostedGlass, Icon, Stack } from "view/components";
 
-const TanStackRouterDevtools = feature("showDevTools", { alwaysShowOnDev: false })
-	? lazy(() =>
-			import("@tanstack/react-router-devtools").then((res) => ({
-				default: res.TanStackRouterDevtools
-			}))
-		)
-	: () => null;
-
 /**
  * `@tanstack/react-router` file-based routing.
  *
@@ -38,13 +30,9 @@ function RootRoute() {
 			<Outlet />
 			{/* Router dev tools */}
 			<TanStackRouterDevtools />
+			<TanStackDevtools />
 		</>
 	);
-}
-
-function RouterSpinner() {
-	const isLoading = useRouterState({ select: (s) => s.isLoading });
-	return isLoading ? <Icon name="Spinner" /> : null;
 }
 
 export function NotFoundRoute() {
@@ -67,6 +55,39 @@ export function NotFoundRoute() {
 			/>
 		</>
 	);
+}
+
+const TanStackRouterDevtools = feature("showDevTools", { alwaysShowOnDev: false })
+	? lazy(() =>
+			import("@tanstack/react-router-devtools").then((res) => ({
+				default: res.TanStackRouterDevtools
+			}))
+		)
+	: () => null;
+
+const TanStackDevtools = feature("showDevTools", { alwaysShowOnDev: false })
+	? lazy(async () => {
+			const TanStackDevtools = (await import("@tanstack/react-devtools"))
+				.TanStackDevtools;
+			const pacerDevtoolsPlugin = (await import("@tanstack/react-pacer-devtools"))
+				.pacerDevtoolsPlugin;
+
+			return {
+				default: () => (
+					<TanStackDevtools
+						eventBusConfig={{
+							debug: false
+						}}
+						plugins={[pacerDevtoolsPlugin()]}
+					/>
+				)
+			};
+		})
+	: () => null;
+
+function RouterSpinner() {
+	const isLoading = useRouterState({ select: (s) => s.isLoading });
+	return isLoading ? <Icon name="Spinner" /> : null;
 }
 
 const styles = stylex.create({
