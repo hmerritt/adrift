@@ -58,6 +58,7 @@ export const Noise = ({
 	reactToWindowResize = true
 }: NoiseProps) => {
 	const $canvas = useRef<HTMLCanvasElement>(null);
+	const loopIsRunning = useRef(true);
 
 	useEffect(() => {
 		const canvas = $canvas.current;
@@ -70,12 +71,12 @@ export const Noise = ({
 			window.addEventListener("resize", () => canvasResize(canvas, size));
 		}
 
-		const loopRunning = { current: true }; // Escape loop when unmount
+		loopIsRunning.current = true;
 		const fpsInterval = 1000 / framerate;
 		let then = Date.now();
 
-		(function loop() {
-			if (!canvas || !ctx || !loopRunning.current) return;
+		function loop() {
+			if (!canvas || !ctx || !loopIsRunning.current) return;
 			requestAnimationFrame(loop);
 
 			const now = Date.now();
@@ -84,10 +85,11 @@ export const Noise = ({
 				then = now - (elapsed % fpsInterval);
 				canvasNoise(ctx, size, alpha);
 			}
-		})();
+		}
+		loop();
 
 		return () => {
-			loopRunning.current = false;
+			loopIsRunning.current = false;
 			window.removeEventListener("resize", () => canvasResize(canvas, size));
 		};
 	}, [alpha, framerate, reactToWindowResize, size]);
