@@ -4955,6 +4955,8 @@ __metadata:
     prettier: "npm:3.5.2"
     react: "npm:19.2.0"
     react-cosmos: "npm:^7.0.0"
+    react-cosmos-plugin-boolean-input: "npm:^7.0.0"
+    react-cosmos-plugin-open-fixture: "npm:^7.0.0"
     react-cosmos-plugin-vite: "npm:^7.0.0"
     react-dom: "npm:19.2.0"
     react-scan: "npm:0.4.3"
@@ -10195,6 +10197,20 @@ __metadata:
     react-cosmos-core: "npm:^7.0.0"
     react-cosmos-renderer: "npm:^7.0.0"
   checksum: 10/068e9e891f461751b04adb42e95fa1dadd8f956e0c5988cfc065af9689f81338ef9d83f40b9a05ccd3b89f664257dea490e5b780ffff7b87876a1539dcefcfee
+  languageName: node
+  linkType: hard
+
+"react-cosmos-plugin-boolean-input@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "react-cosmos-plugin-boolean-input@npm:7.0.0"
+  checksum: 10/276dfdf21a0207ab278b1eb3feced20342e08c58951e9d3f62f300003a449653f631be919886e20a657800b574a61d98c259883723c2af814dcbf083de62dae5
+  languageName: node
+  linkType: hard
+
+"react-cosmos-plugin-open-fixture@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "react-cosmos-plugin-open-fixture@npm:7.0.0"
+  checksum: 10/47e836f01b53d71e62e9b605bf4fdb00dd3dff4c5383a108f11d55e0ba1d629703459b5a8122fbf61d245d267007a9756fec96f514b5ad42aa5ac3f9c1029107
   languageName: node
   linkType: hard
 
