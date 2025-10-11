@@ -43,7 +43,11 @@ const exclude = [
 export default defineConfig({
 	build: {
 		sourcemap: isDev,
-		minify: isProd
+		minify: isProd,
+		rollupOptions: {
+			// Bug in react-router-devtools? - this is required now:
+			external: ["solid-js", "solid-js/web"]
+		}
 	},
 	define: {
 		"process.env": {}
