@@ -29,7 +29,7 @@
 		"@tanstack/pacer": "0.15.4",
 		"@tanstack/react-router": "1.132.47",
 		"@tanstack/react-store": "0.8.0",
-		"@tanstack/router-plugin": "1.132.47",
+		"@tanstack/router-plugin": "1.132.56",
 		"@tanstack/store": "0.8.0",
 		"animejs": "4.2.2",
 		"dayjs": "1.11.18",
@@ -47,7 +47,7 @@
 		"@playwright/test": "1.56.0",
 		"@stylexjs/babel-plugin": "0.15.4",
 		"@stylexjs/eslint-plugin": "0.15.4",
-		"@tanstack/react-router-devtools": "1.132.50",
+		"@tanstack/react-router-devtools": "1.132.51",
 		"@testing-library/dom": "10.4.1",
 		"@testing-library/jest-dom": "6.9.1",
 		"@testing-library/react": "16.3.0",
@@ -55,9 +55,9 @@
 		"@testing-library/user-event": "14.6.1",
 		"@trivago/prettier-plugin-sort-imports": "5.2.2",
 		"@types/css": "0.0.38",
-		"@types/node": "22.18.9",
+		"@types/node": "22.18.10",
 		"@types/react": "19.2.2",
-		"@types/react-dom": "19.2.1",
+		"@types/react-dom": "19.2.2",
 		"@typescript-eslint/eslint-plugin": "8.46.0",
 		"@typescript-eslint/parser": "8.46.0",
 		"@vitejs/plugin-react": "5.0.4",
@@ -95,7 +95,6 @@
 		"workbox-routing": "7.3.0",
 		"workbox-strategies": "7.3.0"
 	},
-	"overrides": {},
 	"browserslist": {
 		"production": [
 			">5%",
