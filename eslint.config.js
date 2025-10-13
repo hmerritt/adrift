@@ -10,11 +10,6 @@ import globals from "globals";
 
 export default [
 	{
-		globals: {
-			document: true,
-			foo: true,
-			window: true
-		},
 		ignores: [
 			".expo-shared",
 			".expo",
@@ -48,7 +43,12 @@ export default [
 				tsconfigRootDir: import.meta.dirname,
 				project: ["./tsconfig.json"]
 			},
-			globals: globals.browser
+			globals: {
+				...globals.browser,
+				document: true,
+				foo: true,
+				window: true
+			}
 		},
 		plugins: {
 			"@stylexjs": stylex,
