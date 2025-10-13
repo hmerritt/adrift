@@ -1,6 +1,7 @@
 //
 // https://github.com/HorusGoul/vite-plugin-stylex
 //
+// @ts-ignore
 import * as babel from "@babel/core";
 // @ts-ignore
 import jsxSyntaxPlugin from "@babel/plugin-syntax-jsx";
@@ -296,7 +297,7 @@ export default function styleXVitePlugin({
 							})
 						].filter((plugin) => plugin !== null)
 					})
-					.catch((error) => {
+					.catch((error: any) => {
 						if (
 							error.message.includes(
 								"Only static values are allowed inside of a stylex.create() call."
