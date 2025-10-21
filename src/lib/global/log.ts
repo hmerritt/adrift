@@ -44,6 +44,13 @@ export class LogStore {
 
 export type LogStoreType = LogStore;
 
+export type LogLevels = 0 | 1 | 2 | 3 | 4;
+export type LogLevelOff = 0;
+export type LogLevelError = 1;
+export type LogLevelWarn = 2;
+export type LogLevelInfo = 3;
+export type LogLevelDebug = 4;
+
 enum ConsoleFunctions {
 	debug = "debug",
 	error = "error",
@@ -93,9 +100,26 @@ const timestampString = (diff: chars, namespace?: string) => {
 };
 
 /**
+ * Enforce current log level
+ */
+const logLevelIsValid = (consoleFn: ConsoleFunctions) => {
+	if (
+		$global.logLevel === 0 ||
+		($global.logLevel <= 3 && consoleFn === ConsoleFunctions.debug) ||
+		($global.logLevel <= 2 &&
+			(consoleFn === ConsoleFunctions.info ||
+				consoleFn === ConsoleFunctions.log)) ||
+		($global.logLevel <= 1 && consoleFn === ConsoleFunctions.warn)
+	)
+		return false;
+	return true;
+};
+
+/**
  * Internal log function. Handles namespace, timestamp, and log level.
  */
 const _log = (namespace: string, consoleFn: any, ...args: any[]) => {
+	if (!logLevelIsValid(consoleFn)) return;
 	const timeElapsed = dayjs().diff($global.logStore.getTime(namespace), "millisecond");
 	const stringToLog = timestampString(timeElapsed, namespace);
 	$global.logStore.increment(namespace);
@@ -157,7 +181,7 @@ const lognFn: LognCallable = (namespace: string, ...args: any[]) => {
  */
 const debugFn: LogCallable = (...args: any[]) => {
 	if (env.isProd) return;
-	_log($global.logStore.defaultNamespace, "log", ...args);
+	_log($global.logStore.defaultNamespace, "debug", ...args);
 };
 
 /**
@@ -167,7 +191,7 @@ const debugFn: LogCallable = (...args: any[]) => {
  */
 const debugnFn: LognCallable = (namespace: string, ...args: any[]) => {
 	if (env.isProd) return;
-	_log(namespace, "log", ...args);
+	_log(namespace, "debug", ...args);
 };
 
 populateLogFn(logFn as LogFn, false);
@@ -182,6 +206,7 @@ export const debugn = debugnFn as LognFn;
 
 export const injectLog = () => {
 	$global.logStore = new LogStore();
+	setGlobalValue("logLevel", 4, true);
 	setGlobalValue("log", log);
 	setGlobalValue("logn", logn);
 	setGlobalValue("debug", debug);

@@ -6,6 +6,10 @@ import {
 	createRouter
 } from "@tanstack/react-router";
 import { render as reactRender } from "@testing-library/react";
+import { afterAll, beforeAll } from "vitest";
+
+import type { LogLevels } from "lib/global/log";
+import { setGlobalValue } from "lib/global/utils";
 
 /**
  * Create test router from element.
@@ -74,4 +78,23 @@ export const getStyle = (el: Element | null): CSSStyleDeclaration => {
 export const cleanStyle = (s: string) => {
 	s = s.replace(/\s+/g, " ").trim();
 	return s;
+};
+
+/**
+ * Helper for setting global log level
+ */
+export const setLogLevel = (level: LogLevels) => {
+	setGlobalValue("logLevel", level, true);
+};
+
+/**
+ * Silence logs during test runs
+ */
+export const silenceLogs = () => {
+	beforeAll(() => {
+		setLogLevel(0);
+	});
+	afterAll(() => {
+		setLogLevel(4);
+	});
 };

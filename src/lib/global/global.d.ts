@@ -1,6 +1,6 @@
 import type { EnvKeys, EnvObj } from "./env";
 import type { FeatureFn } from "./featureFlags";
-import type { LogFn, LogStoreType, LognFn } from "./log";
+import type { LogFn, LogLevels, LogStoreType, LognFn } from "./log";
 import type { RunFn, RunSyncFn } from "./utils";
 
 declare global {
@@ -14,6 +14,7 @@ declare global {
 	var go: any;
 	var log: LogFn;
 	var logn: LognFn;
+	var logLevel: LogLevels;
 	var logStore: LogStoreType;
 	var run: RunFn;
 	var runSync: RunSyncFn;
@@ -29,6 +30,7 @@ declare global {
 		go: any;
 		log: LogFn;
 		logn: LognFn;
+		logLevel: LogLevels;
 		logStore: LogStoreType;
 		run: RunFn;
 		runSync: RunSyncFn;
