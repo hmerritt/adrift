@@ -28,7 +28,7 @@ export const Shader = ({ source, sx, ...canvasProps }: ShaderProps) => {
 	// On mount, fetch the shader and set up WebGL
 	useEffect(() => {
 		(async () => {
-			if (!canvas.current) return;
+			if (!canvas.current || env.isTest) return;
 
 			// Get GLSL shader to render
 			let mainImageShader = "";
