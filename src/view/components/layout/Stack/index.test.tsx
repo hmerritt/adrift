@@ -15,7 +15,14 @@ vi.mock("view/components", async (importOriginal) => {
 	return {
 		...actual,
 		Flex: vi.fn(
-			({ children, sx, style, className, ...rest }: FlexProps & { sx?: any }) => {
+			({
+				children,
+				sx,
+				style,
+				className,
+				row,
+				...rest
+			}: FlexProps & { sx?: any }) => {
 				const resolvedProps = stylex.props(sx);
 				const mergedStyle = { ...style, ...resolvedProps.style };
 				const mergedClassName =
@@ -88,7 +95,6 @@ const stackStyles = {
 };
 
 const customStyles = stylex.create({
-	border: { borderColor: "red", borderStyle: "solid", borderWidth: "1px" },
 	override: {
 		backgroundColor: "blue",
 		padding: "10px"
@@ -99,13 +105,15 @@ describe("Stack component", () => {
 	testBasicComponent({
 		name: "(default)",
 		Component: Stack,
-		props: {},
+		props: {
+			spacing: 1
+		},
 		hasChildren: true,
 		hasSx: true,
 		shouldHaveStyles: {
 			display: "flex",
 			flexDirection: "column",
-			gap: stackStyles.stack0.gap
+			gap: stackStyles.stack1.gap
 		}
 	});
 

@@ -1,4 +1,6 @@
-import { expect, test } from "vitest";
+import { describe, expect, test } from "vitest";
+
+import { silenceLogs } from "tests/utils";
 
 import {
 	enforceLen,
@@ -38,12 +40,16 @@ test("padChar", () => {
 	expect(padChar(12345, 10, "!", true)).toBe("12345!!!!!");
 });
 
-test("parseJSON", () => {
-	expect(parseJSON(`{"key":"some value"}`).key).toBe("some value");
-	expect(parseJSON("[1]")).toStrictEqual([1]);
+describe("parseJSON", () => {
+	silenceLogs();
 
-	expect(parseJSON(`{"key:not valid json"}`)).toBe(undefined);
-	expect(parseJSON("[wow")).toBe(undefined);
+	test("parseJSON", () => {
+		expect(parseJSON(`{"key":"some value"}`).key).toBe("some value");
+		expect(parseJSON("[1]")).toStrictEqual([1]);
+
+		expect(parseJSON(`{"key:not valid json"}`)).toBe(undefined);
+		expect(parseJSON("[wow")).toBe(undefined);
+	});
 });
 
 test("pluralize", () => {

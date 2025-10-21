@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { silenceLogs } from "tests/utils";
+
 import { parseEnv, setGlobalValue } from "./utils";
+
+silenceLogs();
 
 describe("setGlobalValue", () => {
 	it("should add a property with the correct key and value to the global object", () => {
