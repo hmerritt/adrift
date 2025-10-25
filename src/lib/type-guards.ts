@@ -71,4 +71,7 @@ export const isTruthy = (...v: any[]) => {
 	return true;
 };
 
+/**
+ * Type-safe version of `Object.keys`
+ */
 export const objKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>;
