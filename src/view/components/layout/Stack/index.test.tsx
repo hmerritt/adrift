@@ -20,7 +20,7 @@ vi.mock("view/components", async (importOriginal) => {
 				sx,
 				style,
 				className,
-				row,
+				row: _,
 				...rest
 			}: FlexProps & { sx?: any }) => {
 				const resolvedProps = stylex.props(sx);

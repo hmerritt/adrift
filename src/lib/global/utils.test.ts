@@ -22,7 +22,7 @@ describe("setGlobalValue", () => {
 
 		try {
 			(global as any)[key] = 456;
-		} catch (e) {
+		} catch (_) {
 			// In strict mode, this would throw TypeError. We expect it might fail silently otherwise.
 		}
 
@@ -58,7 +58,7 @@ describe("setGlobalValue", () => {
 		// Attempt to delete (should fail silently in non-strict mode)
 		try {
 			delete (global as any)[key];
-		} catch (e) {
+		} catch (_) {
 			// In strict mode, this would throw TypeError
 		}
 
@@ -119,7 +119,7 @@ describe("setGlobalValue", () => {
 		// Object.defineProperty will try to redefine, but fail because configurable=false, writable=false
 		try {
 			setGlobalValue(key, secondValue);
-		} catch (e) {
+		} catch (_) {
 			// This might throw a TypeError because you're trying to change attributes
 			// of a non-configurable property, specifically the value on a non-writable one.
 		}

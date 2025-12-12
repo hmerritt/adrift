@@ -12,7 +12,6 @@ import stylexBabelPlugin, {
 	type Rule,
 	type Options as StyleXOptions
 } from "@stylexjs/babel-plugin";
-import crypto from "crypto";
 import { createRequire } from "module";
 import path from "path";
 import type { Plugin, Rollup, ViteDevServer } from "vite";

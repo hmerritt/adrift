@@ -59,7 +59,6 @@ export const WindowDragArea = () => {
 
 const styles = stylex.create({
 	drag: {
-		// eslint-disable-next-line @stylexjs/valid-styles
 		"--runtime-draggable": "drag"
 	},
 	dragArea: {
@@ -90,7 +89,6 @@ const styles = stylex.create({
 			right: -4,
 			borderRadius: "100%"
 		},
-		// eslint-disable-next-line @stylexjs/valid-styles
 		"--control-opacity": 0,
 		// eslint-disable-next-line @stylexjs/valid-styles
 		":hover": {
