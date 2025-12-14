@@ -1,6 +1,17 @@
 /* eslint-disable no-console */
 
 /**
+ * Callback function type for mutate.
+ *
+ * @TODO: Rename this to `middleware` ??
+ */
+export type MutateCallbackFn = <TState>(
+	prevState: TState,
+	nextState: TState,
+	mutateTitle?: string
+) => void;
+
+/**
  * Produce the next state by mutating the (current) state object.
  *
  * Based on `immer`'s draft syntax - no need to return anything, just mutate the draft object.
@@ -17,11 +28,7 @@ export const mutate = <TState>(
 	state: TState,
 	mutateFn: (draft: TState) => void,
 	options?: {
-		callbacks?: ((
-			prevState: TState,
-			nextState: TState,
-			mutateTitle?: string
-		) => void)[];
+		callbacks?: MutateCallbackFn[];
 		mutateTitle?: string;
 	}
 ): TState => {
@@ -49,7 +56,11 @@ export const mutate = <TState>(
  * 	draft.count++;
  * }, [mutateLogger], "count increment");
  */
-export const mutateLogger = (prevState: any, nextState: any, mutateTitle = "(state)") => {
+export const mutateLogger: MutateCallbackFn = (
+	prevState: any,
+	nextState: any,
+	mutateTitle = "(state)"
+) => {
 	if (!env.isDev) return;
 	logn.groupCollapsed("state", `${mutateTitle}`);
 	console.log("prev", prevState);
