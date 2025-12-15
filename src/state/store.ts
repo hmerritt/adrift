@@ -1,6 +1,5 @@
-import { Store } from "@tanstack/store";
-
 import { mutate, mutateLogger } from "./mutate";
+import { StoreWithPersist } from "./persist";
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
 
@@ -29,10 +28,14 @@ import { countStore } from "./slices/count/countStore";
  * import { useStore } from "lib/hooks";
  * const count = useStore((state) => state.count.current);
  */
-export const store = new Store({
-	color: colorStore,
-	count: countStore
-});
+export const store = new StoreWithPersist(
+	{
+		color: colorStore,
+		count: countStore
+	},
+	{},
+	{ name: "store" }
+);
 export default store;
 export type RootState = typeof store.state;
 
