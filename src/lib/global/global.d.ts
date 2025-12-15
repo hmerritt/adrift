@@ -1,3 +1,4 @@
+import type { Scheduler } from "../scheduler";
 import type { EnvKeys, EnvObj } from "./env";
 import type { FeatureFn } from "./featureFlags";
 import type { LogFn, LogLevels, LogStoreType, LognFn } from "./log";
@@ -19,6 +20,10 @@ declare global {
 	var run: RunFn;
 	var runSync: RunSyncFn;
 
+	interface TaskController extends AbortController {
+		setPriority(priority: string): void;
+	}
+
 	interface Window {
 		debug: LogFn;
 		debugn: LognFn;
@@ -34,5 +39,8 @@ declare global {
 		logStore: LogStoreType;
 		run: RunFn;
 		runSync: RunSyncFn;
+
+		scheduler?: Scheduler;
+		TaskController?: new (options?: { priority?: string }) => TaskController;
 	}
 }
