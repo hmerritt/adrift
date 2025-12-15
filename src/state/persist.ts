@@ -6,6 +6,8 @@
  */
 import { Store, StoreOptions } from "@tanstack/store";
 
+import { createBackgroundScheduler } from "lib/scheduler";
+
 export interface StateStorage<R = unknown> {
 	getItem: (name: string) => string | null | Promise<string | null>;
 	setItem: (name: string, value: string) => R;
@@ -185,12 +187,16 @@ export class StoreWithPersist<TState> extends Store<TState> {
 
 		// Update storage when state changes
 		this.subscribe(() => {
-			this.persist.options.storage?.setItem(this.persist.name, {
-				state: this.state,
-				version: this.persist.options.version
-			});
+			this.persistState();
 		});
 	}
+
+	private persistState = createBackgroundScheduler(() => {
+		this.persist.options.storage?.setItem(this.persist.name, {
+			state: this.state,
+			version: this.persist.options.version
+		});
+	}, 500);
 
 	private async hydrate() {
 		const { name, storage, migrate, merge, onRehydrateStorage, version } =
