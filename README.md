@@ -3,16 +3,26 @@
 Template react app with batteries included 🔋
 
 - [Vite](https://vitejs.dev)
-- [Vitest (testing for Vite)](https://vitest.dev/)
-- [Playwright (testing end-to-end)](https://playwright.dev)
+- [Vitest](https://vitest.dev/) (testing for Vite)
+- [Playwright](https://playwright.dev) (testing end-to-end)
 - [Typescript](https://www.typescriptlang.org)
 - [TanStack Store](https://tanstack.com/store/latest)
 - [TanStack Router](https://tanstack.com/router/latest)
 - [StyleX](https://stylexjs.com/)
-- Custom (hackable) build script
-- Custom utils and helper functions
-    - Global `log` functions with more functionality than `console.log`
-    - Global `feature` flag function
+- [React Scan](https://github.com/aidenybai/react-scan) (local development)
+- [Cosmos](https://github.com/react-cosmos/react-cosmos) (local development / lightweight `Storybook` alternative)
+- Custom
+    - [`bootstrap.ts`](./bootstrap.ts) - Build script
+    - [`persist.ts`](./src/state/persist.ts) - Persister for [TanStack Store](https://tanstack.com/store/latest)
+    - Components
+        - [`Halo`](./src/view/components/experimental/Halo/index.tsx) - Animated halo/glow effect around a box
+        - [`Noise`](./src/view/components/experimental/Noise/index.tsx) - Animated noise/grain effect (for images)
+        - [`Ripple`](./src/view/components/experimental/Ripple/index.tsx) - Animated ripple effect on-click (inspired by material-ui)
+        - [`Shader`](./src/view/components/experimental/Shader/index.tsx) - Renders a basic GLSL shader (just ~3kb gziped)
+    - Utils and helper functions
+        - [`log`](./src/lib/global/log.ts) - Log functions with timestamps, namespaces, and time-since-last-log prepended to each log
+        - [`env`](./src/lib/global/env.ts) - Env object with type-safe environment variables
+        - [`feature`](./src/lib/global/featureFlags.ts) - Feature flag function (uses `env`)
 
 > Checkout [Adrift Native](https://github.com/hmerritt/adrift-native) to run Adrift apps natively on Windows, Mac, and Linux.
 
@@ -32,62 +42,4 @@ Available scripts (run using `yarn <script>` or `npm run <script>`):
 - `test` - runs all test files
 - `preview` - similar to `dev`, but uses production mode to simulate the final build
 - `build` - builds the project to `dist` directory
-
-## Features
-
-- [Custom functions](#custom-functions)
-    - [Logs](#log-and-debug-functions)
-    - [Feature flag](#feature-flag-function)
-- [Styles](#styling-stylex)
-
-### Custom functions
-
-#### `log`, and `debug` functions
-
-Anywhere in the code you can call `log()`, or `debug()` (no imports needed).
-
-> `debug`, and `debugn` will only log in development.
-
-```js
-// Behaves like `console.log`
-log("hello, world!");
-
-// This will log with `console.error`
-log.error("websocket error");
-```
-
-You can also call `logn()`, and `debugn()`. This namespaces each log so you can keep track of multiple things at once.
-
-```js
-//    Namespace  Log message
-logn("socket", "Initiated websocket connection");
-
-// This will log with `console.error`
-logn.error("socket", "websocket error");
-```
-
-> [timestamp] +[time since last log in ms] [namespace] [log message]
-
-![](https://i.imgur.com/VlkNmdi.png)
-
-#### `feature` flag function
-
-`feature(flag)` will return `true` if the flag is set.
-
-Flags need to be added manually in `src/global/featureFlags` to the `featureFlags` object.
-
-```js
-if (feature("myAwesomeFlag")) {
-	// Do something
-}
-```
-
-### Styling (StyleX)
-
-Adrift uses StyleX, a **Zero runtime** CSS in JS library.
-
-StyleX builds optimized styles using collision-free atomic CSS which is superior to what could be authored and maintained by hand.
-
-> Other popular libraries such as `styled-components` can negatively impact app performance due to their use of a runtime.
->
-> Styling runtimes are usually okay for small apps, but don't scale very well when there are lots of styles for the runtime to handle.
+- `cosmos` - [Cosmos](https://github.com/react-cosmos/react-cosmos) dev server
