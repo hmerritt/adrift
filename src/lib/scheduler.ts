@@ -32,10 +32,8 @@ export const createBackgroundScheduler = <Args extends any[]>(
 	fn: (...args: Args) => void,
 	delay: number = 500
 ): ((...args: Args) => void) => {
-	if (supportsScheduler) {
-		return createPostTaskScheduler(fn, delay);
-	}
-	return createIdleScheduler(fn, delay);
+	if (supportsScheduler) return createPostTaskScheduler(fn, delay);
+	else return createIdleScheduler(fn, delay);
 };
 
 // region Internal Strategies

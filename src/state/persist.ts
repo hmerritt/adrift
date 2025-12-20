@@ -4,7 +4,7 @@
  * Inspired by Zustand's persist middleware:
  * https://github.com/pmndrs/zustand/blob/main/src/middleware/persist.ts
  */
-import { Store, StoreOptions } from "@tanstack/store";
+import { AnyUpdater, Store, StoreOptions } from "@tanstack/store";
 
 import { createBackgroundScheduler } from "lib/scheduler";
 
@@ -120,7 +120,10 @@ export function createJSONStorage<S, R = unknown>(
 	return persistStorage;
 }
 
-export class StoreWithPersist<TState> extends Store<TState> {
+export class StoreWithPersist<
+	TState,
+	TUpdater extends AnyUpdater = (cb: TState) => TState
+> extends Store<TState, TUpdater> {
 	private hasHydrated: boolean;
 	private hydrationListeners: Set<PersistListener<TState>>;
 	private finishHydrationListeners: Set<PersistListener<TState>>;
@@ -128,15 +131,15 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		name: string;
 		options: PersistOptions<TState>;
 		clearStorage: () => void;
-		rehydrate?: () => Promise<void>;
-		hasHydrated?: () => boolean;
-		onHydrate?: (callback: () => void) => () => void;
-		onFinishHydration?: (callback: () => void) => () => void;
+		rehydrate: () => Promise<void>;
+		hasHydrated: () => boolean;
+		onHydrate: (callback: () => void) => () => void;
+		onFinishHydration: (callback: () => void) => () => void;
 	};
 
 	constructor(
 		initialState: TState,
-		storeOptions: StoreOptions<TState>,
+		storeOptions: StoreOptions<TState, TUpdater>,
 		persistOptions: PersistOptions<TState>
 	) {
 		super(initialState, storeOptions);
@@ -149,6 +152,7 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		const options: PersistOptions<TState> = {
 			version: 0,
 			debug: false,
+			skipHydration: false,
 			partialize: (state: TState) => state,
 			storage: createJSONStorage<TState, void>(() => localStorage),
 			merge: (persistedState: unknown, currentState: TState) => ({
@@ -200,14 +204,14 @@ export class StoreWithPersist<TState> extends Store<TState> {
 	}
 
 	private persistState = createBackgroundScheduler(async () => {
-		const { name, storage, debug, version } = this.persist.options;
+		const { name, storage, debug, version, partialize } = this.persist.options;
 		if (debug) {
 			logn.debug(`persist/${name}`, `(persist)`, "Persisting state", this.state);
 		}
 
 		const [, setError] = await run(async () =>
 			storage?.setItem(name, {
-				state: this.state,
+				state: partialize ? partialize(this.state) : this.state,
 				version
 			})
 		);
