@@ -76,6 +76,12 @@ export interface PersistOptions<S, PersistedState = S, PersistReturn = unknown> 
 	 * @default false
 	 */
 	skipHydration?: boolean;
+	/**
+	 * Enable debug logging. This includes logging performance metrics.
+	 *
+	 * @default false
+	 */
+	debug?: boolean;
 }
 
 export type PersistListener<S> = (state: S) => void;
@@ -140,10 +146,11 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		this.finishHydrationListeners = new Set<PersistListener<TState>>();
 
 		// Persist options
-		const options = {
-			storage: createJSONStorage<TState, void>(() => localStorage),
-			partialize: (state: TState) => state,
+		const options: PersistOptions<TState> = {
 			version: 0,
+			debug: false,
+			partialize: (state: TState) => state,
+			storage: createJSONStorage<TState, void>(() => localStorage),
 			merge: (persistedState: unknown, currentState: TState) => ({
 				...currentState,
 				...(persistedState as object)
@@ -154,7 +161,8 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		if (!options.storage) {
 			logn.error(
 				"persist",
-				`Unable to update item '${options.name}', the given storage is currently unavailable.`
+				`(${options.name})`,
+				`Unable to persist, the given storage is currently unavailable.`
 			);
 		}
 
@@ -191,17 +199,38 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		});
 	}
 
-	private persistState = createBackgroundScheduler(() => {
-		this.persist.options.storage?.setItem(this.persist.name, {
-			state: this.state,
-			version: this.persist.options.version
-		});
+	private persistState = createBackgroundScheduler(async () => {
+		const { name, storage, debug, version } = this.persist.options;
+		if (debug) {
+			logn.debug(`persist/${name}`, `(persist)`, "Persisting state", this.state);
+		}
+
+		const [, setError] = await run(async () =>
+			storage?.setItem(name, {
+				state: this.state,
+				version
+			})
+		);
+
+		if (setError) {
+			logn.error(`persist/${name}`, `(persist)`, "Unable to persist", setError);
+		}
 	}, 500);
 
 	private async hydrate() {
-		const { name, storage, migrate, merge, onRehydrateStorage, version } =
+		const { name, storage, migrate, merge, onRehydrateStorage, version, debug } =
 			this.persist.options;
-		if (!storage) return;
+
+		if (debug) logn.debug(`persist/${name}`, `(hydrate)`, "Hydrate started");
+		if (!storage) {
+			if (debug)
+				logn.error(
+					`persist/${name}`,
+					`(hydrate)`,
+					"Unable to hydrate, storage is not available"
+				);
+			return;
+		}
 
 		this.hasHydrated = false;
 		this.hydrationListeners.forEach((cb) => cb(this.state));
@@ -212,6 +241,13 @@ export class StoreWithPersist<TState> extends Store<TState> {
 			storage.getItem(name)
 		);
 		if (getError) {
+			if (debug)
+				logn.error(
+					`persist/${name}`,
+					`(hydrate)`,
+					`Error calling "storage.getItem"`,
+					getError
+				);
 			postRehydrationCallback?.(undefined, getError);
 			return;
 		}
@@ -237,6 +273,13 @@ export class StoreWithPersist<TState> extends Store<TState> {
 					);
 
 					if (migrationError) {
+						if (debug)
+							logn.error(
+								`persist/${name}`,
+								`(hydrate)`,
+								`Error calling "migrate" function`,
+								getError
+							);
 						postRehydrationCallback?.(undefined, migrationError);
 						return;
 					}
@@ -245,7 +288,8 @@ export class StoreWithPersist<TState> extends Store<TState> {
 					isMigrated = true;
 				} else {
 					logn.error(
-						"persist",
+						`persist/${name}`,
+						`(hydrate)`,
 						`State loaded from storage couldn't be migrated since no migrate function was provided`
 					);
 				}
@@ -273,6 +317,13 @@ export class StoreWithPersist<TState> extends Store<TState> {
 				);
 
 				if (setError && postRehydrationCallback) {
+					if (debug)
+						logn.error(
+							`persist/${name}`,
+							`(hydrate)`,
+							`Error calling "storage.setItem" after migration`,
+							getError
+						);
 					postRehydrationCallback?.(undefined, setError);
 					return;
 				}
@@ -282,5 +333,6 @@ export class StoreWithPersist<TState> extends Store<TState> {
 		this.hasHydrated = true;
 		postRehydrationCallback?.(this.state, undefined);
 		this.finishHydrationListeners.forEach((cb) => cb(this.state));
+		if (debug) logn.debug(`persist/${name}`, `(hydrate)`, `Hydration completed`);
 	}
 }
