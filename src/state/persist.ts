@@ -129,7 +129,7 @@ export class StoreWithPersist<
 	private finishHydrationListeners: Set<PersistListener<TState>>;
 	public persist: {
 		name: string;
-		options: PersistOptions<TState>;
+		options: PersistOptions<TState, Partial<TState>>;
 		clearStorage: () => void;
 		rehydrate: () => Promise<void>;
 		hasHydrated: () => boolean;
@@ -140,7 +140,7 @@ export class StoreWithPersist<
 	constructor(
 		initialState: TState,
 		storeOptions: StoreOptions<TState, TUpdater>,
-		persistOptions: PersistOptions<TState>
+		persistOptions: PersistOptions<TState, Partial<TState>>
 	) {
 		super(initialState, storeOptions);
 
@@ -149,12 +149,12 @@ export class StoreWithPersist<
 		this.finishHydrationListeners = new Set<PersistListener<TState>>();
 
 		// Persist options
-		const options: PersistOptions<TState> = {
+		const options: PersistOptions<TState, Partial<TState>> = {
 			version: 0,
 			debug: false,
 			skipHydration: false,
 			partialize: (state: TState) => state,
-			storage: createJSONStorage<TState, void>(() => localStorage),
+			storage: createJSONStorage<Partial<TState>, void>(() => localStorage),
 			merge: (persistedState: unknown, currentState: TState) => ({
 				...currentState,
 				...(persistedState as object)
@@ -257,7 +257,7 @@ export class StoreWithPersist<
 		}
 
 		// Determine state and migration needs
-		let migratedState: TState | undefined = undefined;
+		let migratedState: Partial<TState> | undefined = undefined;
 		let stateFromStorage: TState = this.state;
 		let isMigrated = false;
 

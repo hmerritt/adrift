@@ -20,7 +20,7 @@ interface TestState {
 
 describe("StoreWithPersist", () => {
 	let mockStorage: Map<string, string>;
-	let persistStorage: PersistStorage<TestState>;
+	let persistStorage: PersistStorage<Partial<TestState>>;
 
 	beforeEach(() => {
 		mockStorage = new Map();
