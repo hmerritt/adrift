@@ -1,0 +1,19 @@
+import { applyServiceWorkerUpdate } from "serviceWorkerRegistration";
+
+/**
+ * Apply the waiting service worker update and reload the page.
+ *
+ * @warning This will reload the entire app!
+ */
+export const applyUpdate = () => {
+	const applied = applyServiceWorkerUpdate();
+	if (!applied) {
+		return false;
+	}
+
+	if (typeof window !== "undefined") {
+		window.location.reload();
+	}
+
+	return true;
+};

@@ -49,6 +49,8 @@ Create a new slice by creating a directory in `src/state/slices` with `[name]Sto
 The store file only contains an object (the initial state) for that slice. The actions contain functions that update the state.
 Ideally, state updates should only be made from within actions. This ensures state updates are predictable.
 
+Re-export actions in `src/state/actions.ts` file for the new slice (this makes importing actions easier, `import {xyz} from 'state/actions`).
+
 Finally, slices are then combined into the main store, in `src/state/store.ts`.
 
 ## Tests

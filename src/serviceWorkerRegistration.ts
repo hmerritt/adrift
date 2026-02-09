@@ -1,3 +1,5 @@
+import { updateSlice } from "state";
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -31,6 +33,9 @@ const updateListeners = new Set<UpdateListener>();
 
 const notifyUpdateState = (next: Partial<ServiceWorkerUpdateState>) => {
 	updateState = { ...updateState, ...next };
+	updateSlice("update", (update) => {
+		update.updateAvailable = updateState.updateAvailable;
+	});
 	for (const listener of updateListeners) {
 		listener(updateState);
 	}
