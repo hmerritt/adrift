@@ -24,7 +24,7 @@ variables:
 #
 test:
     stage: test
-    image: node:20-alpine
+    image: node:22-alpine
     extends: .dependencies_cache
     cache:
         policy: pull-push
@@ -40,7 +40,7 @@ test:
 
 test-e2e:
     stage: test
-    image: node:20
+    image: node:22
     extends: .dependencies_cache
     before_script:
         - apk update && apk add git bash

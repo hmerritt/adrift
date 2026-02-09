@@ -2,6 +2,7 @@ import { mutate, mutateLogger } from "./mutate";
 import { StoreWithPersist } from "./persist";
 import { colorStore } from "./slices/color/colorStore";
 import { countStore } from "./slices/count/countStore";
+import { updateStore } from "./slices/update/updateStore";
 
 /**
  * Main state store for entire app ⚡.
@@ -31,10 +32,14 @@ import { countStore } from "./slices/count/countStore";
 export const store = new StoreWithPersist(
 	{
 		color: colorStore,
-		count: countStore
+		count: countStore,
+		update: updateStore
 	},
 	{},
-	{ name: "store" }
+	{
+		name: "store",
+		partialize: ({ update, ...state }) => state
+	}
 );
 export default store;
 export type RootState = typeof store.state;
