@@ -4,3 +4,4 @@ export * from "./useEventListener";
 export * from "./useIntersection";
 export * from "./useInterval";
 export * from "./useLocalStorage";
+export * from "./useServiceWorkerUpdate";

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-// @ts-nocheck
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -12,6 +10,103 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
+type ServiceWorkerConfig = {
+	onUpdate?: (registration: ServiceWorkerRegistration) => void;
+	onSuccess?: (registration: ServiceWorkerRegistration) => void;
+};
+
+export type ServiceWorkerUpdateState = {
+	updateAvailable: boolean;
+	registration: ServiceWorkerRegistration | null;
+};
+
+type UpdateListener = (state: ServiceWorkerUpdateState) => void;
+
+let updateState: ServiceWorkerUpdateState = {
+	updateAvailable: false,
+	registration: null
+};
+
+const updateListeners = new Set<UpdateListener>();
+
+const notifyUpdateState = (next: Partial<ServiceWorkerUpdateState>) => {
+	updateState = { ...updateState, ...next };
+	for (const listener of updateListeners) {
+		listener(updateState);
+	}
+};
+
+const markUpdateAvailable = (registration: ServiceWorkerRegistration) => {
+	notifyUpdateState({ updateAvailable: true, registration });
+};
+
+const setRegistration = (registration: ServiceWorkerRegistration) => {
+	notifyUpdateState({ registration });
+	if (registration.waiting && navigator.serviceWorker.controller) {
+		markUpdateAvailable(registration);
+	}
+};
+
+/**
+ * Read the latest service worker update state snapshot.
+ */
+export const getServiceWorkerUpdateState = () => updateState;
+
+/**
+ * Subscribe to `updateState` changes; returns an unsubscribe function.
+ */
+export const subscribeToServiceWorkerUpdates = (listener: UpdateListener) => {
+	updateListeners.add(listener);
+	return () => {
+		updateListeners.delete(listener);
+	};
+};
+
+/**
+ * Ask the waiting service worker to activate immediately.
+ */
+export const applyServiceWorkerUpdate = () => {
+	const registration = updateState.registration;
+	if (!registration?.waiting) {
+		return false;
+	}
+
+	registration.waiting.postMessage({ type: "SKIP_WAITING" });
+	return true;
+};
+
+/**
+ * Force the browser to check for a newer service worker.
+ */
+export const checkForServiceWorkerUpdate = async () => {
+	if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+		return false;
+	}
+
+	const registration =
+		updateState.registration ?? (await navigator.serviceWorker.getRegistration());
+	if (!registration) {
+		return false;
+	}
+
+	await registration.update();
+	return true;
+};
+
+/**
+ * Test-only helpers for manipulating update state.
+ */
+export const __testing = {
+	setUpdateState: (next: Partial<ServiceWorkerUpdateState>) => {
+		notifyUpdateState(next);
+	},
+	resetUpdateState: () => {
+		notifyUpdateState({ updateAvailable: false, registration: null });
+	}
+};
+
+let controllerListenerAttached = false;
+
 const isLocalhost = Boolean(
 	window.location.hostname === "localhost" ||
 	// [::1] is the IPv6 localhost address.
@@ -22,8 +117,18 @@ const isLocalhost = Boolean(
 	)
 );
 
-export function register(config) {
+/**
+ * Register the service worker and wire update callbacks if provided.
+ */
+export function register(config?: ServiceWorkerConfig) {
 	if (import.meta.env.MODE === "production" && "serviceWorker" in navigator) {
+		if (!controllerListenerAttached) {
+			navigator.serviceWorker.addEventListener("controllerchange", () => {
+				notifyUpdateState({ updateAvailable: false });
+			});
+			controllerListenerAttached = true;
+		}
+
 		// The URL constructor is available in all browsers that support SW.
 		const publicUrl = new URL(import.meta.env.BASE_URL, window.location.href);
 		if (publicUrl.origin !== window.location.origin) {
@@ -56,10 +161,11 @@ export function register(config) {
 	}
 }
 
-function registerValidSW(swUrl, config) {
+function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
+			setRegistration(registration);
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
 				if (installingWorker == null) {
@@ -68,6 +174,7 @@ function registerValidSW(swUrl, config) {
 				installingWorker.onstatechange = () => {
 					if (installingWorker.state === "installed") {
 						if (navigator.serviceWorker.controller) {
+							markUpdateAvailable(registration);
 							// At this point, the updated precached content has been fetched,
 							// but the previous service worker will still serve the older
 							// content until all client tabs are closed.
@@ -100,7 +207,7 @@ function registerValidSW(swUrl, config) {
 		});
 }
 
-function checkValidServiceWorker(swUrl, config) {
+function checkValidServiceWorker(swUrl: string, config?: ServiceWorkerConfig) {
 	// Check if the service worker can be found. If it can't reload the page.
 	fetch(swUrl, {
 		headers: { "Service-Worker": "script" }
@@ -128,6 +235,9 @@ function checkValidServiceWorker(swUrl, config) {
 		});
 }
 
+/**
+ * Unregister any active service worker.
+ */
 export function unregister() {
 	if ("serviceWorker" in navigator) {
 		navigator.serviceWorker.ready

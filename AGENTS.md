@@ -53,6 +53,7 @@ Finally, slices are then combined into the main store, in `src/state/store.ts`.
 
 ## Tests
 
+- Tests are written in `Vitest`
 - Everything should be tested, and be testable
 - New behavior requires tests (unit or e2e).
 - Keep tests small and deterministic.
