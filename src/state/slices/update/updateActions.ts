@@ -1,4 +1,4 @@
-import { applyServiceWorkerUpdate } from "serviceWorkerRegistration";
+import { applySWUpdate } from "serviceWorkerRegistration";
 
 /**
  * Apply the waiting service worker update and reload the page.
@@ -6,7 +6,7 @@ import { applyServiceWorkerUpdate } from "serviceWorkerRegistration";
  * @warning This will reload the entire app!
  */
 export const applyUpdate = () => {
-	const applied = applyServiceWorkerUpdate();
+	const applied = applySWUpdate();
 	if (!applied) {
 		return false;
 	}

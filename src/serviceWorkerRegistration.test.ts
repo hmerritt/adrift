@@ -1,10 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import {
-	__testing,
-	applyServiceWorkerUpdate,
-	checkForServiceWorkerUpdate
-} from "./serviceWorkerRegistration";
+import { __testing, applySWUpdate, checkForSWUpdate } from "./serviceWorkerRegistration";
 
 const setNavigatorServiceWorker = (value: unknown) => {
 	Object.defineProperty(navigator, "serviceWorker", {
@@ -35,15 +31,15 @@ describe("serviceWorkerRegistration", () => {
 		}
 	});
 
-	describe("applyServiceWorkerUpdate", () => {
+	describe("applySWUpdate", () => {
 		it("returns false when no registration exists", () => {
-			expect(applyServiceWorkerUpdate()).toBe(false);
+			expect(applySWUpdate()).toBe(false);
 		});
 
 		it("returns false when no waiting worker exists", () => {
 			const registration = {} as ServiceWorkerRegistration;
 			__testing.setUpdateState({ registration });
-			expect(applyServiceWorkerUpdate()).toBe(false);
+			expect(applySWUpdate()).toBe(false);
 		});
 
 		it("posts SKIP_WAITING when a waiting worker exists", () => {
@@ -54,22 +50,22 @@ describe("serviceWorkerRegistration", () => {
 
 			__testing.setUpdateState({ registration });
 
-			expect(applyServiceWorkerUpdate()).toBe(true);
+			expect(applySWUpdate()).toBe(true);
 			expect(postMessage).toHaveBeenCalledWith({ type: "SKIP_WAITING" });
 		});
 	});
 
-	describe("checkForServiceWorkerUpdate", () => {
+	describe("checkForSWUpdate", () => {
 		it("returns false when service worker is not available", async () => {
 			clearNavigatorServiceWorker();
-			await expect(checkForServiceWorkerUpdate()).resolves.toBe(false);
+			await expect(checkForSWUpdate()).resolves.toBe(false);
 		});
 
 		it("returns false when no registration exists", async () => {
 			const getRegistration = vi.fn().mockResolvedValue(null);
 			setNavigatorServiceWorker({ getRegistration });
 
-			await expect(checkForServiceWorkerUpdate()).resolves.toBe(false);
+			await expect(checkForSWUpdate()).resolves.toBe(false);
 			expect(getRegistration).toHaveBeenCalledTimes(1);
 		});
 
@@ -79,7 +75,7 @@ describe("serviceWorkerRegistration", () => {
 			const getRegistration = vi.fn().mockResolvedValue(registration);
 			setNavigatorServiceWorker({ getRegistration });
 
-			await expect(checkForServiceWorkerUpdate()).resolves.toBe(true);
+			await expect(checkForSWUpdate()).resolves.toBe(true);
 			expect(update).toHaveBeenCalledTimes(1);
 		});
 
@@ -91,7 +87,7 @@ describe("serviceWorkerRegistration", () => {
 
 			__testing.setUpdateState({ registration });
 
-			await expect(checkForServiceWorkerUpdate()).resolves.toBe(true);
+			await expect(checkForSWUpdate()).resolves.toBe(true);
 			expect(update).toHaveBeenCalledTimes(1);
 			expect(getRegistration).not.toHaveBeenCalled();
 		});

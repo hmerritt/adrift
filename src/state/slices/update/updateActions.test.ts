@@ -1,11 +1,11 @@
-import { applyServiceWorkerUpdate } from "serviceWorkerRegistration";
+import { applySWUpdate } from "serviceWorkerRegistration";
 import { store, updateSlice } from "state";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { applyUpdate } from "./updateActions";
 
 vi.mock("serviceWorkerRegistration", () => {
-	return { applyServiceWorkerUpdate: vi.fn() };
+	return { applySWUpdate: vi.fn() };
 });
 
 const getUpdateAvailable = () => store.state.update.updateAvailable;
@@ -14,7 +14,7 @@ describe("applyUpdate", () => {
 	let reloadSpy: ReturnType<typeof vi.spyOn> | null = null;
 
 	beforeEach(() => {
-		vi.mocked(applyServiceWorkerUpdate).mockReset();
+		vi.mocked(applySWUpdate).mockReset();
 		updateSlice("update", (update) => {
 			update.updateAvailable = true;
 		});
@@ -32,7 +32,7 @@ describe("applyUpdate", () => {
 	});
 
 	it("returns false and does not reload when no update is applied", () => {
-		vi.mocked(applyServiceWorkerUpdate).mockReturnValue(false);
+		vi.mocked(applySWUpdate).mockReturnValue(false);
 
 		expect(applyUpdate()).toBe(false);
 		if (reloadSpy) {
@@ -42,7 +42,7 @@ describe("applyUpdate", () => {
 	});
 
 	it("returns true and reloads when applied", () => {
-		vi.mocked(applyServiceWorkerUpdate).mockReturnValue(true);
+		vi.mocked(applySWUpdate).mockReturnValue(true);
 
 		expect(applyUpdate()).toBe(true);
 		if (reloadSpy) {

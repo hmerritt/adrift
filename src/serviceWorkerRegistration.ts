@@ -1,4 +1,4 @@
-import { updateSlice } from "state";
+import { store, updateSlice } from "state";
 
 // This optional code is used to register a service worker.
 // register() is not called by default.
@@ -22,23 +22,11 @@ export type ServiceWorkerUpdateState = {
 	registration: ServiceWorkerRegistration | null;
 };
 
-type UpdateListener = (state: ServiceWorkerUpdateState) => void;
-
-let updateState: ServiceWorkerUpdateState = {
-	updateAvailable: false,
-	registration: null
-};
-
-const updateListeners = new Set<UpdateListener>();
-
 const notifyUpdateState = (next: Partial<ServiceWorkerUpdateState>) => {
-	updateState = { ...updateState, ...next };
 	updateSlice("update", (update) => {
-		update.updateAvailable = updateState.updateAvailable;
+		update.updateAvailable = next.updateAvailable ?? false;
+		update.registration = next.registration ?? null;
 	});
-	for (const listener of updateListeners) {
-		listener(updateState);
-	}
 };
 
 const markUpdateAvailable = (registration: ServiceWorkerRegistration) => {
@@ -53,25 +41,10 @@ const setRegistration = (registration: ServiceWorkerRegistration) => {
 };
 
 /**
- * Read the latest service worker update state snapshot.
- */
-export const getServiceWorkerUpdateState = () => updateState;
-
-/**
- * Subscribe to `updateState` changes; returns an unsubscribe function.
- */
-export const subscribeToServiceWorkerUpdates = (listener: UpdateListener) => {
-	updateListeners.add(listener);
-	return () => {
-		updateListeners.delete(listener);
-	};
-};
-
-/**
  * Ask the waiting service worker to activate immediately.
  */
-export const applyServiceWorkerUpdate = () => {
-	const registration = updateState.registration;
+export const applySWUpdate = () => {
+	const registration = store.state.update.registration;
 	if (!registration?.waiting) {
 		return false;
 	}
@@ -83,13 +56,14 @@ export const applyServiceWorkerUpdate = () => {
 /**
  * Force the browser to check for a newer service worker.
  */
-export const checkForServiceWorkerUpdate = async () => {
+export const checkForSWUpdate = async () => {
 	if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
 		return false;
 	}
 
 	const registration =
-		updateState.registration ?? (await navigator.serviceWorker.getRegistration());
+		store.state.update.registration ??
+		(await navigator.serviceWorker.getRegistration());
 	if (!registration) {
 		return false;
 	}
@@ -148,7 +122,7 @@ export function register(config?: ServiceWorkerConfig) {
 
 			if (isLocalhost) {
 				// This is running on localhost. Let's check if a service worker still exists or not.
-				checkValidServiceWorker(swUrl, config);
+				checkValidSW(swUrl, config);
 
 				// Add some additional logging to localhost, pointing developers to the
 				// service worker/PWA documentation.
@@ -212,7 +186,7 @@ function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 		});
 }
 
-function checkValidServiceWorker(swUrl: string, config?: ServiceWorkerConfig) {
+function checkValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 	// Check if the service worker can be found. If it can't reload the page.
 	fetch(swUrl, {
 		headers: { "Service-Worker": "script" }
