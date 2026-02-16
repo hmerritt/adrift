@@ -38,7 +38,7 @@ export const store = new StoreWithPersist(
 	{},
 	{
 		name: "store",
-		partialize: ({ update, ...state }) => state
+		partialize: ({ update: _, ...state }) => state
 	}
 );
 export default store;
