@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
 
 import * as core from "./core";
 
 /**
  * Internal adrift version.
  */
-export const adriftVersion = "0.12.764";
+export const adriftVersion = "0.12.766";
 
 /**
  * Bumps the adrift `patch` version number using the total commit count.
@@ -17,8 +15,7 @@ export const adriftVersion = "0.12.764";
  */
 export async function bumpAdriftPatchVersion() {
 	try {
-		const __filename = fileURLToPath(import.meta.url);
-		const __dirname = path.dirname(__filename);
+		const __dirname = import.meta.dir || ".";
 		const pathRoot = path.dirname(path.dirname(__dirname));
 
 		// Get the total commit count
@@ -28,7 +25,7 @@ export async function bumpAdriftPatchVersion() {
 
 		// Read the contents of version.ts
 		const versionFile = path.join(__dirname, "version.ts");
-		const versionFileContent = fs.readFileSync(versionFile, "utf8");
+		const versionFileContent = await Bun.file(versionFile).text();
 
 		// Extract the version number parts
 		const versionMatch = versionFileContent.match(
@@ -48,7 +45,7 @@ export async function bumpAdriftPatchVersion() {
 		);
 
 		// Write the updated content back to version.ts
-		fs.writeFileSync(versionFile, updatedContent, "utf8");
+		Bun.write(versionFile, updatedContent);
 
 		console.log(`\x1b[36madrift@${newVersion}\x1b[0m`);
 	} catch (error) {

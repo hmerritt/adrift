@@ -1,18 +1,25 @@
 /* eslint-disable no-console */
-import execBase from "child_process";
-import path from "path";
-import { fileURLToPath } from "url";
-import util from "util";
-
 import { adriftVersion } from "./version";
-
-const exec = execBase.exec;
-const execAwait = util.promisify(exec);
 
 export type Env = [string, any][];
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = import.meta.dir || ".";
+
+const getBunRuntime = () => {
+	if (!globalThis.Bun) {
+		throw new Error("Bun runtime is required to run bootstrap scripts.");
+	}
+
+	return globalThis.Bun;
+};
+
+const getShellCommand = (command: string) => {
+	if (process.platform === "win32") {
+		return ["cmd.exe", "/d", "/s", "/c", command];
+	}
+
+	return ["/bin/sh", "-lc", command];
+};
 
 /**
  * Bootstrap runs code before react start/build.
@@ -32,7 +39,7 @@ export async function bootstrap(
 		const argString = args?.length > 0 ? args?.join(" ") : "";
 
 		// Run scripts/start|build command
-		runStream(`yarn cross-env ${envString} ${argString}`, path);
+		runStream(`bunx --bun cross-env ${envString} ${argString}`, path);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
@@ -137,7 +144,28 @@ export async function run(
 	fallback = undefined as any
 ) {
 	try {
-		const { stdout } = await execAwait(command, { cwd: path });
+		const bunRuntime = getBunRuntime();
+		const execProcess = bunRuntime.spawn({
+			cmd: getShellCommand(command),
+			cwd: path,
+			stdout: "pipe",
+			stderr: "pipe"
+		});
+
+		const [code, stdout, stderr] = await Promise.all([
+			execProcess.exited,
+			execProcess.stdout
+				? new Response(execProcess.stdout).text()
+				: Promise.resolve(""),
+			execProcess.stderr
+				? new Response(execProcess.stderr).text()
+				: Promise.resolve("")
+		]);
+
+		if (code !== 0) {
+			throw new Error(stderr || `Command failed with exit code ${code}`);
+		}
+
 		return stdout?.trim();
 	} catch (e) {
 		if (fallback === undefined) {
@@ -154,12 +182,15 @@ export async function run(
  * Execute OS commands, streams response from stdout
  */
 export function runStream(command: string, path = __dirname, exitOnError = true) {
-	const execProcess = exec(command, { cwd: path });
+	const bunRuntime = getBunRuntime();
+	const execProcess = bunRuntime.spawn({
+		cmd: getShellCommand(command),
+		cwd: path,
+		stdout: "inherit",
+		stderr: "inherit"
+	});
 
-	execProcess.stdout?.pipe(process.stdout);
-	execProcess.stderr?.pipe(process.stderr);
-
-	execProcess.on("exit", (code) => {
+	void execProcess.exited.then((code: number) => {
 		if (code !== 0) {
 			console.log("ERROR: process finished with a non-zero code");
 			if (exitOnError) process.exit(1);

@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 /* eslint-disable no-console */
 import path from "path";
 import { fileURLToPath } from "url";
