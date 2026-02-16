@@ -6,20 +6,20 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
-		"build": "tsc && tsx bootstrap vite build",
-		"dev": "yarn start",
+		"build": "tsc && bun run bootstrap vite build",
+		"dev": "bun run bootstrap.ts vite",
 		"lint": "tsc && eslint",
-		"preview": "tsc && tsx bootstrap vite preview",
-		"start": "tsx bootstrap vite",
-		"test": "tsx bootstrap vitest run",
-		"test:bench": "tsx bootstrap vitest bench",
-		"test:coverage": "tsx bootstrap vitest run --coverage --silent",
+		"preview": "tsc && bun run bootstrap vite preview",
+		"start": "bun run bootstrap vite",
+		"test": "bun run bootstrap vitest run",
+		"test:bench": "bun run bootstrap vitest bench",
+		"test:coverage": "bun run bootstrap vitest run --coverage --silent",
 		"test:e2e:setup": "yarn playwright install --with-deps",
-		"test:e2e": "tsx bootstrap yarn playwright test",
-		"test:watch": "tsx bootstrap vitest watch --ui --api 9527",
-		"cosmos": "tsx bootstrap cosmos",
-		"cosmos:export": "tsx bootstrap cosmos-export",
-		"update": "yarn upgrade-interactive"
+		"test:e2e": "bun run bootstrap yarn playwright test",
+		"test:watch": "bun run bootstrap vitest watch --ui --api 9527",
+		"cosmos": "bun run bootstrap cosmos",
+		"cosmos:export": "bun run bootstrap cosmos-export",
+		"update": "bun update -i"
 	},
 	"dependencies": {
 		"@dnd-kit/core": "6.3.1",
@@ -54,8 +54,8 @@
 		"@testing-library/react-hooks": "8.0.1",
 		"@testing-library/user-event": "14.6.1",
 		"@trivago/prettier-plugin-sort-imports": "6.0.2",
+		"@types/bun": "^1.3.9",
 		"@types/css": "0.0.38",
-		"@types/node": "22.19.10",
 		"@types/react": "19.2.13",
 		"@types/react-dom": "19.2.3",
 		"@typescript-eslint/eslint-plugin": "8.54.0",
@@ -112,5 +112,5 @@
 	"engines": {
 		"node": ">=20.0.0"
 	},
-	"packageManager": "yarn@4.12.0"
+	"packageManager": "bun@1.3.9"
 }
