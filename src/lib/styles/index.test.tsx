@@ -101,4 +101,11 @@ describe("StyleX theme", () => {
 		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
 		expect(styleContainer.width).toBe("5678px");
 	});
+	test("renders variables (does NOT test what the value is)", async () => {
+		const { container } = await render(<StylesMock />);
+
+		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
+		const isVariable = /var\(\-\-([a-zA-Z0-9]+)\)/.test(styleContainer.width);
+		expect(isVariable).toBe(true);
+	});
 });
