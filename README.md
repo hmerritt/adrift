@@ -31,12 +31,12 @@ Template react app with batteries included 🔋
 **_Quick start_**, get up an running in one command:
 
 ```bash
-git clone https://github.com/hmerritt/adrift && cd adrift && yarn && yarn dev
+git clone https://github.com/hmerritt/adrift && cd adrift && bun i && bun dev
 ```
 
 Clone this repo and run one of the following scripts:
 
-Available scripts (run using `yarn <script>` or `npm run <script>`):
+Available scripts (run using `bun run <script>`):
 
 - `dev` - starts Vite dev server for local development
 - `test` - runs all test files
