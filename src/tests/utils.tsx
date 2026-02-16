@@ -1,6 +1,6 @@
 import {
 	Outlet,
-	createHashHistory,
+	createMemoryHistory,
 	createRootRoute,
 	createRoute,
 	createRouter
@@ -20,7 +20,7 @@ import { setGlobalValue } from "lib/global/utils";
  * https://github.com/TanStack/router/discussions/583
  * https://github.com/TanStack/router/discussions/198
  */
-export const createTestRouter = (element: any) => {
+export const createTestRouter = (element: any, initialLocation = "/",) => {
 	const rootRoute = createRootRoute({
 		component: Outlet
 	});
@@ -33,7 +33,10 @@ export const createTestRouter = (element: any) => {
 
 	const router = createRouter({
 		routeTree: rootRoute.addChildren([componentRoute]),
-		history: createHashHistory(),
+		history: createMemoryHistory({
+			initialEntries: [initialLocation]
+		}),
+		context: {},
 		defaultPendingMinMs: 0
 	});
 
