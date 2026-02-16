@@ -25,7 +25,7 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          bun run test:coverage
+          bun run test
 
       - name: Test E2E
         shell: bash
