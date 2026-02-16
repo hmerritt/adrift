@@ -3,6 +3,16 @@
 	"env": {
 		"builtin": true
 	},
+	"rules": {
+		"eslint/no-unused-vars": [
+			"warn",
+			{
+				"argsIgnorePattern": "^_",
+				"varsIgnorePattern": "^_",
+				"caughtErrorsIgnorePattern": "^_"
+			}
+		]
+	},
 	"ignorePatterns": [
 		".expo-shared",
 		".expo",
