@@ -39,10 +39,11 @@
 		"react-dom": "19.2.4"
 	},
 	"devDependencies": {
+		"@eslint/compat": "2.0.2",
 		"@babel/core": "7.29.0",
 		"@babel/plugin-syntax-jsx": "7.28.6",
 		"@babel/plugin-syntax-typescript": "7.28.6",
-		"@eslint/js": "9.39.2",
+		"@eslint/js": "10.0.1",
 		"@nabla/vite-plugin-eslint": "2.0.6",
 		"@playwright/test": "1.58.2",
 		"@stylexjs/babel-plugin": "0.17.5",
@@ -58,15 +59,15 @@
 		"@types/css": "0.0.38",
 		"@types/react": "19.2.14",
 		"@types/react-dom": "19.2.3",
-		"@typescript-eslint/eslint-plugin": "8.54.0",
-		"@typescript-eslint/parser": "8.54.0",
+		"@typescript-eslint/eslint-plugin": "8.56.0",
+		"@typescript-eslint/parser": "8.56.0",
 		"@vitejs/plugin-react": "5.1.4",
 		"@vitest/coverage-v8": "4.0.18",
 		"@vitest/ui": "4.0.18",
 		"babel-plugin-react-compiler": "1.0.0",
 		"cross-env": "10.1.0",
 		"css": "3.0.0",
-		"eslint": "9.39.2",
+		"eslint": "10.0.0",
 		"eslint-plugin-prettier": "5.5.5",
 		"eslint-plugin-react": "7.37.5",
 		"eslint-plugin-react-compiler": "19.1.0-rc.2",
@@ -94,6 +95,9 @@
 		"workbox-precaching": "7.4.0",
 		"workbox-routing": "7.4.0",
 		"workbox-strategies": "7.4.0"
+	},
+	"overrides": {
+		"zod-validation-error": "4.0.2"
 	},
 	"browserslist": {
 		"production": [

@@ -1,3 +1,4 @@
+import { fixupPluginRules } from "@eslint/compat";
 import js from "@eslint/js";
 import stylex from "@stylexjs/eslint-plugin";
 import typescript from "@typescript-eslint/eslint-plugin";
@@ -54,9 +55,9 @@ export default [
 			"@stylexjs": stylex,
 			"@typescript-eslint": typescript,
 			prettier: prettier,
-			react: react,
-			"react-compiler": reactCompiler,
-			"react-hooks": reactHooks
+			react: fixupPluginRules(react),
+			"react-compiler": fixupPluginRules(reactCompiler),
+			"react-hooks": fixupPluginRules(reactHooks)
 		},
 		rules: {
 			// TypeScript specific rules

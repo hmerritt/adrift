@@ -20,7 +20,7 @@ import { setGlobalValue } from "lib/global/utils";
  * https://github.com/TanStack/router/discussions/583
  * https://github.com/TanStack/router/discussions/198
  */
-export const createTestRouter = (element: any, initialLocation = "/",) => {
+export const createTestRouter = (element: any, initialLocation = "/") => {
 	const rootRoute = createRootRoute({
 		component: Outlet
 	});
