@@ -1,0 +1,25 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"env": {
+		"builtin": true
+	},
+	"ignorePatterns": [
+		".expo-shared",
+		".expo",
+		".git",
+		".github",
+		".husky",
+		".idea",
+		".next",
+		".tanstack",
+		".turbo",
+		".vscode",
+		".yarn",
+		"build/*",
+		"coverage/*",
+		"dist/*",
+		"node_modules/*",
+		"src/routeTree.gen.ts",
+		"src/lib/device.ts"
+	]
+}

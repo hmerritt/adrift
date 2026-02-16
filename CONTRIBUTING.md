@@ -59,3 +59,13 @@ Formatting is handled by [`Prettier`](https://prettier.io).
 Rules are defined in `.prettierrc.json`.
 
 Make sure your editor is configured to use Prettier!
+
+## Linting
+
+Linting uses a hybrid setup:
+
+-   Fast pass: `oxlint` (`yarn lint:fast`)
+-   Compatibility pass: ESLint (`yarn lint:eslint`) for StyleX and React compiler/hooks rules
+-   Type-checking: `tsc --noEmit` (`yarn typecheck`)
+
+Run `yarn lint` to execute all checks.
