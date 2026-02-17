@@ -1,5 +1,125 @@
-// region WebGL helpers
-import { FRAGMENT_SHADER_TEMPLATE, VERTEX_SHADER_SOURCE } from "./glsl";
+import { createFragmentShaderSource, VERTEX_SHADER_SOURCE } from "./glsl";
+
+const CHANNEL_COUNT = 4;
+const IMAGE_PASS_ID = "image";
+const POSITION_ATTRIBUTE_LOCATION = 0;
+
+export type ShaderSourceProps =
+	| {
+			/** GLSL shader code to inject into the fragment shader template */
+			rawGLSL: string;
+			url?: string;
+	  }
+	| {
+			/** URL to fetch GLSL shader code */
+			url: string;
+			rawGLSL?: string;
+	  };
+
+export type ShaderChannelInput =
+	| {
+			type: "texture";
+			url: string;
+	  }
+	| {
+			type: "pass";
+			passId: string;
+	  };
+
+export type ShaderPassSpec = {
+	id: string;
+	shader: ShaderSourceProps;
+	channels?: ReadonlyArray<ShaderChannelInput | null | undefined>;
+};
+
+export type ShaderGraph = {
+	image: {
+		shader: ShaderSourceProps;
+		channels?: ReadonlyArray<ShaderChannelInput | null | undefined>;
+	};
+	buffers?: ReadonlyArray<ShaderPassSpec>;
+};
+
+export type NormalizedShaderPass = {
+	id: string;
+	shader: ShaderSourceProps;
+	channels: (ShaderChannelInput | null)[];
+};
+
+export type NormalizedShaderGraph = {
+	image: NormalizedShaderPass;
+	buffers: NormalizedShaderPass[];
+};
+
+type UniformLocations = {
+	iResolution: WebGLUniformLocation | null;
+	iTime: WebGLUniformLocation | null;
+	iTimeDelta: WebGLUniformLocation | null;
+	iFrame: WebGLUniformLocation | null;
+	iMouse: WebGLUniformLocation | null;
+	iDate: WebGLUniformLocation | null;
+	iFrameRate: WebGLUniformLocation | null;
+	iChannels: (WebGLUniformLocation | null)[];
+};
+
+type RenderTarget = {
+	framebuffer: WebGLFramebuffer;
+	texture: WebGLTexture;
+};
+
+type CompiledPass = {
+	id: string;
+	program: WebGLProgram;
+	uniformLocations: UniformLocations;
+	channels: (ShaderChannelInput | null)[];
+};
+
+type BufferPassRuntime = CompiledPass & {
+	readTarget: RenderTarget;
+	writeTarget: RenderTarget;
+};
+
+export type ShaderState = {
+	gl: WebGL2RenderingContext | null;
+	canvas: HTMLCanvasElement | null;
+	startTime: number;
+	frameTime: number;
+	frameCount: number;
+	rafId: number | null;
+	isDisposed: boolean;
+	vao: WebGLVertexArrayObject | null;
+	positionBuffer: WebGLBuffer | null;
+	fallbackTexture: WebGLTexture | null;
+	loadedTextures: Map<string, WebGLTexture>;
+	bufferPassesById: Map<string, BufferPassRuntime>;
+	bufferPassOrder: string[];
+	imagePass: CompiledPass | null;
+	programs: WebGLProgram[];
+	framebuffers: WebGLFramebuffer[];
+	renderTextures: WebGLTexture[];
+};
+
+export const createShaderState = (): ShaderState => {
+	return {
+		gl: null,
+		canvas: null,
+		startTime: 0,
+		frameTime: 0,
+		frameCount: 0,
+		rafId: null,
+		isDisposed: false,
+		vao: null,
+		positionBuffer: null,
+		fallbackTexture: null,
+		loadedTextures: new Map(),
+		bufferPassesById: new Map(),
+		bufferPassOrder: [],
+		imagePass: null,
+		programs: [],
+		framebuffers: [],
+		renderTextures: []
+	};
+};
 
 /**
  * Fetches GLSL shader code from a URL (does not check GLSL validity).
@@ -20,15 +140,189 @@ export const fetchShader = async (url: string): Promise<string> => {
 	}
 };
 
+const normalizeChannels = (
+	channels?: ReadonlyArray<ShaderChannelInput | null | undefined>
+): (ShaderChannelInput | null)[] => {
+	if (!channels) {
+		return Array.from({ length: CHANNEL_COUNT }, () => null);
+	}
+
+	if (channels.length > CHANNEL_COUNT) {
+		throw new Error(
+			`Shader pass can only have ${CHANNEL_COUNT} channels. Received ${channels.length}.`
+		);
+	}
+
+	const normalized: (ShaderChannelInput | null)[] = Array.from(
+		{ length: CHANNEL_COUNT },
+		() => null
+	);
+	for (let i = 0; i < channels.length; i++) {
+		const channel = channels[i];
+		if (!channel) {
+			continue;
+		}
+		normalized[i] = channel;
+	}
+
+	return normalized;
+};
+
+const normalizeFromSource = (source: ShaderSourceProps): NormalizedShaderGraph => {
+	return {
+		image: {
+			id: IMAGE_PASS_ID,
+			shader: source,
+			channels: normalizeChannels()
+		},
+		buffers: []
+	};
+};
+
+export const normalizeShaderGraph = ({
+	source,
+	graph
+}: {
+	source?: ShaderSourceProps;
+	graph?: ShaderGraph;
+}): NormalizedShaderGraph => {
+	if (!source && !graph) {
+		throw new Error("Shader requires either `source` or `graph`.");
+	}
+
+	if (graph) {
+		const buffers: NormalizedShaderPass[] = [];
+		const bufferIds = new Set<string>();
+
+		for (const buffer of graph.buffers ?? []) {
+			const id = buffer.id.trim();
+			if (!id) {
+				throw new Error("Shader buffer id cannot be empty.");
+			}
+			if (id === IMAGE_PASS_ID) {
+				throw new Error(`Shader buffer id "${IMAGE_PASS_ID}" is reserved.`);
+			}
+			if (bufferIds.has(id)) {
+				throw new Error(`Shader buffer id "${id}" is duplicated.`);
+			}
+			bufferIds.add(id);
+			buffers.push({
+				id,
+				shader: buffer.shader,
+				channels: normalizeChannels(buffer.channels)
+			});
+		}
+
+		const normalized: NormalizedShaderGraph = {
+			image: {
+				id: IMAGE_PASS_ID,
+				shader: graph.image.shader,
+				channels: normalizeChannels(graph.image.channels)
+			},
+			buffers
+		};
+
+		for (const pass of [normalized.image, ...normalized.buffers]) {
+			for (const channel of pass.channels) {
+				if (!channel || channel.type !== "pass") {
+					continue;
+				}
+
+				if (channel.passId === IMAGE_PASS_ID) {
+					throw new Error("Pass channels cannot reference image output.");
+				}
+
+				if (!bufferIds.has(channel.passId)) {
+					throw new Error(
+						`Shader pass "${pass.id}" references unknown pass "${channel.passId}".`
+					);
+				}
+			}
+		}
+
+		resolveBufferPassOrder(normalized);
+		return normalized;
+	}
+
+	return normalizeFromSource(source as ShaderSourceProps);
+};
+
+/**
+ * Resolves a valid execution order for buffer passes.
+ *
+ * Self-references are allowed and treated as previous-frame feedback.
+ */
+export const resolveBufferPassOrder = (graph: NormalizedShaderGraph): string[] => {
+	const orderHint = graph.buffers.map((buffer) => buffer.id);
+	const indexById = new Map<string, number>(
+		orderHint.map((id, index) => [id, index] as const)
+	);
+	const indegree = new Map<string, number>(orderHint.map((id) => [id, 0] as const));
+	const adjacency = new Map<string, Set<string>>(
+		orderHint.map((id) => [id, new Set<string>()] as const)
+	);
+
+	for (const pass of graph.buffers) {
+		for (const channel of pass.channels) {
+			if (!channel || channel.type !== "pass") {
+				continue;
+			}
+			if (channel.passId === pass.id) {
+				continue;
+			}
+			if (!indegree.has(channel.passId)) {
+				continue;
+			}
+
+			const dependents = adjacency.get(channel.passId);
+			if (!dependents || dependents.has(pass.id)) {
+				continue;
+			}
+
+			dependents.add(pass.id);
+			indegree.set(pass.id, (indegree.get(pass.id) ?? 0) + 1);
+		}
+	}
+
+	const queue = orderHint
+		.filter((id) => (indegree.get(id) ?? 0) === 0)
+		.sort((a, b) => (indexById.get(a) ?? 0) - (indexById.get(b) ?? 0));
+	const order: string[] = [];
+
+	while (queue.length > 0) {
+		const id = queue.shift();
+		if (!id) {
+			break;
+		}
+		order.push(id);
+
+		const dependents = adjacency.get(id);
+		if (!dependents) {
+			continue;
+		}
+		for (const dependent of dependents) {
+			const nextIndegree = (indegree.get(dependent) ?? 0) - 1;
+			indegree.set(dependent, nextIndegree);
+			if (nextIndegree === 0) {
+				queue.push(dependent);
+				queue.sort((a, b) => (indexById.get(a) ?? 0) - (indexById.get(b) ?? 0));
+			}
+		}
+	}
+
+	if (order.length !== graph.buffers.length) {
+		throw new Error("Shader buffers contain cyclic pass dependencies.");
+	}
+
+	return order;
+};
+
 /**
  * Compiles a shader from source code.
  */
 const createShader = (
-	/** The WebGL context  */
 	gl: WebGL2RenderingContext,
-	/** The shader type (VERTEX_SHADER or FRAGMENT_SHADER)  */
 	type: number,
-	/** The GLSL source code  */
 	source: string
 ): WebGLShader | null => {
 	const shader = gl.createShader(type);
@@ -51,14 +345,15 @@ const createShader = (
  * Links a vertex and fragment shader into a WebGL program.
  */
 const createProgram = (
-	/** The WebGL context  */
 	gl: WebGL2RenderingContext,
-	/** The compiled vertex shader  */
 	vertexShader: WebGLShader,
-	/** The compiled fragment shader  */
 	fragmentShader: WebGLShader
 ): WebGLProgram | null => {
 	const program = gl.createProgram();
+	if (!program) {
+		logn.error("shader", "Unable to create program: gl.createProgram returned null");
+		return null;
+	}
 	gl.attachShader(program, vertexShader);
 	gl.attachShader(program, fragmentShader);
 	gl.linkProgram(program);
@@ -66,7 +361,7 @@ const createProgram = (
 	if (success) {
 		return program;
 	}
-	logn.error("shader", `Failed to link program:`, gl.getProgramInfoLog(program));
+	logn.error("shader", "Failed to link program", gl.getProgramInfoLog(program));
 	gl.deleteProgram(program);
 	return null;
 };
@@ -86,147 +381,325 @@ const resizeCanvasToDisplaySize = (canvas: HTMLCanvasElement): boolean => {
 	return false;
 };
 
-// region Setup
-
-export type ShaderSourceProps =
-	| {
-			/** GLSL shader code to inject into the fragment shader template */
-			rawGLSL: string;
-			url?: string;
-	  }
-	| {
-			/** URL to fetch `glsl` shader code  */
-			url: string;
-			rawGLSL?: string;
-	  };
-
-export type ShaderState = {
-	gl: WebGL2RenderingContext | null;
-	program: WebGLProgram | null;
-	uniformLocations: Record<string, WebGLUniformLocation | null>;
-	startTime: number;
-	frameTime: number;
-	frameCount: number;
+const getCanvasSize = (canvas: HTMLCanvasElement) => {
+	return {
+		width: Math.max(1, canvas.width || canvas.clientWidth || 1),
+		height: Math.max(1, canvas.height || canvas.clientHeight || 1)
+	};
 };
 
-export const defaultShaderState: ShaderState = {
-	// Main Application State
-	gl: null,
-	program: null,
-	uniformLocations: {},
-	// Timing and animation
-	startTime: 0,
-	frameTime: 0,
-	frameCount: 0
+const createFallbackTexture = (gl: WebGL2RenderingContext): WebGLTexture | null => {
+	const texture = gl.createTexture();
+	if (!texture) {
+		return null;
+	}
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+	gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		1,
+		1,
+		0,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		new Uint8Array([0, 0, 0, 255])
+	);
+	gl.bindTexture(gl.TEXTURE_2D, null);
+	return texture;
 };
 
-/**
- * The main setup function.
- *
- * Fetches the shader, compiles the program, sets up geometry, and attaches event listeners.
- */
-export const setup = async (
-	mainImageShader: string,
-	s: ShaderState,
-	canvas: HTMLCanvasElement
-) => {
-	s.gl = canvas.getContext("webgl2");
-	if (!s.gl) {
-		logn.error("shader", "WebGL 2 not supported!");
-		return;
+const loadImage = async (url: string): Promise<HTMLImageElement> => {
+	return await new Promise<HTMLImageElement>((resolve, reject) => {
+		const image = new Image();
+		image.crossOrigin = "anonymous";
+		image.onload = () => resolve(image);
+		image.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+		image.src = url;
+	});
+};
+
+const loadTextureFromUrl = async (
+	gl: WebGL2RenderingContext,
+	url: string
+): Promise<WebGLTexture | null> => {
+	try {
+		const image = await loadImage(url);
+		const texture = gl.createTexture();
+		if (!texture) {
+			return null;
+		}
+
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGBA,
+			gl.RGBA,
+			gl.UNSIGNED_BYTE,
+			image
+		);
+		gl.bindTexture(gl.TEXTURE_2D, null);
+
+		return texture;
+	} catch (error) {
+		logn.error("shader", "Failed to load texture input", {
+			url,
+			error
+		});
+		return null;
+	}
+};
+
+const resolveShaderSource = async (source: ShaderSourceProps): Promise<string> => {
+	if ("rawGLSL" in source && typeof source.rawGLSL === "string" && source.rawGLSL) {
+		return source.rawGLSL;
+	}
+	if ("url" in source && typeof source.url === "string" && source.url) {
+		return fetchShader(source.url);
+	}
+	return "";
+};
+
+const getTextureUrls = (graph: NormalizedShaderGraph): string[] => {
+	const urls = new Set<string>();
+	for (const pass of [graph.image, ...graph.buffers]) {
+		for (const channel of pass.channels) {
+			if (channel?.type === "texture") {
+				urls.add(channel.url);
+			}
+		}
+	}
+	return [...urls];
+};
+
+const createRenderTarget = (
+	gl: WebGL2RenderingContext,
+	width: number,
+	height: number
+): RenderTarget | null => {
+	const texture = gl.createTexture();
+	const framebuffer = gl.createFramebuffer();
+	if (!texture || !framebuffer) {
+		if (texture) {
+			gl.deleteTexture(texture);
+		}
+		if (framebuffer) {
+			gl.deleteFramebuffer(framebuffer);
+		}
+		return null;
 	}
 
-	// Create the final fragment shader source
-	const fragmentShaderSource = FRAGMENT_SHADER_TEMPLATE.replace(
-		"{{mainImageShader}}",
-		mainImageShader
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+	gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		width,
+		height,
+		0,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		null
 	);
 
-	// Compile shaders and link program
-	const vertexShader = createShader(s.gl, s.gl.VERTEX_SHADER, VERTEX_SHADER_SOURCE);
-	const fragmentShader = createShader(s.gl, s.gl.FRAGMENT_SHADER, fragmentShaderSource);
-	if (!vertexShader || !fragmentShader) {
-		logn.error("shader", "Failed to create shaders", {
-			vertexShader,
-			fragmentShader
-		});
-		return;
-	}
-	s.program = createProgram(s.gl, vertexShader, fragmentShader);
-	if (!s.program) {
-		logn.error("shader", "Failed to createProgram", {
-			createProgram
-		});
-		return;
+	gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+	gl.framebufferTexture2D(
+		gl.FRAMEBUFFER,
+		gl.COLOR_ATTACHMENT0,
+		gl.TEXTURE_2D,
+		texture,
+		0
+	);
+
+	const isComplete = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+	gl.bindTexture(gl.TEXTURE_2D, null);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+	if (!isComplete) {
+		gl.deleteTexture(texture);
+		gl.deleteFramebuffer(framebuffer);
+		return null;
 	}
 
-	// Look up uniform locations
-	s.uniformLocations = {
-		iResolution: s.gl.getUniformLocation(s.program, "iResolution"),
-		iTime: s.gl.getUniformLocation(s.program, "iTime"),
-		iTimeDelta: s.gl.getUniformLocation(s.program, "iTimeDelta"),
-		iFrame: s.gl.getUniformLocation(s.program, "iFrame"),
-		iMouse: s.gl.getUniformLocation(s.program, "iMouse"),
-		iDate: s.gl.getUniformLocation(s.program, "iDate")
+	return { framebuffer, texture };
+};
+
+const resizeRenderTarget = (
+	gl: WebGL2RenderingContext,
+	target: RenderTarget,
+	width: number,
+	height: number
+) => {
+	gl.bindTexture(gl.TEXTURE_2D, target.texture);
+	gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		width,
+		height,
+		0,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		null
+	);
+	gl.bindTexture(gl.TEXTURE_2D, null);
+};
+
+const createFullscreenGeometry = (gl: WebGL2RenderingContext, s: ShaderState): boolean => {
+	const positionBuffer = gl.createBuffer();
+	const vao = gl.createVertexArray();
+	if (!positionBuffer || !vao) {
+		logn.error("shader", "Failed to create fullscreen geometry resources.");
+		if (positionBuffer) {
+			gl.deleteBuffer(positionBuffer);
+		}
+		if (vao) {
+			gl.deleteVertexArray(vao);
+		}
+		return false;
+	}
+
+	s.positionBuffer = positionBuffer;
+	s.vao = vao;
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+	gl.bufferData(
+		gl.ARRAY_BUFFER,
+		new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+		gl.STATIC_DRAW
+	);
+
+	gl.bindVertexArray(vao);
+	gl.enableVertexAttribArray(POSITION_ATTRIBUTE_LOCATION);
+	gl.vertexAttribPointer(POSITION_ATTRIBUTE_LOCATION, 2, gl.FLOAT, false, 0, 0);
+	gl.bindVertexArray(null);
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+	return true;
+};
+
+const createPassProgram = (
+	gl: WebGL2RenderingContext,
+	mainImageShader: string
+): {
+	program: WebGLProgram;
+	vertexShader: WebGLShader;
+	fragmentShader: WebGLShader;
+	uniformLocations: UniformLocations;
+} | null => {
+	const vertexShader = createShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER_SOURCE);
+	const fragmentShader = createShader(
+		gl,
+		gl.FRAGMENT_SHADER,
+		createFragmentShaderSource(mainImageShader)
+	);
+	if (!vertexShader || !fragmentShader) {
+		if (vertexShader) {
+			gl.deleteShader(vertexShader);
+		}
+		if (fragmentShader) {
+			gl.deleteShader(fragmentShader);
+		}
+		return null;
+	}
+
+	const program = createProgram(gl, vertexShader, fragmentShader);
+	if (!program) {
+		gl.deleteShader(vertexShader);
+		gl.deleteShader(fragmentShader);
+		return null;
+	}
+
+	const uniformLocations: UniformLocations = {
+		iResolution: gl.getUniformLocation(program, "iResolution"),
+		iTime: gl.getUniformLocation(program, "iTime"),
+		iTimeDelta: gl.getUniformLocation(program, "iTimeDelta"),
+		iFrame: gl.getUniformLocation(program, "iFrame"),
+		iMouse: gl.getUniformLocation(program, "iMouse"),
+		iDate: gl.getUniformLocation(program, "iDate"),
+		iFrameRate: gl.getUniformLocation(program, "iFrameRate"),
+		iChannels: Array.from({ length: CHANNEL_COUNT }, (_, index) =>
+			gl.getUniformLocation(program, `iChannel${index}`)
+		)
 	};
 
-	// Set up geometry for a fullscreen quad
-	const positionAttributeLocation = s.gl.getAttribLocation(s.program, "a_position");
-	const positionBuffer = s.gl.createBuffer();
-	s.gl.bindBuffer(s.gl.ARRAY_BUFFER, positionBuffer);
-	const positions = [-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1];
-	s.gl.bufferData(s.gl.ARRAY_BUFFER, new Float32Array(positions), s.gl.STATIC_DRAW);
-
-	// Set up Vertex Array Object (VAO)
-	const vao = s.gl.createVertexArray();
-	s.gl.bindVertexArray(vao);
-	s.gl.enableVertexAttribArray(positionAttributeLocation);
-	s.gl.vertexAttribPointer(positionAttributeLocation, 2, s.gl.FLOAT, false, 0, 0);
-
-	// Start the render loop
-	s.startTime = performance.now();
-	s.frameTime = s.startTime;
-	requestAnimationFrame((now: DOMHighResTimeStamp) => render(s, now));
+	return { program, vertexShader, fragmentShader, uniformLocations };
 };
 
-// region Render
+const resolveChannelTexture = (
+	s: ShaderState,
+	pass: CompiledPass,
+	channel: ShaderChannelInput | null,
+	renderedBufferPasses: Set<string>
+): WebGLTexture | null => {
+	if (!channel) {
+		return s.fallbackTexture;
+	}
 
-/**
- * The main render loop, called once per frame.
- */
-function render(s: ShaderState, now: DOMHighResTimeStamp) {
-	// Calculate time and delta
-	const elapsedTime = (now - s.startTime) / 1000;
-	const deltaTime = (now - s.frameTime) / 1000;
-	s.frameTime = now;
-	s.frameCount++;
+	if (channel.type === "texture") {
+		return s.loadedTextures.get(channel.url) ?? s.fallbackTexture;
+	}
 
-	if (!s.gl || !s.gl.canvas || !s.program) {
+	const referencedPass = s.bufferPassesById.get(channel.passId);
+	if (!referencedPass) {
+		return s.fallbackTexture;
+	}
+
+	if (channel.passId === pass.id) {
+		return referencedPass.readTarget.texture;
+	}
+
+	if (renderedBufferPasses.has(channel.passId)) {
+		return referencedPass.writeTarget.texture;
+	}
+
+	return referencedPass.readTarget.texture;
+};
+
+const renderPass = (
+	s: ShaderState,
+	pass: CompiledPass,
+	framebuffer: WebGLFramebuffer | null,
+	renderedBufferPasses: Set<string>,
+	elapsedTime: number,
+	deltaTime: number,
+	frameRate: number,
+	frame: number,
+	width: number,
+	height: number
+) => {
+	const gl = s.gl;
+	if (!gl || !s.vao) {
 		return;
 	}
 
-	// Handle window resizing
-	resizeCanvasToDisplaySize(s.gl.canvas as HTMLCanvasElement);
-	s.gl.viewport(0, 0, s.gl.canvas.width, s.gl.canvas.height);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+	gl.viewport(0, 0, width, height);
+	gl.clearColor(0, 0, 0, 0);
+	gl.clear(gl.COLOR_BUFFER_BIT);
+	gl.useProgram(pass.program);
+	gl.bindVertexArray(s.vao);
 
-	// Clear the canvas (optional for a fullscreen shader)
-	s.gl.clearColor(0, 0, 0, 0);
-	s.gl.clear(s.gl.COLOR_BUFFER_BIT);
-
-	// Use our shader program
-	s.gl.useProgram(s.program);
-
-	// Update and set all uniforms
-	s.gl.uniform3f(
-		s.uniformLocations.iResolution,
-		s.gl.canvas.width,
-		s.gl.canvas.height,
-		1.0
-	);
-	s.gl.uniform1f(s.uniformLocations.iTime, elapsedTime);
-	s.gl.uniform1f(s.uniformLocations.iTimeDelta, deltaTime);
-	s.gl.uniform1i(s.uniformLocations.iFrame, s.frameCount);
-	s.gl.uniform4f(s.uniformLocations.iMouse, 0, 0, 0, 0); // Skip mouse handling for now
+	gl.uniform3f(pass.uniformLocations.iResolution, width, height, 1.0);
+	gl.uniform1f(pass.uniformLocations.iTime, elapsedTime);
+	gl.uniform1f(pass.uniformLocations.iTimeDelta, deltaTime);
+	gl.uniform1i(pass.uniformLocations.iFrame, frame);
+	gl.uniform4f(pass.uniformLocations.iMouse, 0, 0, 0, 0);
+	gl.uniform1f(pass.uniformLocations.iFrameRate, frameRate);
 
 	const date = new Date();
 	const seconds =
@@ -234,17 +707,292 @@ function render(s: ShaderState, now: DOMHighResTimeStamp) {
 		date.getMinutes() * 60 +
 		date.getSeconds() +
 		date.getMilliseconds() / 1000;
-	s.gl.uniform4f(
-		s.uniformLocations.iDate,
+	gl.uniform4f(
+		pass.uniformLocations.iDate,
 		date.getFullYear(),
-		date.getMonth(), // Note: Shadertoy month is 0-11, same as JS
+		date.getMonth(),
 		date.getDate(),
 		seconds
 	);
 
-	// Draw the quad
-	s.gl.drawArrays(s.gl.TRIANGLES, 0, 6);
+	for (let channelIndex = 0; channelIndex < CHANNEL_COUNT; channelIndex++) {
+		const uniformLocation = pass.uniformLocations.iChannels[channelIndex];
+		const channel = pass.channels[channelIndex];
+		const texture = resolveChannelTexture(s, pass, channel, renderedBufferPasses);
+		gl.activeTexture(gl.TEXTURE0 + channelIndex);
+		gl.bindTexture(gl.TEXTURE_2D, texture);
+		gl.uniform1i(uniformLocation, channelIndex);
+	}
 
-	// Request the next frame
-	requestAnimationFrame((now: DOMHighResTimeStamp) => render(s, now));
-}
+	gl.drawArrays(gl.TRIANGLES, 0, 6);
+};
+
+const resizeBufferTargets = (s: ShaderState, width: number, height: number) => {
+	if (!s.gl) {
+		return;
+	}
+	for (const bufferPass of s.bufferPassesById.values()) {
+		resizeRenderTarget(s.gl, bufferPass.readTarget, width, height);
+		resizeRenderTarget(s.gl, bufferPass.writeTarget, width, height);
+	}
+};
+
+const render = (s: ShaderState, now: DOMHighResTimeStamp) => {
+	if (s.isDisposed || !s.gl || !s.canvas || !s.imagePass) {
+		return;
+	}
+
+	const resized = resizeCanvasToDisplaySize(s.canvas);
+	const { width, height } = getCanvasSize(s.canvas);
+	if (resized) {
+		resizeBufferTargets(s, width, height);
+	}
+
+	const elapsedTime = (now - s.startTime) / 1000;
+	const deltaTime = (now - s.frameTime) / 1000;
+	const frameRate = deltaTime > 0 ? 1 / deltaTime : 0;
+	const frame = s.frameCount;
+	s.frameTime = now;
+
+	const renderedBufferPasses = new Set<string>();
+
+	for (const passId of s.bufferPassOrder) {
+		const bufferPass = s.bufferPassesById.get(passId);
+		if (!bufferPass) {
+			continue;
+		}
+		renderPass(
+			s,
+			bufferPass,
+			bufferPass.writeTarget.framebuffer,
+			renderedBufferPasses,
+			elapsedTime,
+			deltaTime,
+			frameRate,
+			frame,
+			width,
+			height
+		);
+		renderedBufferPasses.add(passId);
+	}
+
+	renderPass(
+		s,
+		s.imagePass,
+		null,
+		renderedBufferPasses,
+		elapsedTime,
+		deltaTime,
+		frameRate,
+		frame,
+		width,
+		height
+	);
+
+	for (const bufferPass of s.bufferPassesById.values()) {
+		const nextRead = bufferPass.writeTarget;
+		bufferPass.writeTarget = bufferPass.readTarget;
+		bufferPass.readTarget = nextRead;
+	}
+
+	s.frameCount += 1;
+	s.rafId = requestAnimationFrame((frameNow: DOMHighResTimeStamp) => render(s, frameNow));
+};
+
+const clearStateCollections = (s: ShaderState) => {
+	s.loadedTextures.clear();
+	s.bufferPassesById.clear();
+	s.bufferPassOrder = [];
+	s.imagePass = null;
+	s.programs = [];
+	s.framebuffers = [];
+	s.renderTextures = [];
+};
+
+export const teardown = (s: ShaderState) => {
+	s.isDisposed = true;
+
+	if (s.rafId !== null) {
+		cancelAnimationFrame(s.rafId);
+		s.rafId = null;
+	}
+
+	if (!s.gl) {
+		clearStateCollections(s);
+		s.canvas = null;
+		return;
+	}
+
+	for (const texture of s.loadedTextures.values()) {
+		s.gl.deleteTexture(texture);
+	}
+	for (const texture of s.renderTextures) {
+		s.gl.deleteTexture(texture);
+	}
+	if (s.fallbackTexture) {
+		s.gl.deleteTexture(s.fallbackTexture);
+	}
+	for (const framebuffer of s.framebuffers) {
+		s.gl.deleteFramebuffer(framebuffer);
+	}
+	for (const program of s.programs) {
+		s.gl.deleteProgram(program);
+	}
+	if (s.positionBuffer) {
+		s.gl.deleteBuffer(s.positionBuffer);
+	}
+	if (s.vao) {
+		s.gl.deleteVertexArray(s.vao);
+	}
+
+	s.gl.bindVertexArray(null);
+	s.gl.bindBuffer(s.gl.ARRAY_BUFFER, null);
+	s.gl.bindFramebuffer(s.gl.FRAMEBUFFER, null);
+	s.gl.useProgram(null);
+
+	clearStateCollections(s);
+	s.fallbackTexture = null;
+	s.positionBuffer = null;
+	s.vao = null;
+	s.gl = null;
+	s.canvas = null;
+};
+
+const collectPasses = (graph: NormalizedShaderGraph): NormalizedShaderPass[] => {
+	return [...graph.buffers, graph.image];
+};
+
+const getPassById = (
+	graph: NormalizedShaderGraph,
+	id: string
+): NormalizedShaderPass | undefined => {
+	if (id === IMAGE_PASS_ID) {
+		return graph.image;
+	}
+	return graph.buffers.find((pass) => pass.id === id);
+};
+
+/**
+ * The main setup function.
+ *
+ * Resolves graph assets, compiles pass programs and starts the render loop.
+ */
+export const setup = async (
+	graph: NormalizedShaderGraph,
+	s: ShaderState,
+	canvas: HTMLCanvasElement
+) => {
+	s.isDisposed = false;
+	s.canvas = canvas;
+	s.gl = canvas.getContext("webgl2");
+	if (!s.gl) {
+		logn.error("shader", "WebGL 2 not supported.");
+		return;
+	}
+	const gl = s.gl;
+
+	try {
+		resizeCanvasToDisplaySize(canvas);
+		const { width, height } = getCanvasSize(canvas);
+
+		if (!createFullscreenGeometry(gl, s)) {
+			return;
+		}
+
+		s.fallbackTexture = createFallbackTexture(gl);
+
+		const shaderCodeByPassId = new Map<string, string>();
+		for (const pass of collectPasses(graph)) {
+			const shaderCode = await resolveShaderSource(pass.shader);
+			if (s.isDisposed) {
+				return;
+			}
+			if (!shaderCode) {
+				throw new Error(`Shader source for pass "${pass.id}" is empty.`);
+			}
+			shaderCodeByPassId.set(pass.id, shaderCode);
+		}
+
+		const textureUrls = getTextureUrls(graph);
+		const textureEntries = await Promise.all(
+			textureUrls.map(async (url) => {
+				const texture = await loadTextureFromUrl(gl, url);
+				return [url, texture] as const;
+			})
+		);
+		if (s.isDisposed) {
+			for (const [, texture] of textureEntries) {
+				if (texture) {
+					gl.deleteTexture(texture);
+				}
+			}
+			return;
+		}
+		for (const [url, texture] of textureEntries) {
+			if (!texture) {
+				continue;
+			}
+			s.loadedTextures.set(url, texture);
+		}
+
+		s.bufferPassOrder = resolveBufferPassOrder(graph);
+
+		for (const passId of [...s.bufferPassOrder, IMAGE_PASS_ID]) {
+			const pass = getPassById(graph, passId);
+			const shaderCode = shaderCodeByPassId.get(passId);
+			if (!pass || !shaderCode) {
+				throw new Error(`Unable to resolve shader pass "${passId}".`);
+			}
+
+			const compiled = createPassProgram(gl, shaderCode);
+			if (!compiled) {
+				throw new Error(`Failed to compile pass "${passId}".`);
+			}
+
+			s.programs.push(compiled.program);
+			gl.deleteShader(compiled.vertexShader);
+			gl.deleteShader(compiled.fragmentShader);
+
+			if (passId === IMAGE_PASS_ID) {
+				s.imagePass = {
+					id: pass.id,
+					program: compiled.program,
+					uniformLocations: compiled.uniformLocations,
+					channels: [...pass.channels]
+				};
+				continue;
+			}
+
+			const readTarget = createRenderTarget(gl, width, height);
+			const writeTarget = createRenderTarget(gl, width, height);
+			if (!readTarget || !writeTarget) {
+				throw new Error(`Failed to create render targets for pass "${pass.id}".`);
+			}
+
+			s.framebuffers.push(readTarget.framebuffer, writeTarget.framebuffer);
+			s.renderTextures.push(readTarget.texture, writeTarget.texture);
+			s.bufferPassesById.set(pass.id, {
+				id: pass.id,
+				program: compiled.program,
+				uniformLocations: compiled.uniformLocations,
+				channels: [...pass.channels],
+				readTarget,
+				writeTarget
+			});
+		}
+
+		if (!s.imagePass) {
+			throw new Error("Image pass did not initialize.");
+		}
+
+		s.startTime = performance.now();
+		s.frameTime = s.startTime;
+		s.frameCount = 0;
+		s.rafId = requestAnimationFrame((frameNow: DOMHighResTimeStamp) =>
+			render(s, frameNow)
+		);
+	} catch (error) {
+		logn.error("shader", "Failed to setup shader graph.", error);
+		teardown(s);
+	}
+};

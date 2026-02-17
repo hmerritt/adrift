@@ -48,7 +48,78 @@ const URL = () => {
 	);
 };
 
-export default { GLSL, URL };
+const MultiBufferFeedback = () => {
+	return (
+		<Stack sx={styles.container}>
+			<Shader
+				sx={styles.canvas}
+				graph={{
+					buffers: [
+						{
+							id: "bufferA",
+							shader: {
+								rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+									vec2 uv = fragCoord / iResolution.xy;
+									vec3 prev = texture(iChannel0, uv).rgb;
+									vec3 seed = vec3(
+										0.5 + 0.5 * sin(iTime + uv.x * 10.0),
+										0.5 + 0.5 * sin(iTime * 0.7 + uv.y * 7.0),
+										0.5 + 0.5 * sin(iTime * 1.1)
+									);
+									fragColor = vec4(mix(prev, seed, 0.03), 1.0);
+								}`
+							},
+							channels: [{ type: "pass", passId: "bufferA" }]
+						}
+					],
+					image: {
+						shader: {
+							rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+								vec2 uv = fragCoord / iResolution.xy;
+								vec3 color = texture(iChannel0, uv).rgb;
+								fragColor = vec4(color, 1.0);
+							}`
+						},
+						channels: [{ type: "pass", passId: "bufferA" }]
+					}
+				}}
+			/>
+		</Stack>
+	);
+};
+
+const TextureInput = () => {
+	const [textureUrl] = useFixtureInput(
+		"textureUrl",
+		"https://threejs.org/examples/textures/uv_grid_opengl.jpg"
+	);
+
+	return (
+		<Stack sx={styles.container}>
+			<Shader
+				sx={styles.canvas}
+				graph={{
+					image: {
+						shader: {
+							rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+								vec2 uv = fragCoord / iResolution.xy;
+								vec2 p = uv - 0.5;
+								float angle = iTime * 0.3;
+								mat2 rot = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+								vec2 warpedUV = rot * p + 0.5;
+								vec4 tex = texture(iChannel0, warpedUV);
+								fragColor = vec4(tex.rgb, 1.0);
+							}`
+						},
+						channels: [{ type: "texture", url: textureUrl }]
+					}
+				}}
+			/>
+		</Stack>
+	);
+};
+
+export default { GLSL, URL, MultiBufferFeedback, TextureInput };
 
 const styles = stylex.create({
 	container: {

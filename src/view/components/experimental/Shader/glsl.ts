@@ -1,8 +1,7 @@
 // Vertex shader to render a fullscreen triangle pair (a quad)
 export const VERTEX_SHADER_SOURCE = `#version 300 es
-    // An attribute is an input to a vertex shader.
-    // In this case, it's the position of a vertex.
-    in vec2 a_position;
+    // Use a fixed attribute location so one VAO works across all pass programs.
+    layout(location = 0) in vec2 a_position;
 
     void main() {
         // gl_Position is a special variable that holds the final position.
@@ -10,8 +9,7 @@ export const VERTEX_SHADER_SOURCE = `#version 300 es
     }
 `;
 
-// Shadertoy uniform inputs and a main function that calls the shader code
-export const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
+const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
     precision highp float;
 
     // The final output color of the fragment.
@@ -25,7 +23,6 @@ export const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
     uniform vec4 iMouse;
     uniform vec4 iDate;
     uniform float iFrameRate;
-    // Note: iChannel uniforms are declared but not used in this example.
     uniform sampler2D iChannel0;
     uniform sampler2D iChannel1;
     uniform sampler2D iChannel2;
@@ -42,3 +39,7 @@ export const FRAGMENT_SHADER_TEMPLATE = `#version 300 es
         fragColor.a = 1.0;
     }
 `;
+
+export const createFragmentShaderSource = (mainImageShader: string) => {
+	return FRAGMENT_SHADER_TEMPLATE.replace("{{mainImageShader}}", mainImageShader);
+};
