@@ -5,18 +5,19 @@ Short rules for working in this repo.
 ## Scope
 
 - This is a Vite + React + TypeScript template with TanStack Store/Router and StyleX.
+- Bun is used as the package manager, and script-runner
 - All changes must be clean and testable.
 
 ## Setup
 
 - See `package.json` for all available scripts
-- Install: `yarn`
-- Dev: `yarn dev`
-- Build: `yarn build`
-- Lint: `yarn lint`
-- Unit tests: `yarn test`
-- E2E tests: `yarn test:e2e` (run `yarn test:e2e:setup` once)
-- Cosmos (a storybook alternative for testing components): `yarn cosmos`
+- Install: `bun install`
+- Dev: `bun dev`
+- Build: `bun build`
+- Lint: `bun lint`
+- Unit tests: `bun test`
+- E2E tests: `bun test:e2e` (run `bun test:e2e:setup` once)
+- Cosmos (a storybook alternative for testing components): `bun cosmos`
 
 ## Structure
 
