@@ -11,7 +11,7 @@ export default () => {
 		halo: "rgb(120, 120, 120)",
 	});
 	const [lineSize] = useFixtureInput("lineSize", "1px");
-	const [haloSides] = useFixtureInput("haloSides", {
+	const [sides] = useFixtureInput("sides", {
 		top: true,
 		right: true,
 		bottom: true,
@@ -47,7 +47,7 @@ export default () => {
 								<Halo
 									key={position}
 									lineSize={lineSize}
-									haloSides={{
+									sides={{
 										[position.toLowerCase()]: true
 									}}
 									size={itemGradient.size || undefined}

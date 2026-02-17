@@ -15,7 +15,7 @@ type HaloGradient = {
 export type HaloProps = React.JSX.IntrinsicElements["div"] &
 	SxProp &
 	HaloGradient & {
-		haloSides?: Partial<Record<HaloSide, boolean>>;
+		sides?: Partial<Record<HaloSide, boolean>>;
 		lineSize?: string;
 	};
 export type HaloProviderProps = {
@@ -32,7 +32,7 @@ export type HaloProviderProps = {
 export const Halo = ({
 	sx,
 	children,
-	haloSides,
+	sides,
 	lineSize = "1px",
 	size,
 	halo,
@@ -40,7 +40,10 @@ export const Halo = ({
 	...divProps
 }: HaloProps) => {
 	const haloStyleProps = stylex.props(styles.halo, sx);
-	const resolvedSides = haloSides || {
+
+	// If slides is provided, use it directly (this sets unspecified sides to false),
+	// When not set, default to true for all sides.
+	const resolvedSides = sides || {
 		top: true,
 		right: true,
 		bottom: true,
