@@ -84,9 +84,11 @@ export const HaloProvider = ({
 
 			if (!isMouseWithinElement && !isMobile) return;
 
-			$element.style.background = `radial-gradient(${
-				!isMobile ? size : "90vw"
-			} at ${x - left}px ${y - top}px, ${halo}, ${background})`;
+			const rsize = !isMobile ? size : "90vw";
+			const rx = x - left;
+			const ry = y - top;
+
+			$element.style.background = `radial-gradient(${rsize} at ${rx}px ${ry}px, ${halo}, ${background})`;
 		});
 	};
 
