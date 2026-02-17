@@ -9,26 +9,60 @@ export default () => {
 	const [gradient] = useFixtureInput("gradient", {
 		size: "24rem",
 		halo: "rgb(120, 120, 120)",
-		background: "rgb(255, 255, 255)"
+	});
+	const [lineSize] = useFixtureInput("lineSize", "1px");
+	const [sides] = useFixtureInput("sides", {
+		top: true,
+		right: true,
+		bottom: true,
+		left: true
+	});
+	const [itemGradient] = useFixtureInput("itemGradient", {
+		size: "",
+		halo: ""
 	});
 	const [staticForMobile] = useFixtureInput("staticForMobile", true);
 
 	return (
 		<HaloProvider staticForMobile={staticForMobile} gradient={gradient}>
 			<div {...stylex.props(styles.center, styles.fullHeight)}>
-				<Grid gutter={10} minWidth={"50%"} maxWidth={"2fr"}>
-					{["Top Left", "Top Right", "Bottom Left", "Bottom Right"].map(
-						(position) => (
-							<Halo key={position}>
-								<div {...stylex.props(styles.center, styles.box)}>
-									<div {...stylex.props(styles.center, styles.item)}>
-										{position}
-									</div>
+				<div style={{ width: '80%' }}>
+					<div {...stylex.props(styles.center, styles.box)} style={{ width: '100%' }}>
+						<Halo
+							lineSize={lineSize}
+							size={itemGradient.size || undefined}
+							halo={itemGradient.halo || undefined}
+						>
+							<div {...stylex.props(styles.center, styles.box)}>
+								<div {...stylex.props(styles.center, styles.item)}>
+									Single Halo
 								</div>
-							</Halo>
-						)
-					)}
-				</Grid>
+							</div>
+						</Halo>
+					</div>
+
+					<Grid gutter={20} minWidth={"50%"} maxWidth={"2fr"}>
+						{["Left", "Right", "Bottom", "Top"].map(
+							(position) => (
+								<Halo
+									key={position}
+									lineSize={lineSize}
+									sides={{
+										[position.toLowerCase()]: true
+									}}
+									size={itemGradient.size || undefined}
+									halo={itemGradient.halo || undefined}
+								>
+									<div {...stylex.props(styles.center, styles.box)}>
+										<div {...stylex.props(styles.center, styles.item)}>
+											{position}
+										</div>
+									</div>
+								</Halo>
+							)
+						)}
+					</Grid>
+				</div>
 			</div>
 		</HaloProvider>
 	);

@@ -22,8 +22,8 @@ export function IndexRoute() {
 			</FrostedGlass>
 			<Shader
 				sx={styles.shader}
-				source={{
-					rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+				input={{
+					inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 						float mr = min(iResolution.x, iResolution.y);
 						vec2 uv = (fragCoord * 2.0 - iResolution.xy) / mr;
 
@@ -59,7 +59,7 @@ const styles = stylex.create({
 		alignItems: "center",
 		justifyContent: "center",
 		flexDirection: "column",
-		backgroundColor: "#000"
+		backgroundColor: "#070707"
 	},
 	header: {
 		color: "#fff",
@@ -81,6 +81,7 @@ const styles = stylex.create({
 		left: 0,
 		width: "100%",
 		height: "100%",
-		zIndex: -1
+		zIndex: -1,
+		backgroundColor: "#070707"
 	}
 });

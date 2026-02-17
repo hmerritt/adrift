@@ -5,6 +5,7 @@ import type { LogFn, LogLevels, LogStoreType, LognFn } from "./log";
 import type { RunFn, RunSyncFn } from "./utils";
 
 declare global {
+	var __init: boolean;
 	var debug: LogFn;
 	var debugn: LognFn;
 	var env: EnvObj;
@@ -25,6 +26,7 @@ declare global {
 	}
 
 	interface Window {
+		__init: boolean;
 		debug: LogFn;
 		debugn: LognFn;
 		env: EnvObj;

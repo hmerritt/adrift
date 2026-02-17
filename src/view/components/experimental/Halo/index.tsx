@@ -5,15 +5,23 @@ import { isMobile } from "lib/device";
 import { useEventListener } from "lib/hooks";
 import { type SxProp } from "lib/type-assertions";
 
-export type HaloProps = React.JSX.IntrinsicElements["div"] & SxProp;
+type HaloSide = "top" | "right" | "bottom" | "left";
+type HaloGradient = {
+	/** asd  */
+	size?: string;
+	halo?: string;
+};
+
+export type HaloProps = React.JSX.IntrinsicElements["div"] &
+	SxProp &
+	HaloGradient & {
+		sides?: Partial<Record<HaloSide, boolean>>;
+		lineSize?: string;
+	};
 export type HaloProviderProps = {
 	children: React.ReactNode;
 	staticForMobile?: boolean;
-	gradient?: {
-		size?: string;
-		halo?: string;
-		background?: string;
-	};
+	gradient?: HaloGradient;
 };
 
 /**
@@ -21,9 +29,45 @@ export type HaloProviderProps = {
  *
  * Tracks and updates according to the mouse position.
  */
-export const Halo = ({ sx, children, ...divProps }: HaloProps) => {
+export const Halo = ({
+	sx,
+	children,
+	sides,
+	lineSize = "1px",
+	size,
+	halo,
+	style,
+	...divProps
+}: HaloProps) => {
+	const haloStyleProps = stylex.props(styles.halo, sx);
+
+	// If slides is provided, use it directly (this sets unspecified sides to false),
+	// When not set, default to true for all sides.
+	const resolvedSides = sides || {
+		top: true,
+		right: true,
+		bottom: true,
+		left: true,
+	};
+
+	const sidePaddingStyles: React.CSSProperties = {
+		paddingTop: resolvedSides.top ? lineSize : "0px",
+		paddingRight: resolvedSides.right ? lineSize : "0px",
+		paddingBottom: resolvedSides.bottom ? lineSize : "0px",
+		paddingLeft: resolvedSides.left ? lineSize : "0px",
+		...(haloStyleProps.style ? (haloStyleProps.style as React.CSSProperties) : {}),
+		...(style ?? {})
+	};
+
 	return (
-		<div {...divProps} {...stylex.props(styles.halo, sx)} data-halo>
+		<div
+			{...divProps}
+			{...haloStyleProps}
+			data-halo
+			data-halo-size={size}
+			data-halo-color={halo}
+			style={sidePaddingStyles}
+		>
 			{Children.map(children, (child) => {
 				if (isValidElement(child)) {
 					return cloneElement(child, {
@@ -48,10 +92,9 @@ export const HaloProvider = ({
 }: HaloProviderProps) => {
 	const state = useRef({ x: 0, y: 0, stopUpdates: false });
 
-	const { size, halo, background } = {
+	const defaultGradient = {
 		size: "24rem",
 		halo: "rgb(120, 120, 120)",
-		background: "rgb(255, 255, 255)",
 		...(gradient ? gradient : {})
 	};
 
@@ -59,22 +102,24 @@ export const HaloProvider = ({
 		const { x, y } = state.current || { x: 0, y: 0 };
 
 		const $elements = document.querySelectorAll("[data-halo]");
-		$elements.forEach(($element: any) => {
+		$elements.forEach(($element) => {
+			const $haloElement = $element as HTMLElement;
+			const currentSize = $haloElement.dataset.haloSize || defaultGradient.size;
+			const currentHalo = $haloElement.dataset.haloColor || defaultGradient.halo;
+
 			// Stop on mobile
 			if (staticForMobile && isMobile) {
-				$element.style.background = `${halo}`;
+				$haloElement.style.background = `${currentHalo}`;
 				state.current = { ...state.current, stopUpdates: true };
 				return;
 			}
 
-			const { top, bottom, left, right } = $element.getBoundingClientRect();
+			const { top, bottom, left, right } = $haloElement.getBoundingClientRect();
 			const padding = {
 				x: window.innerWidth / 2.5 > 300 ? window.innerWidth / 2.5 : 300,
 				y: window.innerHeight / 2.5 > 300 ? window.innerHeight / 2.5 : 300
 			};
 
-			// Shut up and calculate.
-			//
 			// Is the mouse within the element (plus padding)
 			const isMouseWithinElement =
 				x >= left - padding.x &&
@@ -84,9 +129,11 @@ export const HaloProvider = ({
 
 			if (!isMouseWithinElement && !isMobile) return;
 
-			$element.style.background = `radial-gradient(${
-				!isMobile ? size : "90vw"
-			} at ${x - left}px ${y - top}px, ${halo}, ${background})`;
+			const rsize = !isMobile ? currentSize : "90vw";
+			const rx = x - left;
+			const ry = y - top;
+
+			$haloElement.style.background = `radial-gradient(${rsize} at ${rx}px ${ry}px, ${currentHalo}, transparent)`;
 		});
 	};
 
@@ -129,8 +176,7 @@ export const HaloProvider = ({
 const styles = stylex.create({
 	// Fill parent container
 	halo: {
-		borderRadius: "8px",
-		padding: "1px"
+		borderRadius: "8px"
 	},
 	haloChild: {
 		backgroundColor: "white",

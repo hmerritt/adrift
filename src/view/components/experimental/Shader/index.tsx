@@ -4,46 +4,49 @@ import { useEffect, useRef } from "react";
 import { type SxProp } from "lib/type-assertions";
 
 import {
-	type ShaderSourceProps,
+	type ShaderInput,
 	type ShaderState,
-	defaultShaderState,
-	fetchShader,
-	setup
+	createShaderState,
+	normalizeShaderGraphInput,
+	setup,
+	teardown
 } from "./webgl";
 
-export type ShaderProps = React.JSX.IntrinsicElements["canvas"] &
-	SxProp & {
-		source: ShaderSourceProps;
-	};
+type ShaderPropsBase = React.JSX.IntrinsicElements["canvas"] & SxProp;
+
+export type ShaderProps = ShaderPropsBase & { input: ShaderInput };
 
 /**
  * Shader component
  *
- * Renders a basic image shader (buffers not supported yet).
+ * Renders an image pass from inline GLSL/URL or a full shader graph with buffer passes.
  */
-export const Shader = ({ source, sx, ...canvasProps }: ShaderProps) => {
+export const Shader = ({ input, sx, ...canvasProps }: ShaderProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null);
-	const s = useRef<ShaderState>(defaultShaderState);
+	const s = useRef<ShaderState>(createShaderState());
+	const setupConfigKey = JSON.stringify(input);
 
-	// On mount, fetch the shader and set up WebGL
 	useEffect(() => {
-		(async () => {
-			if (!canvas.current || env.isTest) return;
+		if (!canvas.current || env.isTest) return;
 
-			// Get GLSL shader to render
-			let mainImageShader = "";
-			if (source.rawGLSL) mainImageShader = source.rawGLSL;
-			else if (source.url) mainImageShader = await fetchShader(source.url);
+		const setupInput = JSON.parse(setupConfigKey) as ShaderInput;
 
-			if (!mainImageShader) {
-				logn.error("shader", "No GLSL shader code.");
-				return;
-			}
+		let normalizedGraph;
+		try {
+			normalizedGraph = normalizeShaderGraphInput(setupInput);
+		} catch (error) {
+			logn.error("shader", "Invalid shader configuration.", error);
+			return;
+		}
 
-			s.current = defaultShaderState; // Reset state on re-setup
-			setup(mainImageShader, s.current, canvas.current);
-		})();
-	}, [canvas, source.rawGLSL, source.url]);
+		const shaderState = createShaderState();
+		s.current = shaderState;
+		void setup(normalizedGraph, shaderState, canvas.current);
+
+		return () => {
+			teardown(shaderState);
+		};
+	}, [setupConfigKey]);
 
 	return <canvas {...canvasProps} ref={canvas} {...stylex.props(sx)} />;
 };
