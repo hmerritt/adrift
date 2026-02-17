@@ -59,7 +59,7 @@ const styles = stylex.create({
 		alignItems: "center",
 		justifyContent: "center",
 		flexDirection: "column",
-		backgroundColor: "#000"
+		backgroundColor: "#070707"
 	},
 	header: {
 		color: "#fff",
@@ -82,6 +82,6 @@ const styles = stylex.create({
 		width: "100%",
 		height: "100%",
 		zIndex: -1,
-		backgroundColor: "#111"
+		backgroundColor: "#070707"
 	}
 });
