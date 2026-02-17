@@ -9,7 +9,17 @@ export default () => {
 	const [gradient] = useFixtureInput("gradient", {
 		size: "24rem",
 		halo: "rgb(120, 120, 120)",
-		background: "rgb(255, 255, 255)"
+	});
+	const [lineSize] = useFixtureInput("lineSize", "1px");
+	const [haloSides] = useFixtureInput("haloSides", {
+		top: true,
+		right: true,
+		bottom: true,
+		left: true
+	});
+	const [itemGradient] = useFixtureInput("itemGradient", {
+		size: "",
+		halo: ""
 	});
 	const [staticForMobile] = useFixtureInput("staticForMobile", true);
 
@@ -19,7 +29,13 @@ export default () => {
 				<Grid gutter={10} minWidth={"50%"} maxWidth={"2fr"}>
 					{["Top Left", "Top Right", "Bottom Left", "Bottom Right"].map(
 						(position) => (
-							<Halo key={position}>
+							<Halo
+								key={position}
+								lineSize={lineSize}
+								haloSides={haloSides}
+								size={itemGradient.size || undefined}
+								halo={itemGradient.halo || undefined}
+							>
 								<div {...stylex.props(styles.center, styles.box)}>
 									<div {...stylex.props(styles.center, styles.item)}>
 										{position}
