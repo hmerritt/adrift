@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
-import { ago, niceDate } from "./time";
+import { ago } from "./time";
 
 beforeEach(async () => {
 	vi.useFakeTimers();

@@ -32,8 +32,8 @@ export const Ripple = ({
 
 	// Calculate touch/mouse position (relative to container)
 	const getTouchPosition = (e: MouseEvent | TouchEvent, targetRect: DOMRect) => {
-		let x, y, clientX, clientY;
-		x = y = clientX = clientY = 0;
+		let clientX = 0;
+		let clientY = 0;
 
 		if (e.type === "mousedown") {
 			const native = e.nativeEvent as MouseEvent["nativeEvent"];
@@ -46,8 +46,8 @@ export const Ripple = ({
 			clientY = touch?.clientY;
 		}
 
-		x = Math.round(clientX - targetRect?.x) || 0;
-		y = Math.round(clientY - targetRect?.y) || 0;
+		const x = Math.round(clientX - targetRect?.x) || 0;
+		const y = Math.round(clientY - targetRect?.y) || 0;
 
 		return { x, y };
 	};

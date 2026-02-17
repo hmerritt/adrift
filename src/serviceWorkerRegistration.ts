@@ -147,9 +147,8 @@ function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 			setRegistration(registration);
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
-				if (installingWorker == null) {
-					return;
-				}
+				if (installingWorker == null) return;
+
 				installingWorker.onstatechange = () => {
 					if (installingWorker.state === "installed") {
 						if (navigator.serviceWorker.controller) {
@@ -157,7 +156,8 @@ function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 							// At this point, the updated precached content has been fetched,
 							// but the previous service worker will still serve the older
 							// content until all client tabs are closed.
-							console.log(
+							logn(
+								"serviceWorker",
 								"New content is available and will be used when all " +
 									"tabs for this page are closed. See https://cra.link/PWA."
 							);
@@ -167,10 +167,8 @@ function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 								config.onUpdate(registration);
 							}
 						} else {
-							// At this point, everything has been precached.
-							// It's the perfect time to display a
-							// "Content is cached for offline use." message.
-							console.log("Content is cached for offline use.");
+							// At this point, everything has been precached
+							logn("serviceWorker", "Content is cached for offline use.");
 
 							// Execute callback
 							if (config && config.onSuccess) {
@@ -182,7 +180,11 @@ function registerValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 			};
 		})
 		.catch((error) => {
-			console.error("Error during service worker registration:", error);
+			logn.error(
+				"serviceWorker",
+				"Error during service worker registration:",
+				error
+			);
 		});
 }
 
@@ -210,7 +212,10 @@ function checkValidSW(swUrl: string, config?: ServiceWorkerConfig) {
 			}
 		})
 		.catch(() => {
-			console.log("No internet connection found. App is running in offline mode.");
+			logn.warn(
+				"serviceWorker",
+				"No internet connection found. App is running in offline mode."
+			);
 		});
 }
 
@@ -224,7 +229,7 @@ export function unregister() {
 				registration.unregister();
 			})
 			.catch((error) => {
-				console.error(error.message);
+				logn.error("serviceWorker", error.message);
 			});
 	}
 }

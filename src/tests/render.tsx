@@ -13,24 +13,12 @@ type WrapperType = JSXElementConstructor<{
 const internalTestId = "__routerHasMounted";
 
 export const render = async (ui: Element, skipWaitFor = false) => {
-	const Wrapper: WrapperType = ({ children }) => {
-		return (
-			<RouterProvider
-				router={
-					createTestRouter(
-						<div data-testid={internalTestId}>{children}</div>
-					) as any
-				}
-			/>
-		);
-	};
-
-	const r = reactRender(ui, { wrapper: Wrapper });
+	const router = createTestRouter(<div data-testid={internalTestId}>{ui}</div>);
+	await router.load();
+	const r = reactRender(<RouterProvider router={router as any} context={{}} />);
 
 	if (!skipWaitFor) {
-		await waitFor(() => {
-			r.getByTestId(internalTestId);
-		});
+		await waitFor(() => r.getByTestId(internalTestId));
 	}
 
 	return r;
@@ -44,9 +32,7 @@ export const renderBasic = async (ui: Element, skipWaitFor = false) => {
 	const r = reactRender(ui, { wrapper: Wrapper });
 
 	if (!skipWaitFor) {
-		await waitFor(() => {
-			r.getByTestId(internalTestId);
-		});
+		await waitFor(() => r.getByTestId(internalTestId));
 	}
 
 	return r;

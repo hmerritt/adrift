@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Tests
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        shell: bash
+        run: |
+          bun run lint
+
+      - name: Test
+        shell: bash
+        run: |
+          bun run test
+
+      - name: Build
+        shell: bash
+        run: |
+          bun run build
+
+      - name: Test E2E
+        shell: bash
+        run: |
+          bun run test:e2e:setup
+          bun run test:e2e

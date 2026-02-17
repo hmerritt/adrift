@@ -1,18 +1,27 @@
 /* eslint-disable no-console */
-import execBase from "child_process";
-import path from "path";
-import { fileURLToPath } from "url";
-import util from "util";
-
 import { adriftVersion } from "./version";
-
-const exec = execBase.exec;
-const execAwait = util.promisify(exec);
 
 export type Env = [string, any][];
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = import.meta.dir || ".";
+const PROD_COMMANDS = new Set(["build", "preview"]);
+const TEST_COMMANDS = new Set(["vitest", "cosmos"]);
+
+const getBunRuntime = () => {
+	if (!globalThis.Bun) {
+		throw new Error("Bun runtime is required to run bootstrap scripts.");
+	}
+
+	return globalThis.Bun;
+};
+
+const getShellCommand = (command: string) => {
+	if (process.platform === "win32") {
+		return ["cmd.exe", "/d", "/s", "/c", command];
+	}
+
+	return ["/bin/sh", "-lc", command];
+};
 
 /**
  * Bootstrap runs code before react start/build.
@@ -29,10 +38,14 @@ export async function bootstrap(
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const argString = args?.length > 0 ? args?.join(" ") : "";
+		const useNode = args[0] === "--bun:node";
+		const commandArgs = useNode ? args.slice(1) : args;
+		const argString = commandArgs.join(" ");
+
+		const bunCommand = useNode ? "bunx" : "bunx --bun";
 
 		// Run scripts/start|build command
-		runStream(`yarn cross-env ${envString} ${argString}`, path);
+		runStream(`${bunCommand} cross-env ${envString} ${argString}`, path);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
@@ -137,7 +150,28 @@ export async function run(
 	fallback = undefined as any
 ) {
 	try {
-		const { stdout } = await execAwait(command, { cwd: path });
+		const bunRuntime = getBunRuntime();
+		const execProcess = bunRuntime.spawn({
+			cmd: getShellCommand(command),
+			cwd: path,
+			stdout: "pipe",
+			stderr: "pipe"
+		});
+
+		const [code, stdout, stderr] = await Promise.all([
+			execProcess.exited,
+			execProcess.stdout
+				? new Response(execProcess.stdout).text()
+				: Promise.resolve(""),
+			execProcess.stderr
+				? new Response(execProcess.stderr).text()
+				: Promise.resolve("")
+		]);
+
+		if (code !== 0) {
+			throw new Error(stderr || `Command failed with exit code ${code}`);
+		}
+
 		return stdout?.trim();
 	} catch (e) {
 		if (fallback === undefined) {
@@ -154,12 +188,15 @@ export async function run(
  * Execute OS commands, streams response from stdout
  */
 export function runStream(command: string, path = __dirname, exitOnError = true) {
-	const execProcess = exec(command, { cwd: path });
+	const bunRuntime = getBunRuntime();
+	const execProcess = bunRuntime.spawn({
+		cmd: getShellCommand(command),
+		cwd: path,
+		stdout: "inherit",
+		stderr: "inherit"
+	});
 
-	execProcess.stdout?.pipe(process.stdout);
-	execProcess.stderr?.pipe(process.stderr);
-
-	execProcess.on("exit", (code) => {
+	void execProcess.exited.then((code: number) => {
 		if (code !== 0) {
 			console.log("ERROR: process finished with a non-zero code");
 			if (exitOnError) process.exit(1);
@@ -168,11 +205,13 @@ export function runStream(command: string, path = __dirname, exitOnError = true)
 }
 
 export function isProd(args = [] as string[]) {
-	return args.length >= 2 && (args[1] === "build" || args[1] === "preview");
+	const command = args[1];
+	return !!command && PROD_COMMANDS.has(command);
 }
 
 export function isTest(args = [] as string[]) {
-	return args.length >= 1 && (args[0] === "vitest" || args[0] === "cosmos");
+	const command = args[0];
+	return !!command && TEST_COMMANDS.has(command);
 }
 
 export function isDev(args = [] as string[]) {
@@ -185,14 +224,9 @@ export function isDev(args = [] as string[]) {
  * @returns `NODE_ENV` value
  */
 export function getNodeEnv(args = [] as string[]) {
-	switch (true) {
-		case isProd(args):
-			return "production";
-		case isTest(args):
-			return "test";
-		default:
-			return "development";
-	}
+	if (isProd(args)) return "production";
+	if (isTest(args)) return "test";
+	return "development";
 }
 
 /**

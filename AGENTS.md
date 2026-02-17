@@ -28,7 +28,8 @@ Short rules for working in this repo.
 
 ## Conventions
 
-- TypeScript only; keep types explicit at module boundaries.
+- TypeScript only; keep types explicit at module boundaries. Prefer strict typing; avoid `any`
+- Add brief code comments for tricky or non-obvious logic.
 - Use StyleX for styling; do not add ad-hoc CSS files.
 - Prefer existing hooks/utilities in `src/lib` before adding new ones.
 - New UI components go under `src/view/components`; export from `src/view/components/index.ts`.
@@ -84,3 +85,7 @@ A few tips to write better tests:
 ## Commits
 
 - Follow `CONTRIBUTING.md` prefix rules and lowercase messages.
+
+## Agent-Specific Notes
+
+- When answering questions, respond with high-confidence answers only: verify in code; do not guess.

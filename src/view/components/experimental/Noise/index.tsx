@@ -65,10 +65,12 @@ export const Noise = ({
 		const ctx = canvas?.getContext?.("2d");
 		if (!ctx || !canvas?.getContext) return;
 
-		canvasResize(canvas, size);
+		const runCanResize = () => canvasResize(canvas, size);
+
+		runCanResize();
 
 		if (reactToWindowResize) {
-			window.addEventListener("resize", () => canvasResize(canvas, size));
+			window.addEventListener("resize", runCanResize);
 		}
 
 		loopIsRunning.current = true;
@@ -90,7 +92,7 @@ export const Noise = ({
 
 		return () => {
 			loopIsRunning.current = false;
-			window.removeEventListener("resize", () => canvasResize(canvas, size));
+			window.removeEventListener("resize", runCanResize);
 		};
 	}, [alpha, framerate, reactToWindowResize, size]);
 
