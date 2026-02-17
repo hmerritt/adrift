@@ -1,8 +1,22 @@
 import * as stylex from "@stylexjs/stylex";
-import { MouseEvent, TouchEvent, useCallback, useRef } from "react";
+import {
+	type MouseEvent,
+	type PointerEvent,
+	type TouchEvent,
+	useEffect,
+	useRef
+} from "react";
 
-import { isMobile } from "lib/device";
 import { type SxProp } from "lib/type-assertions";
+
+type RippleRecord = {
+	id: number;
+	pointerId: number;
+	container: HTMLSpanElement;
+	ripple: HTMLSpanElement;
+	isRemoving: boolean;
+	removeTimeout: number | null;
+};
 
 export type RippleProps = React.JSX.IntrinsicElements["div"] &
 	SxProp & {
@@ -12,198 +26,234 @@ export type RippleProps = React.JSX.IntrinsicElements["div"] &
 	};
 
 /**
- * Animated ripple effect on-click (inspired by material-ui).
- *
- * @Note Ported from `react-native-paper`'s `<TouchableRipple />`
+ * Animated ripple effect on-press (inspired by material-ui).
  */
 export const Ripple = ({
 	sx,
 	children,
 	hoverBg,
 	centered,
+	disabled,
 	onMouseDown,
 	onMouseUp,
 	onTouchStart,
 	onTouchEnd,
+	onPointerDown,
+	onPointerUp,
+	onPointerCancel,
+	onLostPointerCapture,
 	...props
 }: RippleProps) => {
-	// Keep track of each ripple
 	const count = useRef(0);
+	const ripples = useRef<Map<number, RippleRecord>>(new Map());
+	const pointerToRipple = useRef<Map<number, number>>(new Map());
 
-	// Calculate touch/mouse position (relative to container)
-	const getTouchPosition = (e: MouseEvent | TouchEvent, targetRect: DOMRect) => {
-		let clientX = 0;
-		let clientY = 0;
-
-		if (e.type === "mousedown") {
-			const native = e.nativeEvent as MouseEvent["nativeEvent"];
-			clientX = native?.clientX;
-			clientY = native?.clientY;
-		} else if (e.type === "touchstart") {
-			const native = e.nativeEvent as TouchEvent["nativeEvent"];
-			const touch = native?.touches?.[0] ?? native?.changedTouches?.[0];
-			clientX = touch?.clientX;
-			clientY = touch?.clientY;
+	const removeRippleRecord = (record: RippleRecord) => {
+		if (record.isRemoving) {
+			return;
 		}
 
-		const x = Math.round(clientX - targetRect?.x) || 0;
-		const y = Math.round(clientY - targetRect?.y) || 0;
-
-		return { x, y };
-	};
-
-	const handleRemoveRipple = (container: Element) => {
-		const ripple = container.firstChild as HTMLSpanElement;
-
-		Object.assign(ripple.style, {
-			transitionDuration: "250ms",
-			opacity: 0
+		record.isRemoving = true;
+		Object.assign(record.ripple.style, {
+			transitionDuration: "220ms",
+			opacity: "0"
 		});
 
-		// Finally remove the span after the transition
-		setTimeout(() => {
-			const { parentNode } = container;
+		record.removeTimeout = window.setTimeout(() => {
+			record.container.remove();
+			ripples.current.delete(record.id);
 
-			if (parentNode) {
-				parentNode.removeChild(container);
+			const mappedRippleId = pointerToRipple.current.get(record.pointerId);
+			if (mappedRippleId === record.id) {
+				pointerToRipple.current.delete(record.pointerId);
 			}
-		}, 500);
+		}, 240);
 	};
 
-	const handleStart = useCallback(
-		(e: any) => {
-			if (isMobile) onTouchStart?.(e);
-			else onMouseDown?.(e);
+	const removeRippleByPointer = (pointerId: number) => {
+		const rippleId = pointerToRipple.current.get(pointerId);
+		if (typeof rippleId !== "number") {
+			return;
+		}
 
-			const rippleId = count.current++;
-			const button = e.currentTarget;
-			const style = window.getComputedStyle(button);
-			const dimensions = button.getBoundingClientRect();
+		pointerToRipple.current.delete(pointerId);
 
-			let { x: touchX, y: touchY } = getTouchPosition(e, dimensions);
+		const record = ripples.current.get(rippleId);
+		if (!record) {
+			return;
+		}
 
-			if (centered || !touchX || !touchY) {
-				touchX = dimensions.width / 2;
-				touchY = dimensions.height / 2;
+		removeRippleRecord(record);
+	};
+
+	useEffect(() => {
+		const ripplesMap = ripples.current;
+		const pointerMap = pointerToRipple.current;
+
+		return () => {
+			for (const ripple of ripplesMap.values()) {
+				if (ripple.removeTimeout !== null) {
+					clearTimeout(ripple.removeTimeout);
+				}
+				ripple.container.remove();
 			}
+			ripplesMap.clear();
+			pointerMap.clear();
+		};
+	}, []);
 
-			// Get the size of the button to determine how big the ripple should be
-			const size = Math.max(dimensions.width, dimensions.height) * 2.5;
+	const createRipple = (e: PointerEvent<HTMLDivElement>) => {
+		const rippleId = count.current++;
+		const button = e.currentTarget;
+		const style = window.getComputedStyle(button);
+		const dimensions = button.getBoundingClientRect();
 
-			// Create a container for our ripple effect so we don't need to change the parent's style
-			const container = document.createElement("span");
+		const pointerX = Math.round(e.clientX - dimensions.left) || 0;
+		const pointerY = Math.round(e.clientY - dimensions.top) || 0;
 
-			container.setAttribute("data-ripple", "");
-			container.setAttribute(`data-ripple-${rippleId}`, "");
+		const touchX = centered || !pointerX ? dimensions.width / 2 : pointerX;
+		const touchY = centered || !pointerY ? dimensions.height / 2 : pointerY;
 
-			Object.assign(container.style, {
-				position: "absolute",
-				pointerEvents: "none",
-				top: "0",
-				left: "0",
-				right: "0",
-				bottom: "0",
-				borderTopLeftRadius: style.borderTopLeftRadius,
-				borderTopRightRadius: style.borderTopRightRadius,
-				borderBottomRightRadius: style.borderBottomRightRadius,
-				borderBottomLeftRadius: style.borderBottomLeftRadius
-			});
+		const size = Math.max(dimensions.width, dimensions.height) * 2.5;
+		const container = document.createElement("span");
+		container.setAttribute("data-ripple", "");
+		container.setAttribute(`data-ripple-${rippleId}`, "");
 
-			// Create span to show the ripple effect
-			const ripple = document.createElement("span");
+		Object.assign(container.style, {
+			position: "absolute",
+			pointerEvents: "none",
+			top: "0",
+			left: "0",
+			right: "0",
+			bottom: "0",
+			borderTopLeftRadius: style.borderTopLeftRadius,
+			borderTopRightRadius: style.borderTopRightRadius,
+			borderBottomRightRadius: style.borderBottomRightRadius,
+			borderBottomLeftRadius: style.borderBottomLeftRadius
+		});
 
-			// Calculate the distance to the center as a percentage (center is 0%)
-			const mouseX = e.clientX - dimensions.left;
-			const center = button.clientWidth / 2;
-			const distanceToCenter = Math.abs(((mouseX - center) / center) * 100);
+		const ripple = document.createElement("span");
+		const mouseX = e.clientX - dimensions.left;
+		const centerX = button.clientWidth / 2;
+		const distanceToCenter =
+			centerX > 0 ? Math.abs(((mouseX - centerX) / centerX) * 100) : 0;
+		const durationScaler = centered ? 1 : distanceToCenter * 0.4;
+		const duration = Math.max(120, 280 - (280 * durationScaler) / 100);
 
-			// Scale animation duration based on distance to center.
-			// Corner clicks appear slower, since you are only seeing a cross-section of the circle expanding.
-			const durationScaler = centered ? 1 : distanceToCenter * 0.4;
-			const duration = 280 - (280 * durationScaler) / 100;
+		Object.assign(ripple.style, {
+			position: "absolute",
+			pointerEvents: "none",
+			backgroundColor: "rgba(0, 0, 0, 0.1)", // @TODO: theme me
+			borderRadius: "50%",
+			zIndex: "10",
+			transitionProperty: "transform opacity",
+			transitionDuration: `${duration}ms`,
+			transitionTimingFunction: "linear",
+			transformOrigin: "center",
+			transform: "translate3d(-50%, -50%, 0) scale3d(0.15, 0.15, 0.1)",
+			opacity: "0.5",
+			left: `${touchX}px`,
+			top: `${touchY}px`,
+			width: `${size}px`,
+			height: `${size}px`
+		});
 
-			Object.assign(ripple.style, {
-				position: "absolute",
-				pointerEvents: "none",
-				backgroundColor: "rgba(0, 0, 0, 0.1)", // @TODO: theme me
-				borderRadius: "50%",
-				zIndex: "10",
+		container.appendChild(ripple);
+		button.appendChild(container);
 
-				/* Transition configuration */
-				transitionProperty: "transform opacity",
-				transitionDuration: `${duration}ms`,
-				transitionTimingFunction: "linear",
-				transformOrigin: "center",
-
-				/* We'll animate these properties */
-				transform: "translate3d(-50%, -50%, 0) scale3d(0.15, 0.15, 0.1)",
-				opacity: "0.5",
-
-				// Position the ripple where cursor was
-				left: `${touchX}px`,
-				top: `${touchY}px`,
-				width: `${size}px`,
-				height: `${size}px`
-			});
-
-			// Finally, append it to DOM
-			container.appendChild(ripple);
-			button.appendChild(container);
-
-			// rAF runs in the same frame as the event handler
-			// Use double rAF to ensure the transition class is added in next frame
-			// This will make sure that the transition animation is triggered
+		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
-				requestAnimationFrame(() => {
-					Object.assign(ripple.style, {
-						transform: "translate3d(-50%, -50%, 0) scale3d(1, 1, 1)",
-						opacity: "1"
-					});
+				Object.assign(ripple.style, {
+					transform: "translate3d(-50%, -50%, 0) scale3d(1, 1, 1)",
+					opacity: "1"
 				});
 			});
+		});
 
-			const reset = setTimeout(() => {
-				requestAnimationFrame(() => {
-					const remainingRipple = button.querySelector(
-						`[data-ripple-${rippleId}]`
-					);
-					if (remainingRipple) handleRemoveRipple(remainingRipple);
-				});
-			}, duration + 400);
+		const record: RippleRecord = {
+			id: rippleId,
+			pointerId: e.pointerId,
+			container,
+			ripple,
+			isRemoving: false,
+			removeTimeout: null
+		};
 
-			return () => clearTimeout(reset);
-		},
-		[centered, onMouseDown, onTouchStart]
-	);
+		ripples.current.set(rippleId, record);
+		pointerToRipple.current.set(e.pointerId, rippleId);
+	};
 
-	const handleEnd = useCallback(
-		(e: any) => {
-			if (isMobile) onTouchEnd?.(e);
-			else onMouseUp?.(e);
+	const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
+		if (disabled) {
+			return;
+		}
 
-			const containers = e?.currentTarget?.querySelectorAll(
-				"[data-ripple]"
-			) as HTMLElement[];
+		onPointerDown?.(e);
 
-			requestAnimationFrame(() => {
-				requestAnimationFrame(() => {
-					containers?.forEach((container) => {
-						handleRemoveRipple(container);
-					});
-				});
-			});
-		},
-		[onMouseUp, onTouchEnd]
-	);
+		if (e.pointerType === "touch") {
+			onTouchStart?.(e as unknown as TouchEvent<HTMLDivElement>);
+		} else {
+			onMouseDown?.(e as unknown as MouseEvent<HTMLDivElement>);
+		}
+
+		if (e.currentTarget.setPointerCapture) {
+			try {
+				e.currentTarget.setPointerCapture(e.pointerId);
+			} catch {
+				// Not all targets can capture pointers in every environment.
+			}
+		}
+
+		createRipple(e);
+	};
+
+	const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
+		if (disabled) {
+			return;
+		}
+
+		onPointerUp?.(e);
+
+		if (e.pointerType === "touch") {
+			onTouchEnd?.(e as unknown as TouchEvent<HTMLDivElement>);
+		} else {
+			onMouseUp?.(e as unknown as MouseEvent<HTMLDivElement>);
+		}
+
+		removeRippleByPointer(e.pointerId);
+	};
+
+	const handlePointerCancel = (e: PointerEvent<HTMLDivElement>) => {
+		if (disabled) {
+			return;
+		}
+
+		onPointerCancel?.(e);
+		removeRippleByPointer(e.pointerId);
+	};
+
+	const handleLostPointerCapture = (e: PointerEvent<HTMLDivElement>) => {
+		if (disabled) {
+			return;
+		}
+
+		onLostPointerCapture?.(e);
+		removeRippleByPointer(e.pointerId);
+	};
 
 	return (
 		<div
 			{...props}
-			{...stylex.props(styles.ripple, hoverBg && styles.rippleHover, sx)}
-			onMouseDown={(e) => !isMobile && handleStart?.(e)}
-			onMouseUp={(e) => !isMobile && handleEnd?.(e)}
-			onTouchStart={(e) => isMobile && handleStart?.(e)}
-			onTouchEnd={(e) => isMobile && handleEnd?.(e)}
+			{...stylex.props(
+				styles.ripple,
+				hoverBg && !disabled && styles.rippleHover,
+				disabled && styles.rippleDisabled,
+				sx
+			)}
+			onPointerDown={handlePointerDown}
+			onPointerUp={handlePointerUp}
+			onPointerCancel={handlePointerCancel}
+			onLostPointerCapture={handleLostPointerCapture}
 		>
 			{children}
 		</div>
@@ -220,5 +270,8 @@ const styles = stylex.create({
 	},
 	rippleHover: {
 		backgroundColor: "#f5f5f5" // @TODO: theme me
+	},
+	rippleDisabled: {
+		cursor: "default"
 	}
 });
