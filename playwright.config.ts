@@ -50,6 +50,7 @@ export default defineConfig({
 	webServer: {
 		command: `bun run preview`,
 		url: baseURL,
+		timeout: 120_000,
 		reuseExistingServer: !isCI
 	}
 });

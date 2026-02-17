@@ -27,13 +27,13 @@ jobs:
         run: |
           bun run test
 
+      - name: Build
+        shell: bash
+        run: |
+          bun run build
+
       - name: Test E2E
         shell: bash
         run: |
           bun run test:e2e:setup
           bun run test:e2e
-
-      - name: Build
-        shell: bash
-        run: |
-          bun run build
