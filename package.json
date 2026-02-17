@@ -16,7 +16,7 @@
 		"start": "bun run bootstrap vite",
 		"test": "bun run bootstrap vitest run",
 		"test:bench": "bun run bootstrap vitest bench",
-		"test:coverage": "bun run bootstrap vitest run --coverage --silent",
+		"test:coverage": "bun run bootstrap --bun:node vitest run --coverage --silent",
 		"test:e2e:setup": "bun playwright install --with-deps",
 		"test:e2e": "bun run bootstrap --bun:node playwright test",
 		"test:watch": "bun run bootstrap vitest watch --ui --api 9527",

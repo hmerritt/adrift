@@ -22,18 +22,17 @@ jobs:
         run: |
           bun run lint
 
-      - name: Test
-        shell: bash
-        run: |
-          bun run test
-
       - name: Build
         shell: bash
         run: |
           bun run build
 
+      - name: Test
+        shell: bash
+        run: |
+          bun run test:coverage
+
       - name: Test E2E
         shell: bash
         run: |
-          bun run test:e2e:setup
           bun run test:e2e

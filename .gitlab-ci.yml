@@ -83,7 +83,7 @@ test-e2e:
         - bun run build
     script:
         - export PATH="$BUN_INSTALL/bin:$PATH"
-        - bun run bootstrap bunx playwright test
+        - bun run test:e2e
 
 #
 # region Build
