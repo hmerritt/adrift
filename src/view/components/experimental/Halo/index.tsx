@@ -40,12 +40,11 @@ export const Halo = ({
 	...divProps
 }: HaloProps) => {
 	const haloStyleProps = stylex.props(styles.halo, sx);
-	const resolvedSides = {
+	const resolvedSides = haloSides || {
 		top: true,
 		right: true,
 		bottom: true,
 		left: true,
-		...(haloSides ?? {})
 	};
 
 	const sidePaddingStyles: React.CSSProperties = {
@@ -118,8 +117,6 @@ export const HaloProvider = ({
 				y: window.innerHeight / 2.5 > 300 ? window.innerHeight / 2.5 : 300
 			};
 
-			// Shut up and calculate.
-			//
 			// Is the mouse within the element (plus padding)
 			const isMouseWithinElement =
 				x >= left - padding.x &&

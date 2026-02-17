@@ -26,25 +26,43 @@ export default () => {
 	return (
 		<HaloProvider staticForMobile={staticForMobile} gradient={gradient}>
 			<div {...stylex.props(styles.center, styles.fullHeight)}>
-				<Grid gutter={10} minWidth={"50%"} maxWidth={"2fr"}>
-					{["Top Left", "Top Right", "Bottom Left", "Bottom Right"].map(
-						(position) => (
-							<Halo
-								key={position}
-								lineSize={lineSize}
-								haloSides={haloSides}
-								size={itemGradient.size || undefined}
-								halo={itemGradient.halo || undefined}
-							>
-								<div {...stylex.props(styles.center, styles.box)}>
-									<div {...stylex.props(styles.center, styles.item)}>
-										{position}
-									</div>
+				<div style={{ width: '80%' }}>
+					<div {...stylex.props(styles.center, styles.box)} style={{ width: '100%' }}>
+						<Halo
+							lineSize={lineSize}
+							size={itemGradient.size || undefined}
+							halo={itemGradient.halo || undefined}
+						>
+							<div {...stylex.props(styles.center, styles.box)}>
+								<div {...stylex.props(styles.center, styles.item)}>
+									Single Halo
 								</div>
-							</Halo>
-						)
-					)}
-				</Grid>
+							</div>
+						</Halo>
+					</div>
+
+					<Grid gutter={20} minWidth={"50%"} maxWidth={"2fr"}>
+						{["Left", "Right", "Bottom", "Top"].map(
+							(position) => (
+								<Halo
+									key={position}
+									lineSize={lineSize}
+									haloSides={{
+										[position.toLowerCase()]: true
+									}}
+									size={itemGradient.size || undefined}
+									halo={itemGradient.halo || undefined}
+								>
+									<div {...stylex.props(styles.center, styles.box)}>
+										<div {...stylex.props(styles.center, styles.item)}>
+											{position}
+										</div>
+									</div>
+								</Halo>
+							)
+						)}
+					</Grid>
+				</div>
 			</div>
 		</HaloProvider>
 	);
