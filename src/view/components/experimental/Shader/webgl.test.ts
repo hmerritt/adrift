@@ -1,49 +1,36 @@
 import { describe, expect, test } from "vitest";
 
-import { normalizeShaderGraph, resolveBufferPassOrder } from "./webgl";
+import { normalizeShaderGraphInput, resolveBufferPassOrder } from "./webgl";
 
 const shader = {
-	rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+	inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 		fragColor = vec4(1.0);
 	}`
 } as const;
 
 describe("Shader graph normalization", () => {
-	test("normalizes legacy source into an image-only graph", () => {
-		const graph = normalizeShaderGraph({
-			source: shader
+	test("normalizes inline input into an image-only graph", () => {
+		const graph = normalizeShaderGraphInput({
+			inline: shader.inline
 		});
 
 		expect(graph.image.id).toBe("image");
-		expect(graph.image.shader).toEqual(shader);
+		expect(graph.image.shader).toEqual({ inline: shader.inline });
 		expect(graph.image.channels.length).toBe(4);
 		expect(graph.buffers).toEqual([]);
 	});
 
-	test("prefers graph when source and graph are both provided", () => {
-		const graph = normalizeShaderGraph({
-			source: shader,
-			graph: {
-				image: {
-					shader: {
-						rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
-							fragColor = vec4(0.0);
-						}`
-					}
-				}
-			}
+	test("normalizes url input into an image-only graph", () => {
+		const graph = normalizeShaderGraphInput({
+			url: "https://example.com/shader.glsl"
 		});
 
-		expect(graph.image.shader).toEqual({
-			rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
-							fragColor = vec4(0.0);
-						}`
-		});
+		expect(graph.image.shader).toEqual({ url: "https://example.com/shader.glsl" });
 	});
 
 	test("throws when a pass references an unknown pass input", () => {
 		expect(() =>
-			normalizeShaderGraph({
+			normalizeShaderGraphInput({
 				graph: {
 					buffers: [
 						{
@@ -60,7 +47,7 @@ describe("Shader graph normalization", () => {
 
 	test("throws when more than 4 channels are supplied", () => {
 		expect(() =>
-			normalizeShaderGraph({
+			normalizeShaderGraphInput({
 				graph: {
 					image: {
 						shader,
@@ -76,11 +63,26 @@ describe("Shader graph normalization", () => {
 			})
 		).toThrow("can only have 4 channels");
 	});
+
+	test("throws when input mode is ambiguous", () => {
+		const ambiguousInput = {
+			inline: shader.inline,
+			url: "https://example.com/shader.glsl"
+		};
+
+		expect(() =>
+			normalizeShaderGraphInput(
+				ambiguousInput as unknown as Parameters<
+					typeof normalizeShaderGraphInput
+				>[0]
+			)
+		).toThrow("must define exactly one mode");
+	});
 });
 
 describe("Shader buffer pass ordering", () => {
 	test("resolves ordered dependencies", () => {
-		const graph = normalizeShaderGraph({
+		const graph = normalizeShaderGraphInput({
 			graph: {
 				buffers: [
 					{ id: "bufferA", shader },
@@ -106,7 +108,7 @@ describe("Shader buffer pass ordering", () => {
 	});
 
 	test("allows self-feedback references", () => {
-		const graph = normalizeShaderGraph({
+		const graph = normalizeShaderGraphInput({
 			graph: {
 				buffers: [
 					{
@@ -127,7 +129,7 @@ describe("Shader buffer pass ordering", () => {
 
 	test("rejects cyclic cross-pass dependencies", () => {
 		expect(() =>
-			normalizeShaderGraph({
+			normalizeShaderGraphInput({
 				graph: {
 					buffers: [
 						{

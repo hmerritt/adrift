@@ -22,8 +22,8 @@ export function IndexRoute() {
 			</FrostedGlass>
 			<Shader
 				sx={styles.shader}
-				source={{
-					rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+				input={{
+					inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 						float mr = min(iResolution.x, iResolution.y);
 						vec2 uv = (fragCoord * 2.0 - iResolution.xy) / mr;
 

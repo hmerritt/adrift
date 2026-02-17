@@ -5,8 +5,8 @@ import { Stack } from "view/components";
 import { Shader } from "view/components/experimental/Shader";
 
 const GLSL = () => {
-	const [rawGLSL] = useFixtureInput(
-		"rawGLSL",
+	const [inline] = useFixtureInput(
+		"inline",
 		`void mainImage(out vec4 fragColor, vec2 fragCoord) {
 	float mr = min(iResolution.x, iResolution.y);
 	vec2 uv = (fragCoord * 2.0 - iResolution.xy) / mr;
@@ -30,7 +30,7 @@ const GLSL = () => {
 
 	return (
 		<Stack sx={styles.container}>
-			<Shader sx={styles.canvas} source={{ rawGLSL }} />
+			<Shader sx={styles.canvas} input={{ inline }} />
 		</Stack>
 	);
 };
@@ -43,7 +43,7 @@ const URL = () => {
 
 	return (
 		<Stack sx={styles.container}>
-			<Shader sx={styles.canvas} source={{ url }} />
+			<Shader sx={styles.canvas} input={{ url }} />
 		</Stack>
 	);
 };
@@ -53,12 +53,13 @@ const MultiBufferFeedback = () => {
 		<Stack sx={styles.container}>
 			<Shader
 				sx={styles.canvas}
-				graph={{
-					buffers: [
-						{
-							id: "bufferA",
-							shader: {
-								rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+				input={{
+					graph: {
+						buffers: [
+							{
+								id: "bufferA",
+								shader: {
+									inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 									vec2 uv = fragCoord / iResolution.xy;
 									vec3 prev = texture(iChannel0, uv).rgb;
 									vec3 seed = vec3(
@@ -67,20 +68,21 @@ const MultiBufferFeedback = () => {
 										0.5 + 0.5 * sin(iTime * 1.1)
 									);
 									fragColor = vec4(mix(prev, seed, 0.03), 1.0);
+									}`
+								},
+								channels: [{ type: "pass", passId: "bufferA" }]
+							}
+						],
+						image: {
+							shader: {
+								inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+								vec2 uv = fragCoord / iResolution.xy;
+								vec3 color = texture(iChannel0, uv).rgb;
+								fragColor = vec4(color, 1.0);
 								}`
 							},
 							channels: [{ type: "pass", passId: "bufferA" }]
 						}
-					],
-					image: {
-						shader: {
-							rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
-								vec2 uv = fragCoord / iResolution.xy;
-								vec3 color = texture(iChannel0, uv).rgb;
-								fragColor = vec4(color, 1.0);
-							}`
-						},
-						channels: [{ type: "pass", passId: "bufferA" }]
 					}
 				}}
 			/>
@@ -98,10 +100,11 @@ const TextureInput = () => {
 		<Stack sx={styles.container}>
 			<Shader
 				sx={styles.canvas}
-				graph={{
-					image: {
-						shader: {
-							rawGLSL: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
+				input={{
+					graph: {
+						image: {
+							shader: {
+								inline: `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 								vec2 uv = fragCoord / iResolution.xy;
 								vec2 p = uv - 0.5;
 								float angle = iTime * 0.3;
@@ -109,9 +112,10 @@ const TextureInput = () => {
 								vec2 warpedUV = rot * p + 0.5;
 								vec4 tex = texture(iChannel0, warpedUV);
 								fragColor = vec4(tex.rgb, 1.0);
-							}`
+								}`
+							},
+							channels: [{ type: "texture", url: textureUrl }]
 						},
-						channels: [{ type: "texture", url: textureUrl }]
 					}
 				}}
 			/>

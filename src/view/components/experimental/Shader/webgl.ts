@@ -1,19 +1,17 @@
-import { createFragmentShaderSource, VERTEX_SHADER_SOURCE } from "./glsl";
+import { VERTEX_SHADER_SOURCE, createFragmentShaderSource } from "./glsl";
 
 const CHANNEL_COUNT = 4;
 const IMAGE_PASS_ID = "image";
 const POSITION_ATTRIBUTE_LOCATION = 0;
 
-export type ShaderSourceProps =
+export type ShaderPassSource =
 	| {
-			/** GLSL shader code to inject into the fragment shader template */
-			rawGLSL: string;
-			url?: string;
+			inline: string;
+			url?: never;
 	  }
 	| {
-			/** URL to fetch GLSL shader code */
 			url: string;
-			rawGLSL?: string;
+			inline?: never;
 	  };
 
 export type ShaderChannelInput =
@@ -28,21 +26,41 @@ export type ShaderChannelInput =
 
 export type ShaderPassSpec = {
 	id: string;
-	shader: ShaderSourceProps;
+	shader: ShaderPassSource;
 	channels?: ReadonlyArray<ShaderChannelInput | null | undefined>;
 };
 
 export type ShaderGraph = {
 	image: {
-		shader: ShaderSourceProps;
+		shader: ShaderPassSource;
 		channels?: ReadonlyArray<ShaderChannelInput | null | undefined>;
 	};
 	buffers?: ReadonlyArray<ShaderPassSpec>;
 };
 
+export type ShaderInput =
+	| {
+			/** GLSL shader code to inject into the fragment shader template */
+			inline: string;
+			url?: never;
+			graph?: never;
+	  }
+	| {
+			/** URL to fetch GLSL shader code */
+			url: string;
+			inline?: never;
+			graph?: never;
+	  }
+	| {
+			/** Shader graph definition */
+			graph: ShaderGraph;
+			inline?: never;
+			url?: never;
+	  };
+
 export type NormalizedShaderPass = {
 	id: string;
-	shader: ShaderSourceProps;
+	shader: ShaderPassSource;
 	channels: (ShaderChannelInput | null)[];
 };
 
@@ -168,7 +186,7 @@ const normalizeChannels = (
 	return normalized;
 };
 
-const normalizeFromSource = (source: ShaderSourceProps): NormalizedShaderGraph => {
+const normalizeFromSource = (source: ShaderPassSource): NormalizedShaderGraph => {
 	return {
 		image: {
 			id: IMAGE_PASS_ID,
@@ -179,72 +197,86 @@ const normalizeFromSource = (source: ShaderSourceProps): NormalizedShaderGraph =
 	};
 };
 
-export const normalizeShaderGraph = ({
-	source,
-	graph
-}: {
-	source?: ShaderSourceProps;
-	graph?: ShaderGraph;
-}): NormalizedShaderGraph => {
-	if (!source && !graph) {
-		throw new Error("Shader requires either `source` or `graph`.");
+const normalizeFromGraph = (graph: ShaderGraph): NormalizedShaderGraph => {
+	const buffers: NormalizedShaderPass[] = [];
+	const bufferIds = new Set<string>();
+
+	for (const buffer of graph.buffers ?? []) {
+		const id = buffer.id.trim();
+		if (!id) {
+			throw new Error("Shader buffer id cannot be empty.");
+		}
+		if (id === IMAGE_PASS_ID) {
+			throw new Error(`Shader buffer id "${IMAGE_PASS_ID}" is reserved.`);
+		}
+		if (bufferIds.has(id)) {
+			throw new Error(`Shader buffer id "${id}" is duplicated.`);
+		}
+		bufferIds.add(id);
+		buffers.push({
+			id,
+			shader: buffer.shader,
+			channels: normalizeChannels(buffer.channels)
+		});
 	}
 
-	if (graph) {
-		const buffers: NormalizedShaderPass[] = [];
-		const bufferIds = new Set<string>();
+	const normalized: NormalizedShaderGraph = {
+		image: {
+			id: IMAGE_PASS_ID,
+			shader: graph.image.shader,
+			channels: normalizeChannels(graph.image.channels)
+		},
+		buffers
+	};
 
-		for (const buffer of graph.buffers ?? []) {
-			const id = buffer.id.trim();
-			if (!id) {
-				throw new Error("Shader buffer id cannot be empty.");
+	for (const pass of [normalized.image, ...normalized.buffers]) {
+		for (const channel of pass.channels) {
+			if (!channel || channel.type !== "pass") {
+				continue;
 			}
-			if (id === IMAGE_PASS_ID) {
-				throw new Error(`Shader buffer id "${IMAGE_PASS_ID}" is reserved.`);
+
+			if (channel.passId === IMAGE_PASS_ID) {
+				throw new Error("Pass channels cannot reference image output.");
 			}
-			if (bufferIds.has(id)) {
-				throw new Error(`Shader buffer id "${id}" is duplicated.`);
-			}
-			bufferIds.add(id);
-			buffers.push({
-				id,
-				shader: buffer.shader,
-				channels: normalizeChannels(buffer.channels)
-			});
-		}
 
-		const normalized: NormalizedShaderGraph = {
-			image: {
-				id: IMAGE_PASS_ID,
-				shader: graph.image.shader,
-				channels: normalizeChannels(graph.image.channels)
-			},
-			buffers
-		};
-
-		for (const pass of [normalized.image, ...normalized.buffers]) {
-			for (const channel of pass.channels) {
-				if (!channel || channel.type !== "pass") {
-					continue;
-				}
-
-				if (channel.passId === IMAGE_PASS_ID) {
-					throw new Error("Pass channels cannot reference image output.");
-				}
-
-				if (!bufferIds.has(channel.passId)) {
-					throw new Error(
-						`Shader pass "${pass.id}" references unknown pass "${channel.passId}".`
-					);
-				}
+			if (!bufferIds.has(channel.passId)) {
+				throw new Error(
+					`Shader pass "${pass.id}" references unknown pass "${channel.passId}".`
+				);
 			}
 		}
-
-		resolveBufferPassOrder(normalized);
-		return normalized;
 	}
 
-	return normalizeFromSource(source as ShaderSourceProps);
+	resolveBufferPassOrder(normalized);
+	return normalized;
+};
+
+export const normalizeShaderGraphInput = (input: ShaderInput): NormalizedShaderGraph => {
+	const hasInline = "inline" in input && typeof input.inline === "string";
+	const hasUrl = "url" in input && typeof input.url === "string";
+	const hasGraph =
+		"graph" in input && typeof input.graph === "object" && input.graph !== null;
+	const modeCount = Number(hasInline) + Number(hasUrl) + Number(hasGraph);
+
+	if (modeCount !== 1) {
+		throw new Error(
+			"Shader input must define exactly one mode: `inline`, `url`, or `graph`."
+		);
+	}
+
+	if (hasInline) {
+		return normalizeFromSource({ inline: input.inline });
+	}
+
+	if (hasUrl) {
+		return normalizeFromSource({ url: input.url });
+	}
+
+	if (hasGraph) {
+		return normalizeFromGraph(input.graph);
+	}
+
+	throw new Error("Shader input mode could not be resolved.");
 };
 
 /**
@@ -440,14 +472,7 @@ const loadTextureFromUrl = async (
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-		gl.texImage2D(
-			gl.TEXTURE_2D,
-			0,
-			gl.RGBA,
-			gl.RGBA,
-			gl.UNSIGNED_BYTE,
-			image
-		);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 		gl.bindTexture(gl.TEXTURE_2D, null);
 
 		return texture;
@@ -460,9 +485,9 @@ const loadTextureFromUrl = async (
 	}
 };
 
-const resolveShaderSource = async (source: ShaderSourceProps): Promise<string> => {
-	if ("rawGLSL" in source && typeof source.rawGLSL === "string" && source.rawGLSL) {
-		return source.rawGLSL;
+const resolveShaderSource = async (source: ShaderPassSource): Promise<string> => {
+	if ("inline" in source && typeof source.inline === "string" && source.inline) {
+		return source.inline;
 	}
 	if ("url" in source && typeof source.url === "string" && source.url) {
 		return fetchShader(source.url);
@@ -525,7 +550,8 @@ const createRenderTarget = (
 		0
 	);
 
-	const isComplete = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+	const isComplete =
+		gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
 	gl.bindTexture(gl.TEXTURE_2D, null);
 	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
@@ -559,7 +585,10 @@ const resizeRenderTarget = (
 	gl.bindTexture(gl.TEXTURE_2D, null);
 };
 
-const createFullscreenGeometry = (gl: WebGL2RenderingContext, s: ShaderState): boolean => {
+const createFullscreenGeometry = (
+	gl: WebGL2RenderingContext,
+	s: ShaderState
+): boolean => {
 	const positionBuffer = gl.createBuffer();
 	const vao = gl.createVertexArray();
 	if (!positionBuffer || !vao) {
@@ -796,7 +825,9 @@ const render = (s: ShaderState, now: DOMHighResTimeStamp) => {
 	}
 
 	s.frameCount += 1;
-	s.rafId = requestAnimationFrame((frameNow: DOMHighResTimeStamp) => render(s, frameNow));
+	s.rafId = requestAnimationFrame((frameNow: DOMHighResTimeStamp) =>
+		render(s, frameNow)
+	);
 };
 
 const clearStateCollections = (s: ShaderState) => {

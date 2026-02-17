@@ -9,29 +9,31 @@ const shader = `void mainImage(out vec4 fragColor, vec2 fragCoord) {
 }`;
 
 describe("Shader component", () => {
-	test("renders with legacy source prop", async () => {
+	test("renders with inline input", async () => {
 		const { getByTestId } = await renderBasic(
-			<Shader data-testid="shader-canvas" source={{ rawGLSL: shader }} />
+			<Shader data-testid="shader-canvas" input={{ inline: shader }} />
 		);
 
 		expect(getByTestId("shader-canvas").tagName.toLowerCase()).toBe("canvas");
 	});
 
-	test("renders with graph prop", async () => {
+	test("renders with graph input", async () => {
 		const { getByTestId } = await renderBasic(
 			<Shader
 				data-testid="shader-graph-canvas"
-				graph={{
-					buffers: [
-						{
-							id: "bufferA",
-							shader: { rawGLSL: shader },
+				input={{
+					graph: {
+						buffers: [
+							{
+								id: "bufferA",
+								shader: { inline: shader },
+								channels: [{ type: "pass", passId: "bufferA" }]
+							}
+						],
+						image: {
+							shader: { inline: shader },
 							channels: [{ type: "pass", passId: "bufferA" }]
 						}
-					],
-					image: {
-						shader: { rawGLSL: shader },
-						channels: [{ type: "pass", passId: "bufferA" }]
 					}
 				}}
 			/>

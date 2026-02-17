@@ -4,60 +4,36 @@ import { useEffect, useRef } from "react";
 import { type SxProp } from "lib/type-assertions";
 
 import {
-	type ShaderGraph,
-	type ShaderSourceProps,
+	type ShaderInput,
 	type ShaderState,
 	createShaderState,
-	normalizeShaderGraph,
+	normalizeShaderGraphInput,
 	setup,
 	teardown
 } from "./webgl";
 
 type ShaderPropsBase = React.JSX.IntrinsicElements["canvas"] & SxProp;
 
-type ShaderWithSourceProps = {
-	source: ShaderSourceProps;
-	graph?: ShaderGraph;
-};
-
-type ShaderWithGraphProps = {
-	graph: ShaderGraph;
-	source?: ShaderSourceProps;
-};
-
-export type ShaderProps = ShaderPropsBase & (ShaderWithSourceProps | ShaderWithGraphProps);
+export type ShaderProps = ShaderPropsBase & { input: ShaderInput };
 
 /**
  * Shader component
  *
- * Renders an image pass from raw GLSL/URL or a full shader graph with buffer passes.
+ * Renders an image pass from inline GLSL/URL or a full shader graph with buffer passes.
  */
-export const Shader = ({ source, graph, sx, ...canvasProps }: ShaderProps) => {
+export const Shader = ({ input, sx, ...canvasProps }: ShaderProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const s = useRef<ShaderState>(createShaderState());
-	const setupConfigKey = JSON.stringify({
-		source: source ?? null,
-		graph: graph ?? null
-	});
+	const setupConfigKey = JSON.stringify(input);
 
 	useEffect(() => {
 		if (!canvas.current || env.isTest) return;
 
-		const setupConfig = JSON.parse(setupConfigKey) as {
-			source?: ShaderSourceProps;
-			graph?: ShaderGraph;
-		};
-
-		if (setupConfig.source && setupConfig.graph) {
-			logn.warn(
-				"shader",
-				"Both `source` and `graph` were provided. `graph` takes precedence."
-			);
-		}
+		const setupInput = JSON.parse(setupConfigKey) as ShaderInput;
 
 		let normalizedGraph;
 		try {
-			normalizedGraph = normalizeShaderGraph(setupConfig);
+			normalizedGraph = normalizeShaderGraphInput(setupInput);
 		} catch (error) {
 			logn.error("shader", "Invalid shader configuration.", error);
 			return;
