@@ -14,10 +14,14 @@ import { injectDevTools } from "./devTools";
 import { injectEnv } from "./env";
 import { injectFeature } from "./featureFlags";
 import { injectLog } from "./log";
-import { injectRun } from "./utils";
+import { getGlobal, injectRun, setGlobalValue } from "./utils";
 import { versionString } from "./version";
 
 export const globalInit = () => {
+	// Prevent double initialization
+	if (getGlobal().__init) return;
+	setGlobalValue("__init", true);
+
 	// Inject global functions.
 	injectRun();
 	injectEnv();
