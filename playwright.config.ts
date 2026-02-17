@@ -48,7 +48,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: `yarn preview`,
+		command: `bun run preview`,
 		url: baseURL,
 		reuseExistingServer: !isCI
 	}
