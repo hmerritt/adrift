@@ -36,10 +36,14 @@ export async function bootstrap(
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const argString = args?.length > 0 ? args?.join(" ") : "";
+		const useNode = args[0] === "--bun:node";
+		const commandArgs = useNode ? args.slice(1) : args;
+		const argString = commandArgs.join(" ");
+
+		const bunCommand = useNode ? "bunx" : "bunx --bun";
 
 		// Run scripts/start|build command
-		runStream(`bunx --bun cross-env ${envString} ${argString}`, path);
+		runStream(`${bunCommand} cross-env ${envString} ${argString}`, path);
 	} catch (error) {
 		console.error("[bootstrap]", error);
 	}
