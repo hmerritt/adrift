@@ -32,16 +32,14 @@ export async function bootstrap(
 	env: Env,
 	allowEnvOverride: boolean | undefined,
 	args = [] as string[],
+	useNode: boolean,
 	path: string | undefined
 ) {
 	try {
 		// Build ENV + Arguments string
 		const envArr = allowEnvOverride ? overrideHardcodedENV(env) : env;
 		const envString = buildENV(envArr);
-		const useNode = args[0] === "--bun:node";
-		const commandArgs = useNode ? args.slice(1) : args;
-		const argString = commandArgs.join(" ");
-
+		const argString = args?.join(" ") || "";
 		const bunCommand = useNode ? "bunx" : "bunx --bun";
 
 		// Run scripts/start|build command

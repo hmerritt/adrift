@@ -11,7 +11,7 @@ import { adriftVersion, isAdriftUpdateAvailable } from "./scripts/bootstrap/vers
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const pathRoot = __dirname;
-const args = process.argv.slice(2);
+const args = [...process.argv.slice(2)];
 
 // Run bootrap
 bootstrap();
@@ -20,6 +20,10 @@ bootstrap();
 // Run anything you like, here we get the app version from the package.json + the current commit hash.
 // prettier-ignore
 async function bootstrap() {
+	// Instruct Bun to use Node when flag is passed (required for compatibility)
+	const useNode = args[0] === "--bun:node";
+	if (useNode) args.shift();
+
 	const isDev = core.isDev(args);
 	const gitCommitHash = await core.run(`git rev-parse HEAD`, pathRoot, '');
 	const gitCommitHashShort = core.shorten(gitCommitHash) || '';
@@ -58,5 +62,5 @@ async function bootstrap() {
 	}
 
 	// Run bootstrap script
-	core.bootstrap(env, allowEnvOverride, args, pathRoot);
+	core.bootstrap(env, allowEnvOverride, args, useNode, pathRoot);
 }
