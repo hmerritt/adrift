@@ -4,6 +4,8 @@ import { adriftVersion } from "./version";
 export type Env = [string, any][];
 
 const __dirname = import.meta.dir || ".";
+const PROD_COMMANDS = new Set(["build", "preview"]);
+const TEST_COMMANDS = new Set(["vitest", "cosmos"]);
 
 const getBunRuntime = () => {
 	if (!globalThis.Bun) {
@@ -203,11 +205,13 @@ export function runStream(command: string, path = __dirname, exitOnError = true)
 }
 
 export function isProd(args = [] as string[]) {
-	return args.length >= 2 && (args[1] === "build" || args[1] === "preview");
+	const command = args[1];
+	return !!command && PROD_COMMANDS.has(command);
 }
 
 export function isTest(args = [] as string[]) {
-	return args.length >= 1 && (args[0] === "vitest" || args[0] === "cosmos");
+	const command = args[0];
+	return !!command && TEST_COMMANDS.has(command);
 }
 
 export function isDev(args = [] as string[]) {
@@ -220,14 +224,9 @@ export function isDev(args = [] as string[]) {
  * @returns `NODE_ENV` value
  */
 export function getNodeEnv(args = [] as string[]) {
-	switch (true) {
-		case isProd(args):
-			return "production";
-		case isTest(args):
-			return "test";
-		default:
-			return "development";
-	}
+	if (isProd(args)) return "production";
+	if (isTest(args)) return "test";
+	return "development";
 }
 
 /**
