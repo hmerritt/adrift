@@ -209,7 +209,11 @@ describe("HaloProvider", () => {
 
 		await renderBasic(
 			<HaloProvider>
-				<Halo data-testid="halo-scroll-recompute" halo="rgb(11, 22, 33)" size="20rem">
+				<Halo
+					data-testid="halo-scroll-recompute"
+					halo="rgb(11, 22, 33)"
+					size="20rem"
+				>
 					<div>Scroll recompute</div>
 				</Halo>
 			</HaloProvider>

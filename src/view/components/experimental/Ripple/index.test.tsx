@@ -22,8 +22,9 @@ describe("Ripple component", () => {
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple">
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -56,8 +57,9 @@ describe("Ripple component", () => {
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple">
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -139,8 +141,9 @@ describe("Ripple component", () => {
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple" disabled onPointerDown={onPointerDown}>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -158,14 +161,11 @@ describe("Ripple component", () => {
 		const onMouseDown = vi.fn();
 		const onMouseUp = vi.fn();
 		const { getByTestId } = await renderBasic(
-			<Ripple
-				data-testid="ripple"
-				onMouseDown={onMouseDown}
-				onMouseUp={onMouseUp}
-			>
+			<Ripple data-testid="ripple" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -195,8 +195,9 @@ describe("Ripple component", () => {
 				onTouchEnd={onTouchEnd}
 			>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {

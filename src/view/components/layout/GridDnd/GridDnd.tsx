@@ -78,11 +78,10 @@ export const GridDnd = ({
 		useSensor(TouchSensor, pointerSensorOptions)
 	);
 
-
 	const handleDragStart = (event: DragEndEvent) => {
 		if (onDragStart) onDragStart(event);
 		setActiveId(event.active.id);
-	}
+	};
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		if (onDragEnd) onDragEnd(event);
@@ -99,12 +98,12 @@ export const GridDnd = ({
 		}
 
 		setActiveId(null);
-	}
+	};
 
 	const handleDragCancel = () => {
 		if (onDragCancel) onDragCancel();
 		setActiveId(null);
-	}
+	};
 
 	return (
 		<DndContext
