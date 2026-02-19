@@ -24,7 +24,7 @@ export const WindowControls: FC<WindowControlsProps> = ({
 }) => {
 	return (
 		// @TODO Icons - separate icons for mac and windows?
-		<div {...stylex.props(styles.drag, styles.controls)}>
+		<div data-tauri-drag-region {...stylex.props(styles.drag, styles.controls)}>
 			{onClose && (
 				<div {...stylex.props(styles.controlMacContainer)} onClick={onClose}>
 					<Ripple sx={[styles.controlMac, styles.controlMacClose]}>
@@ -54,7 +54,7 @@ export const WindowControls: FC<WindowControlsProps> = ({
  * An area that can be used to drag the window around.
  */
 export const WindowDragArea = () => {
-	return <div {...stylex.props(styles.drag, styles.dragArea)} />;
+	return <div data-tauri-drag-region {...stylex.props(styles.drag, styles.dragArea)} />;
 };
 
 const styles = stylex.create({
