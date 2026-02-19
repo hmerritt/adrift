@@ -30,6 +30,7 @@ Short rules for working in this repo.
 ## Conventions
 
 - TypeScript only; keep types explicit at module boundaries. Prefer strict typing; avoid `any`
+- react-compiler is active. Do not use `useMemo` or `useCallback` unless absolutely necessary
 - Add brief code comments for tricky or non-obvious logic.
 - Use StyleX for styling; do not add ad-hoc CSS files.
 - Prefer existing hooks/utilities in `src/lib` before adding new ones.
