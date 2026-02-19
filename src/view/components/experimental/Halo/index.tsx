@@ -7,15 +7,20 @@ import { type SxProp } from "lib/type-assertions";
 
 type HaloSide = "top" | "right" | "bottom" | "left";
 type HaloGradient = {
-	/** asd  */
+	/** Size of the circle controlling the halo effect. Think of this as the sensitivity of the halo */
 	size?: string;
+	/** Color of the halo effect */
 	halo?: string;
 };
 
 export type HaloProps = React.JSX.IntrinsicElements["div"] &
 	SxProp &
 	HaloGradient & {
+		/** Short hand for border radius (also sets children border radius) */
+		borderRadius?: string | number;
+		/** Object to control which sides of the halo are visible */
 		sides?: Partial<Record<HaloSide, boolean>>;
+		/** Size/thickness of the halo effect */
 		lineSize?: string;
 	};
 export type HaloProviderProps = {
@@ -36,42 +41,38 @@ export const Halo = ({
 	lineSize = "1px",
 	size,
 	halo,
-	style,
+	borderRadius,
 	...divProps
 }: HaloProps) => {
-	const haloStyleProps = stylex.props(styles.halo, sx);
-
 	// If slides is provided, use it directly (this sets unspecified sides to false),
 	// When not set, default to true for all sides.
 	const resolvedSides = sides || {
 		top: true,
 		right: true,
 		bottom: true,
-		left: true,
+		left: true
 	};
-
-	const sidePaddingStyles: React.CSSProperties = {
-		paddingTop: resolvedSides.top ? lineSize : "0px",
-		paddingRight: resolvedSides.right ? lineSize : "0px",
-		paddingBottom: resolvedSides.bottom ? lineSize : "0px",
-		paddingLeft: resolvedSides.left ? lineSize : "0px",
-		...(haloStyleProps.style ? (haloStyleProps.style as React.CSSProperties) : {}),
-		...(style ?? {})
-	};
+	const top = resolvedSides.top ? lineSize : "0px";
+	const right = resolvedSides.right ? lineSize : "0px";
+	const bottom = resolvedSides.bottom ? lineSize : "0px";
+	const left = resolvedSides.left ? lineSize : "0px";
 
 	return (
 		<div
 			{...divProps}
-			{...haloStyleProps}
+			{...stylex.props(
+				styles.halo(top, right, bottom, left),
+				styles.borderRadius(borderRadius),
+				sx
+			)}
 			data-halo
 			data-halo-size={size}
 			data-halo-color={halo}
-			style={sidePaddingStyles}
 		>
 			{Children.map(children, (child) => {
 				if (isValidElement(child)) {
 					return cloneElement(child, {
-						...stylex.props(styles.haloChild)
+						...stylex.props(styles.borderRadius(borderRadius))
 					});
 				}
 				return child;
@@ -167,19 +168,18 @@ export const HaloProvider = ({
 		window.dispatchEvent(event); // Trigger mousemove on load
 	}, []);
 
-	// @TODO: change styles via props/theme (dark/light)
-	// @TODO: use theme when setting styles.
-
 	return children;
 };
 
 const styles = stylex.create({
-	// Fill parent container
-	halo: {
-		borderRadius: "8px"
-	},
-	haloChild: {
-		backgroundColor: "white",
-		borderRadius: "7px"
-	}
+	halo: (top: string, right: string, bottom: string, left: string) => ({
+		paddingTop: top,
+		paddingRight: right,
+		paddingBottom: bottom,
+		paddingLeft: left
+	}),
+	borderRadius: (value: string | number | undefined) => ({
+		borderRadius: value,
+		overflow: value ? "hidden" : "initial"
+	})
 });
