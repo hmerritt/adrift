@@ -20,7 +20,6 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"prettier.enable": true,
 	"editor.formatOnSave": true,
 	"eslint.workingDirectories": ["src"],
 	"files.autoSave": "onFocusChange",
@@ -28,6 +27,8 @@
 		"**/.git": true
 	},
 	"javascript.validate.enable": true,
+	"prettier.enable": true,
 	"scss.format.spaceAroundSelectorSeparator": true,
-	"search.useIgnoreFiles": true
+	"search.useIgnoreFiles": true,
+	"typescript.experimental.useTsgo": true
 }
