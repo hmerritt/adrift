@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import { FC } from "react";
 
-import { Ripple } from "view/components/experimental";
+import { Ripple } from "view/components/experimental/Ripple";
 
 import { WindowIcon } from "./icons";
 
