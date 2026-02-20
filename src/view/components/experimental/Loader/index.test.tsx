@@ -53,7 +53,6 @@ describe("Loader component", () => {
 				type="dotgrid"
 				id="loader-id"
 				title="loading"
-				className="custom-loader"
 				aria-label="Loading content"
 				data-state="busy"
 				data-testid="loader"
@@ -67,7 +66,6 @@ describe("Loader component", () => {
 		expect($loader).toHaveAttribute("title", "loading");
 		expect($loader).toHaveAttribute("aria-label", "Loading content");
 		expect($loader).toHaveAttribute("data-state", "busy");
-		expect($loader).toHaveClass("custom-loader");
 
 		fireEvent.click($loader);
 		expect(onClick).toHaveBeenCalledTimes(1);

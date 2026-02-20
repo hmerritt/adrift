@@ -110,7 +110,6 @@ export const DotGrid = ({
 	durationMs,
 	color,
 	style,
-	className,
 	...props
 }: LoaderVariantProps) => {
 	const [frameIndex, setFrameIndex] = useState(0);
@@ -135,6 +134,7 @@ export const DotGrid = ({
 	);
 	const rootStylexProps = stylex.props(styles.root, sx);
 
+	// @TODO: Refactor this, use StyleX properly (remove `style` prop and use stylex.create for variables)
 	const mergedStyle: LoaderStyle = {
 		...((rootStylexProps.style as CSSProperties) ?? {}),
 		"--loader-size": toCssSize(size),
@@ -143,20 +143,17 @@ export const DotGrid = ({
 		"--loader-color": color,
 		...style
 	};
-	const mergedClassName = [rootStylexProps.className, className]
-		.filter(Boolean)
-		.join(" ");
 
 	return (
 		<div
 			{...props}
-			className={mergedClassName || undefined}
+			{...stylex.props(styles.root, sx)}
 			data-loader-type="dotgrid"
 			style={mergedStyle}
 		>
-			{dotOrder.map((dotStyle, i) => (
+			{dotOrder.map((dotStyle) => (
 				<span
-					key={`slot-${i}`}
+					key={`slot-${dotStyle}`}
 					aria-hidden
 					data-loader-dot="slot"
 					{...stylex.props(styles.dot, positionStyles[dotStyle])}

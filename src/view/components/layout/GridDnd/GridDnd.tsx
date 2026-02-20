@@ -41,7 +41,7 @@ export type GridDndrops = GridProps & {
 	onDragCancel?: () => void;
 };
 
-const defaultGetProps = (data: Data, index?: number) => data;
+const defaultGetProps = (data: Data, _?: number) => data;
 
 /**
  * Grid with drag and drop functionality.
