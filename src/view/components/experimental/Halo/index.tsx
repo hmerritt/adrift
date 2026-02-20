@@ -179,7 +179,7 @@ const styles = stylex.create({
 		paddingLeft: left
 	}),
 	borderRadius: (value: string | number | undefined) => ({
-		borderRadius: value,
+		borderRadius: value ?? "initial",
 		overflow: value ? "hidden" : "initial"
 	})
 });
