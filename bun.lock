@@ -9,7 +9,6 @@
         "@dnd-kit/sortable": "10.0.0",
         "@dnd-kit/utilities": "3.2.2",
         "@stylexjs/stylex": "0.17.5",
-        "@stylexjs/unplugin": "0.17.5",
         "@tanstack/pacer": "0.19.0",
         "@tanstack/react-hotkeys": "0.2.0",
         "@tanstack/react-router": "1.161.4",
@@ -160,8 +159,6 @@
     "@babel/plugin-proposal-private-methods": ["@babel/plugin-proposal-private-methods@7.18.6", "", { "dependencies": { "@babel/helper-create-class-features-plugin": "^7.18.6", "@babel/helper-plugin-utils": "^7.18.6" }, "peerDependencies": { "@babel/core": "^7.0.0-0" } }, "sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA=="],
 
     "@babel/plugin-proposal-private-property-in-object": ["@babel/plugin-proposal-private-property-in-object@7.21.0-placeholder-for-preset-env.2", "", { "peerDependencies": { "@babel/core": "^7.0.0-0" } }, "sha512-SOSkfJDddaM7mak6cPEpswyTRnuRltl429hMraQEglW+OkovnCzsiszTmsrlY//qLFjCpQDFRvjdm2wA5pPm9w=="],
-
-    "@babel/plugin-syntax-flow": ["@babel/plugin-syntax-flow@7.28.6", "", { "dependencies": { "@babel/helper-plugin-utils": "^7.28.6" }, "peerDependencies": { "@babel/core": "^7.0.0-0" } }, "sha512-D+OrJumc9McXNEBI/JmFnc/0uCM2/Y3PEBG3gfV3QIYkKv5pvnpzFrl1kYCrcHJP8nOeFB/SHi1IHz29pNGuew=="],
 
     "@babel/plugin-syntax-import-assertions": ["@babel/plugin-syntax-import-assertions@7.28.6", "", { "dependencies": { "@babel/helper-plugin-utils": "^7.28.6" }, "peerDependencies": { "@babel/core": "^7.0.0-0" } }, "sha512-pSJUpFHdx9z5nqTSirOCMtYVP2wFgoWhP0p3g8ONK/4IHhLIBd0B9NYqAvIUAhq+OkhO4VM1tENCt0cjlsNShw=="],
 
@@ -588,8 +585,6 @@
     "@stylexjs/shared": ["@stylexjs/shared@0.17.5", "", {}, "sha512-Q8HwrvfOl2SBKzjb3+HgaH1mUGBqFcWIwgKvZMyhkXIqhmGMrWA3vdTxtzEpuYiFH7AOPuzebpOJn/3rIqK7iA=="],
 
     "@stylexjs/stylex": ["@stylexjs/stylex@0.17.5", "", { "dependencies": { "css-mediaquery": "^0.1.2", "invariant": "^2.2.4", "styleq": "0.2.1" } }, "sha512-mV+mIXqj1AsnGHFj/hyno7YOBjBpgRzvD00iif0w/LExeN8mwNb2yTfnTHkx62fLaM7vUtoIEcO/bFHqmiOtpw=="],
-
-    "@stylexjs/unplugin": ["@stylexjs/unplugin@0.17.5", "", { "dependencies": { "@babel/core": "^7.26.8", "@babel/plugin-syntax-flow": "^7.26.0", "@babel/plugin-syntax-jsx": "^7.25.9", "@babel/plugin-syntax-typescript": "^7.25.9", "@stylexjs/babel-plugin": "0.17.5", "browserslist": "^4.24.0", "lightningcss": "^1.29.1" }, "peerDependencies": { "unplugin": "^2.3.11" } }, "sha512-ygKFNN3vUeZsmH++fGYm/XDecuNZzqTzCsU4XMiKqUpWwCb7YTJitptLASTk7Qe+dz1bpwmdWfFDUR55Us7WfA=="],
 
     "@surma/rollup-plugin-off-main-thread": ["@surma/rollup-plugin-off-main-thread@2.2.3", "", { "dependencies": { "ejs": "^3.1.6", "json5": "^2.2.0", "magic-string": "^0.25.0", "string.prototype.matchall": "^4.0.6" } }, "sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ=="],
 
@@ -1901,8 +1896,6 @@
 
     "@skidding/launch-editor/chalk": ["chalk@2.4.2", "", { "dependencies": { "ansi-styles": "^3.2.1", "escape-string-regexp": "^1.0.5", "supports-color": "^5.3.0" } }, "sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ=="],
 
-    "@stylexjs/unplugin/unplugin": ["unplugin@2.3.11", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "acorn": "^8.15.0", "picomatch": "^4.0.3", "webpack-virtual-modules": "^0.6.2" } }, "sha512-5uKD0nqiYVzlmCRs01Fhs2BdkEgBS3SAVP6ndrBsuK42iC2+JHyxM05Rm9G8+5mkmRtzMZGY8Ct5+mliZxU/Ww=="],
-
     "@surma/rollup-plugin-off-main-thread/magic-string": ["magic-string@0.25.9", "", { "dependencies": { "sourcemap-codec": "^1.4.8" } }, "sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ=="],
 
     "@tanstack/pacer/@tanstack/store": ["@tanstack/store@0.8.1", "", {}, "sha512-PtOisLjUZPz5VyPRSCGjNOlwTvabdTBQ2K80DpVL1chGVr35WRxfeavAPdNq6pm/t7F8GhoR2qtmkkqtCEtHYw=="],
@@ -2020,8 +2013,6 @@
     "@skidding/launch-editor/chalk/escape-string-regexp": ["escape-string-regexp@1.0.5", "", {}, "sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg=="],
 
     "@skidding/launch-editor/chalk/supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
-
-    "@stylexjs/unplugin/unplugin/acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
     "@tanstack/router-plugin/unplugin/acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
