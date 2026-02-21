@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { type CSSProperties, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { type LoaderVariantProps } from "./props";
 
@@ -14,12 +14,6 @@ type DotStyle =
 	| "dot7"
 	| "dot8";
 
-type LoaderStyle = CSSProperties & {
-	"--loader-size"?: string;
-	"--loader-dot-size"?: string;
-	"--loader-duration"?: string;
-	"--loader-color"?: string;
-};
 type MotionFrame = {
 	opacity: number;
 	positions: [DotStyle, DotStyle, DotStyle];
@@ -109,7 +103,6 @@ export const DotGrid = ({
 	size,
 	durationMs,
 	color,
-	style,
 	...props
 }: LoaderVariantProps) => {
 	const [frameIndex, setFrameIndex] = useState(0);
@@ -132,31 +125,29 @@ export const DotGrid = ({
 	const trailPositionStyles = trailPositionKeys.map(
 		(position) => positionStyles[position]
 	);
-	const rootStylexProps = stylex.props(styles.root, sx);
-
-	// @TODO: Refactor this, use StyleX properly (remove `style` prop and use stylex.create for variables)
-	const mergedStyle: LoaderStyle = {
-		...((rootStylexProps.style as CSSProperties) ?? {}),
-		"--loader-size": toCssSize(size),
-		"--loader-dot-size": toDotSize(size),
-		"--loader-duration": `${durationMs}ms`,
-		"--loader-color": color,
-		...style
-	};
+	const loaderSize = toCssSize(size);
+	const dotSize = toDotSize(size);
+	const dotSizeStyle = styles.dotSize(dotSize);
 
 	return (
 		<div
 			{...props}
-			{...stylex.props(styles.root, sx)}
+			{...stylex.props(
+				styles.root,
+				styles.rootSize(loaderSize),
+				styles.rootColor(color),
+				sx
+			)}
 			data-loader-type="dotgrid"
-			style={mergedStyle}
+			data-loader-duration-ms={durationMs}
+			data-loader-color={color}
 		>
 			{dotOrder.map((dotStyle) => (
 				<span
 					key={`slot-${dotStyle}`}
 					aria-hidden
 					data-loader-dot="slot"
-					{...stylex.props(styles.dot, positionStyles[dotStyle])}
+					{...stylex.props(styles.dot, dotSizeStyle, positionStyles[dotStyle])}
 				/>
 			))}
 			{trailPositionStyles.map((trailPositionStyle, i) => (
@@ -167,8 +158,13 @@ export const DotGrid = ({
 					data-loader-opacity={activeFrame.opacity}
 					data-loader-phase={activeFrame.phase}
 					data-loader-position={trailPositionKeys[i]}
-					style={{ opacity: activeFrame.opacity }}
-					{...stylex.props(styles.dot, styles.trailDot, trailPositionStyle)}
+					{...stylex.props(
+						styles.dot,
+						dotSizeStyle,
+						styles.trailDot,
+						trailPositionStyle,
+						styles.trailOpacity(activeFrame.opacity)
+					)}
 				/>
 			))}
 		</div>
@@ -176,29 +172,31 @@ export const DotGrid = ({
 };
 const styles = stylex.create({
 	root: {
-		color: "var(--loader-color)",
 		display: "inline-block",
-		height: "var(--loader-size)",
 		minHeight: "12px",
 		minWidth: "12px",
-		position: "relative",
-		width: "var(--loader-size)"
+		position: "relative"
 	},
+	rootSize: (loaderSize: string) => ({ height: loaderSize, width: loaderSize }),
+	rootColor: (loaderColor: string) => ({ color: loaderColor }),
 	dot: {
 		backgroundColor: "currentColor",
 		borderRadius: "9999px",
-		height: "var(--loader-dot-size)",
 		left: "0%",
 		opacity: 0.22,
 		position: "absolute",
 		top: "0%",
-		transform: "translate(-50%, -50%)",
-		width: "var(--loader-dot-size)"
+		transform: "translate(-50%, -50%)"
 	},
+	dotSize: (loaderDotSize: string) => ({
+		height: loaderDotSize,
+		width: loaderDotSize
+	}),
 	trailDot: {
 		opacity: 1,
 		willChange: "left, top"
-	}
+	},
+	trailOpacity: (opacity: number) => ({ opacity })
 });
 
 const positionStyles = stylex.create({

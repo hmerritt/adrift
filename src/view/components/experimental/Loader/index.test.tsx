@@ -1,23 +1,34 @@
+import * as stylex from "@stylexjs/stylex";
 import { act, fireEvent, screen } from "@testing-library/react";
-import { type CSSProperties } from "react";
 import { describe, expect, test, vi } from "vitest";
 
 import { renderBasic } from "tests/render";
 
 import { Loader } from "./index";
 
+const compact = (value: string) => value.replaceAll(" ", "");
+
+const styles = stylex.create({
+	sizeOverride: {
+		height: "2rem",
+		width: "2rem"
+	}
+});
+
 describe("Loader component", () => {
-	test("renders dotgrid loader by default shape and css variables", async () => {
+	test("renders dotgrid loader by default shape and defaults", async () => {
 		await renderBasic(<Loader type="dotgrid" data-testid="loader" />);
 
 		const $loader = screen.getByTestId("loader");
+		const computed = window.getComputedStyle($loader);
 
 		expect($loader).toHaveAttribute("data-loader-type", "dotgrid");
 		expect($loader.querySelectorAll('[data-loader-dot="slot"]')).toHaveLength(9);
 		expect($loader.querySelectorAll('[data-loader-dot="trail"]')).toHaveLength(3);
-		expect($loader.style.getPropertyValue("--loader-size")).toBe("1.25rem");
-		expect($loader.style.getPropertyValue("--loader-duration")).toBe("900ms");
-		expect($loader.style.getPropertyValue("--loader-color")).toBe("currentColor");
+		expect($loader).toHaveStyle("width: var(--x-width)");
+		expect(compact(computed.getPropertyValue("--x-width"))).toBe("1.25rem");
+		expect($loader).toHaveAttribute("data-loader-duration-ms", "900");
+		expect($loader).toHaveAttribute("data-loader-color", "currentColor");
 	});
 
 	test("applies custom size, speed, and color", async () => {
@@ -32,10 +43,12 @@ describe("Loader component", () => {
 		);
 
 		const $loader = screen.getByTestId("loader");
+		const computed = window.getComputedStyle($loader);
 
-		expect($loader.style.getPropertyValue("--loader-size")).toBe("24px");
-		expect($loader.style.getPropertyValue("--loader-duration")).toBe("450ms");
-		expect($loader.style.getPropertyValue("--loader-color")).toBe("tomato");
+		expect($loader).toHaveStyle("width: var(--x-width)");
+		expect(compact(computed.getPropertyValue("--x-width"))).toBe("24px");
+		expect($loader).toHaveAttribute("data-loader-duration-ms", "450");
+		expect($loader).toHaveAttribute("data-loader-color", "tomato");
 	});
 
 	test("falls back to default speed when speed is invalid", async () => {
@@ -43,7 +56,7 @@ describe("Loader component", () => {
 
 		const $loader = screen.getByTestId("loader");
 
-		expect($loader.style.getPropertyValue("--loader-duration")).toBe("900ms");
+		expect($loader).toHaveAttribute("data-loader-duration-ms", "900");
 	});
 
 	test("forwards native div props", async () => {
@@ -71,18 +84,15 @@ describe("Loader component", () => {
 		expect(onClick).toHaveBeenCalledTimes(1);
 	});
 
-	test("allows inline style to override generated css vars", async () => {
+	test("allows sx to override generated css vars", async () => {
 		await renderBasic(
-			<Loader
-				type="dotgrid"
-				size={20}
-				style={{ "--loader-size": "2rem" } as CSSProperties}
-				data-testid="loader"
-			/>
+			<Loader type="dotgrid" size={20} sx={styles.sizeOverride} data-testid="loader" />
 		);
 
 		const $loader = screen.getByTestId("loader");
-		expect($loader.style.getPropertyValue("--loader-size")).toBe("2rem");
+		const computed = window.getComputedStyle($loader);
+
+		expect(computed.width).toBe("2rem");
 	});
 
 	test("animates to center, converges all dots, fades out, pauses, then restarts", async () => {

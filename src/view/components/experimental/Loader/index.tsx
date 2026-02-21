@@ -5,7 +5,7 @@ import { type LoaderVariantProps } from "./subComponents/props";
 
 export type LoaderType = keyof typeof Loaders;
 
-export type LoaderProps = React.JSX.IntrinsicElements["div"] &
+export type LoaderProps = Omit<React.JSX.IntrinsicElements["div"], "style"> &
 	SxProp & {
 		type: LoaderType;
 		/** Overall loader size (number values are interpreted as px) */
