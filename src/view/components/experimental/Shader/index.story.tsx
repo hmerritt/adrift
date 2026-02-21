@@ -115,7 +115,7 @@ const TextureInput = () => {
 								}`
 							},
 							channels: [{ type: "texture", url: textureUrl }]
-						},
+						}
 					}
 				}}
 			/>

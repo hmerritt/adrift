@@ -105,7 +105,7 @@ describe("StyleX theme", () => {
 		const { container } = await render(<StylesMock />);
 
 		const styleContainer = getStyle(selectTestId(container, "StylesMock"));
-		const isVariable = /var\(\-\-([a-zA-Z0-9]+)\)/.test(styleContainer.width);
+		const isVariable = /var\(--([a-zA-Z0-9]+)\)/.test(styleContainer.width);
 		expect(isVariable).toBe(true);
 	});
 });

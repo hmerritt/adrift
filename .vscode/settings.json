@@ -1,8 +1,23 @@
 {
-	"[typescript]": {
+	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"editor.formatOnSave": true,
@@ -12,6 +27,8 @@
 		"**/.git": true
 	},
 	"javascript.validate.enable": true,
+	"prettier.enable": true,
 	"scss.format.spaceAroundSelectorSeparator": true,
-	"search.useIgnoreFiles": true
+	"search.useIgnoreFiles": true,
+	"typescript.experimental.useTsgo": true
 }

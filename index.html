@@ -419,6 +419,27 @@ input[type="submit"] {
 				/** 1 rem = 10px :) */
 				html {
 					font-size: 62.5%;
+					scroll-padding-top: 2.5rem;
+				}
+
+				@supports (text-wrap: balance) {
+					h1,
+					h2,
+					h3,
+					h4,
+					h5,
+					h6 {
+						text-wrap: balance;
+					}
+				}
+
+				@supports (text-wrap: pretty) {
+					p,
+					li,
+					blockquote,
+					figcaption {
+						text-wrap: pretty;
+					}
 				}
 
 				h1,

@@ -1,6 +1,6 @@
 import { ErrorComponent, RouterProvider, createRouter } from "@tanstack/react-router";
 
-import { HaloProvider } from "view/components";
+import { HaloProvider } from "view/components/experimental/Halo";
 
 import { routeTree } from "./routeTree.gen";
 

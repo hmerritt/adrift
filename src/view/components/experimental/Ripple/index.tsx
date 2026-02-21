@@ -23,6 +23,8 @@ export type RippleProps = React.JSX.IntrinsicElements["div"] &
 		hoverBg?: boolean;
 		centered?: boolean;
 		disabled?: boolean;
+		color?: string;
+		hoverColor?: string;
 	};
 
 /**
@@ -34,6 +36,8 @@ export const Ripple = ({
 	hoverBg,
 	centered,
 	disabled,
+	color = "rgba(0, 0, 0, 0.1)",
+	hoverColor = "#f5f5f5",
 	onMouseDown,
 	onMouseUp,
 	onTouchStart,
@@ -143,7 +147,7 @@ export const Ripple = ({
 		Object.assign(ripple.style, {
 			position: "absolute",
 			pointerEvents: "none",
-			backgroundColor: "rgba(0, 0, 0, 0.1)", // @TODO: theme me
+			backgroundColor: color,
 			borderRadius: "50%",
 			zIndex: "10",
 			transitionProperty: "transform opacity",
@@ -246,7 +250,7 @@ export const Ripple = ({
 			{...props}
 			{...stylex.props(
 				styles.ripple,
-				hoverBg && !disabled && styles.rippleHover,
+				hoverBg && !disabled && styles.rippleHover(hoverColor),
 				disabled && styles.rippleDisabled,
 				sx
 			)}
@@ -268,9 +272,7 @@ const styles = stylex.create({
 		transition: "200ms background-color",
 		willChange: "background-color"
 	},
-	rippleHover: {
-		backgroundColor: "#f5f5f5" // @TODO: theme me
-	},
+	rippleHover: (backgroundColor: string) => ({ backgroundColor }),
 	rippleDisabled: {
 		cursor: "default"
 	}

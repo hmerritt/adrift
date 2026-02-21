@@ -4,7 +4,7 @@
  * Inspired by Zustand's persist middleware:
  * https://github.com/pmndrs/zustand/blob/main/src/middleware/persist.ts
  */
-import { AnyUpdater, Store, StoreOptions } from "@tanstack/store";
+import { Store } from "@tanstack/store";
 
 import { createBackgroundScheduler } from "lib/scheduler";
 
@@ -120,10 +120,7 @@ export function createJSONStorage<S, R = unknown>(
 	return persistStorage;
 }
 
-export class StoreWithPersist<
-	TState,
-	TUpdater extends AnyUpdater = (cb: TState) => TState
-> extends Store<TState, TUpdater> {
+export class StoreWithPersist<TState> extends Store<TState> {
 	private hasHydrated: boolean;
 	private hydrationListeners: Set<PersistListener<TState>>;
 	private finishHydrationListeners: Set<PersistListener<TState>>;
@@ -139,10 +136,9 @@ export class StoreWithPersist<
 
 	constructor(
 		initialState: TState,
-		storeOptions: StoreOptions<TState, TUpdater>,
 		persistOptions: PersistOptions<TState, Partial<TState>>
 	) {
-		super(initialState, storeOptions);
+		super(initialState);
 
 		this.hasHydrated = false;
 		this.hydrationListeners = new Set<PersistListener<TState>>();
@@ -309,7 +305,7 @@ export class StoreWithPersist<
 			stateFromStorage = merge!(migratedState, this.state);
 
 			// Update state
-			this.setState(stateFromStorage);
+			this.setState(() => stateFromStorage);
 
 			if (isMigrated) {
 				// We do not need the result of setItem, but we should catch errors if it fails

@@ -9,7 +9,9 @@ import { lazy } from "react";
 import { colors } from "lib/styles/colors.stylex";
 import { shadowFn } from "lib/styles/shadows.stylex";
 
-import { DotGrid, FrostedGlass, Icon, Stack } from "view/components";
+import { Icon, Stack } from "view/components";
+import { DotGrid } from "view/components/experimental/DotGrid";
+import { FrostedGlass } from "view/components/experimental/FrostedGlass";
 
 /**
  * `@tanstack/react-router` file-based routing.

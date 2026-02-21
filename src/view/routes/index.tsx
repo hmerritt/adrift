@@ -3,7 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { shadowFn } from "lib/styles/shadows.stylex";
 
-import { FrostedGlass, Shader } from "view/components";
+import { FrostedGlass } from "view/components/experimental/FrostedGlass";
+import { Shader } from "view/components/experimental/Shader";
 
 export const Route = createFileRoute("/")({
 	component: IndexRoute

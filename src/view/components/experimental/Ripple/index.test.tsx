@@ -5,6 +5,9 @@ import { renderBasic } from "tests/render";
 
 import { Ripple } from "./index";
 
+const getRippleCircle = (root: HTMLElement) =>
+	root.querySelector("[data-ripple] > span") as HTMLSpanElement | null;
+
 describe("Ripple component", () => {
 	beforeEach(() => {
 		vi.useFakeTimers();
@@ -19,8 +22,9 @@ describe("Ripple component", () => {
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple">
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -53,8 +57,9 @@ describe("Ripple component", () => {
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple">
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -76,13 +81,69 @@ describe("Ripple component", () => {
 		expect(root.querySelectorAll("[data-ripple]")).toHaveLength(0);
 	});
 
+	test("uses default ripple color", async () => {
+		const { getByTestId } = await renderBasic(
+			<Ripple data-testid="ripple">
+				<button>Ripple</button>
+			</Ripple>,
+			true
+		);
+		const root = getByTestId("ripple");
+
+		fireEvent.pointerDown(root, {
+			clientX: 9,
+			clientY: 9,
+			pointerId: 21,
+			pointerType: "mouse"
+		});
+
+		const ripple = getRippleCircle(root);
+		expect(ripple).not.toBeNull();
+		expect(ripple?.style.backgroundColor).toBe("rgba(0, 0, 0, 0.1)");
+	});
+
+	test("uses custom ripple color", async () => {
+		const { getByTestId } = await renderBasic(
+			<Ripple data-testid="ripple" color="rgba(255, 0, 0, 0.4)">
+				<button>Ripple</button>
+			</Ripple>,
+			true
+		);
+		const root = getByTestId("ripple");
+
+		fireEvent.pointerDown(root, {
+			clientX: 11,
+			clientY: 11,
+			pointerId: 22,
+			pointerType: "mouse"
+		});
+
+		const ripple = getRippleCircle(root);
+		expect(ripple).not.toBeNull();
+		expect(ripple?.style.backgroundColor).toBe("rgba(255, 0, 0, 0.4)");
+	});
+
+	test("uses hoverColor when hoverBg is enabled", async () => {
+		const { getByTestId } = await renderBasic(
+			<Ripple data-testid="ripple" hoverBg hoverColor="#ededed">
+				<button>Ripple</button>
+			</Ripple>,
+			true
+		);
+		const root = getByTestId("ripple");
+
+		expect(root).toHaveStyle("background-color: var(--x-backgroundColor)");
+		expect(root.getAttribute("style")).toContain("#ededed");
+	});
+
 	test("does not create ripples when disabled", async () => {
 		const onPointerDown = vi.fn();
 		const { getByTestId } = await renderBasic(
 			<Ripple data-testid="ripple" disabled onPointerDown={onPointerDown}>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -100,14 +161,11 @@ describe("Ripple component", () => {
 		const onMouseDown = vi.fn();
 		const onMouseUp = vi.fn();
 		const { getByTestId } = await renderBasic(
-			<Ripple
-				data-testid="ripple"
-				onMouseDown={onMouseDown}
-				onMouseUp={onMouseUp}
-			>
+			<Ripple data-testid="ripple" onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {
@@ -137,8 +195,9 @@ describe("Ripple component", () => {
 				onTouchEnd={onTouchEnd}
 			>
 				<button>Ripple</button>
-			</Ripple>
-		, true);
+			</Ripple>,
+			true
+		);
 		const root = getByTestId("ripple");
 
 		fireEvent.pointerDown(root, {

@@ -35,7 +35,6 @@ export const store = new StoreWithPersist(
 		count: countStore,
 		update: updateStore
 	},
-	{},
 	{
 		name: "store",
 		partialize: ({ update: _, ...state }) => state

@@ -1,0 +1,4 @@
+interface:
+  display_name: "StyleX"
+  short_description: "Build and review StyleX patterns"
+  default_prompt: "Use $stylex to create or refactor a React component with compile-safe StyleX styles, variables, and typed sx prop integration."

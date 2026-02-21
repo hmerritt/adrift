@@ -30,11 +30,31 @@ Short rules for working in this repo.
 ## Conventions
 
 - TypeScript only; keep types explicit at module boundaries. Prefer strict typing; avoid `any`
+- react-compiler is active. Do not use `useMemo` or `useCallback` unless absolutely necessary
 - Add brief code comments for tricky or non-obvious logic.
-- Use StyleX for styling; do not add ad-hoc CSS files.
 - Prefer existing hooks/utilities in `src/lib` before adding new ones.
 - New UI components go under `src/view/components`; export from `src/view/components/index.ts`.
 - New routes go under `src/view/routes` and into the TanStack route tree.
+
+## Styling and StyleX
+
+- See StyleX SKILL `.agents/skills/stylex/SKILL.md`
+- Use StyleX for styling; do not add ad-hoc CSS files.
+- Custom components have an `sx` prop to pass StyleX styles
+- Use the shared `SxProp` type from `src/lib/type-assertions.ts` at component boundaries
+- Do not merge `className` for StyleX composition; use `stylex.props(...)` and `sx`
+- Reuse existing tokens in `src/lib/styles/colors.stylex.ts`, `src/lib/styles/shadows.stylex.ts`, `src/lib/styles/variables.stylex.ts`, and `src/lib/styles/keyframes.stylex.ts` before adding new ones
+- Keep dynamic values in StyleX-safe patterns:
+    - Use `stylex.create` function styles for dynamic style arguments.
+    - Use CSS custom properties and StyleX vars for values that must vary at runtime.
+- Avoid non-static values in raw style objects.
+- Quick implementation playbook
+    1. Reuse existing vars and mixins first.
+    2. Add local `stylex.create` map with small, semantic keys.
+    3. Compose variants through conditional `stylex.props`.
+    4. Expose `sx` only when the component is intended for extension.
+    5. Put `sx` last.
+    6. Run lint/tests for changed surfaces.
 
 ## State & Router
 
