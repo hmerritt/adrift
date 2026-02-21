@@ -41,19 +41,21 @@ export type GridDndrops = GridProps & {
 	onDragCancel?: () => void;
 };
 
+const defaultGetProps = (data: Data, _?: number) => data;
+
 /**
  * Grid with drag and drop functionality.
  *
  * Data must have a unique `id` property.
  */
 export const GridDnd = ({
-	renderWith,
+	renderWith: RenderWith,
 	data,
 	setData,
 	onDragStart,
 	onDragEnd,
 	onDragCancel,
-	getProps = (data) => data,
+	getProps = defaultGetProps,
 	mouseSensorOptions = {
 		// Require the mouse to move by 10 pixels before activating
 		activationConstraint: {
@@ -69,13 +71,39 @@ export const GridDnd = ({
 	},
 	...gridProps
 }: GridDndrops) => {
-	const RenderWith = renderWith;
 	const [activeId, setActiveId] = useState<null | UniqueIdentifier>(-1);
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, mouseSensorOptions),
 		useSensor(TouchSensor, pointerSensorOptions)
 	);
+
+	const handleDragStart = (event: DragEndEvent) => {
+		if (onDragStart) onDragStart(event);
+		setActiveId(event.active.id);
+	};
+
+	const handleDragEnd = (event: DragEndEvent) => {
+		if (onDragEnd) onDragEnd(event);
+
+		const { active, over } = event;
+
+		if (active?.id !== over?.id) {
+			setData((items) => {
+				const oldIndex = items.findIndex((x) => x.id === active?.id);
+				const newIndex = items.findIndex((x) => x.id === over?.id);
+
+				return arrayMove(items, oldIndex, newIndex);
+			});
+		}
+
+		setActiveId(null);
+	};
+
+	const handleDragCancel = () => {
+		if (onDragCancel) onDragCancel();
+		setActiveId(null);
+	};
 
 	return (
 		<DndContext
@@ -96,7 +124,7 @@ export const GridDnd = ({
 							id={dataItem.id}
 							dataItem={getProps(dataItem, index)}
 							renderIndex={index}
-							renderWith={renderWith}
+							renderWith={RenderWith}
 						/>
 					))}
 				</Grid>
@@ -112,31 +140,4 @@ export const GridDnd = ({
 			</DragOverlay>
 		</DndContext>
 	);
-
-	function handleDragStart(event: DragEndEvent) {
-		if (onDragStart) onDragStart(event);
-		setActiveId(event.active.id);
-	}
-
-	function handleDragEnd(event: DragEndEvent) {
-		if (onDragEnd) onDragEnd(event);
-
-		const { active, over } = event;
-
-		if (active?.id !== over?.id) {
-			setData((items) => {
-				const oldIndex = items.findIndex((x) => x.id === active?.id);
-				const newIndex = items.findIndex((x) => x.id === over?.id);
-
-				return arrayMove(items, oldIndex, newIndex);
-			});
-		}
-
-		setActiveId(null);
-	}
-
-	function handleDragCancel() {
-		if (onDragCancel) onDragCancel();
-		setActiveId(null);
-	}
 };

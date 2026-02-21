@@ -5,6 +5,56 @@ test.describe("StyleX theme on /tests/style", () => {
 		await page.goto("/tests/style");
 	});
 
+	test("applies reset scroll padding and text wrapping", async ({ page }) => {
+		const styleTagContent = await page.evaluate(
+			() => document.querySelector("head style[type='text/css']")?.textContent ?? ""
+		);
+		expect(styleTagContent).toMatch(/scroll-padding-top\s*:\s*2\.5rem/);
+
+		const support = await page.evaluate(() => ({
+			balance: CSS.supports("text-wrap", "balance"),
+			pretty: CSS.supports("text-wrap", "pretty")
+		}));
+
+		const wrapValues = await page.evaluate(() => {
+			const heading = document.createElement("h3");
+			heading.textContent =
+				"A heading with enough words to wrap across multiple lines for testing.";
+			const paragraph = document.createElement("p");
+			paragraph.textContent =
+				"A paragraph with enough words to wrap across multiple lines for testing.";
+			document.body.append(heading, paragraph);
+
+			const headingStyle = getComputedStyle(heading);
+			const paragraphStyle = getComputedStyle(paragraph);
+
+			return {
+				headingTextWrap: headingStyle.getPropertyValue("text-wrap").trim(),
+				headingTextWrapMode: headingStyle.getPropertyValue("text-wrap-mode").trim(),
+				headingTextWrapStyle: headingStyle.getPropertyValue("text-wrap-style").trim(),
+				paragraphTextWrap: paragraphStyle.getPropertyValue("text-wrap").trim(),
+				paragraphTextWrapMode: paragraphStyle.getPropertyValue("text-wrap-mode").trim(),
+				paragraphTextWrapStyle: paragraphStyle.getPropertyValue("text-wrap-style").trim()
+			};
+		});
+
+		if (support.balance) {
+			expect([
+				wrapValues.headingTextWrap,
+				wrapValues.headingTextWrapMode,
+				wrapValues.headingTextWrapStyle
+			]).toContain("balance");
+		}
+
+		if (support.pretty) {
+			expect([
+				wrapValues.paragraphTextWrap,
+				wrapValues.paragraphTextWrapMode,
+				wrapValues.paragraphTextWrapStyle
+			]).toContain("pretty");
+		}
+	});
+
 	test("renders colors", async ({ page }) => {
 		await expect(page.getByTestId("container")).toBeVisible();
 

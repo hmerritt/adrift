@@ -44,7 +44,6 @@ describe("StoreWithPersist", () => {
 	it("should initialize with default options", () => {
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "hello" },
-			{},
 			{ name: "test-store", storage: persistStorage }
 		);
 
@@ -55,7 +54,6 @@ describe("StoreWithPersist", () => {
 	it("should persist state changes", async () => {
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "hello" },
-			{},
 			{ name: "test-store", storage: persistStorage }
 		);
 
@@ -78,7 +76,6 @@ describe("StoreWithPersist", () => {
 
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{ name: "test-store", storage: persistStorage }
 		);
 
@@ -97,7 +94,6 @@ describe("StoreWithPersist", () => {
 
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "preserved" },
-			{},
 			{ name: "test-store", storage: persistStorage }
 		);
 
@@ -109,7 +105,6 @@ describe("StoreWithPersist", () => {
 	it("should use partialize option", async () => {
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "secret" },
-			{},
 			{
 				name: "test-store",
 				storage: persistStorage,
@@ -143,7 +138,6 @@ describe("StoreWithPersist", () => {
 
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{
 				name: "test-store",
 				storage: persistStorage,
@@ -176,7 +170,6 @@ describe("StoreWithPersist", () => {
 
 		new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{
 				name: "test-store",
 				storage: persistStorage,
@@ -198,7 +191,6 @@ describe("StoreWithPersist", () => {
 
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{
 				name: "test-store",
 				storage: persistStorage,
@@ -224,7 +216,6 @@ describe("StoreWithPersist", () => {
 
 		const store = new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{ name: "test-store", storage: persistStorage }
 		);
 
@@ -239,7 +230,6 @@ describe("StoreWithPersist", () => {
 
 		new StoreWithPersist<TestState>(
 			{ count: 0, text: "init" },
-			{},
 			{
 				name: "test-store-debug",
 				storage: persistStorage,

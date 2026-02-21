@@ -57,6 +57,7 @@ export const Image = ({
 				draggable={false} // <- All websites should do this my my
 				width={width}
 				height={height}
+				alt=""
 				{...((onLoad || usesFallback || hideWhileLoading) && {
 					onLoad: (e) => {
 						if (onLoad) onLoad(e);
@@ -87,6 +88,7 @@ export const Image = ({
 					draggable={false}
 					width={width}
 					height={height}
+					alt=""
 					{...props}
 				/>
 			)}

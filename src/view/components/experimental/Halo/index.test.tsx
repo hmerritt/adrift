@@ -1,3 +1,4 @@
+import * as stylex from "@stylexjs/stylex";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
@@ -7,6 +8,11 @@ type HaloModule = typeof import("./index");
 type HaloSide = "top" | "right" | "bottom" | "left";
 
 const compact = (value: string) => value.replaceAll(" ", "");
+const testStyles = stylex.create({
+	radiusOverride: {
+		borderRadius: "22px"
+	}
+});
 
 const mockRect = (element: HTMLElement, rect: Partial<DOMRect>) => {
 	const fullRect = {
@@ -93,13 +99,18 @@ describe("Halo component", () => {
 		);
 
 		const $el = screen.getByTestId("halo-sides");
-		expect($el).toHaveStyle(`padding-top: ${expected.top}`);
-		expect($el).toHaveStyle(`padding-right: ${expected.right}`);
-		expect($el).toHaveStyle(`padding-bottom: ${expected.bottom}`);
-		expect($el).toHaveStyle(`padding-left: ${expected.left}`);
+		const computed = getComputedStyle($el);
+		expect($el).toHaveStyle("padding-top: var(--x-paddingTop)");
+		expect($el).toHaveStyle("padding-right: var(--x-paddingRight)");
+		expect($el).toHaveStyle("padding-bottom: var(--x-paddingBottom)");
+		expect($el).toHaveStyle("padding-left: var(--x-paddingLeft)");
+		expect(compact(computed.getPropertyValue("--x-paddingTop"))).toBe(expected.top);
+		expect(compact(computed.getPropertyValue("--x-paddingRight"))).toBe(expected.right);
+		expect(compact(computed.getPropertyValue("--x-paddingBottom"))).toBe(expected.bottom);
+		expect(compact(computed.getPropertyValue("--x-paddingLeft"))).toBe(expected.left);
 	});
 
-	test("supports Halo props, inherited div props, and style precedence", async () => {
+	test("supports Halo props, inherited div props, and event handlers", async () => {
 		const { Halo } = await loadHaloModule(false);
 		const onClick = vi.fn();
 
@@ -112,7 +123,6 @@ describe("Halo component", () => {
 				halo="rgb(1, 2, 3)"
 				lineSize="3px"
 				sides={{ top: true, right: true, bottom: true, left: true }}
-				style={{ paddingTop: "9px", marginTop: "5px" }}
 				onClick={onClick}
 			>
 				Text child
@@ -126,13 +136,55 @@ describe("Halo component", () => {
 		expect($el).toHaveAttribute("data-halo");
 		expect($el).toHaveAttribute("data-halo-size", "30rem");
 		expect($el).toHaveAttribute("data-halo-color", "rgb(1, 2, 3)");
-		expect($el).toHaveStyle("padding-top: 9px");
-		expect($el).toHaveStyle("margin-top: 5px");
 
 		fireEvent.click($el);
 		expect(onClick).toHaveBeenCalledTimes(1);
 		expect($el).toHaveTextContent("Text child");
 		expect(screen.getByTestId("halo-child")).toBeInTheDocument();
+	});
+
+	test("applies borderRadius to halo and all valid element children", async () => {
+		const { Halo } = await loadHaloModule(false);
+
+		await renderBasic(
+			<Halo data-testid="halo-border-radius" borderRadius="14px">
+				<div data-testid="halo-child-one">One</div>
+				<section data-testid="halo-child-two">Two</section>
+				Text child
+			</Halo>
+		);
+
+		const $halo = screen.getByTestId("halo-border-radius");
+		const $childOne = screen.getByTestId("halo-child-one");
+		const $childTwo = screen.getByTestId("halo-child-two");
+		const computed = getComputedStyle($halo);
+
+		expect($halo.style.cssText).toContain("14px");
+		expect($halo).toHaveStyle("overflow: var(--x-overflow)");
+		expect(compact(computed.getPropertyValue("--x-overflow"))).toBe("hidden");
+		expect($childOne.style.cssText).toContain("14px");
+		expect($childTwo.style.cssText).toContain("14px");
+	});
+
+	test("allows sx borderRadius to override Halo borderRadius on wrapper only", async () => {
+		const { Halo } = await loadHaloModule(false);
+
+		await renderBasic(
+			<Halo
+				data-testid="halo-sx-radius"
+				borderRadius="14px"
+				sx={testStyles.radiusOverride}
+			>
+				<div data-testid="halo-sx-radius-child">Child</div>
+			</Halo>
+		);
+
+		const $halo = screen.getByTestId("halo-sx-radius");
+		const $child = screen.getByTestId("halo-sx-radius-child");
+
+		expect(getComputedStyle($halo).borderRadius).toBe("22px");
+		expect($child.style.cssText).toContain("14px");
+		expect($child.style.cssText).not.toContain("22px");
 	});
 });
 
@@ -209,7 +261,11 @@ describe("HaloProvider", () => {
 
 		await renderBasic(
 			<HaloProvider>
-				<Halo data-testid="halo-scroll-recompute" halo="rgb(11, 22, 33)" size="20rem">
+				<Halo
+					data-testid="halo-scroll-recompute"
+					halo="rgb(11, 22, 33)"
+					size="20rem"
+				>
 					<div>Scroll recompute</div>
 				</Halo>
 			</HaloProvider>
