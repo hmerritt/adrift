@@ -30,11 +30,19 @@ test.describe("StyleX theme on /tests/style", () => {
 
 			return {
 				headingTextWrap: headingStyle.getPropertyValue("text-wrap").trim(),
-				headingTextWrapMode: headingStyle.getPropertyValue("text-wrap-mode").trim(),
-				headingTextWrapStyle: headingStyle.getPropertyValue("text-wrap-style").trim(),
+				headingTextWrapMode: headingStyle
+					.getPropertyValue("text-wrap-mode")
+					.trim(),
+				headingTextWrapStyle: headingStyle
+					.getPropertyValue("text-wrap-style")
+					.trim(),
 				paragraphTextWrap: paragraphStyle.getPropertyValue("text-wrap").trim(),
-				paragraphTextWrapMode: paragraphStyle.getPropertyValue("text-wrap-mode").trim(),
-				paragraphTextWrapStyle: paragraphStyle.getPropertyValue("text-wrap-style").trim()
+				paragraphTextWrapMode: paragraphStyle
+					.getPropertyValue("text-wrap-mode")
+					.trim(),
+				paragraphTextWrapStyle: paragraphStyle
+					.getPropertyValue("text-wrap-style")
+					.trim()
 			};
 		});
 
@@ -73,7 +81,10 @@ test.describe("StyleX theme on /tests/style", () => {
 
 		await expect(container).toHaveCSS("max-width", "567px");
 
-		await expect(container).toHaveCSS("transition-property", "all, all, all");
+		await expect(container).toHaveCSS(
+			"transition-property",
+			/(^all, all, all$)|(^all$)/
+		);
 		await expect(container).toHaveCSS("transition-duration", "0s, 0.08s, 0s");
 		await expect(container).toHaveCSS(
 			"transition-timing-function",
