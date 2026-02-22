@@ -15,7 +15,6 @@ import { createPortal } from "react-dom";
 import { type SxProp } from "lib/type-assertions";
 
 import {
-	ALL_SECTORS,
 	type SplitAssignments,
 	type SplitDividers,
 	type SplitScreenMode,
@@ -26,7 +25,6 @@ import {
 	getVisibleSectors,
 	movePaneInMode,
 	normalizeAssignments,
-	normalizeAssignmentsWithExisting,
 	normalizeDividers
 } from "./layout";
 
@@ -143,6 +141,29 @@ export const useSplitScreenHandle = (paneId: string): SplitScreenHandleProps => 
 	};
 };
 
+const getOrCreatePaneHost = (
+	paneIds: string[],
+	paneHostMap: Map<string, HTMLDivElement>
+) => {
+	let changed = false;
+
+	for (const paneId of paneIds) {
+		const existingHost = paneHostMap.get(paneId);
+		if (existingHost || typeof document === "undefined") continue;
+
+		const host = document.createElement("div");
+		host.dataset.splitScreenPaneHost = paneId;
+		host.style.width = "100%";
+		host.style.height = "100%";
+		host.style.minWidth = "0";
+		host.style.minHeight = "0";
+		paneHostMap.set(paneId, host);
+		changed = true;
+	}
+
+	return changed;
+};
+
 export const SplitScreen = ({
 	panes,
 	sx,
@@ -170,7 +191,7 @@ export const SplitScreen = ({
 	const paneIdsKey = paneIds.join("|");
 
 	const [mode, setMode] = useState<SplitScreenMode>(defaultMode);
-	const [assignments, setAssignments] = useState<SplitAssignments>(() =>
+	const [assignmentsState, setAssignments] = useState<SplitAssignments>(() =>
 		normalizeAssignments(paneIds, defaultAssignments)
 	);
 	const [dividers, setDividers] = useState<SplitDividers>(() =>
@@ -180,6 +201,7 @@ export const SplitScreen = ({
 		null
 	);
 	const [hoverSector, setHoverSector] = useState<SplitSectorId | null>(null);
+	const [paneHosts, setPaneHosts] = useState<Record<string, HTMLDivElement>>({});
 
 	const rootRef = useRef<HTMLDivElement | null>(null);
 	const hiddenDockRef = useRef<HTMLDivElement | null>(null);
@@ -187,63 +209,53 @@ export const SplitScreen = ({
 	const horizontalDividerRef = useRef<HTMLDivElement | null>(null);
 	const sectorRefs = useRef<Partial<Record<SplitSectorId, HTMLDivElement | null>>>({});
 	const paneHostMapRef = useRef<Map<string, HTMLDivElement>>(new Map());
+	const assignments = normalizeAssignments(paneIds, assignmentsState);
 	const assignmentsRef = useRef(assignments);
 	const modeRef = useRef(mode);
 	const hoverSectorRef = useRef<SplitSectorId | null>(hoverSector);
 	const layoutDidMountRef = useRef(false);
 	const previousModeRef = useRef(mode);
 	const activeInteractionRef = useRef<ActiveInteraction | null>(activeInteraction);
-	const paneIdsRef = useRef(paneIds);
-
-	assignmentsRef.current = assignments;
-	modeRef.current = mode;
-	hoverSectorRef.current = hoverSector;
-	activeInteractionRef.current = activeInteraction;
-	paneIdsRef.current = paneIds;
-
 	const visibleSectors = getVisibleSectors(mode);
 	const visiblePaneIds = getAssignedPaneIdsForMode(assignments, mode);
 
-	const getOrCreatePaneHost = (paneId: string) => {
-		const existingHost = paneHostMapRef.current.get(paneId);
-		if (existingHost) return existingHost;
-		if (typeof document === "undefined") return null;
-
-		const host = document.createElement("div");
-		host.dataset.splitScreenPaneHost = paneId;
-		host.style.width = "100%";
-		host.style.height = "100%";
-		host.style.minWidth = "0";
-		host.style.minHeight = "0";
-		paneHostMapRef.current.set(paneId, host);
-		return host;
-	};
-
-	for (const paneId of paneIds) {
-		getOrCreatePaneHost(paneId);
-	}
+	useEffect(() => {
+		assignmentsRef.current = assignments;
+	}, [assignments]);
 
 	useEffect(() => {
-		setAssignments((prev) => {
-			const prevSnapshot = { ...prev };
-			const next = normalizeAssignments(paneIdsRef.current, prevSnapshot);
-
-			if (ALL_SECTORS.every((sector) => prev[sector] === next[sector])) {
-				return prev;
-			}
-
-			return next;
-		});
-	}, [paneIdsKey]);
+		modeRef.current = mode;
+	}, [mode]);
 
 	useEffect(() => {
-		const visiblePaneIdSet = new Set(paneIdsRef.current);
+		hoverSectorRef.current = hoverSector;
+	}, [hoverSector]);
+
+	useEffect(() => {
+		activeInteractionRef.current = activeInteraction;
+	}, [activeInteraction]);
+
+	useLayoutEffect(() => {
+		const changed = getOrCreatePaneHost(paneIds, paneHostMapRef.current);
+		if (!changed) return;
+
+		setPaneHosts(Object.fromEntries(paneHostMapRef.current.entries()));
+	}, [paneIds, paneIdsKey]);
+
+	useEffect(() => {
+		const visiblePaneIdSet = new Set(paneIds);
+		let changed = false;
 		for (const [paneId, host] of paneHostMapRef.current.entries()) {
 			if (visiblePaneIdSet.has(paneId)) continue;
 			host.remove();
 			paneHostMapRef.current.delete(paneId);
+			changed = true;
 		}
-	}, [paneIdsKey]);
+
+		if (changed) {
+			setPaneHosts(Object.fromEntries(paneHostMapRef.current.entries()));
+		}
+	}, [paneIds, paneIdsKey]);
 
 	useEffect(() => {
 		const hostMap = paneHostMapRef.current;
@@ -256,7 +268,7 @@ export const SplitScreen = ({
 	}, []);
 
 	useLayoutEffect(() => {
-		for (const paneId of paneIdsRef.current) {
+		for (const paneId of paneIds) {
 			const host = paneHostMapRef.current.get(paneId);
 			if (!host) continue;
 
@@ -281,7 +293,7 @@ export const SplitScreen = ({
 				host.parentElement.removeChild(host);
 			}
 		}
-	}, [assignments, hiddenPaneBehavior, mode, paneIdsKey]);
+	}, [assignments, hiddenPaneBehavior, mode, paneIds, paneIdsKey]);
 
 	useEffect(() => {
 		if (!layoutDidMountRef.current) {
@@ -605,7 +617,7 @@ export const SplitScreen = ({
 			/>
 
 			{uniquePanes.map((pane) => {
-				const paneHost = paneHostMapRef.current.get(pane.id);
+				const paneHost = paneHosts[pane.id];
 				if (!paneHost) return null;
 
 				const isVisible = visiblePaneIds.has(pane.id);
