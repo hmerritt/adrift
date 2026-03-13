@@ -1,9 +1,9 @@
+import babel from "@rolldown/plugin-babel";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
 import { ViteMinifyPlugin as minify } from "vite-plugin-minify";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { ViteUserConfig, defineConfig } from "vitest/config";
 
 import styleX from "./config/stylex";
@@ -49,6 +49,9 @@ export default defineConfig({
 			external: ["solid-js", "solid-js/web"]
 		}
 	},
+	resolve: {
+		tsconfigPaths: true
+	},
 	define: {
 		"process.env": {}
 	},
@@ -60,12 +63,8 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		tsconfigPaths(),
-		react({
-			babel: {
-				plugins: ["babel-plugin-react-compiler"]
-			}
-		}),
+		react(),
+		babel({ presets: [reactCompilerPreset()] }),
 		styleX({
 			aliases,
 			debug: isDev,

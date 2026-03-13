@@ -183,7 +183,7 @@ export default function styleXVitePlugin({
 				if (typeof result === "string") {
 					css = result;
 				} else if (result.code) {
-					css = result.code;
+					css = result.code as string;
 				}
 			} catch (e) {
 				console.error(
@@ -241,7 +241,11 @@ export default function styleXVitePlugin({
 				server = _server;
 			},
 
-			async transform(inputCode, id, { ssr: isSSR = false } = {}) {
+			async transform(
+				inputCode,
+				id,
+				{ ssr: isSSR = false }: { ssr?: boolean | undefined } = {}
+			) {
 				if (/\.css/.test(id) && inputCode.includes(STYLEX_REPLACE_RULE)) {
 					modulesToInvalidate.set(id, inputCode);
 
