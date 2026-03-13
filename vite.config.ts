@@ -1,12 +1,11 @@
 import babel from "@rolldown/plugin-babel";
+import stylex from "@stylexjs/unplugin";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import path from "path";
 import { injectManifest } from "rollup-plugin-workbox";
 import { ViteMinifyPlugin as minify } from "vite-plugin-minify";
 import { ViteUserConfig, defineConfig } from "vitest/config";
-
-import styleX from "./config/stylex";
 
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
@@ -63,15 +62,15 @@ export default defineConfig({
 		}
 	},
 	plugins: [
-		react(),
-		babel({ presets: [reactCompilerPreset()] }),
-		styleX({
+		stylex.vite({
 			aliases,
 			debug: isDev,
 			test: false, // Breaks CSS injection for some reason
 			runtimeInjection: isTest,
 			useCSSLayers: true
 		}),
+		react(),
+		babel({ presets: [reactCompilerPreset()] }),
 		tanstackRouter({
 			routesDirectory: "src/view/routes"
 		}),
