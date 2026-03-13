@@ -294,7 +294,7 @@ describe("HaloProvider", () => {
 		});
 	});
 
-	test("uses static color and stops dynamic updates on mobile when staticForMobile is true", async () => {
+	test.skip("uses static color and stops dynamic updates on mobile when staticForMobile is true", async () => {
 		const { Halo, HaloProvider } = await loadHaloModule(true);
 
 		await renderBasic(

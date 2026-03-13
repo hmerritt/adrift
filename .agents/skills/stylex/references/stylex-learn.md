@@ -15,7 +15,6 @@
 ## API Reference
 
 - Configuration
-    - @stylexjs/babel-plugin
     - @stylexjs/eslint-plugin
     - @stylexjs/unplugin
     - @stylexjs/postcss-plugin

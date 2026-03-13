@@ -80,9 +80,7 @@ export default defineConfig({
 			swSrc: "src/service-worker.ts",
 			maximumFileSizeToCacheInBytes: 10 * 1024 * 1024
 		}),
-		minify({
-			minifyCSS: true
-		})
+		minify()
 	],
 	test: {
 		globals: false,
