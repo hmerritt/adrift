@@ -18,6 +18,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"target": "ESNext",
+		"types": ["bun", "bun-types", "vite/client", "vitest/globals"],
 		"typeRoots": ["./node_modules/@types", "src/lib/global", "./src/types"],
 		"useDefineForClassFields": true
 	},

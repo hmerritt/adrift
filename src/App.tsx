@@ -1,5 +1,6 @@
 import { ErrorComponent, RouterProvider, createRouter } from "@tanstack/react-router";
 
+import { ActionFeedbackProvider } from "view/components/experimental/ActionFeedback";
 import { HaloProvider } from "view/components/experimental/Halo";
 
 import { routeTree } from "./routeTree.gen";
@@ -21,9 +22,11 @@ declare module "@tanstack/react-router" {
 
 function App() {
 	return (
-		<HaloProvider>
-			<RouterProvider router={router} defaultPreload="intent" context={{}} />
-		</HaloProvider>
+		<ActionFeedbackProvider>
+			<HaloProvider>
+				<RouterProvider router={router} defaultPreload="intent" context={{}} />
+			</HaloProvider>
+		</ActionFeedbackProvider>
 	);
 }
 

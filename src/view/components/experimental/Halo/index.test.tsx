@@ -105,8 +105,12 @@ describe("Halo component", () => {
 		expect($el).toHaveStyle("padding-bottom: var(--x-paddingBottom)");
 		expect($el).toHaveStyle("padding-left: var(--x-paddingLeft)");
 		expect(compact(computed.getPropertyValue("--x-paddingTop"))).toBe(expected.top);
-		expect(compact(computed.getPropertyValue("--x-paddingRight"))).toBe(expected.right);
-		expect(compact(computed.getPropertyValue("--x-paddingBottom"))).toBe(expected.bottom);
+		expect(compact(computed.getPropertyValue("--x-paddingRight"))).toBe(
+			expected.right
+		);
+		expect(compact(computed.getPropertyValue("--x-paddingBottom"))).toBe(
+			expected.bottom
+		);
 		expect(compact(computed.getPropertyValue("--x-paddingLeft"))).toBe(expected.left);
 	});
 
