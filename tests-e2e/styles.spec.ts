@@ -85,11 +85,8 @@ test.describe("StyleX theme on /tests/style", () => {
 			"transition-property",
 			/(^all, all, all$)|(^all$)/
 		);
-		await expect(container).toHaveCSS("transition-duration", "0s, 0.08s, 0s");
-		await expect(container).toHaveCSS(
-			"transition-timing-function",
-			"ease, ease, ease"
-		);
+		await expect(container).toHaveCSS("transition-duration", "0.08s");
+		await expect(container).toHaveCSS("transition-timing-function", "ease");
 	});
 
 	test("renders shadows", async ({ page }) => {

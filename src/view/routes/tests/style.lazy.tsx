@@ -43,7 +43,7 @@ const styles = stylex.create({
 		marginLeft: "auto",
 		marginRight: "auto",
 		maxWidth: "567px",
-		transition: "all, 80ms, ease"
+		transition: "all 80ms ease"
 	},
 	shadow: {
 		boxShadow: shadows.test2
