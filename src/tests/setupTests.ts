@@ -13,6 +13,7 @@ injectRun();
 injectLog();
 global.envGet = vi.fn();
 global.feature = vi.fn();
+global.scrollTo = vi.fn();
 
 HTMLCanvasElement.prototype.getContext = vi.fn();
 

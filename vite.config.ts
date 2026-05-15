@@ -64,7 +64,7 @@ export default defineConfig({
 	plugins: [
 		stylex.vite({
 			aliases,
-			debug: isDev,
+			dev: isDev,
 			test: false, // Breaks CSS injection for some reason
 			runtimeInjection: isTest,
 			useCSSLayers: true

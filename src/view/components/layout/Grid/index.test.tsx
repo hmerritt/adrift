@@ -23,8 +23,8 @@ describe("Grid component", () => {
 			justifyContent: "center"
 		},
 		shouldContainInStyleAttribute: [
-			"--gridGap: 10;",
-			"--gridTemplateColumns: repeat(auto-fit, minmax(min(100%, 100rem), 1fr));"
+			"--x-gridGap: 10;",
+			"--x-gridTemplateColumns: repeat(auto-fit, minmax(min(100%, 100rem), 1fr));"
 		]
 	});
 
@@ -51,13 +51,12 @@ describe("Grid component", () => {
 		});
 	});
 
-	// @TODO: Fix this. Latest StyleX update does not parse variables correctly within the test environment.
-	it.skip("should apply custom gutter", async () => {
+	it("should apply custom gutter", async () => {
 		await render(<Grid gutter={25} data-testid="grid-gutter" />);
 		const $el = screen.getByTestId("grid-gutter");
 		const styleAttribute = $el.getAttribute("style");
 
-		expect(styleAttribute).toContain("--gridGap: 25;");
+		expect(styleAttribute).toContain("--x-gridGap: 25;");
 	});
 
 	it("should apply custom minWidth and maxWidth using numbers (rem unit)", async () => {
@@ -65,7 +64,7 @@ describe("Grid component", () => {
 		const $el = screen.getByTestId("grid-minmax-num");
 
 		expect($el).toHaveStyle({
-			gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 30rem), 60rem))"
+			"--x-gridTemplateColumns": "repeat(auto-fit, minmax(min(100%, 30rem), 60rem))"
 		});
 	});
 
@@ -76,7 +75,7 @@ describe("Grid component", () => {
 		const $el = screen.getByTestId("grid-minmax-str");
 
 		expect($el).toHaveStyle({
-			gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 50%))"
+			"--x-gridTemplateColumns": "repeat(auto-fit, minmax(min(100%, 250px), 50%))"
 		});
 	});
 
@@ -86,7 +85,7 @@ describe("Grid component", () => {
 		);
 		const $el = screen.getByTestId("grid-max-default");
 		expect($el).toHaveStyle({
-			gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 15rem), 1fr))"
+			"--x-gridTemplateColumns": "repeat(auto-fit, minmax(min(100%, 15rem), 1fr))"
 		});
 	});
 
@@ -96,7 +95,7 @@ describe("Grid component", () => {
 		);
 		const $el = screen.getByTestId("grid-min-default");
 		expect($el).toHaveStyle({
-			gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 100rem), 500px))"
+			"--x-gridTemplateColumns": "repeat(auto-fit, minmax(min(100%, 100rem), 500px))"
 		});
 	});
 });
