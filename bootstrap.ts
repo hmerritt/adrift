@@ -32,7 +32,7 @@ async function bootstrap() {
 	const appName = packageJSON?.name;
 
 	// Checks GitHub for any adrift updates.
-	const checkForAdriftUpdate = isDev;
+	const checkForAdriftUpdate = false;
 
 	// When true, the env array below can be overridden by whatever is in the environment at runtime.
 	const allowEnvOverride = true;
