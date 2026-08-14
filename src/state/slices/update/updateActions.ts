@@ -5,13 +5,13 @@ import { applySWUpdate } from "serviceWorkerRegistration";
  *
  * @warning This will reload the entire app!
  */
-export const applyUpdate = () => {
+export const applyUpdate = (shouldReload = true) => {
 	const applied = applySWUpdate();
 	if (!applied) {
 		return false;
 	}
 
-	if (typeof window !== "undefined") {
+	if (shouldReload && typeof window !== "undefined") {
 		window.location.reload();
 	}
 
