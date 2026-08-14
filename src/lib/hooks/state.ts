@@ -1,4 +1,4 @@
-import { useStore as useStoreDefault } from "@tanstack/react-store";
+import { useSelector } from "@tanstack/react-store";
 import { type RootState, store } from "state";
 
 /**
@@ -11,4 +11,4 @@ import { type RootState, store } from "state";
  */
 export const useStore = <TSelected>(
 	selector: (state: RootState) => TSelected
-): TSelected => useStoreDefault(store, selector);
+): TSelected => useSelector(store, selector);
