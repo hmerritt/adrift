@@ -10,6 +10,7 @@
  * Represents the type of the device being identified.
  */
 type DeviceType = "mobile" | "tablet";
+type BrowserType = "chromium" | "firefox";
 
 /**
  * Defines the shape of an object that holds device properties.
@@ -28,6 +29,10 @@ type RegexMap = Array<Array<RegExp> | Array<Array<string | Function | RegExp>>>;
 const TYPE: "type" = "type";
 const MOBILE: DeviceType = "mobile";
 const TABLET: DeviceType = "tablet";
+
+const BROWSER: "browser" = "browser";
+const CHROMIUM: BrowserType = "chromium";
+const FIREFOX: BrowserType = "firefox";
 
 // A safely accessed window.navigator.userAgent.
 const navUserAgent =
@@ -359,6 +364,63 @@ const deviceRegexMap: RegexMap = [
 	]
 ];
 
+const browserRegexMap = [
+	[
+		// Most common regardless engine
+		/\b(?:crmo|crios)\/([\w\.]+)/i // Chrome for Android/iOS
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/\bfocus\/([\w\.]+)/i // Firefox Focus
+	],
+	[[BROWSER, FIREFOX]],
+	[
+		/fxios\/([\w\.-]+)/i // Firefox for iOS
+	],
+	[[BROWSER, FIREFOX]],
+	[
+		/(chromium)[\/ ]([-\w\.]+)/i // Chromium
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/ome-(lighthouse)$/i // Chrome Lighthouse
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/headlesschrome(?:\/([\w\.]+)| )/i // Chrome Headless
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/wv\).+chrome\/([\w\.]+).+edgw\//i // Edge WebView2
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/; wv\).+(chrome)\/([\w\.]+)/i // Chrome WebView
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/chrome\/([\w\.]+) mobile/i // Chrome Mobile
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		/(chrome)\/v?([\w\.]+)/i // Chrome/OmniWeb/Arora/Tizen/Nokia
+	],
+	[[BROWSER, CHROMIUM]],
+	[
+		// Gecko based
+		/(?:mobile|tablet);.*(firefox)\/([\w\.-]+)/i // Firefox Mobile
+	],
+	[[BROWSER, FIREFOX]],
+	[
+		/(wolvic|librewolf)\/([\w\.]+)/i // Wolvic/LibreWolf
+	],
+	[[BROWSER, FIREFOX]],
+	[
+		/mobile vr; rv:([\w\.]+)\).+firefox/i // Firefox Reality
+	],
+	[[BROWSER, FIREFOX]]
+];
+
 // region Core Logic
 
 /**
@@ -403,33 +465,46 @@ const rgxMapper = (ua: string, arrays: RegexMap): IDevice => {
  */
 export const parseUserAgent = (ua: string = navUserAgent) => {
 	const device = rgxMapper(ua, deviceRegexMap);
+	const browser = rgxMapper(ua, browserRegexMap);
 
 	return {
 		ua,
 		isMobile: device.type === MOBILE,
-		isTablet: device.type === TABLET
+		isTablet: device.type === TABLET,
+		isChromium: browser.browser === CHROMIUM,
+		isFirefox: browser.browser === FIREFOX
 	};
 };
 
 // region Exports
 
-const result = parseUserAgent();
+const res = parseUserAgent();
 
 /**
  * The user agent string of the current environment.
  */
-export const userAgent: string = result.ua;
+export const userAgent: string = res.ua;
 
 /**
  * `true` when ran on a mobile device.
  *
  * Uses the `user agent` for accurate detection.
  */
-export const isMobile: boolean = result.isMobile;
+export const isMobile: boolean = res.isMobile;
 
 /**
  * `true` when ran on a tablet device.
  *
  * Uses the `user agent` for accurate detection.
  */
-export const isTablet: boolean = result.isTablet;
+export const isTablet: boolean = res.isTablet;
+
+/**
+ * `true` when ran on a Chromium browser.
+ */
+export const isChromium: boolean = res.isChromium;
+
+/**
+ * `true` when ran on a Firefox browser.
+ */
+export const isFirefox: boolean = res.isFirefox;
